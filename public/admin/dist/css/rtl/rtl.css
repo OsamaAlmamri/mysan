@@ -1,0 +1,224 @@
+.sidebar-menu li a .fa-angle-left,
+.sidebar-menu li .label, .sidebar-menu li .badge {
+	margin-top: -15px !important;
+}
+
+
+
+/*start section color option */
+.option-box
+{
+	position:fixed;
+	top:100px;
+	left:0;
+	z-index:9999;    /*اعلى رقم*/
+}
+ .option-box .color-option
+{
+   float:left;
+   background:#333;
+   color:#fff;
+   padding:10px;
+   width:200px;
+   border:2px solid #E41B17 ;
+   display:none;
+    
+}
+ 
+ .option-box .color-option ul li
+ {
+	 width:20px;
+	 height:20px;
+	 background:#F00;
+	 display:inline-block;
+	 margin-right:3px;
+ }
+
+ .option-box .gear-check
+ {
+	 background: #E41B17 ;
+	 padding:5px;
+	 color:#FFF;
+	 cursor:pointer;
+ }
+ 
+ 
+ 
+ 
+ 
+/*END section color option */
+.os{
+	background:#f00;
+	padding:#fff;
+	margin-bottom:10px;
+	min-height:100px;
+}
+.appear{
+	background:#f00;
+	padding: #333231;
+	margin-bottom:10px;
+}
+
+
+
+
+
+.navbar-brand
+{
+	position:relative;
+	float:right;
+}
+/*
+
+.navbar-header .navbar-toggle:hover  .navbar-collapse
+ {
+	 outline: 0;
+  display:block;
+	
+ }
+ 
+ */
+
+
+
+.news {
+	background:#EEE;
+	padding-top:50px;
+	padding-bottom:50px;
+
+}
+.news.content{
+	margin-bottom:50px;
+}
+.news.content p{
+	line-height:2em;
+}
+
+
+
+/*casuol*/
+
+
+.carousel-indicators
+{
+	bottom:0;
+}
+.carousel-caption
+{
+	bottom:70px;
+	background:rgpa(3,3,3,0.5);
+}
+.carousel-indicators li
+{
+	height:15px;
+	width:15px;
+}
+.carousel-indicators .active
+{
+	height:18px;
+	width:18px;
+	background:#E41817; 
+}
+
+
+/*casuol*/
+
+
+
+
+.sub-new
+{
+height:100px;
+	width:200px;
+	margin-right:30px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.news_boundery
+{
+	
+	height:200px;
+	width:auto;
+	margin-right:30px;
+	margin-top:20px;
+	margin-bottom:20px;
+	
+	
+}
+.news_body
+{
+	text-overflow:nowrap;
+}
+
+
+
+
+.condition-table{
+	background:#EEE;
+	padding-top:40px;
+	padding-bottom:40px;
+	
+}
+.condition-table h1{
+	margin-bottom:40px;
+	font-weight:bold;
+}
+.condition-table  .condition-box{
+	background:#FFF;
+	padding:10px;
+	border:1px solid #DDD;
+	border-radius:10px;
+	margin-bottom:20px;
+	
+}
+
+.condition-table  .condition-box h2
+{
+	margin:5px 0 15px;
+}
+
+.condition-table  .condition-box ul
+{
+	line-height:250%;
+	font-size:18px;
+	
+} 
+.condition-table .condition-box a
+{
+	margin-bottom:5px;
+}
+
+
+
+/*our team*/
+
+
+.person
+{
+	margin-bottom:40px;
+	background:#EEE;
+	padding:10px;
+	border:1px solid #DDD;
+	border-radius:10px;
+	margin-bottom:20px;
+}
+
+
+.icons 
+{
+	color:blue;
+	
+}
+.team-img
+{
+	width: 70%;
+}
+.details-img
+{
+	width: 70%;
+}
+
+/* end our team*/
+body.sidebar-mini.skin-red-light {
+padding: 0px;}

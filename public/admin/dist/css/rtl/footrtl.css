@@ -1,0 +1,53 @@
+.ffff {
+    background: #333;
+    color: #AAA;
+	
+}
+.ff{
+	padding-left:1px;
+}
+.ffff-box
+{
+	
+	padding:5px;
+	border:1xp solid #DDD;
+	border-radius:10px;
+	
+	margin-bottom:20px;
+}
+.foot-center
+{
+	margin-top:60px;
+}
+
+.foot-img
+{
+	width:50%;
+	margin-top:20px;
+	position: center;
+	
+}
+
+.foot-ul > li{
+	    display:block ;
+	
+}
+
+
+ .msr-img
+ {
+ 	width: 70%;
+ }
+ .details-img
+{
+	width: 70%;
+	height:70%;
+	
+	
+}
+.details-news
+{
+	margin-left:5%;
+	margin-right:5%;
+	margin-top:5%;
+}

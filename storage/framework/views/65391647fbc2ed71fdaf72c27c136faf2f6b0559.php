@@ -37,7 +37,14 @@
   <!-- jvectormap -->
   <link href="<?php echo asset('admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css'); ?> " media="all" rel="stylesheet" type="text/css" />
   <!-- Theme style -->
-  <link href="<?php echo asset('admin/dist/css/AdminLTE.min.css'); ?> " media="all" rel="stylesheet" type="text/css" />
+
+    
+  <link href="<?php echo asset('admin/dist/css/rtl/AdminLTE.css'); ?> " media="all" rel="stylesheet" type="text/css" />
+  <link href="<?php echo asset('admin/dist/css/rtl/bootstrap-rtl.min.css'); ?> " media="all" rel="stylesheet" type="text/css" />
+  <link href="<?php echo asset('admin/dist/css/rtl/rtl.css'); ?> " media="all" rel="stylesheet" type="text/css" />
+  <link href="<?php echo asset('admin/dist/css/rtl/myDashbord.css'); ?> " media="all" rel="stylesheet" type="text/css" />
+
+
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo asset('admin/dist/css/skins/_all-skins.min.css'); ?> " media="all" rel="stylesheet" type="text/css" />
