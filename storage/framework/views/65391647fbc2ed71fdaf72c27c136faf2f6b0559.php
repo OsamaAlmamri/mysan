@@ -38,7 +38,7 @@
   <link href="<?php echo asset('admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css'); ?> " media="all" rel="stylesheet" type="text/css" />
   <!-- Theme style -->
 
-    
+
   <link href="<?php echo asset('admin/dist/css/rtl/AdminLTE.css'); ?> " media="all" rel="stylesheet" type="text/css" />
   <link href="<?php echo asset('admin/dist/css/rtl/bootstrap-rtl.min.css'); ?> " media="all" rel="stylesheet" type="text/css" />
   <link href="<?php echo asset('admin/dist/css/rtl/rtl.css'); ?> " media="all" rel="stylesheet" type="text/css" />
