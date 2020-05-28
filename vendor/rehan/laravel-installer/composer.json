@@ -1,0 +1,38 @@
+{
+    "name": "rehan/laravel-installer",
+    "description": "Laravel web installer",
+    "license": "Vectorcoder",
+    "authors": [
+        {
+            "name": "Rehan Tariq",
+            "email": "bintariq1@gmail.com"
+        },
+        {
+            "name": "Nasir Ali",
+            "email": "php.vectorcoder@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RehanTariq\\LaravelInstaller\\": "src/"
+        },
+        "files": [
+            "src/Helpers/functions.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RehanTariq\\LaravelInstaller\\Providers\\LaravelInstallerServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability" : "stable"
+
+}

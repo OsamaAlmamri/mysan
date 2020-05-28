@@ -1,0 +1,9 @@
+{
+    "/web/js/app.js": "/web/js/app.js",
+    "/web/css/app.css": "/web/css/app.css",
+    "/web/js/checkout.js": "/web/js/checkout.js",
+    "/web/js/ecommerce.js": "/web/js/ecommerce.js",
+    "/web/js/scripts.js": "/web/js/scripts.js",
+    "/web/js/setup.js": "/web/js/setup.js",
+    "/web/js/stripe.js": "/web/js/stripe.js"
+}
