@@ -1018,7 +1018,7 @@ class SettingsTableSeeder extends Seeder
                 'updated_at' => '2019-11-01 06:58:36',
             ),
 
-            
+
         ));
 
 

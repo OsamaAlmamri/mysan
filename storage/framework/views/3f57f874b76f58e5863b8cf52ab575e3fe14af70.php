@@ -27,7 +27,7 @@
                                         
                                         <div class="input-group-form search-panel ">
                                             <select type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" name="FilterBy" id="FilterBy">
-                                                <option value="" selected disabled hidden>Filter By</option>
+                                                <option value="" selected disabled hidden> <?php echo e(trans('labels.Filter By')); ?></option>
                                                 <option value="Name" <?php if(isset($filter)): ?> <?php if($filter=="Name" ): ?> <?php echo e('selected'); ?> <?php endif; ?> <?php endif; ?>><?php echo e(trans('labels.Name')); ?></option>
                                                 <option value="E-mail" <?php if(isset($filter)): ?> <?php if($filter=="E-mail" ): ?> <?php echo e('selected'); ?><?php endif; ?> <?php endif; ?>><?php echo e(trans('labels.Email')); ?></option>
                                                 <option value="Phone" <?php if(isset($filter)): ?> <?php if($filter=="Phone" ): ?> <?php echo e('selected'); ?><?php endif; ?> <?php endif; ?>><?php echo e(trans('labels.Phone')); ?></option>
@@ -88,7 +88,7 @@
                                             <td><?php echo e($listingCustomers->id); ?></td>
                                             <td><?php echo e($listingCustomers->first_name); ?> <?php echo e($listingCustomers->last_name); ?></td>
                                             <td><?php echo e($listingCustomers->email); ?></td>
-                                            <td>                                               
+                                            <td>
                                                 <strong><?php echo e(trans('labels.Phone')); ?>: </strong> <?php echo e($listingCustomers->phone); ?> <br>
                                                 <strong><?php echo e(trans('labels.Devices')); ?>: </strong>
                                                 <?php if(count($listingCustomers->devices)>0): ?>

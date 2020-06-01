@@ -73,8 +73,10 @@
                                                     <td>
                                                       @foreach ($result["submenus"] as $menuu)
                                                       @if($menu->id == $menuu->id)
-                                                      @if(array_key_exists("childs",$menuu))
-                                                      <?php
+{{--                                                      @if(array_key_exists("childs",$menuu))--}}
+                                                                    @if(property_exists($menuu,"childs"))
+
+                                                                    <?php
                                                       $array = (array) $menuu->childs;
                                                       $key = "sub_sort_order";
                                                           $sorter=array();

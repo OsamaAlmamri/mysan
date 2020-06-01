@@ -8,10 +8,10 @@
     //dd($categories);
     foreach($categories as $parents){
      $parent_slug  = $parents->slug;
-     
 
-      if(array_key_exists("childs",$parents)){
-        $hasChild = "href=#".$parents->slug."  data-toggle='collapse' role='button' aria-expanded='false' aria-controls='men-cloth'"; 
+
+      if(property_exists($parents,"childs")){
+        $hasChild = "href=#".$parents->slug."  data-toggle='collapse' role='button' aria-expanded='false' aria-controls='men-cloth'";
       }else {
         $hasChild = "href=".url('shop?category=').$parents->slug;;
       }
@@ -55,7 +55,7 @@
     }
     elseif($i>0){
       $i=1;
-     
+
     }
 
   }

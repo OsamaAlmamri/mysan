@@ -1,14 +1,14 @@
 <!-- //header fixed -->
-@include('web.headers.fixedHeader') 
+@include('web.headers.fixedHeader')
 <!-- //header style Two -->
 <header id="headerTwo" class="header-area header-two header-desktop d-none d-lg-block d-xl-block">
   <div class="header-mini bg-top-bar">
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-4">
-          
+
             <div class="navbar-lang">
-                
+
               @if(count($languages) > 1)
               <div class="dropdown">
                   <button class="btn dropdown-toggle" type="button" >
@@ -21,10 +21,10 @@
                       {{-- <img style="margin-left:10px; margin-right:10px;"src="{{asset('').$language->image_path}}" width="17px" /> --}}
                       {{$language->name}}
                     </a>
-                   
-                    @endforeach                   
+
+                    @endforeach
                   </div>
-              </div> 
+              </div>
               @include('web.common.scripts.changeLanguage')
               @endif
 
@@ -36,7 +36,7 @@
                   <div class="dropdown-menu">
                     @foreach($currencies as $currency)
                     <a onclick="myFunction2({{$currency->id}})" class="dropdown-item" href="#">
-                      <span>{{$currency->code}}</span>    
+                      <span>{{$currency->code}}</span>
                     </a>
                     @endforeach
                   </div>
@@ -48,7 +48,7 @@
         <div class="col-12 col-md-8">
           <ul class="link-list">
             <li class="">
-              <div class="link-item">             
+              <div class="link-item">
                 <span><?php if(auth()->guard('customer')->check()){ ?>@lang('website.Welcome') {{auth()->guard('customer')->user()->first_name}}&nbsp;! <?php }?> </span>
               </div>
             </li>
@@ -61,13 +61,13 @@
               <li class="link-item"> <a href="{{url('logout')}}">@lang('website.Logout')</a> </li>
               <?php }else{ ?>
                 <li class="link-item"> <a href="{{ URL::to('/login')}}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
-  
+
               <?php } ?>
-          </ul> 
-            
+          </ul>
+
         </div>
       </div>
-    </div> 
+    </div>
   </div>
 
   <div class="header-maxi bg-header-bar">
@@ -78,28 +78,28 @@
             @if($result['commonContent']['setting'][77]->value=='name')
             <?=stripslashes($result['commonContent']['setting'][78]->value)?>
             @endif
-        
+
             @if($result['commonContent']['setting'][77]->value=='logo')
             <img class="img-fluid" src="{{asset('').$result['commonContent']['setting'][15]->value}}" alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>">
             @endif
           </a>
         </div>
-        <div class="col-12 col-sm-7 col-md-8 col-lg-6">      
-          <form class="form-inline" action="{{ URL::to('/shop')}}" method="get">   
-            <div class="search-field-module">   
+        <div class="col-12 col-sm-7 col-md-8 col-lg-6">
+          <form class="form-inline" action="{{ URL::to('/shop')}}" method="get">
+            <div class="search-field-module">
                 <input type="hidden" name="category" class="category-value" value="">
                 @include('web.common.HeaderCategories')
-              <button class="btn btn-secondary swipe-to-top dropdown-toggle header-selection" type="button" id="headerOneCartButton"  
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                data-toggle="tooltip" data-placement="bottom" title="@lang("website.Choose Any Category")"> 
+              <button class="btn btn-secondary swipe-to-top dropdown-toggle header-selection" type="button" id="headerOneCartButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                data-toggle="tooltip" data-placement="bottom" title="@lang("website.Choose Any Category")">
                 @lang("website.Choose Any Category")
-              </button> 
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerOneCartButton">   
-                  @php    productCategories(); @endphp                                                                 
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerOneCartButton">
+                  @php    productCategories(); @endphp
               </div>
               <div class="search-field-wrap">
                   <input  type="search" name="search" placeholder="@lang('website.Search entire store here')..." data-toggle="tooltip" data-placement="bottom" title="@lang('website.Search Products')" alue="{{ app('request')->input('search') }}">
-                  <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip" 
+                  <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip"
                   data-placement="bottom" title="@lang('website.Search Products')">
                   <i class="fa fa-search"></i></button>
               </div>
@@ -115,26 +115,26 @@
               </a>
             </li>
             <li class="dropdown head-cart-content">
-              @include('web.headers.cartButtons.cartButton2')              
+              @include('web.headers.cartButtons.cartButton2')
             </li>
           </ul>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
   <div class="header-navbar bg-menu-bar">
     <div class="container">
       <nav id="navbar_header_1" class="navbar navbar-expand-lg  bg-nav-bar">
         <a class="navbar-brand home-icon btn-secondary swipe-to-top" href="{{url('/')}}" ><i class="fa fa-home"></i></a>
-        
+
         <div class="navbar-collapse" >
           <ul class="navbar-nav">
             @foreach($result['commonContent']["menus"] as $menus)
                 <li class="nav-item dropdown">
-                  <a class="nav-link @if(array_key_exists("childs",$menus)) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
+                  <a class="nav-link @if(property_exists($menus,"childs")) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
                     {{$menus->name}}
                   </a>
-                  @if(array_key_exists("childs",$menus))
+                    @if(property_exists($menus,"childs"))
                   <div class="dropdown-menu">
                     <?php
                     $array = (array) $menus->childs;

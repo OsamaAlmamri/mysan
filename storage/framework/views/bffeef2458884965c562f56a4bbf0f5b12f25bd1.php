@@ -21,9 +21,9 @@
                         <div class="box-header">
                             
 
-                                <div class="container-fluid">
+                                <div class="container-fluid filteerBox" id="">
                                     <div class="row">
-                                        <div class="col-lg-6 form-inline">
+                                        <div class=" form-inline">
                                                 <form name='filter' id="registration" class="filter  " method="get" action="<?php echo e(url('admin/manufacturers/filter')); ?>">
                                                     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                                                     <div class="input-group-form search-panel ">

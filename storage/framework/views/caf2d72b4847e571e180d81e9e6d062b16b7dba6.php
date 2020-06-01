@@ -97,35 +97,37 @@
               <ul class="navbar-nav ">
                 <?php $__currentLoopData = $result['commonContent']["menus"]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li class="nav-item dropdown">
+                  <a class="nav-link <?php if(property_exists($menus,"childs")): ?> dropdown-toggle <?php endif; ?>" <?php if($menus->type == 0): ?>target="_blank"<?php endif; ?>  <?php if($menus->type == 0): ?> href="<?php echo e($menus->external_link); ?>" <?php elseif($menus->type == 1): ?> href="<?php echo e(url($menus->link)); ?>" <?php else: ?> href="#" <?php endif; ?> >
+                    <?php echo e($menus->name); ?>
 
+                  </a>
+                 <?php if(property_exists($menus,"childs")): ?>
+                  <div class="dropdown-menu">
+                    <?php
+                    $array = (array) $menus->childs;
+                    $key = "sub_sort_order";
+                        $sorter=array();
+                        $ret=array();
+                        reset($array);
+                        foreach ($array as $ii => $va) {
+                          $va = (array) $va;
 
+                            $sorter[$ii]=$va[$key];
+                        }
+                        asort($sorter);
+                        foreach ($sorter as $ii => $va) {
+                            $ret[$ii]=$array[$ii];
+                        }
+                        $array=$ret;
+                     ?>
+                    <?php $__currentLoopData = $array; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $me): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <a class="dropdown-item" <?php if($me->type == 0): ?>target="_blank"<?php endif; ?>  <?php if($me->type == 0): ?> href="<?php echo e($me->external_link); ?>" <?php elseif($me->type == 1): ?> href="<?php echo e(url($me->link)); ?>" <?php else: ?> href="#" <?php endif; ?>  >
+                      <?php echo e($me->name); ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    </a>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  </div>
+                  <?php endif; ?>
                 </li>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

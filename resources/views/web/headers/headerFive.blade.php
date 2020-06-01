@@ -1,5 +1,5 @@
 <!-- //header style Five -->
-@include('web.headers.fixedHeader') 
+@include('web.headers.fixedHeader')
 @include('web.common.HeaderCategories')
 
  <!-- //header style Five -->
@@ -9,7 +9,7 @@
       <div class="row align-items-center">
         <div class="col-12">
           <nav id="navbar_0_5" class="navbar navbar-expand-md navbar-dark navbar-0">
-            
+
             <div class="navbar-collapse">
               <ul class="navbar-nav">
                 <li class="nav-item">
@@ -39,25 +39,25 @@
                   <li class="nav-item"> <a href="{{url('logout')}}" class="nav-link padding-r0">@lang('website.Logout')</a> </li>
                   <?php }else{ ?>
                     <li class="nav-item"><div class="nav-link">@lang('website.Welcome')!</div></li>
-                    <li class="nav-item"> <a href="{{ URL::to('/login')}}" class="nav-link -before"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>                      
+                    <li class="nav-item"> <a href="{{ URL::to('/login')}}" class="nav-link -before"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
                   <?php } ?>
-              </ul> 
-            </div>   
+              </ul>
+            </div>
           </nav>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
   <div class="header-maxi bg-header-bar">
       <div class="container">
         <div class="row align-items-center">
-           
+
           <div class="col-12 col-sm-12 col-lg-4">
             <a href="{{ URL::to('/')}}" class="logo">
               @if($result['commonContent']['setting'][77]->value=='name')
               <?=stripslashes($result['commonContent']['setting'][78]->value)?>
               @endif
-    
+
               @if($result['commonContent']['setting'][77]->value=='logo')
               <img src="{{asset('').$result['commonContent']['setting'][15]->value}}" alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>">
               @endif
@@ -73,11 +73,11 @@
                       @endforeach
 
                     </ul>
-                  </h4>  
+                  </h4>
                 </div>
                 @include('web.common.scripts.changeLanguage')
-              @endif     
-              @if(count($currencies) > 1)    
+              @endif
+              @if(count($currencies) > 1)
                 <div class="dropdown">
                   <button class="btn dropdown-toggle" type="button" >
                     {{session('currency_code')}}
@@ -86,15 +86,15 @@
                     @foreach($currencies as $currency)
                       <a onclick="myFunction2({{$currency->id}})" class="dropdown-item" href="#">{{$currency->code}}</a>
                     @endforeach
-                    
+
                   </div>
                 </div>
-                @endif 
+                @endif
                 <form class="form-inline" >
-                  <div class="search-field-module">   
+                  <div class="search-field-module">
                     <div class="search-field-wrap">
                         <input  type="search" placeholder="@lang('website.Search Products')" data-toggle="tooltip" data-placement="bottom" title="@lang('website.Search Products')">
-                        <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip" 
+                        <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip"
                         data-placement="bottom" title="@lang('website.Search Products')">
                         <i class="fa fa-search"></i></button>
                     </div>
@@ -104,27 +104,27 @@
                     <a href="#">
                         <i class="fas fa-phone"></i>
                         <span class="block">
-                          <span class="title">@lang('website.Call Us Now')</span>                    
+                          <span class="title">@lang('website.Call Us Now')</span>
                           <span class="items">{{$result['commonContent']['setting'][11]->value}}</span>
-                        </span>                   
+                        </span>
                     </a>
-                  </div> 
+                  </div>
             </div>
         </div>
       </div>
-  </div> 
+  </div>
   <div class="header-navbar bg-menu-bar">
       <div class="container">
         <nav id="navbar_header_9" class="navbar navbar-expand-lg  bg-nav-bar">
-    
+
           <div class="navbar-collapse" >
             <ul class="navbar-nav">
               @foreach($result['commonContent']["menus"] as $menus)
                 <li class="nav-item dropdown">
-                  <a class="nav-link @if(array_key_exists("childs",$menus)) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
+                  <a class="nav-link @if(property_exists($menus,"childs")) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
                     {{$menus->name}}
                   </a>
-                  @if(array_key_exists("childs",$menus))
+                    @if(property_exists($menus,"childs"))
                   <div class="dropdown-menu">
                     @foreach($menus->childs as $me)
                     <a class="dropdown-item" @if($me->type == 0)target="_blank"@endif  @if($me->type == 0) href="{{$me->external_link}}" @elseif($me->type == 1) href="{{url($me->link)}}" @else href="#" @endif  >
@@ -135,11 +135,11 @@
                   @endif
                 </li>
                 @endforeach
-              
+
               <li class="nav-item">
                 <ul class="pro-header-right-options">
                   <li class="dropdown head-cart-content">
-                    @include('web.headers.cartButtons.cartButton5')     
+                    @include('web.headers.cartButtons.cartButton5')
                   </li>
                 </ul>
               </li>

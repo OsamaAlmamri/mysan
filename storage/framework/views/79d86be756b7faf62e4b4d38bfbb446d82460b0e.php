@@ -1,0 +1,18 @@
+<script>
+function myFunction1(lang_id) {
+ jQuery(function ($) {
+  jQuery.ajax({
+    beforeSend: function (xhr) { // Add this line
+            xhr.setRequestHeader('X-CSRF-Token', $('[name="_csrfToken"]').val());
+     },
+    url: '<?php echo e(URL::to("/change_language")); ?>',
+    type: "POST",
+    data: {"languages_id":lang_id,"_token": "<?php echo e(csrf_token()); ?>"},
+    success: function (res) {
+      window.location.reload();
+    },
+  });
+});
+}
+</script>
+<?php /**PATH F:\sites\laravel-ecommerce-universal v4.0.12 preinstalled\resources\views/web/common/scripts/changeLanguage.blade.php ENDPATH**/ ?>

@@ -17,19 +17,19 @@
             </ol>
         </div>
       </nav>
-  </div> 
-  
-   
-      
+  </div>
+
+
+
     <section class="pro-content">
           <div class="container">
               <div class="page-heading-title">
-                  <h2> @lang('website.Shop')  
+                  <h2> @lang('website.Shop')
                   </h2>
-              
+
                   </div>
           </div>
-          
+
           @if($result['products']['success']==1)
           <div class="container">
             <div class="top-bar">
@@ -44,8 +44,8 @@
                                     <a href="javascript:void(0);" id="list"><i class="fas fa-list"></i></a>
                                   </div>
                               </div>
-                          </div> 
-      
+                          </div>
+
                           <div class="col-12 col-xl-7 select-bar">
                               <form class="form-inline justify-content-center">
                                 @if(!empty($result['categories']))
@@ -54,22 +54,22 @@
                                       <div class="select-control">
                                         <select class="form-control" name="category" onchange="this.form.submit()">
                                             @foreach($result['categories'] as $category)
-                                            <option value="{{$category->slug}}" @if(app('request')->input('category') == $category->slug) selected @endif>{{$category->categories_name}}</option>                                      
-                                                @if(array_key_exists("childs",$category))
+                                            <option value="{{$category->slug}}" @if(app('request')->input('category') == $category->slug) selected @endif>{{$category->categories_name}}</option>
+                                                @if(property_exists($category,"childs"))
                                                   @foreach($category->childs as $cat)
                                                     <option value="{{$cat->slug}}" @if(app('request')->input('category') == $category->slug) selected @endif>-{{$cat->categories_name}}</option>
                                                   @endforeach
                                                 @endif
-                                            @endforeach                                      
+                                            @endforeach
                                         </select>
                                       </div>
-                                    
+
                                   </div>
                                   @endif
                               </form>
-                                
-                              
-                          </div> 
+
+
+                          </div>
                           <div class="col-12 col-xl-3">
                             <form class="form-inline justify-content-end" id="load_products_form">
                               @if(!empty(app('request')->input('search')))
@@ -80,9 +80,9 @@
                               @endif
                                <input type="hidden"  name="load_products" value="1">
                                <input type="hidden"  name="products_style" id="products_style" value="grid">
-                                
+
                                 <div class="form-group">
-                                    <label>@lang('website.Sort')</label> 
+                                    <label>@lang('website.Sort')</label>
                                     <div class="select-control">
                                       <select name="type" id="sortbytype" class="form-control" >
                                         <option value="desc" @if(app('request')->input('type')=='desc') selected @endif>@lang('website.Newest')</option>
@@ -95,63 +95,63 @@
                                         <option value="mostliked" @if(app('request')->input('type')=='mostliked') selected @endif>@lang('website.Most Liked')</option>
                                       </select>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <label>@lang('website.Limit')</label> 
+                                    <label>@lang('website.Limit')</label>
                                     <div class="select-control">
                                       <select class="form-control"name="limit" id="sortbylimit" >
                                         <option value="15" @if(app('request')->input('limit')=='15') selected @endif>15</option>
                                         <option value="30" @if(app('request')->input('limit')=='30') selected @endif>30</option>
                                         <option value="60" @if(app('request')->input('limit')=='60') selected @endif>60</option>
                                       </select>
-                                    
-                                </div>                          
-                                @include('web.common.scripts.shop_page_load_products')                         
+
+                                </div>
+                                @include('web.common.scripts.shop_page_load_products')
                               </form>
-                          </div>  
+                          </div>
                       </div>
-                    
+
                   </div>
                 </div>
-            </div>  
+            </div>
           </div>
           @endif
 
 
         </div>
       </div>
-          
+
           <section class="shop-content shop-three">
-                  
+
             <div class="container">
                 <div class="row">
-                  
+
                   <div class="col-12 col-lg-9">
                     @if($result['products']['success']==1)
                       <div class="products-area">
-                        
+
                         <section id="swap" class="shop-content" >
                               <div class="products-area">
-                                  <div class="row">  
-                                    
-                                   
-                                    @foreach($result['products']['product_data'] as $key=>$products)   
+                                  <div class="row">
+
+
+                                    @foreach($result['products']['product_data'] as $key=>$products)
                                     <div class="col-12 col-lg-4 col-sm-6 griding">
                                       @include('web.common.product')
-                                    </div>      
+                                    </div>
                                     @endforeach
                                     @include('web.common.scripts.addToCompare')
-                                      
+
                                   </div>
-                              </div> 
-                        </section>  
-                      </div>                     
-  
+                              </div>
+                        </section>
+                      </div>
+
                         <div class="pagination justify-content-between ">
                               <input id="record_limit" type="hidden" value="{{$result['limit']}}">
                               <input id="total_record" type="hidden" value="{{$result['products']['total_record']}}">
                               <label for="staticEmail" class="col-form-label"> @lang('website.Showing')&nbsp;<span class="showing_record">{{$result['limit']}}</span>&nbsp;@lang('website.of')&nbsp;<span class="showing_total_record">{{$result['products']['total_record']}}</span> &nbsp;@lang('website.results')</label>
-                              
+
                             <div class=" justify-content-end col-6">
                                 <input type="hidden" value="1" name="page_number" id="page_number">
                            <?php
@@ -174,12 +174,12 @@
                     @endif
                   </div>
 
-                  <div class="col-12 col-lg-3  d-lg-block d-xl-block right-menu"> 
+                  <div class="col-12 col-lg-3  d-lg-block d-xl-block right-menu">
                     <div class="right-menu-categories">
                       @include('web.common.shopCategories')
-                      @php    shopCategories(); @endphp 
+                      @php    shopCategories(); @endphp
                      </div>
-  
+
                      @if(!empty($result['categories']))
              <form enctype="multipart/form-data" name="filters" id="test" method="get">
                <input type="hidden" name="min_price" id="min_price" value="0">
@@ -194,7 +194,7 @@
                @else
                <input type="hidden" name="filters_applied" id="filters_applied" value="0">
                @endif
-               
+
                @if($result['products']['success']==1)
                <div class="range-slider-main">
                  <h2>@lang('website.Price Range')</h2>
@@ -249,15 +249,15 @@
                                  </ul>
                              </div>
                          </div>
-  
+
                        </div>
                      @endforeach
                      @endif
                      <div class="color-range-main">
-  
+
                      <div class="alret alert-danger" id="filter_required">
                      </div>
-  
+
                      <div class="button">
                      <?php
                  $url = '';
@@ -291,39 +291,38 @@
                      @endif
                </form>
                @endif
-                    
-  
+
+
               @if(!empty($result['commonContent']['manufacturers']) and count($result['commonContent']['manufacturers'])>0)
               <div class="range-slider-main">
                   <a class=" main-manu" data-toggle="collapse" href="#brands" role="button" aria-expanded="true" aria-controls="men-cloth">
-                    @lang('website.Brands')   
+                    @lang('website.Brands')
                   </a>
                   <div class="sub-manu collapse show multi-collapse" id="brands">
-                    
+
                     <ul class="unorder-list">
                       @foreach ($result['commonContent']['manufacturers'] as $item)
                       <li class="list-item">
                       <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}" role="button"><i class="fas fa-angle-right"></i>{{$item->manufacturer_name}}</a>
                       </li>
                       @endforeach
-                    </ul>    
-                  </div> 
-              </div> 
-              @endif               
-  
+                    </ul>
+                  </div>
               </div>
-              
-                                
-  
+              @endif
+
+              </div>
+
+
+
                   </div>
                 </div>
-              
+
             </div>
-        </section> 
-     
+        </section>
+
     </section>
-    
+
    </section>
-  
-  
-  
+
+

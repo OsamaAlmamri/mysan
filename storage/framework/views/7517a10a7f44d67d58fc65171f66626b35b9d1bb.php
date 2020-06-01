@@ -87,8 +87,8 @@
                                             style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                             <?php echo e(trans('labels.Choose Country')); ?></span>
                                             </div>
-                                            
-                                            
+
+
                                         </div>
 
                                         <div class="form-group">
@@ -118,9 +118,9 @@
                                             style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                             <?php echo e(trans('labels.Choose position of the currency')); ?></span>
                                             </div>
-                                            
-                                            
-                                        </div>                                        
+
+
+                                        </div>
 
                                         <div class="form-group" style="display: none">
                                             <label for="name"
@@ -194,7 +194,7 @@
                                                 </select>
                                                 <span class="help-block"
                                                     style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                    <?php echo e(trans('labels.StatusBannerText')); ?></span>
+                                                    <?php echo e(trans('labels.StatusCurrenciesText')); ?></span>
                                             </div>
                                         </div>
 

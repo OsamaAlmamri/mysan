@@ -71,15 +71,15 @@ $("img").click(function() {
 
   $("#btn").click(function() {
 
-	if (confirm('Are You Sure To Delete This?')) {
-    
-		var imgs = $("img.hover").length;
-		var parentFrom = $('#images_form');
-		var formData = parentFrom.serialize();
-		console.log(imgs);
-		if(imgs>0){
-			$.ajax({
-			url: '{{ URL::to("admin/media/delete")}}',
+          if (confirm("{{ trans('labels.Are You Sure To Delete This?')}}")) {
+
+              var imgs = $("img.hover").length;
+              var parentFrom = $('#images_form');
+              var formData = parentFrom.serialize();
+              console.log(imgs);
+              if(imgs>0){
+                  $.ajax({
+                  url: '{{ URL::to("admin/media/delete")}}',
 			type: "POST",
 			data: formData,
 			success: function (res) {
@@ -89,15 +89,15 @@ $("img").click(function() {
 				},
 			});
 		}else{
-			alert('Please choose image first.');	
+			alert('Please choose image first.');
 		}
-		
+
 	} else {
 		// Do nothing!
-		
+
 	}
 
-    
+
 
   });
 
@@ -1998,7 +1998,7 @@ $(document).ready(function(e) {
 
 $(document).on('change', '#bannerType', function(e){
 	var type = $(this).val();
-	
+
 
 });
 

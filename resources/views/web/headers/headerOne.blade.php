@@ -94,35 +94,35 @@
               <ul class="navbar-nav ">
                 @foreach($result['commonContent']["menus"] as $menus)
                 <li class="nav-item dropdown">
-{{--                  <a class="nav-link @if(array_key_exists("childs",$menus)) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >--}}
-{{--                    {{$menus->name}}--}}
-{{--                  </a>--}}
-{{--                  @if(array_key_exists("childs",$menus))--}}
-{{--                  <div class="dropdown-menu">--}}
-{{--                    <?php--}}
-{{--                    $array = (array) $menus->childs;--}}
-{{--                    $key = "sub_sort_order";--}}
-{{--                        $sorter=array();--}}
-{{--                        $ret=array();--}}
-{{--                        reset($array);--}}
-{{--                        foreach ($array as $ii => $va) {--}}
-{{--                          $va = (array) $va;--}}
+                  <a class="nav-link @if(property_exists($menus,"childs")) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
+                    {{$menus->name}}
+                  </a>
+                 @if(property_exists($menus,"childs"))
+                  <div class="dropdown-menu">
+                    <?php
+                    $array = (array) $menus->childs;
+                    $key = "sub_sort_order";
+                        $sorter=array();
+                        $ret=array();
+                        reset($array);
+                        foreach ($array as $ii => $va) {
+                          $va = (array) $va;
 
-{{--                            $sorter[$ii]=$va[$key];--}}
-{{--                        }--}}
-{{--                        asort($sorter);--}}
-{{--                        foreach ($sorter as $ii => $va) {--}}
-{{--                            $ret[$ii]=$array[$ii];--}}
-{{--                        }--}}
-{{--                        $array=$ret;--}}
-{{--                     ?>--}}
-{{--                    @foreach($array as $me)--}}
-{{--                    <a class="dropdown-item" @if($me->type == 0)target="_blank"@endif  @if($me->type == 0) href="{{$me->external_link}}" @elseif($me->type == 1) href="{{url($me->link)}}" @else href="#" @endif  >--}}
-{{--                      {{$me->name}}--}}
-{{--                    </a>--}}
-{{--                    @endforeach--}}
-{{--                  </div>--}}
-{{--                  @endif--}}
+                            $sorter[$ii]=$va[$key];
+                        }
+                        asort($sorter);
+                        foreach ($sorter as $ii => $va) {
+                            $ret[$ii]=$array[$ii];
+                        }
+                        $array=$ret;
+                     ?>
+                    @foreach($array as $me)
+                    <a class="dropdown-item" @if($me->type == 0)target="_blank"@endif  @if($me->type == 0) href="{{$me->external_link}}" @elseif($me->type == 1) href="{{url($me->link)}}" @else href="#" @endif  >
+                      {{$me->name}}
+                    </a>
+                    @endforeach
+                  </div>
+                  @endif
                 </li>
                 @endforeach
 

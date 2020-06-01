@@ -47,7 +47,7 @@
 
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link href="{!! asset('admin/dist/css/skins/_all-skins.min.css') !!} " media="all" rel="stylesheet" type="text/css" />
+  <link href="{!! asset('admin/dist/css/skins/_all-skins.css') !!} " media="all" rel="stylesheet" type="text/css" />
     <!-- iCheck for checkboxes and radio inputs -->
     <link href="{!! asset('admin/plugins/iCheck/all.css')  !!} " media="all" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
@@ -71,5 +71,13 @@
 .dragable-box-cursor img{
   cursor: move;
 }
+
+/*.skin-blue .main-header .navbar .nav>li>a {*/
+/*    color: #B2323A;*/
+/*}*/
+
+/*.skin-blue .main-header .navbar {*/
+/*    background-color: #ffb4b5;*/
+/*}*/
 
 </style>

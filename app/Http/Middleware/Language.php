@@ -27,7 +27,7 @@ class language
     		   $request->session()->put('direction', $languages[0]->direction);
     		   $locale = $languages[0]->code;
     		}
-
+          $locale='Ar';
     		App::setLocale($locale);
       }
         return $next($request);

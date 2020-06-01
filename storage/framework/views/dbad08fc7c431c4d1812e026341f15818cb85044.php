@@ -24,15 +24,16 @@
                         <h3 class="box-title"><?php echo e(trans('labels.ListingAllImage')); ?> </h3>
 
                         <div style="margin-right:88px;"class="box-tools pull-left">
-                            <button id="btn" type="button" class="btn btn-block btn-danger">Delete</button>
+                            <button id="btn" type="button" class="btn btn-block btn-danger"> <?php echo e(trans('labels.delete')); ?></button>
 
                         </div>
                         <div style="margin-right:162px;"class="box-tools pull-left">
-                            <button id="btn11" type="button" class="btn btn-block btn-success" >Select All</button>
+                            <button id="btn11" type="button" class="btn btn-block btn-success" > <?php echo e(trans('labels.SelectAll')); ?></button>
+
 
                         </div>
                         <div style="margin-right:253px;"class="box-tools pull-left">
-                            <button id="btn12" type="button" class="btn btn-block btn-info" >UnSelect All</button>
+                            <button id="btn12" type="button" class="btn btn-block btn-info" >  <?php echo e(trans('labels.UnSelectAll')); ?></button>
 
                         </div>
                         <div class="box-tools pull-left">
@@ -49,7 +50,7 @@
                                 <?php if(count($errors) > 0): ?>
                                 <?php if($errors->any()): ?>
                                 <div class="alert alert-success alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="<?php echo e(trans('labels.Close')); ?>"><span
                                             aria-hidden="true">&times;</span></button>
                                     <?php echo e($errors->first()); ?>
 
@@ -111,10 +112,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add File Here</h4>
+                        <h4 class="modal-title"> <?php echo e(trans('labels.Add File Here')); ?></h4>
                     </div>
                     <div class="modal-body">
-                        <p>Click or Drop Images in the Box for Upload.</p>
+                        <p><?php echo e(trans('labels.Click or Drop Images in the Box for Upload')); ?></p>
                         <form action="<?php echo e(url('admin/media/uploadimage')); ?>" enctype="multipart/form-data"
                             class="dropzone " id="my-dropzone">
                             <?php echo e(csrf_field()); ?>
@@ -123,8 +124,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" disabled="disabled" id="compelete"
-                            data-dismiss="modal">Done</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            data-dismiss="modal"><?php echo e(trans('labels.Done')); ?></button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('labels.Close')); ?></button>
                     </div>
                 </div>
             </div>
@@ -137,9 +138,9 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo e(trans('labels.Close')); ?>"><span
                                 aria-hidden="true">×</span></button>
-                        <h3 class="modal-title text-primary" id="myModalLabel">Image Details</h3>
+                        <h3 class="modal-title text-primary" id="myModalLabel"><?php echo e(trans('labels.Image Details')); ?></h3>
                     </div>
 
                     <?php echo Form::open(array('url' =>'admin/deleteimage', 'method'=>'post', 'class' => 'form-horizontal',
@@ -151,9 +152,9 @@
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger" id="myDeleteImage"
-                            data-toggle="modal">Delete</button>
+                            data-toggle="modal"> <?php echo e(trans('labels.delete')); ?></button>
                         
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"> <?php echo e(trans('labels.Close')); ?></button>
 
 
                     </div>
@@ -171,16 +172,16 @@
                     <div class="modal-header">
 
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Confirmation!!</h4>
+                        <h4 class="modal-title"> <?php echo e(trans('labels.Confirmation')); ?></h4>
                     </div>
                     <div class="modal-body">
-                        <p>You are sure to delete It!</p>
+                        <p> <?php echo e(trans('labels.You are sure to delete It!')); ?></p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger" id="myDeleteImage"
-                            data-toggle="modal">Delete</button>
+                            data-toggle="modal"> <?php echo e(trans('labels.delete')); ?></button>
                         <button class="btn btn-default" data-dismiss="modal" data-dismiss="modal"
-                            aria-hidden="true">Cancel</button>
+                            aria-hidden="true"> <?php echo e(trans('labels.Cancel')); ?></button>
                     </div>
 
                 </div>

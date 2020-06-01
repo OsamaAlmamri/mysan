@@ -1,5 +1,5 @@
 <!-- //header style Three -->
-@include('web.headers.fixedHeader') 
+@include('web.headers.fixedHeader')
 @include('web.common.HeaderCategories')
 
 
@@ -18,31 +18,31 @@
                     <ul>
                       @foreach($languages as $language)
                       <li><a onclick="myFunction1({{$language->languages_id}})" href="#"><img class="img-fluid" src="{{asset('').$language->image_path}}"></a></li>
-                      @endforeach   
+                      @endforeach
                     </ul>
                   </span>
-                </h4>  
-              </div>   
+                </h4>
+              </div>
               @include('web.common.scripts.changeLanguage')
-              @endif    
+              @endif
               @if(count($currencies) > 1)
               <div class="currency">
                   <h4>@lang('website.Currency')&nbsp;:
                     <span>
                       <ul>
                         @foreach($currencies as $currency)
-                        <li><a href="#" onclick="myFunction2({{$currency->id}})"> 
+                        <li><a href="#" onclick="myFunction2({{$currency->id}})">
                           {{$currency->code}}
                         </a></li>
                         @endforeach
                       </ul>
                     </span>
-                  </h4>  
-                </div> 
+                  </h4>
+                </div>
                 @include('web.common.scripts.changeCurrency')
-              @endif   
+              @endif
             </div>
-            
+
             <div class="navbar-collapse">
               <ul class="navbar-nav">
                   <li class="nav-item">
@@ -71,14 +71,14 @@
                       <li class="nav-item"> <a class="nav-link" href="{{url('logout')}}">@lang('website.Logout')</a> </li>
                       <?php }else{ ?>
                         <li class="nav-item"> <a class="nav-link" href="{{ URL::to('/login')}}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
-          
+
                       <?php } ?>
-              </ul> 
-            </div>   
+              </ul>
+            </div>
           </nav>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
   <div class="header-maxi bg-header-bar">
       <div class="container">
@@ -88,18 +88,18 @@
               @if($result['commonContent']['setting'][77]->value=='name')
               <?=stripslashes($result['commonContent']['setting'][78]->value)?>
               @endif
-          
+
               @if($result['commonContent']['setting'][77]->value=='logo')
               <img class="img-fluid" src="{{asset('').$result['commonContent']['setting'][15]->value}}" alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>">
               @endif
             </a>
           </div>
-          <div class="col-12 col-sm-7 col-md-6 col-lg-5">      
-            <form class="form-inline" action="{{ URL::to('/shop')}}" method="get"> 
-              <div class="search-field-module">     
+          <div class="col-12 col-sm-7 col-md-6 col-lg-5">
+            <form class="form-inline" action="{{ URL::to('/shop')}}" method="get">
+              <div class="search-field-module">
                 <div class="search-field-wrap">
                   <input  type="search" name="search" placeholder="@lang('website.Search entire store here')..." data-toggle="tooltip" data-placement="bottom" title="@lang('website.Search Products')" alue="{{ app('request')->input('search') }}">
-                  <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip" 
+                  <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip"
                   data-placement="bottom" title="@lang('website.Search Products')">
                   <i class="fa fa-search"></i></button>
               </div>
@@ -112,31 +112,31 @@
                     <a href="#">
                         <i class="fas fa-phone"></i>
                         <span class="block">
-                          <span class="title">@lang('website.Call Us Now')</span>                    
+                          <span class="title">@lang('website.Call Us Now')</span>
                           <span class="items">{{$result['commonContent']['setting'][11]->value}}</span>
-                        </span>                   
+                        </span>
                     </a>
                   </li>
                   <li class="cart-header dropdown head-cart-content">
-                    @include('web.headers.cartButtons.cartButton3')                    
+                    @include('web.headers.cartButtons.cartButton3')
                   </li>
             </ul>
           </div>
         </div>
       </div>
-  </div> 
+  </div>
   <div class="header-navbar bg-menu-bar">
     <div class="container">
       <nav id="navbar_header_9" class="navbar navbar-expand-lg  bg-nav-bar">
-        
+
         <div class="navbar-collapse" >
           <ul class="navbar-nav">
             @foreach($result['commonContent']["menus"] as $menus)
                 <li class="nav-item dropdown">
-                  <a class="nav-link @if(array_key_exists("childs",$menus)) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
+                  <a class="nav-link @if(property_exists($menus,"childs"))dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
                     {{$menus->name}}
                   </a>
-                  @if(array_key_exists("childs",$menus))
+                    @if(property_exists($menus,"childs"))
                   <div class="dropdown-menu">
                     <?php
                     $array = (array) $menus->childs;
@@ -163,8 +163,8 @@
                   </div>
                   @endif
                 </li>
-                @endforeach       
-                
+                @endforeach
+
           </ul>
         </div>
       </nav>

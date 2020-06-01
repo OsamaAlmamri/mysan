@@ -19,7 +19,7 @@
                 <div class="col-md-12">
                     <div class="box">
                         <div class="box-header">
-                            <div class="col-lg-6 form-inline">
+                            <div class="filteerBox form-inline">
                                 <form  name='registration' id="registration" class="registration" method="get" action="{{url('admin/categories/filter')}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="input-group-form search-panel ">

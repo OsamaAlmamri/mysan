@@ -28,7 +28,7 @@
                                         {{--<div class="input-group-btn search-panel ">--}}
                                         <div class="input-group-form search-panel ">
                                             <select type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" name="FilterBy" id="FilterBy">
-                                                <option value="" selected disabled hidden>Filter By</option>
+                                                <option value="" selected disabled hidden> {{ trans('labels.Filter By') }}</option>
                                                 <option value="Name" @if(isset($filter)) @if ($filter=="Name" ) {{ 'selected' }} @endif @endif>{{ trans('labels.Name') }}</option>
                                                 <option value="E-mail" @if(isset($filter)) @if ($filter=="E-mail" ) {{ 'selected' }}@endif @endif>{{ trans('labels.Email') }}</option>
                                                 <option value="Phone" @if(isset($filter)) @if ($filter=="Phone" ) {{ 'selected' }}@endif @endif>{{ trans('labels.Phone') }}</option>
@@ -88,7 +88,7 @@
                                             <td>{{ $listingCustomers->id }}</td>
                                             <td>{{ $listingCustomers->first_name }} {{ $listingCustomers->last_name }}</td>
                                             <td>{{ $listingCustomers->email }}</td>
-                                            <td>                                               
+                                            <td>
                                                 <strong>{{ trans('labels.Phone') }}: </strong> {{ $listingCustomers->phone }} <br>
                                                 <strong>{{ trans('labels.Devices') }}: </strong>
                                                 @if(count($listingCustomers->devices)>0)

@@ -14,7 +14,21 @@ return [
     */
 
 	//links labels
-  'Active' => 'Active',
+    'Are You Sure To Delete This?' => 'Are You Sure To Delete This? ',
+
+    'Add File Here' => 'Add File Here',
+    'Click or Drop Images in the Box for Upload' => 'Click or Drop Images in the Box for Upload',
+    'Image Details' => 'Image Details',
+    'You are sure to delete It!' => 'You are sure to delete It!',
+    'Confirmation' => 'Confirmation!!',
+
+
+    'delete' => 'delete',
+    'SelectAll' => 'Select All ',
+    'UnSelectAll' => 'Un Select All',
+
+
+    'Active' => 'Active',
   'Disable' => 'Disable',
   'Language Name' => 'Language Name',
   'Banner Style' => 'Banner Style',
@@ -313,6 +327,9 @@ return [
     'EditCurrentManufacturer' => 'Edit Current Manufacturer',
     'ListAllManufacturer' => 'List All Manufacturer',
     'ManufacturerNameExample' => 'Manufacturer such as "Samsung or iphone" etc.',
+    'AddManufacturer' => 'Add  Manufacturer',
+    'AddNewManufacturer' => 'Add New Manufacturer',
+    'ManufacturerURLText' => 'Manufacturer url refer to its website link (optional).',
     'ManufacturerURLText' => 'Manufacturer url refer to its website link (optional).',
     'ManufacturerLogo' => 'Upload manufacturer logo.',
     'ManufacturerUpdatedMessage' => 'Manufacturer has been updated successfully!',
@@ -823,6 +840,7 @@ return [
     'AddedModifiedDate' => 'Added/Modified Date',
     'AddBanner' => 'Add Banner',
     'StatusBannerText' => 'To show this banner into the app choose Active.',
+    'StatusCurrenciesText' => 'To show this Currency  choose Active.',
     'ExpiryDateBanner' => 'Enter expiry date of this banner.',
     'ProductsBannerText' => 'Which products do you want to associate this banner?',
     'AddBannerText' => 'AddBannerText',
