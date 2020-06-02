@@ -22,7 +22,7 @@
                         <div class="box-header">
                             {{--<h3 class="box-title">{{ trans('labels.ListingAllNews') }} </h3>--}}
 
-                            <div class="col-lg-6 form-inline">
+                            <div class="form-inline filteerBox">
 
                                 <form  name='registration' id="registration" class="registration" method="get" action="{{url('admin/news/filter')}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -37,7 +37,7 @@
                                         @if(isset($param,$name))  <a class="btn btn-danger " href="{{url('admin/news/display')}}"><i class="fa fa-ban" aria-hidden="true"></i> </a>@endif
                                     </div>
                                 </form>
-                                <div class="col-lg-4 form-inline" id="contact-form12"></div>
+                                <div class=" form-inline" id="contact-form12"></div>
                             </div>
                             <div class="box-tools pull-right">
                                 <a href="{{ URL::to('admin/news/add')}}" type="button" class="btn btn-block btn-primary">{{ trans('labels.AddNew') }}</a>

@@ -45,7 +45,7 @@
                                             <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.Menu') }}</label>
                                             <div class="col-sm-10 col-md-4">
                                                 <select class="form-control" name="parent_id">
-                                                  <option value="0">Leave as Parent</option>
+                                                  <option value="0"> {{ trans('labels.Leave as Parent') }}</option>
                                                   @foreach($result['menus'] as $menu)
                                                     <option value="{{$menu->id}}">{{$menu->name}}</option>
                                                   @endforeach

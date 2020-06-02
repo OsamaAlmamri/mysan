@@ -19,7 +19,7 @@
                 <div class="col-md-12">
                     <div class="box">
                         <div class="box-header">
-                            <div class="col-lg-6 form-inline">
+                            <div class=" form-inline filteerBox">
                                 <form  name='registration' id="registration" class="registration" method="get" action="{{url('admin/newscategories/filter')}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="input-group-form search-panel ">
@@ -32,7 +32,7 @@
                                         @if(isset($param,$name))  <a class="btn btn-danger " href="{{url('admin/newscategories/display')}}"><i class="fa fa-ban" aria-hidden="true"></i> </a>@endif
                                     </div>
                                 </form>
-                                <div class="col-lg-4 form-inline" id="contact-form12"></div>
+                                <div class=" form-inline" id="contact-form12"></div>
                             </div>
                             <div class="box-tools pull-right">
                                 <a href="{{url('admin/newscategories/add')}}" type="button" class="btn btn-block btn-primary">{{ trans('labels.AddNew') }}</a>

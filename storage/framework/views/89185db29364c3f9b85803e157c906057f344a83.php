@@ -5,9 +5,10 @@
     <!-- Logo -->
     <a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini" style="font-size:12px"><b><?php echo e(trans('labels.admin')); ?></b></span>
+      <span class="logo-mini" style="font-size:12px"><b><?php echo e(trans('labels.get_site_name')); ?></b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b><?php echo e(trans('labels.admin')); ?></b></span>
+
+      <span class="logo-lg"><b><?php echo e(trans('labels.get_site_name')); ?></b></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->

@@ -21,7 +21,7 @@
                         <div class="box-header">
                             
 
-                            <div class="col-lg-6 form-inline">
+                            <div class="form-inline filteerBox">
 
                                 <form  name='registration' id="registration" class="registration" method="get" action="<?php echo e(url('admin/news/filter')); ?>">
                                     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
@@ -36,7 +36,7 @@
                                         <?php if(isset($param,$name)): ?>  <a class="btn btn-danger " href="<?php echo e(url('admin/news/display')); ?>"><i class="fa fa-ban" aria-hidden="true"></i> </a><?php endif; ?>
                                     </div>
                                 </form>
-                                <div class="col-lg-4 form-inline" id="contact-form12"></div>
+                                <div class=" form-inline" id="contact-form12"></div>
                             </div>
                             <div class="box-tools pull-right">
                                 <a href="<?php echo e(URL::to('admin/news/add')); ?>" type="button" class="btn btn-block btn-primary"><?php echo e(trans('labels.AddNew')); ?></a>

@@ -83,9 +83,10 @@
                                                 </label>
                                                 <div class="col-sm-10 col-md-4">
                                                     <select class="form-control" name="devices_status" id="">
-                                                        <option value="1"><?php echo e(trans('labels.Active')); ?></option>
-                                                        <option value="0"><?php echo e(trans('labels.Inactive')); ?></option>
+                                                        <option value="1"><?php echo e(trans('labels.Active_Device')); ?></option>
+                                                        <option value="0"><?php echo e(trans('labels.Inactive_Device')); ?></option>
                                                     </select>
+
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                       <?php echo e(trans('labels.SelectDeviceStatusText')); ?></span>
                                                 </div>
@@ -218,4 +219,5 @@
         <!-- /.content -->
     </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\sites\laravel-ecommerce-universal v4.0.12 preinstalled\resources\views/admin/Notifications/notifications.blade.php ENDPATH**/ ?>

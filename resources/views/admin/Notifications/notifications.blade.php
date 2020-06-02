@@ -80,9 +80,10 @@
                                                 </label>
                                                 <div class="col-sm-10 col-md-4">
                                                     <select class="form-control" name="devices_status" id="">
-                                                        <option value="1">{{ trans('labels.Active') }}</option>
-                                                        <option value="0">{{ trans('labels.Inactive') }}</option>
+                                                        <option value="1">{{ trans('labels.Active_Device') }}</option>
+                                                        <option value="0">{{ trans('labels.Inactive_Device') }}</option>
                                                     </select>
+
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                       {{ trans('labels.SelectDeviceStatusText') }}</span>
                                                 </div>

@@ -14,6 +14,8 @@ return [
     */
 
 	//links labels
+    'get_site_name' => ' Mysan Store',
+
     'Are You Sure To Delete This?' => 'Are You Sure To Delete This? ',
 
     'Add File Here' => 'Add File Here',
@@ -318,6 +320,7 @@ return [
 
 
     'Manufacturers' => 'Manufacturers',
+    'CompanyLogo' => 'Company Logo',
     'EditManufacturers' => 'Edit Manufacturers',
     'manuFacturerAddeddMessage' => 'Manufacturer has been added successfully!',
     'ChooseManufacturers' => 'Choose Manufacturers',
@@ -693,6 +696,10 @@ return [
     'All' => 'All',
     'SelectDeviceText' => 'Select devices to send notification.',
     'SelectDeviceStatusText' => 'Select active or inactive devices to send notification',
+    'Active_Device' => 'Active',
+    'Inactive_Device' => 'Inactive ',
+
+
     'Device' => 'Device(s)',
     'SendNotificationDetailext' => 'Detail of notification',
     'TitleText' => 'Enter title',

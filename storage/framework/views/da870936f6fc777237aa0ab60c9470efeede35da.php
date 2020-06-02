@@ -19,7 +19,7 @@
                     <div class="box">
                         <div class="box-header">
 
-                            <div CLASS="col-lg-12"> <h7 style="font-weight: bold; padding:0px 16px; float: left;"><?php echo e(trans('labels.FilterByCategory/Products')); ?>:</h7>
+                            <div CLASS="col-lg-12"> <h7 style=""><?php echo e(trans('labels.FilterByCategory/Products')); ?>:</h7>
 
                                 <br>
                            <div class="col-lg-10 form-inline">

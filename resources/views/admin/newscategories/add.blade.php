@@ -28,7 +28,7 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-              		<div class="box box-info">
+              		<div class="box box-info ">
                         <br>
                         @if (count($errors) > 0)
           							  @if($errors->any())
@@ -99,7 +99,7 @@
                                        <br>
                                    </div>
                                </div>
-                               
+
                                <div class="form-group">
                                 <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.Status') }} </label>
                                 <div class="col-sm-10 col-md-4">

@@ -4,7 +4,7 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">{{ trans('labels.navigation') }}</li>
+{{--        <li class="header">{{ trans('labels.navigation') }}</li>--}}
         <li class="treeview {{ Request::is('admin/dashboard') ? 'active' : '' }}">
           <a href="{{ URL::to('admin/dashboard/this_month')}}">
             <i class="fa fa-dashboard"></i> <span>{{ trans('labels.header_dashboard') }}</span>
@@ -55,7 +55,7 @@
           <i class="fa fa-circle-o"></i> {{ trans('labels.currency') }}
         </a>
       </li>
-      <?php } ?>    
+      <?php } ?>
       <?php
         if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->customers_view == 1){
       ?>
@@ -66,7 +66,7 @@
         </li>
       <?php } ?>
 
-   
+
       <?php
         if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->products_view == 1 or $result['commonContent']['roles']!= null and $result['commonContent']['roles']->categories_view == 1 ){
       ?>
@@ -136,9 +136,9 @@
           </ul>
         </li>
       <?php } ?>
-     
-  
-      
+
+
+
       <?php
           if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->tax_location_view == 1){
         ?>
@@ -194,7 +194,7 @@
             <li class="{{ Request::is('admin/news/display') ? 'active' : '' }}  {{ Request::is('admin/news/add') ? 'active' : '' }}  {{ Request::is('admin/news/edit/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/news/display')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_sub_news') }}</a></li>
           </ul>
         </li>
-      <?php } ?> 
+      <?php } ?>
       @if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->notifications_view == 1)
       <li class="treeview {{ Request::is('admin/pushnotification') ? 'active' : '' }}{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }} {{ Request::is('admin/devices/notifications') ? 'active' : '' }}">
           <a href="{{ URL::to('admin/devices/display')}} ">
@@ -222,14 +222,14 @@
   <span> {{ trans('labels.link_general_settings') }}</span> <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            
+
           <li class="{{ Request::is('admin/setting') ? 'active' : '' }}"><a href="{{ URL::to('admin/setting')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_store_setting') }}</a></li>
             <li class="{{ Request::is('admin/facebooksettings') ? 'active' : '' }}"><a href="{{ URL::to('admin/facebooksettings')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_facebook') }}</a></li>
             <li class="{{ Request::is('admin/googlesettings') ? 'active' : '' }}"><a href="{{ URL::to('admin/googlesettings')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_google') }}</a></li>
-            
+
             <li class="{{ Request::is('admin/alertsetting') ? 'active' : '' }}"><a href="{{ URL::to('admin/alertsetting')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.alertSetting') }}</a></li>
-            
-            
+
+
           </ul>
         </li>
       <?php } ?>
@@ -268,7 +268,7 @@
                         <i class="fa fa-picture-o" aria-hidden="true"></i> <span> {{ trans('labels.login') }} </span>
                     </a>
                 </li>
-                
+
                 <li class="treeview {{ Request::is('admin/webPagesSettings/9') ? 'active' : '' }} ">
                   <a href="{{url('admin/webPagesSettings')}}/9">
                       <i class="fa fa-picture-o" aria-hidden="true"></i> <span> {{ trans('labels.News') }} </span>
@@ -308,11 +308,11 @@
                 </li>
               </ul>
             </li>
-           
+
             <li class="{{ Request::is('admin/sliders') ? 'active' : '' }} {{ Request::is('admin/addsliderimage') ? 'active' : '' }} {{ Request::is('admin/editslide/*') ? 'active' : '' }} "><a href="{{ URL::to('admin/sliders')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_Sliders') }}</a></li>
             <li class="{{ Request::is('admin/homebanners') ? 'active' : '' }} "><a href="{{ URL::to('admin/homebanners')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.Parallax Banners') }}</a></li>
             <li class="{{ Request::is('admin/constantbanners') ? 'active' : '' }} {{ Request::is('admin/constantbanners') ? 'active' : '' }} {{ Request::is('admin/constantbanners/*') ? 'active' : '' }} "><a href="{{ URL::to('admin/constantbanners')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_Banners') }}</a></li>
-           
+
             <li class="{{ Request::is('admin/menus') ? 'active' : '' }}  {{ Request::is('admin/addmenus') ? 'active' : '' }}  {{ Request::is('admin/editmenus/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/menus')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.menus') }}</a></li>
 
             <li class="{{ Request::is('admin/webpages') ? 'active' : '' }}  {{ Request::is('admin/addwebpage') ? 'active' : '' }}  {{ Request::is('admin/editwebpage/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/webpages')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.content_pages') }}</a></li>
@@ -357,7 +357,7 @@
           </ul>
         </li>
       <?php } ?>
-     
+
       <?php
 
         if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->manage_admins_view == 1){
@@ -374,7 +374,7 @@
             <li class="{{ Request::is('admin/manageroles') ? 'active' : '' }} {{ Request::is('admin/addadminType') ? 'active' : '' }} {{ Request::is('admin/editadminType/*') ? 'active' : '' }}"><a href="{{ URL::to('admin/manageroles')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.link_manage_roles') }}</a></li>
           </ul>
         </li>
-        <?php 
+        <?php
         }
         ?>
         <?php
@@ -409,7 +409,7 @@
           <ul class="treeview-menu">
             <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a href="{{ URL::to('admin/managements/backup')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.backup') }}</a></li>
             <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a href="{{ URL::to('admin/managements/import')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.restore') }}</a></li>
-           
+
           </ul>
         </li>
         <?php } ?>
