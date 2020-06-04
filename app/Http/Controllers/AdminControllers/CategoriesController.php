@@ -25,6 +25,7 @@ class CategoriesController extends Controller
     $title = array('pageTitle' => Lang::get("labels.SubCategories"));
     $categories = $this->Categories->paginator();
     $result['commonContent'] = $this->Setting->commonContent();
+
     return view("admin.categories.index",$title)->with('categories', $categories)->with('result', $result);
   }
 

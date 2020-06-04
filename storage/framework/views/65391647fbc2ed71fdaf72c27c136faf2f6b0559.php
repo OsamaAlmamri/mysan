@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="<?php echo asset('admin/plugins/daterangepicker/daterangepicker-bs3.css'); ?> ">
    <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?php echo asset('admin/plugins/datepicker/datepicker3.css'); ?> ">
+  <link rel="stylesheet" href="<?php echo asset('admin/plugins/select2/select2.css'); ?> ">
   <!-- jvectormap -->
   <link href="<?php echo asset('admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css'); ?> " media="all" rel="stylesheet" type="text/css" />
   <!-- Theme style -->

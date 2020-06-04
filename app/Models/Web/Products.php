@@ -130,7 +130,7 @@ class Products extends Model
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     public function productCategories1()
     {
         $categories = $this->recursivecategories1();
@@ -195,7 +195,7 @@ class Products extends Model
                 <div class="dropdown-menu pull-right">';
                 $contents .= '
                 <div class="dropdown-submenu submenu1">';
-                
+
                 $k = $i + 1;
                 $contents .= $this->childcat1($child->childs, $k, $parent_id, 1);
                 $cat = 'shop?category=' . $child->categories_slug;
@@ -206,7 +206,7 @@ class Products extends Model
         }
         return $contents;
     }
-    
+
 
     private function recursivecategories1()
     {
@@ -289,6 +289,7 @@ class Products extends Model
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
             ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id');
 
+
         if (!empty($data['categories_id'])) {
             $categories->LeftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
                 ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
@@ -357,7 +358,7 @@ class Products extends Model
         if (!empty($data['search'])) {
 
             $searchValue = $data['search'];
-            
+
             $categories->where('products_options.products_options_name', 'LIKE', '%' . $searchValue . '%')->where('products_status', '=', 1);
 
             if (!empty($data['categories_id'])) {
@@ -819,6 +820,8 @@ class Products extends Model
         } else {
             $responseData = array('success' => '0', 'product_data' => $result, 'message' => Lang::get('website.Empty record'), 'total_record' => count($total_record));
         }
+
+
 
         return ($responseData);
     }

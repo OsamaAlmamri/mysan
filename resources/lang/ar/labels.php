@@ -159,7 +159,7 @@ return [
     'you_have' => 'لديك ',
     'new_orders' => 'الطلبات الجديدة .',
     'new_users' => ' المستخدمين الجدد.',
-    'products_are_in_low_quantity' => 'Products are in low quantity',
+    'products_are_in_low_quantity' => 'المنتجاات ذات كمية مخزون قليلة',
     'administrator' => 'مسؤولي النظام',
 
     //sidebar / links
@@ -176,7 +176,7 @@ return [
     'link_products' => 'المنتجات',
     'link_all_products' => 'المنتجات',
     'products_attributes' => 'سمات المنتجات ',
-    'Blog' => 'Blog',
+    'Blog' => 'الاعلانات',
     'link_news' => 'الاخبار',
     'link_news_categories' => 'الاصناف الجديدة ',
     'link_sub_news' => 'الاخبار',
@@ -552,7 +552,7 @@ return [
     'SelectCountry' => 'حدد الدولة',
     'State' => 'الحالة',
     'City' => 'مدينة',
-    'Postcode' => 'الرمز البريدي',
+    'Postcode' => 'اعدادات الكود البرمجي ',
     'Suburb' => 'ضاحية',
     'SaveComplete' => 'حفظ واستكمال',
     'BasicInfo' => 'معلومات أساسية',
@@ -582,7 +582,7 @@ return [
     'CountryDeletedMessage' => 'تم حذف الدولة بنجاح!',
     'CountryUpdatedMessage' => 'تم تحديث الدولة بنجاح!',
     'CountryAddedMessage' => 'تمت إضافة البلد بنجاح!',
-    'Countries' => 'بلدان',
+    'Countries' => 'الدول',
     'CountryName' => 'اسم الدولة',
     'ISOCode2' => 'كود ISO 2',
     'ISOCode3' => 'كود ISO 3',
@@ -656,7 +656,7 @@ return [
     'IndividualUseOnlyText' => 'حدد هذا المربع إذا كان لا يمكن استخدام الكوبون معا كوبونات أخرى . ',
     'ExcludeSaleItems' => 'استبعاد عناصر البيع',
 
-    'ExcludeSaleItemsText' => 'حدد هذا المربع إذا كان الكوبون لا تنطبق على العناصر المعروضة للبيع .  لن تعمل الكوبون لكل عنصر إلا إذا لم تكن السلعة معروضة للبيع .  لن تعمل القسائم لكل عربة إلا إذا لم تكن هناك عناصر بيع في سلة التسوق ',
+    'ExcludeSaleItemsText' => 'حدد هذا المربع إذا كان الكوبون لا تنطبق على العناصر المعروضة للبيع .  لن تعمل الكوبون لكل عنصر إلا إذا لم تكن السلعة معروضة للبيع .  لن تعمل الكوبونات لكل عربة إلا إذا لم تكن هناك عناصر بيع في سلة التسوق ',
 
     'CouponProductsUsed' => 'قائمة المنتجات التي يمكن استخدام الكوبون عليها . ',
     'ExcludeProducts' => 'استبعاد المنتجات',

@@ -76,7 +76,7 @@
                                         <div class="form-group">
                                             <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.Country') }} </label>
                                             <div class="col-sm-10 col-md-4">
-                                                <select class="form-control field-validate" name="code">
+                                                <select class="form-control field-validate select2" name="code">
                                                   @foreach($currencies as $currency)
                                                     <option @if($result['currency']->code == $currency->code) selected @endif value="{{$currency->code}}">{{ $currency->currency_name }}</option>
                                                   @endforeach
@@ -119,8 +119,8 @@
                                                 <span class="help-block"
                                             style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                             {{ trans('labels.Choose position of the currency') }}</span>
-                                            </div>  
-                                        </div>    
+                                            </div>
+                                        </div>
 
                                         <div class="form-group" style="display: none">
                                             <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.decimal_point') }}

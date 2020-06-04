@@ -76,7 +76,7 @@
 
                                             </label>
                                             <div class="col-sm-10 col-md-4">
-                                                <select class="form-control field-validate" name="code">
+                                                <select class="form-control field-validate select2" name="code">
                                                     <?php $__currentLoopData = $currencies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $currency): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($currency->code); ?>"><?php echo e($currency->currency_name); ?>
 
