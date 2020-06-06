@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Web;
 
 //validator is builtin class in laravel
 use App\Models\Web\Currency;
 use App\Models\Web\Index;
+
 //for password encryption or hash protected
 use App\Models\Web\Languages;
 
@@ -13,11 +15,13 @@ use Auth;
 
 //for requesting a value
 use DB;
+
 //for Carbon a value
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Lang;
 use Session;
+
 //email
 
 class ProductsController extends Controller
@@ -27,7 +31,8 @@ class ProductsController extends Controller
         Languages $languages,
         Products $products,
         Currency $currency
-    ) {
+    )
+    {
         $this->index = $index;
         $this->languages = $languages;
         $this->products = $products;
@@ -178,7 +183,7 @@ class ProductsController extends Controller
             'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
 
         $products = $this->products->products($data);
-       // dd($products);
+        // dd($products);
         $result['products'] = $products;
 
         $data = array('limit' => $limit, 'categories_id' => $categories_id);
@@ -464,10 +469,10 @@ class ProductsController extends Controller
 
         $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
         $top_seller = $this->products->products($data);
-		$result['top_seller'] = $top_seller;
-		
-		
-		//dd($result);
+        $result['top_seller'] = $top_seller;
+
+
+        //dd($result);
         return view("web.detail", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
     }
 

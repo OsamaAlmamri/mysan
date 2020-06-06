@@ -1,3 +1,11 @@
+# 2.7.0
+
+* removeFirstHandler and removeLastHandler.
+
+# 2.6.0
+
+* Fix 2.4.0 pushHandler changing the order of handlers.
+
 # 2.5.1
 
 * Fix error messaging in a rare case.

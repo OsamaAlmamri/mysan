@@ -17,6 +17,7 @@
         "kyslik/column-sortable": "^6.0",
         "laravel/framework": "6.0",
         "laravel/helpers": "^1.1",
+        "laravel/passport": "^9.2",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.0.3",
@@ -63,12 +64,6 @@
         }
     },
     "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./packages/rehantariq/laravel-installer/"
-        }
-    ],
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
