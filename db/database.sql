@@ -2758,7 +2758,6 @@ CREATE TABLE IF NOT EXISTS `products` (
   `products_date_added` datetime NOT NULL,
   `products_last_modified` datetime DEFAULT NULL,
   `products_date_available` datetime DEFAULT NULL,
-  `products_weight` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `products_weight_unit` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `products_status` tinyint(1) NOT NULL,
   `is_current` tinyint(1) NOT NULL,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Web;
+namespace App\Models\API;
 
 use App;
 use App\Models\Core\Categories;

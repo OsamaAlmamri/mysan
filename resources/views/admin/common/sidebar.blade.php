@@ -93,10 +93,11 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="{{ Request::is('admin/products/attributes/display') ? 'active' : '' }}  {{ Request::is('admin/products/attributes/add') ? 'active' : '' }}  {{ Request::is('admin/products/attributes/*') ? 'active' : '' }}">
                                 <a href="{{ URL::to('admin/products/attributes/display' )}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.products_attributes') }}</a></li>
-                            <li class="{{ Request::is('admin/units') ? 'active' : '' }} {{ Request::is('admin/addunit') ? 'active' : '' }} {{ Request::is('admin/editunit/*') ? 'active' : '' }} ">
-                                <a href="{{ URL::to('admin/units')}}"><i
-                                        class="fa fa-circle-o"></i> {{ trans('labels.link_units') }}</a></li>
-                            <li class="{{ Request::is('admin/products/display') ? 'active' : '' }} {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products/edit/*') ? 'active' : '' }} {{ Request::is('admin/products/attributes/add/*') ? 'active' : '' }} {{ Request::is('admin/addinventory/*') ? 'active' : '' }} {{ Request::is('admin/addproductimages/*') ? 'active' : '' }}">
+{{--                            <li class="{{ Request::is('admin/units') ? 'active' : '' }} {{ Request::is('admin/addunit') ? 'active' : '' }} {{ Request::is('admin/editunit/*') ? 'active' : '' }} ">--}}
+{{--                                <a href="{{ URL::to('admin/units')}}"><i--}}
+{{--                                        class="fa fa-circle-o"></i> {{ trans('labels.link_units') }}</a></li>--}}
+{{--                            --}}
+                                <li class="{{ Request::is('admin/products/display') ? 'active' : '' }} {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products/edit/*') ? 'active' : '' }} {{ Request::is('admin/products/attributes/add/*') ? 'active' : '' }} {{ Request::is('admin/addinventory/*') ? 'active' : '' }} {{ Request::is('admin/addproductimages/*') ? 'active' : '' }}">
                                 <a href="{{ URL::to('admin/products/display')}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.link_all_products') }}</a></li>
                             <li class="{{ Request::is('admin/products/inventory/display') ? 'active' : '' }}"><a

@@ -194,10 +194,8 @@ class Products extends Model
         'products_model' => $request->products_model,
         'products_price' => $request->products_price,
         'created_at' => $date_added,
-        'products_weight' => $request->products_weight,
         'products_status' => $request->products_status,
         'products_tax_class_id' => $tax_Class_id,
-        'products_weight_unit' => $request->products_weight_unit,
         'low_limit' => 0,
         'products_slug' => 0,
         'products_type' => $request->products_type,
@@ -548,10 +546,8 @@ class Products extends Model
               'products_model' => $request->products_model,
               'products_price' => $request->products_price,
               'updated_at' => $products_last_modified,
-              'products_weight' => $request->products_weight,
               'products_status' => $request->products_status,
               'products_tax_class_id' => $request->tax_class_id,
-              'products_weight_unit' => $request->products_weight_unit,
               'low_limit' => 0,
               'products_slug' => $slug,
               'products_type' => $request->products_type,
@@ -700,7 +696,7 @@ class Products extends Model
                   'flash_status' => $request->flash_status
               ]);
            }else if($request->isSpecial == 'no'){
-             DB::table('flash_sale')->where('products_id', '=', $products_id)->delete();                
+             DB::table('flash_sale')->where('products_id', '=', $products_id)->delete();
             }
           $options = DB::table('products_options')
              ->leftJoin('products_options_descriptions', 'products_options_descriptions.products_options_id', '=', 'products_options.products_options_id')

@@ -22,8 +22,8 @@ class CreateProductsTable extends Migration {
 			$table->dateTime('products_date_added')->index('idx_products_date_added');
 			$table->dateTime('products_last_modified')->nullable();
 			$table->dateTime('products_date_available')->nullable();
-			$table->string('products_weight', 191);
-			$table->string('products_weight_unit', 191)->nullable();
+//			$table->string('products_weight', 191);
+//			$table->string('products_weight_unit', 191)->nullable();
 			$table->boolean('products_status');
 			$table->boolean('is_current');
 			$table->integer('products_tax_class_id');

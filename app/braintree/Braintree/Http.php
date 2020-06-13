@@ -195,6 +195,7 @@ class Http
             throw new Exception\SSLCertificate($error, $error_code);
         }
 
+//        return dd($error_code);
         if ($error_code) {
             throw new Exception\Connection($error, $error_code);
         }

@@ -94,10 +94,11 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="<?php echo e(Request::is('admin/products/attributes/display') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/products/attributes/add') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/products/attributes/*') ? 'active' : ''); ?>">
                                 <a href="<?php echo e(URL::to('admin/products/attributes/display' )); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.products_attributes')); ?></a></li>
-                            <li class="<?php echo e(Request::is('admin/units') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addunit') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editunit/*') ? 'active' : ''); ?> ">
-                                <a href="<?php echo e(URL::to('admin/units')); ?>"><i
-                                        class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_units')); ?></a></li>
-                            <li class="<?php echo e(Request::is('admin/products/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/attributes/add/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addinventory/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addproductimages/*') ? 'active' : ''); ?>">
+
+
+
+
+                                <li class="<?php echo e(Request::is('admin/products/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/attributes/add/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addinventory/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addproductimages/*') ? 'active' : ''); ?>">
                                 <a href="<?php echo e(URL::to('admin/products/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_all_products')); ?></a></li>
                             <li class="<?php echo e(Request::is('admin/products/inventory/display') ? 'active' : ''); ?>"><a

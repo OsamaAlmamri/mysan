@@ -85,6 +85,7 @@ class CustomersController extends Controller
 
     public function processLogin(Request $request)
     {
+
         $old_session = Session::getId();
 
         $result = array();
@@ -94,6 +95,7 @@ class CustomersController extends Controller
 
         if (auth()->guard('customer')->attempt($customerInfo)) {
             $customer = auth()->guard('customer')->user();
+//            return  dd($customer);
             if ($customer->role_id != 2) {
                 $record = DB::table('settings')->where('id', 94)->first();
                 if ($record->value == 'Maintenance' && $customer->role_id == 1) {

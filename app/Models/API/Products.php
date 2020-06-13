@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Web;
+namespace App\Models\API;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -82,7 +82,11 @@ class Products extends Model
         $items = DB::table('categories')
             ->leftJoin('image_categories', 'categories.categories_icon', '=', 'image_categories.image_id')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
-            ->select('categories.categories_id', 'image_categories.path as image_path', 'categories.categories_slug as slug', 'categories_description.categories_name', 'categories.parent_id')
+            ->select('categories.categories_id',
+                'image_categories.path as image_path',
+                'categories.categories_slug as slug',
+                'categories_description.categories_name',
+                'categories.parent_id')
             ->where('categories_description.language_id', '=', Session::get('language_id'))
             ->groupBy('categories.categories_id')
             ->get();
@@ -99,7 +103,7 @@ class Products extends Model
             }
 
             $tree = $childs[0];
-            return $tree;
+            return $childs;
         }
     }
 
@@ -554,13 +558,14 @@ class Products extends Model
         }
 
         $categories->where('products_description.language_id', '=',
-            Session::get('language_id')
+            $data['lang']
+
         )->where('products_status', '=', 1);
 
         //get single category products
         if (!empty($data['categories_id'])) {
             $categories->where('products_to_categories.categories_id', '=', $data['categories_id']);
-            $categories->where('categories_description.language_id', '=', Session::get('language_id'));
+            $categories->where('categories_description.language_id', '=', $data['lang']);
         }
 
         $categories->orderBy($sortby, $order)->groupBy('products.products_id');
@@ -741,7 +746,7 @@ class Products extends Model
                     ->leftjoin('categories_description', 'categories_description.categories_id', 'products_to_categories.categories_id')
                     ->select('categories.categories_id', 'categories_description.categories_name', 'categories.categories_image', 'categories.categories_icon', 'categories.parent_id', 'categories.categories_slug')
                     ->where('products_id', '=', $products_id)
-                    ->where('categories_description.language_id', '=', Session::get('language_id'))
+                    ->where('categories_description.language_id', '=', $data['lang'])
                     ->orderby('parent_id', 'ASC')->get();
 
                 $products_data->categories = $categories;
@@ -780,7 +785,7 @@ class Products extends Model
                     foreach ($products_attribute as $attribute_data) {
 
                         $option_name = DB::table('products_options')
-                            ->leftJoin('products_options_descriptions', 'products_options_descriptions.products_options_id', '=', 'products_options.products_options_id')->select('products_options.products_options_id', 'products_options_descriptions.options_name as products_options_name', 'products_options_descriptions.language_id')->where('language_id', '=', Session::get('language_id'))->where('products_options.products_options_id', '=', $attribute_data->options_id)->get();
+                            ->leftJoin('products_options_descriptions', 'products_options_descriptions.products_options_id', '=', 'products_options.products_options_id')->select('products_options.products_options_id', 'products_options_descriptions.options_name as products_options_name', 'products_options_descriptions.language_id')->where('language_id', '=', $data['lang'])->where('products_options.products_options_id', '=', $attribute_data->options_id)->get();
 
                         if (count($option_name) > 0) {
 
@@ -795,7 +800,7 @@ class Products extends Model
                             $k = 0;
                             foreach ($attributes_value_query as $products_option_value) {
 
-                                $option_value = DB::table('products_options_values')->leftJoin('products_options_values_descriptions', 'products_options_values_descriptions.products_options_values_id', '=', 'products_options_values.products_options_values_id')->select('products_options_values.products_options_values_id', 'products_options_values_descriptions.options_values_name as products_options_values_name')->where('products_options_values_descriptions.language_id', '=', Session::get('language_id'))->where('products_options_values.products_options_values_id', '=', $products_option_value->options_values_id)->get();
+                                $option_value = DB::table('products_options_values')->leftJoin('products_options_values_descriptions', 'products_options_values_descriptions.products_options_values_id', '=', 'products_options_values.products_options_values_id')->select('products_options_values.products_options_values_id', 'products_options_values_descriptions.options_values_name as products_options_values_name')->where('products_options_values_descriptions.language_id', '=', $data['lang'])->where('products_options_values.products_options_values_id', '=', $products_option_value->options_values_id)->get();
 
                                 $attributes = DB::table('products_attributes')->where([['products_id', '=', $products_id], ['options_id', '=', $attribute_data->options_id], ['options_values_id', '=', $products_option_value->options_values_id]])->get();
 
@@ -1046,32 +1051,35 @@ class Products extends Model
         $category = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->where('categories_slug', $request->category)
-            ->where('language_id', Session::get('language_id'))->get();
+            ->where('language_id',(!empty($request->lang))?$request->lang:2)->get();
         return $category;
     }
 
-    public function getMainCategories($category)
+    public function getMainCategories($category,$lang)
     {
         $main_category = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->where('categories.categories_id', $category)
-            ->where('language_id', Session::get('language_id'))->get();
+            ->where('language_id', $lang)->get();
         return $main_category;
     }
 
-    public function getOptions()
+    public function getOptions($lang)
     {
         $option = DB::table('products_options')
-            ->leftJoin('products_options_descriptions', 'products_options_descriptions.products_options_id', '=', 'products_options.products_options_id')->select('products_options.products_options_id', 'products_options_descriptions.options_name as products_options_name', 'products_options_descriptions.language_id')->where('language_id', '=', Session::get('language_id'))->get();
+            ->leftJoin('products_options_descriptions', 'products_options_descriptions.products_options_id', '=', 'products_options.products_options_id')
+            ->select('products_options.products_options_id', 'products_options_descriptions.options_name as products_options_name',
+                'products_options_descriptions.language_id')
+            ->where('language_id', '=', $lang)->get();
         return $option;
     }
 
-    public function getOptionsValues($value)
+    public function getOptionsValues($value,$lang)
     {
         $value = DB::table('products_options_values')
             ->leftJoin('products_options_values_descriptions', 'products_options_values_descriptions.products_options_values_id', '=', 'products_options_values.products_options_values_id')
             ->select('products_options_values.products_options_values_id', 'products_options_values_descriptions.options_values_name as products_options_values_name', 'products_options_values_descriptions.language_id')
-            ->where('products_options_values_descriptions.options_values_name', $value)->where('language_id', Session::get('language_id'))->get();
+            ->where('products_options_values_descriptions.options_values_name', $value)->where('language_id', $lang)->get();
         return $value;
     }
 
@@ -1124,25 +1132,25 @@ class Products extends Model
         return $products;
     }
 
-    public function getCategoryByParent($products_id)
+    public function getCategoryByParent($products_id,$lang)
     {
         $category = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->leftJoin('products_to_categories', 'products_to_categories.categories_id', '=', 'categories.categories_id')
             ->where('products_to_categories.products_id', $products_id)
             ->where('categories.parent_id', 0)
-            ->where('language_id', Session::get('language_id'))->get();
+            ->where('language_id', $lang)->get();
         return $category;
     }
 
-    public function getSubCategoryByParent($products_id)
+    public function getSubCategoryByParent($products_id,$lang)
     {
         $sub_category = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->leftJoin('products_to_categories', 'products_to_categories.categories_id', '=', 'categories.categories_id')
             ->where('products_to_categories.products_id', $products_id)
             ->where('categories.parent_id', '>', 0)
-            ->where('language_id', Session::get('language_id'))
+            ->where('language_id', $lang)
             ->get();
         return $sub_category;
     }
@@ -1179,7 +1187,7 @@ class Products extends Model
         } else {
             $product->select('products.*', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price');
         }
-        $product->where('products_description.language_id', '=', Session::get('language_id'));
+        $product->where('products_description.language_id', '=', $data['lang']);
 
         if (isset($categories_id) and !empty($categories_id)) {
             $product->where('products_to_categories.categories_id', '=', $categories_id);

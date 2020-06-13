@@ -15,6 +15,8 @@ return [
 
     //links labels
     'get_site_name' => 'متجر ميسان',
+    'Returned all products' => 'كل المنتجات ',
+    'Empty record' => 'ليس هناك منتجات',
     'Are You Sure To Delete This?' => 'هل انت متاكد انك تريد الحذف ؟',
     'Add File Here' => 'اضاف الصور هنا ',
     'Click or Drop Images in the Box for Upload' => 'اختر الصورة او قم بسحبها هنا للتحميل',
@@ -23,11 +25,9 @@ return [
     'Confirmation' => 'تاكيد!!',
 
 
-
     'delete' => 'حذف',
     'SelectAll' => 'تحديد الكل',
     'UnSelectAll' => 'الغاء تحديد الكل',
-
 
 
     'Active' => 'مفعل',

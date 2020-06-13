@@ -193,29 +193,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-12 col-md-6">
-                                                <div class="form-group">
-                                                    <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.ProductsWeight')); ?></label>
-                                                    <div class="col-sm-10 col-md-4">
-                                                        <?php echo Form::text('products_weight', $result['product'][0]->products_weight, array('class'=>'form-control number-validate', 'id'=>'products_weight')); ?>
 
-                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                            <?php echo e(trans('labels.RequiredTextForWeight')); ?>
-
-                                                        </span>
-
-                                                    </div>
-                                                    <div class="col-sm-10 col-md-4" style="padding-left: 0;">
-                                                        <select class="form-control" name="products_weight_unit">
-                                                            <?php if($result['units']): ?> !== null)
-                                                            <?php $__currentLoopData = $result['units']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option value="<?php echo e($unit->units_name); ?>" <?php if($result['product'][0]->products_weight_unit==$unit->units_name): ?> selected <?php endif; ?>><?php echo e($unit->units_name); ?></option>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php endif; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="col-xs-12 col-md-6">
                                                 <div class="form-group">

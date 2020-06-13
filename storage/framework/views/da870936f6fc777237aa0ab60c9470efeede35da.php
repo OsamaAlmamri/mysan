@@ -118,7 +118,6 @@
                                                             <strong><?php echo e(trans('labels.Manufacturer')); ?>:</strong> <?php echo e($product->manufacturers_name); ?><br>
                                                         <?php endif; ?>
                                                         <strong><?php echo e(trans('labels.Price')); ?>: </strong>     <?php echo e($results['currency'][19]->value); ?><?php echo e($product->products_price); ?><br>
-                                                        <strong><?php echo e(trans('labels.Weight')); ?>: </strong>  <?php echo e($product->products_weight); ?><?php echo e($product->products_weight_unit); ?><br>
                                                         <strong><?php echo e(trans('labels.Viewed')); ?>: </strong>  <?php echo e($product->products_viewed); ?><br>
                                                         <?php if(!empty($product->specials_id)): ?>
                                                             <strong class="badge bg-light-blue"><?php echo e(trans('labels.Special Product')); ?></strong><br>

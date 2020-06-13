@@ -37,7 +37,7 @@ Route::group(['middleware' => ['installer']], function () {
 
         Route::get('/topoffer/display', 'ThemeController@topoffer');
         Route::post('/topoffer/update', 'ThemeController@updateTopOffer');
-        
+
 
         Route::get('/dashboard/{reportBase}', 'AdminController@dashboard');
         //add adddresses against customers
@@ -151,7 +151,7 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/update', 'CurrencyController@update')->middleware('edit_general_setting');
         Route::post('/delete', 'CurrencyController@delete')->middleware('edit_general_setting');
 
-        
+
     });
 
     Route::group(['prefix' => 'admin/products', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
@@ -413,11 +413,11 @@ Route::group(['middleware' => ['installer']], function () {
 ////////////////////////////////////////////////////////////////////////////////////
         //////////////     SITE ROUTES
         ////////////////////////////////////////////////////////////////////////////////////
-        
+
         // home page banners
         Route::get('/homebanners', 'HomeBannersController@display')->middleware('view_web_setting', 'website_routes');
         Route::post('/homebanners/insert', 'HomeBannersController@insert')->middleware('view_web_setting', 'website_routes');
-        
+
         Route::get('/menus', 'MenusController@menus')->middleware('view_web_setting', 'website_routes');
         Route::get('/addmenus', 'MenusController@addmenus')->middleware('edit_web_setting', 'website_routes');
         Route::post('/addnewmenu', 'MenusController@addnewmenu')->middleware('edit_web_setting', 'website_routes');

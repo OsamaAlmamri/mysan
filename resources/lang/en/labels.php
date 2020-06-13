@@ -15,6 +15,8 @@ return [
 
 	//links labels
     'get_site_name' => ' Mysan Store',
+    'Returned all products' => 'Returned all products',
+    'Empty record' => 'Empty record',
 
     'Are You Sure To Delete This?' => 'Are You Sure To Delete This? ',
 

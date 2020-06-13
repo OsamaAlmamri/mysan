@@ -35,9 +35,23 @@ Route::middleware('auth:api')->group(function () {
     //userInfo,//
 
 
-    Route::get('/page', 'API\IndexController@page');
     Route::get('index','API\IndexController@index');
-    Route::get('/contact', 'API\IndexController@contactus');
+    Route::post('recursivecategories','API\IndexController@recursivecategories');
+    Route::post('allCategories','API\IndexController@allCategories');
+    Route::post('specialProducts','API\IndexController@filterData');
+
+    Route::post('filterProducts','API\ProductsController@filterProducts');
+
+    Route::post('categoryProducts','API\IndexController@categoryProducts');
+    Route::post('getProduct','API\IndexController@getProduct');
+    Route::post('flash_sale','API\IndexController@flash_sale');
+    Route::post('top_seller','API\IndexController@top_seller');
+    Route::post('most_liked','API\IndexController@most_liked');
+    Route::post('featured','API\IndexController@featured');
+    Route::post('weeklySoldProducts','API\IndexController@weeklySoldProducts');
+
+
+    Route::get('contact', 'API\IndexController@contactus');
     Route::post('/processContactUs', 'API\IndexController@processContactUs');
 
     Route::get('/setcookie', 'API\IndexController@setcookie');

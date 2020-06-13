@@ -22,6 +22,11 @@ class BaseAPIController extends Controller
         ];
         return response()->json($response, 200);
     }
+    public function sendNotFormatResponse($result)
+    {
+
+        return response()->json($result, 200);
+    }
 
     public function sendError($error, $errorMessages = [], $code = 400)
     {

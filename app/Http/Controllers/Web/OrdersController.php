@@ -100,20 +100,20 @@ class OrdersController extends Controller
             }
 
             if(auth()->guard('customer')->check()){
-                
+
                 $all_addresses = $this->shipping->getShippingAddress(array());
-                
+
                 if (!empty($all_addresses) and count($all_addresses)>0) {
                     foreach($all_addresses as $default_address){
-                        if($default_address->default_address==1){                        
+                        if($default_address->default_address==1){
                             $default_address->delivery_phone = auth()->guard('customer')->user()->phone;
                             $address = $default_address;
                         }
                     }
-                    
+
                 }
             }
-            
+
             if (empty(session('shipping_address'))) {
                 session(['shipping_address' => $address]);
             }
@@ -141,7 +141,7 @@ class OrdersController extends Controller
             $result['shipping_methods'] = $this->shipping_methods();
 
             //payment methods
-            $result['payment_methods'] = $this->getPaymentMethods();           
+            $result['payment_methods'] = $this->getPaymentMethods();
 
             //price
             $price = 0;
@@ -171,7 +171,7 @@ class OrdersController extends Controller
 
             //breaintree token
             $token = $this->generateBraintreeTokenWeb();
-            session(['braintree_token' => $token]);            
+            session(['braintree_token' => $token]);
 
             return view("web.checkout", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
         }
@@ -396,21 +396,10 @@ class OrdersController extends Controller
         $cart = $this->cart->myCart($result);
 
         $index = '0';
-        $total_weight = '0';
 
-        foreach ($cart as $products_data) {
-            if ($products_data->unit == 'Gram') {
-                $productsWeight = $products_data->weight / 453.59237;
-            } else if ($products_data->unit == 'Kilogram') {
-                $productsWeight = $products_data->weight / 0.45359237;
-            } else {
-                $productsWeight = $products_data->weight;
-            }
 
-            $total_weight += $productsWeight;
-        }
 
-        $products_weight = $total_weight;
+
 
         //website path
         //$websiteURL =  "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -724,7 +713,7 @@ class OrdersController extends Controller
         /*************************/
 
         $payments_setting = $this->order->payments_setting_for_razorpay();
-        
+
         if ($payments_setting['RAZORPAY_SECRET']->environment == '0') {
             $razorpay_enviroment = 'Test';
         } else {
@@ -743,7 +732,7 @@ class OrdersController extends Controller
         );
 
         $payments_setting = $this->order->payments_setting_for_paytm();
-        
+
 
         if ($payments_setting['paytm_mid']->environment == '0') {
             $paytm_enviroment = 'Test';

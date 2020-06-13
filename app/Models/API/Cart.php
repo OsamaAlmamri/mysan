@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Web;
+namespace App\Models\API;
 
 use App\Models\Core\Categories;
 use App\Models\Web\Index;
@@ -30,7 +30,7 @@ class Cart extends Model
                 'image_categories.path as image_path', 'products.products_model as model',
                 'products.products_type as products_type', 'products.products_min_order as min_order', 'products.products_max_stock as max_order',
                 'products.products_image as image', 'products_description.products_name as products_name', 'products.products_price as price',
-                'products.products_slug')
+                  'products.products_slug')
             ->where([
                 ['customers_basket.is_order', '=', '0'],
                 ['products_description.language_id', '=', Session::get('language_id')],
