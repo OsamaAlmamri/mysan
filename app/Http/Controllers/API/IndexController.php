@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Web\ThemeController;
+use App\Models\API\Manufacture;
 use App\Models\Core\Categories;
 use App\Models\API\Currency;
 use App\Models\API\Index;
@@ -30,7 +31,8 @@ class IndexController extends BaseAPIController
         Products $products,
         Currency $currency,
         Order $order,
-        Categories $categories
+        Categories $categories,
+        Manufacture $manufacturers
     )
     {
         $this->index = $index;
@@ -40,6 +42,8 @@ class IndexController extends BaseAPIController
         $this->languages = $languages;
         $this->products = $products;
         $this->currencies = $currency;
+        $this->manufacturers = $manufacturers;
+        $this->theme = new ThemeController();
         $this->theme = new ThemeController();
     }
 
@@ -244,6 +248,18 @@ class IndexController extends BaseAPIController
         $parent = (isset($request->parent)) ? $request->parent : 0;
         $result = $this->products->getProduct($request);
         return $this->sendResponse($result, '');
+    }
+
+    public function currencies(Request $request)
+    {
+        $result = $this->currencies->getter();
+        return $this->sendResponse($result, 'currencies');
+    }
+
+    public function manufacturers(Request $request)
+    {
+        $result = $this->manufacturers->getter($request->lang);
+        return $this->sendResponse($result, 'currencies');
     }
 
 

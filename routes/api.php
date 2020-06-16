@@ -44,6 +44,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('shop', 'API\ProductsController@shop');
     Route::post('productDetail', 'API\ProductsController@productDetail');
     Route::post('reviews', 'API\ProductsController@reviews');
+    Route::post('currencies', 'API\IndexController@currencies');
+    Route::post('manufacturers', 'API\IndexController@manufacturers');
+
+    Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
+
+
 
 
     Route::post('categoryProducts','API\IndexController@categoryProducts');

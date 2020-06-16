@@ -19,16 +19,16 @@ class Customer extends Model
 
     public function addToCompare($request)
     {
-        if (!empty(auth()->guard('customer')->user()->id)) {
-            $check = DB::table('compare')->where('product_ids', $request->product_id)->where('customer_id', auth()->guard('customer')->user()->id)->first();
+        if (!empty(auth()->user()->id)) {
+            $check = DB::table('compare')->where('product_ids', $request->product_id)->where('customer_id', auth()->user()->id)->first();
             if (!$check) {
                 $id = DB::table('compare')
                     ->insertGetId([
                         'product_ids' => $request->product_id,
-                        'customer_id' => auth()->guard('customer')->user()->id,
+                        'customer_id' => auth()->user()->id,
                     ]);
             }
-            $count = DB::table('compare')->where('customer_id', auth()->guard('customer')->user()->id)->count();
+            $count = DB::table('compare')->where('customer_id', auth()->user()->id)->count();
             return $count;
         } else {
             $responseData = array('success' => '0', 'message' => Lang::get("website.Please Login First!"));
@@ -39,7 +39,7 @@ class Customer extends Model
 
     public function DeleteCompare($id)
     {
-        DB::table('compare')->where('product_ids', $id)->where('customer_id', auth()->guard('customer')->user()->id)->delete();
+        DB::table('compare')->where('product_ids', $id)->where('customer_id', auth()->user()->id)->delete();
         $responseData = array('success' => '1', 'message' => Lang::get("website.Removed Successfully"));
         return $responseData;
     }
@@ -47,7 +47,7 @@ class Customer extends Model
     public function updateMyProfile($request)
     {
 
-        $customers_id = auth()->guard('customer')->user()->id;
+        $customers_id = auth()->user()->id;
         $customers_firstname = $request->customers_firstname;
         $customers_lastname = $request->customers_lastname;
         $customers_fax = $request->fax;
@@ -91,7 +91,7 @@ class Customer extends Model
     {
 
         $old_session = Session::getId();
-        $customers_id = auth()->guard('customer')->user()->id;
+        $customers_id = auth()->user()->id;
         $new_password = $request->new_password;
         $current_password = $request->current_password;
 
@@ -282,8 +282,8 @@ class Customer extends Model
         //dd($customerInfo);
         $old_session = Session::getId();
 
-        if (auth()->guard('customer')->attempt($customerInfo)) {
-            $customer = auth()->guard('customer')->user();
+        if (auth()->attempt($customerInfo)) {
+            $customer = auth()->user();
 
             //set session
             session(['customers_id' => $customer->id]);
@@ -327,10 +327,10 @@ class Customer extends Model
     public function likeMyProduct($request)
     {
 
-        if (!empty(auth()->guard('customer')->user()->id)) {
+        if (!empty(auth()->user()->id)) {
             $liked_products_id = $request->products_id;
 
-            $liked_customers_id = auth()->guard('customer')->user()->id;
+            $liked_customers_id = auth()->user()->id;
             $date_liked = date('Y-m-d H:i:s');
 
             //to avoide duplicate record
@@ -347,60 +347,43 @@ class Customer extends Model
                 ])->delete();
 
                 $total_wishlist = 0;
-                if (!empty(session('customers_id'))) {
-                    $total_wishlist = DB::table('liked_products')
-                        ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
-                        ->where('products_status', '1')
-                        ->where('liked_customers_id', '=', session('customers_id'))->count();
-                }
+                $total_wishlist = DB::table('liked_products')
+                    ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
+                    ->where('products_status', '1')
+                    ->where('liked_customers_id', '=', $liked_customers_id)->count();
 
-                DB::table('products')->where('products_id', '=', $liked_products_id)->decrement('products_liked');
-                $products = DB::table('products')->where('products_id', '=', $liked_products_id)->get();
+                DB::table('products')
+                    ->where('products_id', '=', $liked_products_id)
+                    ->decrement('products_liked');
+                $products = DB::table('products'
+                )->where('products_id', '=', $liked_products_id)->get();
 
-                $responseData = array('success' => '1', 'message' => Lang::get("website.Product is disliked"), 'total_likes' => $products[0]->products_liked, 'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
+                $responseData = array('success' => '1', 'message' =>
+                    Lang::get("website.Product is disliked"), 'total_likes' => $products[0]->products_liked,
+                    'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
             } else {
-
                 DB::table('liked_products')->insert([
                     'liked_products_id' => $liked_products_id,
                     'liked_customers_id' => $liked_customers_id,
                     'date_liked' => $date_liked,
                 ]);
-                DB::table('products')->where('products_id', '=', $liked_products_id)->increment('products_liked');
-
+                DB::table('products')->where('products_id', '=', $liked_products_id)
+                    ->increment('products_liked');
                 $total_wishlist = 0;
-                if (!empty(session('customers_id'))) {
-                    $total_wishlist = DB::table('liked_products')
-                        ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
-                        ->where('products_status', '1')
-                        ->where('liked_customers_id', '=', session('customers_id'))->count();
-                }
+                $total_wishlist = DB::table('liked_products')
+                    ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
+                    ->where('products_status', '1')
+                    ->where('liked_customers_id', '=', session('customers_id'))->count();
                 $products = DB::table('products')->where('products_id', '=', $liked_products_id)->get();
 
                 $responseData = array('success' => '2', 'message' => Lang::get("website.Product is liked"), 'total_likes' => $products[0]->products_liked, 'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
-
             }
 
         } else {
             $responseData = array('success' => '0', 'message' => Lang::get("website.Please login first to like this product"));
         }
-        $cartResponse = json_encode($responseData);
-        return $cartResponse;
-    }
-
-    public function unlikeMyProduct($id)
-    {
-
-        $liked_products_id = $id;
-
-        $liked_customers_id = auth()->guard('customer')->user()->id;
-
-        DB::table('liked_products')->where([
-            'liked_products_id' => $liked_products_id,
-            'liked_customers_id' => $liked_customers_id,
-        ])->delete();
-
-        DB::table('products')->where('products_id', '=', $liked_products_id)->decrement('products_liked');
-
+//        $cartResponse = json_encode($responseData);
+        return $responseData;
     }
 
     public function wishlist($request)
@@ -437,7 +420,7 @@ class Customer extends Model
     public function processLogin($request, $old_session)
     {
         $result = array();
-        $customer = auth()->guard('customer')->user();
+        $customer = auth()->user();
         session(['guest_checkout' => 0]);
 
         //set session
@@ -478,7 +461,7 @@ class Customer extends Model
 
     public function Compare()
     {
-        $compare = DB::table('compare')->where('customer_id', auth()->guard('customer')->user()->id)->get();
+        $compare = DB::table('compare')->where('customer_id', auth()->user()->id)->get();
         return $compare;
     }
 
@@ -547,9 +530,9 @@ class Customer extends Model
 
                 //check authentication of email and password
 
-                if (auth()->guard('customer')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
                     $res['auth'] = "true";
-                    $customer = auth()->guard('customer')->user();
+                    $customer = auth()->user();
                     //set session
                     session(['customers_id' => $customer->id]);
 
