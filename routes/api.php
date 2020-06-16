@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('login', 'API\AuthController@login');
-//Route::post('register', 'API\AuthController@register');
+Route::post('register', 'API\AuthController@register');
 //Route::post('projects/info', 'API\ProjectsController@getInfo');
 //Route::post('projects/all', 'API\ProjectsController@getProjects');
 
@@ -41,6 +41,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('specialProducts','API\IndexController@filterData');
 
     Route::post('filterProducts','API\ProductsController@filterProducts');
+    Route::post('shop', 'API\ProductsController@shop');
+    Route::post('productDetail', 'API\ProductsController@productDetail');
+    Route::post('reviews', 'API\ProductsController@reviews');
+
 
     Route::post('categoryProducts','API\IndexController@categoryProducts');
     Route::post('getProduct','API\IndexController@getProduct');

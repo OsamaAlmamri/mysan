@@ -19,8 +19,10 @@ use DB;
 //for Carbon a value
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 use Lang;
 use Session;
+use Validator;
 
 //email
 
@@ -41,32 +43,60 @@ class ProductsController extends BaseAPIController
 
     public function reviews(Request $request)
     {
-        if (Auth::guard('customer')->check()) {
-            $check = DB::table('reviews')
-                ->where('customers_id', Auth::guard('customer')->user()->id)
-                ->where('products_id', $request->products_id)
-                ->first();
+//        return auth()->user();
 
-            if ($check) {
-                return 'already_commented';
-            }
-            $id = DB::table('reviews')->insertGetId([
-                'products_id' => $request->products_id,
-                'reviews_rating' => $request->rating,
-                'customers_id' => Auth::guard('customer')->user()->id,
-                'customers_name' => Auth::guard('customer')->user()->first_name,
-                'created_at' => date('Y-m-d H:i:s'),
-            ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'products_id' => 'required',
+                'reviews_text' => 'required',
+                'reviews_rating' => 'required|numeric|min:1|max:5',
+            ],
+                [
+                    'products_id.required' => 'رقم المنتج مطلوب',
+                    'reviews_text.required' => ' نص التقييم مطلوب',
+                    'reviews_rating.required' => 'التفييم مطلوب',
+                    'reviews_rating.numeric' => 'التفييم يجب ان يكون رقم   ' ,
+                    'reviews_rating.min' => 'يرجى اختيار رقم من 1 - 5   ' ,
+                    'reviews_rating.max' => 'يرجى اختيار رقم من 1 - 5   ' ,
 
-            DB::table('reviews_description')
-                ->insert([
-                    'review_id' => $id,
-                    'language_id' => Session::get('language_id'),
-                    'reviews_text' => $request->reviews_text,
                 ]);
-            return 'done';
-        } else {
-            return 'not_login';
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user()!=null) {
+                $check = DB::table('reviews')
+                    ->where('customers_id', auth()->user()->id)
+                    ->where('products_id', $request->products_id)
+                    ->first();
+
+                if ($check) {
+                    return $this->sendResponse(0,'already_commented');
+                }
+                $id = DB::table('reviews')->insertGetId([
+                    'products_id' => $request->products_id,
+                    'reviews_text' => $request->reviews_text,
+                    'reviews_rating' => $request->reviews_rating,
+                    'customers_id' => auth()->user()->id,
+                    'customers_name' => auth()->user()->first_name.auth()->user()->last_name,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+                return $this->sendResponse(1,'done');
+
+//
+//            DB::table('reviews_description')
+//                ->insert([
+//                    'review_id' => $id,
+//                    'language_id' => Session::get('language_id'),
+//                    'reviews_text' => $request->reviews_text,
+//                ]);
+            } else {
+//            return 'not_login';
+                return $this->sendError('error not_login', '', 400);
+
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error',$ex->getMessage()) ;
 
         }
     }
@@ -74,144 +104,64 @@ class ProductsController extends BaseAPIController
     //shop
     public function shop(Request $request)
     {
-        $title = array('pageTitle' => Lang::get('website.Shop'));
-        $result = array();
 
-        $result['commonContent'] = $this->index->commonContent();
-        $final_theme = $this->theme->theme();
-        if (!empty($request->page)) {
-            $page_number = $request->page;
-        } else {
-            $page_number = 0;
-        }
+        $page_number = (!empty($request->page)) ? $request->page : 0;
+        $limit = (!empty($request->limit)) ? $request->limit : 15;
+        $type = (!empty($request->type)) ? $request->type : '';
+        $max_price = (!empty($request->max_price)) ? $request->max_price : '';
+        $min_price = (!empty($request->min_price)) ? $request->min_price : '';
+        $search = (!empty($request->search)) ? $request->search : '';
+        $lang = (!empty($request->lang)) ? $request->lang : 2;
 
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 15;
-        }
-
-        if (!empty($request->type)) {
-            $type = $request->type;
-        } else {
-            $type = '';
-        }
-
-        //min_max_price
-        if (!empty($request->price)) {
-            $d = explode(";", $request->price);
-            $min_price = $d[0];
-            $max_price = $d[1];
-        } else {
-            $min_price = '';
-            $max_price = '';
-        }
         //category
         if (!empty($request->category) and $request->category != 'all') {
             $category = $this->products->getCategories($request);
-
             $categories_id = $category[0]->categories_id;
-            //for main
-            if ($category[0]->parent_id == 0) {
-                $category_name = $category[0]->categories_name;
-                $sub_category_name = '';
-                $category_slug = '';
-            } else {
-                //for sub
-                $main_category = $this->products->getMainCategories($category[0]->parent_id,(!empty($request->lang))?$request->lang:2);
-
-                $category_slug = $main_category[0]->categories_slug;
-                $category_name = $main_category[0]->categories_name;
-                $sub_category_name = $category[0]->categories_name;
-            }
-
         } else {
             $categories_id = '';
-            $category_name = '';
-            $sub_category_name = '';
-            $category_slug = '';
         }
-
-        $result['category_name'] = $category_name;
-        $result['category_slug'] = $category_slug;
-        $result['sub_category_name'] = $sub_category_name;
-
-        //search value
-        if (!empty($request->search)) {
-            $search = $request->search;
-        } else {
-            $search = '';
-        }
-
         $filters = array();
         if (!empty($request->filters_applied) and $request->filters_applied == 1) {
             $index = 0;
             $options = array();
             $option_values = array();
-
-            $option = $this->products->getOptions((!empty($request->lang))?$request->lang:2);
-
+            $option = $this->products->getOptions($lang);
             foreach ($option as $key => $options_data) {
                 $option_name = str_replace(' ', '_', $options_data->products_options_name);
-
                 if (!empty($request->$option_name)) {
                     $index2 = 0;
                     $values = array();
                     foreach ($request->$option_name as $value) {
-                        $value = $this->products->getOptionsValues($value,(!empty($request->lang))?$request->lang:2);
+                        $value = $this->products->getOptionsValues($value, (!empty($request->lang)) ? $request->lang : 2);
                         $option_values[] = $value[0]->products_options_values_id;
                     }
                     $options[] = $options_data->products_options_id;
                 }
             }
-
             $filters['options_count'] = count($options);
-
-            $filters['options'] = implode($options, ',');
-            $filters['option_value'] = implode($option_values, ',');
-
+            $filters['options'] = implode(',', $options);
+            $filters['option_value'] = implode(',', $option_values);
             $filters['filter_attribute']['options'] = $options;
             $filters['filter_attribute']['option_values'] = $option_values;
-
-            $result['filter_attribute']['options'] = $options;
-            $result['filter_attribute']['option_values'] = $option_values;
         }
-
-        $data = array('page_number' => $page_number, 'type' => $type, 'limit' => $limit,'lang' => (!empty($request->lang))?$request->lang:2,
-            'categories_id' => $categories_id, 'search' => $search,
-            'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
-
+        $data = array(
+            'page_number' => $page_number,
+            'type' => $type,
+            'lang' => $lang,
+            'categories_id' => $categories_id,
+            'search' => $search,
+            'filters' => $filters,
+            'limit' => $limit,
+            'min_price' => $min_price,
+            'max_price' => $max_price);
         $products = $this->products->products($data);
-        // dd($products);
-        $result['products'] = $products;
-
-        $data = array('limit' => $limit, 'categories_id' => $categories_id,'lang' => (!empty($request->lang))?$request->lang:2);
-        $filters = $this->filters($data);
-        $result['filters'] = $filters;
-
-        $cart = '';
-        $result['cartArray'] = $this->products->cartIdArray($cart);
-
-        if ($limit > $result['products']['total_record']) {
-            $result['limit'] = $result['products']['total_record'];
-        } else {
-            $result['limit'] = $limit;
-        }
-
-        //liked products
-        $result['liked_products'] = $this->products->likedProducts();
-        $result['categories'] = $this->products->categories();
-
-        $result['min_price'] = $min_price;
-        $result['max_price'] = $max_price;
-
-        return view("web.shop", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
+        return $this->sendNotFormatResponse($products);
 
     }
 
     public function filterProducts(Request $request)
     {
-      $this->index->commonContent();
+        $this->index->commonContent();
 
 
         //min_price
@@ -246,7 +196,7 @@ class ProductsController extends BaseAPIController
             $category = DB::table('categories')
                 ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
                 ->where('categories_slug', $request->category)
-                ->where('language_id', (!empty($request->lang))?$request->lang:2)->get();
+                ->where('language_id', (!empty($request->lang)) ? $request->lang : 2)->get();
 
             $categories_id = $category[0]->categories_id;
         } else {
@@ -283,7 +233,7 @@ class ProductsController extends BaseAPIController
         }
 
         $data = array('page_number' => $request->page_number, 'type' => $type, 'limit' => $limit, 'categories_id' => $categories_id,
-            'search' => $search, 'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'lang' => (!empty($request->lang))?$request->lang:2);
+            'search' => $search, 'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
         $products = $this->products->products($data);
         $result['products'] = $products;
 
@@ -325,7 +275,7 @@ class ProductsController extends BaseAPIController
 
         $products = $this->products->getProductsBySlug($products[0]->products_slug);
         //category
-        $category = $this->products->getCategoryByParent($products[0]->products_id,(!empty($request->lang))?$request->lang:2);
+        $category = $this->products->getCategoryByParent($products[0]->products_id, (!empty($request->lang)) ? $request->lang : 2);
 
         if (!empty($category) and count($category) > 0) {
             $category_slug = $category[0]->categories_slug;
@@ -334,7 +284,7 @@ class ProductsController extends BaseAPIController
             $category_slug = '';
             $category_name = '';
         }
-        $sub_category = $this->products->getSubCategoryByParent($products[0]->products_id,(!empty($request->lang))?$request->lang:2);
+        $sub_category = $this->products->getSubCategoryByParent($products[0]->products_id, (!empty($request->lang)) ? $request->lang : 2);
 
         if (!empty($sub_category) and count($sub_category) > 0) {
             $sub_category_name = $sub_category[0]->categories_name;
@@ -358,7 +308,7 @@ class ProductsController extends BaseAPIController
         }
 
         $data = array('page_number' => '0', 'type' => $type, 'products_id' => $products[0]->products_id, 'limit' => $limit,
-            'min_price' => $min_price, 'max_price' => $max_price,'lang' => (!empty($request->lang))?$request->lang:2);
+            'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
         $detail = $this->products->products($data);
         $result['detail'] = $detail;
         $postCategoryId = '';
@@ -372,7 +322,7 @@ class ProductsController extends BaseAPIController
             }
         }
 
-        $data = array('page_number' => '0', 'type' => '', 'categories_id' => $postCategoryId, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'lang' => (!empty($request->lang))?$request->lang:2);
+        $data = array('page_number' => '0', 'type' => '', 'categories_id' => $postCategoryId, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
         $simliar_products = $this->products->products($data);
         $result['simliar_products'] = $simliar_products;
 
@@ -393,98 +343,31 @@ class ProductsController extends BaseAPIController
     //productDetail
     public function productDetail(Request $request)
     {
-
-        $title = array('pageTitle' => Lang::get('website.Product Detail'));
-        $result = array();
-        $result['commonContent'] = $this->index->commonContent();
-        $final_theme = $this->theme->theme();
-        //min_price
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        //max_price
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
-
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 15;
-        }
-
-        $products = $this->products->getProductsBySlug($request->slug);
-
-        //category
-        $category = $this->products->getCategoryByParent($products[0]->products_id,(!empty($request->lang))?$request->lang:2);
-
-        if (!empty($category) and count($category) > 0) {
-            $category_slug = $category[0]->categories_slug;
-            $category_name = $category[0]->categories_name;
-        } else {
-            $category_slug = '';
-            $category_name = '';
-        }
-        $sub_category = $this->products->getSubCategoryByParent($products[0]->products_id,(!empty($request->lang))?$request->lang:2);
-
-        if (!empty($sub_category) and count($sub_category) > 0) {
-            $sub_category_name = $sub_category[0]->categories_name;
-            $sub_category_slug = $sub_category[0]->categories_slug;
-        } else {
-            $sub_category_name = '';
-            $sub_category_slug = '';
-        }
-
-        $result['category_name'] = $category_name;
-        $result['category_slug'] = $category_slug;
-        $result['sub_category_name'] = $sub_category_name;
-        $result['sub_category_slug'] = $sub_category_slug;
-
-        $isFlash = $this->products->getFlashSale($products[0]->products_id);
-
-        if (!empty($isFlash) and count($isFlash) > 0) {
-            $type = "flashsale";
-        } else {
-            $type = "";
-        }
-        $postCategoryId = '';
-        $data = array('page_number' => '0', 'type' => $type, 'products_id' => $products[0]->products_id, 'limit' => $limit, 'min_price' => $min_price,
-            'max_price' => $max_price,'lang' => (!empty($request->lang))?$request->lang:2);
-        $detail = $this->products->products($data);
+        $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '', 'min_price' => '',
+            'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $detail = $this->products->singleproducts($data);
+        return $this->sendNotFormatResponse($detail);
         $result['detail'] = $detail;
-        if (!empty($result['detail']['product_data'][0]->categories) and count($result['detail']['product_data'][0]->categories) > 0) {
-            $i = 0;
-            foreach ($result['detail']['product_data'][0]->categories as $postCategory) {
-                if ($i == 0) {
-                    $postCategoryId = $postCategory->categories_id;
-                    $i++;
-                }
-            }
-        }
+//        if (!empty($result['detail']['product_data'][0]->categories) and count($result['detail']['product_data'][0]->categories) > 0) {
+//            $i = 0;
+//            foreach ($result['detail']['product_data'][0]->categories as $postCategory) {
+//                if ($i == 0) {
+//                    $postCategoryId = $postCategory->categories_id;
+//                    $i++;
+//                }
+//            }
+//        }
 
-        $data = array('page_number' => '0', 'type' => '', 'categories_id' => $postCategoryId, 'limit' => $limit,
-            'min_price' => $min_price, 'max_price' => $max_price,'lang' => (!empty($request->lang))?$request->lang:2);
-        $simliar_products = $this->products->products($data);
-        $result['simliar_products'] = $simliar_products;
+//        $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '',
+//            'min_price' => '', 'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+//        $simliar_products = $this->products->products($data);
+//        $result['simliar_products'] = $simliar_products;
+//
 
-        $cart = '';
-        $result['cartArray'] = $this->products->cartIdArray($cart);
 
-        //liked products
-        $result['liked_products'] = $this->products->likedProducts();
-
-        $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
-        $top_seller = $this->products->products($data);
-        $result['top_seller'] = $top_seller;
-
+//        return $this->sendNotFormatResponse($result);
 
         //dd($result);
-        return view("web.detail", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
     }
 
     //filters
