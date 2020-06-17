@@ -213,11 +213,12 @@ class CartController extends Controller
     //addToCart
     public function addToCart(Request $request)
     {
+
         $result = $this->cart->addToCart($request);
         if (!empty($result['status']) && $result['status'] == 'exceed') {
             return $result;
         }
-        
+
         $final_theme = $this->index->finalTheme();
         return view("web.headers.cartButtons.cartButton".$final_theme->header)->with('result', $result);
     }
@@ -225,7 +226,7 @@ class CartController extends Controller
     //addToCartFixed
     public function addToCartFixed(Request $request)
     {
-        $result['commonContent'] = $this->index->commonContent();        
+        $result['commonContent'] = $this->index->commonContent();
         return view("web.headers.cartButtons.cartButtonFixed")->with('result', $result);
     }
 

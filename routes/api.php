@@ -35,12 +35,12 @@ Route::middleware('auth:api')->group(function () {
     //userInfo,//
 
 
-    Route::get('index','API\IndexController@index');
-    Route::post('recursivecategories','API\IndexController@recursivecategories');
-    Route::post('allCategories','API\IndexController@allCategories');
-    Route::post('specialProducts','API\IndexController@filterData');
+    Route::get('index', 'API\IndexController@index');
+    Route::post('recursivecategories', 'API\IndexController@recursivecategories');
+    Route::post('allCategories', 'API\IndexController@allCategories');
+    Route::post('specialProducts', 'API\IndexController@filterData');
 
-    Route::post('filterProducts','API\ProductsController@filterProducts');
+    Route::post('filterProducts', 'API\ProductsController@filterProducts');
     Route::post('shop', 'API\ProductsController@shop');
     Route::post('productDetail', 'API\ProductsController@productDetail');
     Route::post('reviews', 'API\ProductsController@reviews');
@@ -48,17 +48,16 @@ Route::middleware('auth:api')->group(function () {
     Route::post('manufacturers', 'API\IndexController@manufacturers');
 
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
+    Route::post('addToCart', 'API\CartController@addToCart');
 
 
-
-
-    Route::post('categoryProducts','API\IndexController@categoryProducts');
-    Route::post('getProduct','API\IndexController@getProduct');
-    Route::post('flash_sale','API\IndexController@flash_sale');
-    Route::post('top_seller','API\IndexController@top_seller');
-    Route::post('most_liked','API\IndexController@most_liked');
-    Route::post('featured','API\IndexController@featured');
-    Route::post('weeklySoldProducts','API\IndexController@weeklySoldProducts');
+    Route::post('categoryProducts', 'API\IndexController@categoryProducts');
+    Route::post('getProduct', 'API\IndexController@getProduct');
+    Route::post('flash_sale', 'API\IndexController@flash_sale');
+    Route::post('top_seller', 'API\IndexController@top_seller');
+    Route::post('most_liked', 'API\IndexController@most_liked');
+    Route::post('featured', 'API\IndexController@featured');
+    Route::post('weeklySoldProducts', 'API\IndexController@weeklySoldProducts');
 
 
     Route::get('contact', 'API\IndexController@contactus');
@@ -68,13 +67,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/newsletter', 'API\IndexController@newsletter');
 
     Route::get('/subscribeMail', 'API\IndexController@subscribeMail');
-
-
-
-
-
-
-
 
 
     Route::post('getAllBlockPersonsPerZone', 'API\ProjectApiController@getAllBlockPersonsPerZone');//
@@ -88,8 +80,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('getAllCheckPoint', 'API\ProjectApiController@getAllCheckPoint');//
     Route::post('getAllBlockPersonsPerCenter', 'API\ProjectApiController@getAllBlockPersonsPerCenter');//
     Route::post('getMyAddBlockPerson', 'API\ProjectApiController@getMyAddBlockPerson');//
-
-
 
 
     Route::post('userInfo', 'API\AuthController@userInfo');//

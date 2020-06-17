@@ -3,8 +3,8 @@
 namespace App\Models\API;
 
 use App\Models\Core\Categories;
-use App\Models\Web\Index;
-use App\Models\Web\Products;
+use App\Models\API\Index;
+use App\Models\API\Products;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
@@ -413,42 +413,33 @@ class Cart extends Model
         $result['commonContent'] = $index->commonContent();
         return $result;
     }
+//products_id: 2
+//products_price: 100
+//checkout:  false
+//option_name[]: اللون
+//option_id[]: 1
+//function_0: 0
+//attributeid[]: 7
+//1: 1
+//option_name[]: الحجم
+//option_id[]: 2
+//function_1: 0
+//attributeid[]: 8
+//2: 5
+//quantity: 4
+
 
     public function addToCart($request)
     {
-        $index = new Index();
         $products = new Products();
 
         $products_id = $request->products_id;
+        $lang = (!empty($request->lang)) ? $request->lang : 2;
 
-        if (empty(session('customers_id'))) {
-            $customers_id = '';
-        } else {
-            $customers_id = session('customers_id');
-        }
+        $customers_id=auth()->user()->id;
 
         $session_id = Session::getId();
         $customers_basket_date_added = date('Y-m-d H:i:s');
-
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 15;
-        }
-
-        //min_price
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        //max_price
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
 
         if (empty($customers_id)) {
 
@@ -477,7 +468,9 @@ class Cart extends Model
             $type = "";
         }
 
-        $data = array('page_number' => '0', 'type' => $type, 'products_id' => $request->products_id, 'limit' => '15', 'min_price' => '', 'max_price' => '');
+        $data = array('page_number' => '0',
+            'type' => $type, 'products_id' => $request->products_id,
+            'limit' => '15', 'min_price' => '','lang'=>$lang, 'max_price' => '');
         $detail = $products->products($data);
         $result['detail'] = $detail;
 
@@ -524,9 +517,9 @@ class Cart extends Model
 
         //$variables_prices = 0
         if ($result['detail']['product_data'][0]->products_type == 1) {
-            $attributeid = $request->attributeid;
+            $attributeid = explode(',',$request->attributeid);
             $attribute_price = 0;
-            if (!empty($attributeid) and count($attributeid) > 0) {
+            if (!empty($request->attributeid) and count($attributeid) > 0) {
 
                 foreach ($attributeid as $attribute) {
                     $attribute = DB::table('products_attributes')->where('products_attributes_id', $attribute)->first();
@@ -629,9 +622,10 @@ class Cart extends Model
                         'final_price' => $final_price,
                         'customers_basket_date_added' => $customers_basket_date_added,
                     ]);
+                $option_id = explode(',',$request->option_id);
 
-                if (!empty($request->option_id) && count($request->option_id) > 0) {
-                    foreach ($request->option_id as $option_id) {
+                if (!empty($option_id) && count($option_id) > 0) {
+                    foreach ($option_id as $option_id) {
 
                         DB::table('customers_basket_attributes')->insert(
                             [
@@ -660,18 +654,19 @@ class Cart extends Model
                             ]);
                     }
                 }
-            } else {
+            }
+            else {
 
                 $existAttribute = '0';
                 $totalAttribute = '0';
                 $basket_id = '0';
-
+                $option_ids = explode(',',$request->option_id);
                 if (!empty($request->option_id)) {
-                    if (count($request->option_id) > 0) {
+                    if (count($option_ids) > 0) {
 
                         foreach ($exist as $exists) {
                             $totalAttribute = '0';
-                            foreach ($request->option_id as $option_id) {
+                            foreach ($option_ids as $option_id) {
                                 $checkexistAttributes = DB::table('customers_basket_attributes')->where([
                                     ['customers_basket_id', '=', $exists->customers_basket_id],
                                     ['products_id', '=', $products_id],
@@ -842,7 +837,6 @@ class Cart extends Model
 
             }
         }
-        $result['commonContent'] = $index->commonContent();
         return $result;
     }
 
