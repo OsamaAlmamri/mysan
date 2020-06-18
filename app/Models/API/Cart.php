@@ -30,17 +30,14 @@ class Cart extends Model
                 'image_categories.path as image_path', 'products.products_model as model',
                 'products.products_type as products_type', 'products.products_min_order as min_order', 'products.products_max_stock as max_order',
                 'products.products_image as image', 'products_description.products_name as products_name', 'products.products_price as price',
-                  'products.products_slug')
+                'products.products_slug')
             ->where([
                 ['customers_basket.is_order', '=', '0'],
-                ['products_description.language_id', '=', Session::get('language_id')],
+                ['products_description.language_id', '=', 1],
             ]);
 
-        if (empty(session('customers_id'))) {
-            $cart->where('customers_basket.session_id', '=', Session::getId());
-        } else {
-            $cart->where('customers_basket.customers_id', '=', session('customers_id'));
-        }
+
+        $cart->where('customers_basket.customers_id', '=',auth()->user()->id);
 
         if (!empty($baskit_id)) {
             $cart->where('customers_basket.customers_basket_id', '=', $baskit_id);
@@ -79,16 +76,16 @@ class Cart extends Model
                 }
 
 
-                 //categories
-                 $categories = DB::table('products_to_categories')
+                //categories
+                $categories = DB::table('products_to_categories')
                     ->leftjoin('categories', 'categories.categories_id', 'products_to_categories.categories_id')
                     ->leftjoin('categories_description', 'categories_description.categories_id', 'products_to_categories.categories_id')
                     ->select('categories.categories_id', 'categories_description.categories_name', 'categories.categories_image', 'categories.categories_icon', 'categories.parent_id')
                     ->where('products_id', '=', $cart_data->products_id)
-                    ->where('categories_description.language_id', '=', Session::get('language_id'))->get();
-                if(!empty($categories) and count($categories)>0){
+                    ->where('categories_description.language_id', '=', 1)->get();
+                if (!empty($categories) and count($categories) > 0) {
                     $cart_data->categories = $categories;
-                }else{
+                } else {
                     $cart_data->categories = array();
                 }
                 array_push($result, $cart_data);
@@ -124,17 +121,14 @@ class Cart extends Model
                             $join->on('customers_basket_attributes.products_id', '=', 'products_attributes.products_id')->on('customers_basket_attributes.products_options_id', '=', 'products_attributes.options_id')->on('customers_basket_attributes.products_options_values_id', '=', 'products_attributes.options_values_id');
                         })
                         ->select('products_options_descriptions.options_name as attribute_name', 'products_options_values_descriptions.options_values_name as attribute_value', 'customers_basket_attributes.products_options_id as options_id', 'customers_basket_attributes.products_options_values_id as options_values_id', 'products_attributes.price_prefix as prefix', 'products_attributes.products_attributes_id as products_attributes_id', 'products_attributes.options_values_price as values_price')
-
                         ->where('customers_basket_attributes.products_id', '=', $cart_data->products_id)
                         ->where('customers_basket_id', '=', $cart_data->customers_basket_id)
-                        ->where('products_options_descriptions.language_id', '=', Session::get('language_id'))
-                        ->where('products_options_values_descriptions.language_id', '=', Session::get('language_id'));
+                        ->where('products_options_descriptions.language_id', '=', 1)
+                        ->where('products_options_values_descriptions.language_id', '=', 1);
 
-                    if (empty(session('customers_id'))) {
-                        $attributes->where('customers_basket_attributes.session_id', '=', Session::getId());
-                    } else {
-                        $attributes->where('customers_basket_attributes.customers_id', '=', session('customers_id'));
-                    }
+
+                        $attributes->where('customers_basket_attributes.customers_id', '=',auth()->user()->id);
+
 
                     $attributes_data = $attributes->get();
 
@@ -152,7 +146,7 @@ class Cart extends Model
                     $myVar = new Products();
 
                     $qunatity['products_id'] = $cart_data->products_id;
-                    $qunatity['attributes'] = $products_attributes_id;
+                    $qunatity['attributes'] =   implode(',',$products_attributes_id); ;
 
                     $content = $myVar->productQuantity($qunatity);
                     $stocks = $content['remainingStock'];
@@ -186,6 +180,7 @@ class Cart extends Model
         }
         return ($result);
     }
+
     //getCart
     public function cart($request)
     {
@@ -205,7 +200,6 @@ class Cart extends Model
         }
 
         $baskit = $cart->groupBy('customers_basket.products_id')->get();
-
 
 
         return ($baskit);
@@ -436,7 +430,7 @@ class Cart extends Model
         $products_id = $request->products_id;
         $lang = (!empty($request->lang)) ? $request->lang : 2;
 
-        $customers_id=auth()->user()->id;
+        $customers_id = auth()->user()->id;
 
         $session_id = Session::getId();
         $customers_basket_date_added = date('Y-m-d H:i:s');
@@ -470,7 +464,7 @@ class Cart extends Model
 
         $data = array('page_number' => '0',
             'type' => $type, 'products_id' => $request->products_id,
-            'limit' => '15', 'min_price' => '','lang'=>$lang, 'max_price' => '');
+            'limit' => '15', 'min_price' => '', 'lang' => $lang, 'max_price' => '');
         $detail = $products->products($data);
         $result['detail'] = $detail;
 
@@ -517,7 +511,7 @@ class Cart extends Model
 
         //$variables_prices = 0
         if ($result['detail']['product_data'][0]->products_type == 1) {
-            $attributeid = explode(',',$request->attributeid);
+            $attributeid = explode(',', $request->attributeid);
             $attribute_price = 0;
             if (!empty($request->attributeid) and count($attributeid) > 0) {
 
@@ -622,7 +616,7 @@ class Cart extends Model
                         'final_price' => $final_price,
                         'customers_basket_date_added' => $customers_basket_date_added,
                     ]);
-                $option_id = explode(',',$request->option_id);
+                $option_id = explode(',', $request->option_id);
 
                 if (!empty($option_id) && count($option_id) > 0) {
                     foreach ($option_id as $option_id) {
@@ -654,13 +648,12 @@ class Cart extends Model
                             ]);
                     }
                 }
-            }
-            else {
+            } else {
 
                 $existAttribute = '0';
                 $totalAttribute = '0';
                 $basket_id = '0';
-                $option_ids = explode(',',$request->option_id);
+                $option_ids = explode(',', $request->option_id);
                 if (!empty($request->option_id)) {
                     if (count($option_ids) > 0) {
 
@@ -690,31 +683,31 @@ class Cart extends Model
                         }
 
                     } else
-                    if (!empty($detail['product_data'][0]->attributes)) {
-                        foreach ($exist as $exists) {
-                            $totalAttribute = '0';
-                            foreach ($detail['product_data'][0]->attributes as $attribute) {
-                                $checkexistAttributes = DB::table('customers_basket_attributes')->where([
-                                    ['customers_basket_id', '=', $exists->customers_basket_id],
-                                    ['products_id', '=', $products_id],
-                                    ['products_options_id', '=', $attribute['option']['id']],
-                                    ['customers_id', '=', $customers_id],
-                                    ['products_options_values_id', '=', $attribute['values'][0]['id']],
-                                    ['products_options_id', '=', $option_id],
-                                ])->get();
-                                $totalAttribute++;
-                                if (count($checkexistAttributes) > 0) {
-                                    $existAttribute++;
-                                } else {
-                                    $existAttribute = 0;
-                                }
-                                if ($totalAttribute == $existAttribute) {
-                                    $basket_id = $exists->customers_basket_id;
+                        if (!empty($detail['product_data'][0]->attributes)) {
+                            foreach ($exist as $exists) {
+                                $totalAttribute = '0';
+                                foreach ($detail['product_data'][0]->attributes as $attribute) {
+                                    $checkexistAttributes = DB::table('customers_basket_attributes')->where([
+                                        ['customers_basket_id', '=', $exists->customers_basket_id],
+                                        ['products_id', '=', $products_id],
+                                        ['products_options_id', '=', $attribute['option']['id']],
+                                        ['customers_id', '=', $customers_id],
+                                        ['products_options_values_id', '=', $attribute['values'][0]['id']],
+                                        ['products_options_id', '=', $option_id],
+                                    ])->get();
+                                    $totalAttribute++;
+                                    if (count($checkexistAttributes) > 0) {
+                                        $existAttribute++;
+                                    } else {
+                                        $existAttribute = 0;
+                                    }
+                                    if ($totalAttribute == $existAttribute) {
+                                        $basket_id = $exists->customers_basket_id;
+                                    }
                                 }
                             }
-                        }
 
-                    }
+                        }
 
                     //attribute exist
                     if ($basket_id == 0) {
@@ -789,7 +782,6 @@ class Cart extends Model
                             }
 
                         } else if (!empty($detail['product_data'][0]->attributes)) {
-
                             foreach ($detail['product_data'][0]->attributes as $attribute) {
 
                                 DB::table('customers_basket_attributes')->where([
@@ -856,7 +848,6 @@ class Cart extends Model
             session(['coupon' => array()]);
             session(['coupon_discount' => 0]);
         }
-
         $session_coupon_ids = array();
         $session_coupon_data = array();
         if (!empty(session('coupon'))) {
@@ -867,7 +858,10 @@ class Cart extends Model
             }
         }
 
+
         $coupons = $data->get();
+
+//        return  $session_coupon_data;
 
         if (count($coupons) > 0) {
 
@@ -987,7 +981,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price;
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1020,7 +1014,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price;
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1045,7 +1039,9 @@ class Cart extends Model
 
                                             } else {
                                                 //if coupon is apply for specific product
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+
+
+                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',',$coupons[0]->product_ids))) {
 
                                                     $product_price = $cart->final_price;
                                                     if ($product_price > $coupons[0]->amount) {
@@ -1095,7 +1091,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1127,7 +1123,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1153,8 +1149,9 @@ class Cart extends Model
 
                                             } else {
 
+
                                                 //if coupon is apply for specific product
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, $coupons[0]->product_ids)) {
+                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
 
                                                     $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                     if ($product_price > $coupons[0]->amount) {
@@ -1199,7 +1196,7 @@ class Cart extends Model
                 }
             }
 
-            if(empty($response)){
+            if (empty($response)) {
                 if (!in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
 
                     if (count($session_coupon_data) > 0) {

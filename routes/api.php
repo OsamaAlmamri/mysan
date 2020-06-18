@@ -49,6 +49,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
     Route::post('addToCart', 'API\CartController@addToCart');
+    Route::post('getquantity', 'API\ProductsController@getquantity');
+    Route::post('apply_coupon', 'API\CartController@apply_coupon');
+
+
 
 
     Route::post('categoryProducts', 'API\IndexController@categoryProducts');

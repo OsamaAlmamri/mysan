@@ -1562,8 +1562,8 @@ class Products extends Model
         if (!empty($data['attributes'])) {
             $inventory_ref_id = '';
             $products_id = $data['products_id'];
-            $attributes = array_filter($data['attributes']);
-            $attributeid = implode(',', $attributes);
+            $attributes = explode(',', $data['attributes']);
+            $attributeid = $data['attributes'];
             $postAttributes = count($attributes);
 
             $inventories = DB::table('inventory')->where('products_id', $products_id)->get();

@@ -256,6 +256,7 @@ class CartController extends Controller
         $coupon_code = $request->coupon_code;
 
         $carts = $this->cart->myCart(array());
+//        return $carts;
         if (count($carts) > 0) {
             $response = $this->cart->common_apply_coupon($coupon_code);
         } else {

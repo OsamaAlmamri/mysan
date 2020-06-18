@@ -382,9 +382,10 @@ class ProductsController extends BaseAPIController
     {
         $data = array();
         $data['products_id'] = $request->products_id;
-        $data['attributes'] = $request->attributeid;
+        $data['attributes'] =  $request->attributeid;
 
         $result = $this->products->productQuantity($data);
+        return $this->sendNotFormatResponse($result);
         print_r(json_encode($result));
     }
 
