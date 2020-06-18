@@ -51,6 +51,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('addToCart', 'API\CartController@addToCart');
     Route::post('getquantity', 'API\ProductsController@getquantity');
     Route::post('apply_coupon', 'API\CartController@apply_coupon');
+    Route::post('removeCoupon', 'API\CartController@removeCoupon');
+    Route::post('updateCart', 'API\CartController@updateCart');
+    Route::post('viewcart', 'API\CartController@viewcart');
+    Route::post('wishlist', 'API\CustomersController@wishlist');
+
 
 
 

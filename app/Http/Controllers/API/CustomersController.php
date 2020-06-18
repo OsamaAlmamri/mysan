@@ -20,7 +20,7 @@ use Socialite;
 use Validator;
 use Hash;
 
-class CustomersController extends Controller
+class CustomersController extends BaseAPIController
 {
 
     public function __construct(
@@ -101,9 +101,8 @@ class CustomersController extends Controller
 
     public function wishlist(Request $request)
     {
-        $title = array('pageTitle' => Lang::get("website.Wishlist"));
         $result = $this->customer->wishlist($request);
-        return view("web.wishlist", ['title' => $title])->with('result', $result);
+        return $this->sendNotFormatResponse($result);
     }
 
     public function loadMoreWishlist(Request $request)

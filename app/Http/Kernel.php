@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Illuminate\Session\Middleware\StartSession::class,
         ],
 
 		'vendor' => [
@@ -56,6 +57,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+
       'web_installed' => \App\Http\Middleware\web_installed::class,
       'env' => \App\Http\Middleware\env::class,
       'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
@@ -142,7 +144,7 @@ class Kernel extends HttpKernel
         'add_categories' => \App\Http\Middleware\categories\add_categories::class,
         'view_reviews' => \App\Http\Middleware\reviews\view_reviews::class,
         'edit_reviews' => \App\Http\Middleware\reviews\edit_reviews::class,
-        
+
 
 
     ];

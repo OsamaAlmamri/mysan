@@ -2,9 +2,11 @@
 
 namespace App\Models\API;
 
-use App\Models\Core\Categories;
 use App\Models\API\Index;
 use App\Models\API\Products;
+use App\Models\Core\Categories;
+use App\Models\Core\Coupon;
+use App\tempStorage;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
@@ -13,7 +15,16 @@ use Session;
 class Cart extends Model
 {
     //mycart
-    public function myCart($baskit_id)
+    public function __construct(
+        tempStorage $tempStorage
+    )
+    {
+        $this->tempStorage = $tempStorage;
+
+
+    }
+
+    public function myCart($baskit_id,$lang=1)
     {
         $cart = DB::table('customers_basket')
             ->join('products', 'products.products_id', '=', 'customers_basket.products_id')
@@ -33,11 +44,11 @@ class Cart extends Model
                 'products.products_slug')
             ->where([
                 ['customers_basket.is_order', '=', '0'],
-                ['products_description.language_id', '=', 1],
+                ['products_description.language_id', '=', $lang],
             ]);
 
 
-        $cart->where('customers_basket.customers_id', '=',auth()->user()->id);
+        $cart->where('customers_basket.customers_id', '=', auth()->user()->id);
 
         if (!empty($baskit_id)) {
             $cart->where('customers_basket.customers_basket_id', '=', $baskit_id);
@@ -82,7 +93,7 @@ class Cart extends Model
                     ->leftjoin('categories_description', 'categories_description.categories_id', 'products_to_categories.categories_id')
                     ->select('categories.categories_id', 'categories_description.categories_name', 'categories.categories_image', 'categories.categories_icon', 'categories.parent_id')
                     ->where('products_id', '=', $cart_data->products_id)
-                    ->where('categories_description.language_id', '=', 1)->get();
+                    ->where('categories_description.language_id', '=', $lang)->get();
                 if (!empty($categories) and count($categories) > 0) {
                     $cart_data->categories = $categories;
                 } else {
@@ -123,11 +134,11 @@ class Cart extends Model
                         ->select('products_options_descriptions.options_name as attribute_name', 'products_options_values_descriptions.options_values_name as attribute_value', 'customers_basket_attributes.products_options_id as options_id', 'customers_basket_attributes.products_options_values_id as options_values_id', 'products_attributes.price_prefix as prefix', 'products_attributes.products_attributes_id as products_attributes_id', 'products_attributes.options_values_price as values_price')
                         ->where('customers_basket_attributes.products_id', '=', $cart_data->products_id)
                         ->where('customers_basket_id', '=', $cart_data->customers_basket_id)
-                        ->where('products_options_descriptions.language_id', '=', 1)
-                        ->where('products_options_values_descriptions.language_id', '=', 1);
+                        ->where('products_options_descriptions.language_id', '=', $lang)
+                        ->where('products_options_values_descriptions.language_id', '=', $lang);
 
 
-                        $attributes->where('customers_basket_attributes.customers_id', '=',auth()->user()->id);
+                    $attributes->where('customers_basket_attributes.customers_id', '=', auth()->user()->id);
 
 
                     $attributes_data = $attributes->get();
@@ -146,7 +157,7 @@ class Cart extends Model
                     $myVar = new Products();
 
                     $qunatity['products_id'] = $cart_data->products_id;
-                    $qunatity['attributes'] =   implode(',',$products_attributes_id); ;
+                    $qunatity['attributes'] = implode(',', $products_attributes_id);;
 
                     $content = $myVar->productQuantity($qunatity);
                     $stocks = $content['remainingStock'];
@@ -832,6 +843,20 @@ class Cart extends Model
         return $result;
     }
 
+    public function getOldCoupon()
+    {
+        $oldCobons = tempStorage::all()->where('name', 'like', 'coupon')
+            ->where('user_id', auth()->user()->id);
+
+//        $ids = [];
+//        foreach ($oldCobons as $o) {
+//            $ids[] = $o->val;
+//
+//        }
+//        $data = Coupon::all()->whereIn('id', $ids);
+        return $oldCobons;
+    }
+
     public function common_apply_coupon($coupon_code)
     {
         $result = array();
@@ -843,30 +868,23 @@ class Cart extends Model
             ['code', '=', $coupon_code],
             ['expiry_date', '>', $currentDate],
         ]);
-
-        if (session('coupon') == '' or count(session('coupon')) == 0) {
-            session(['coupon' => array()]);
-            session(['coupon_discount' => 0]);
-        }
+        $oldCobons = $this->getOldCoupon();
         $session_coupon_ids = array();
-        $session_coupon_data = array();
-        if (!empty(session('coupon'))) {
-            foreach (session('coupon') as $session_coupon) {
-                array_push($session_coupon_data, $session_coupon);
-                $session_coupon_ids[] = $session_coupon->coupans_id;
+        if ($oldCobons->count() > 0) {
+            foreach ($oldCobons as $session_coupon) {
+                $session_coupon_ids[] = $session_coupon->val;
 
             }
         }
-
-
         $coupons = $data->get();
-
-//        return  $session_coupon_data;
 
         if (count($coupons) > 0) {
 
-            if (!empty(auth()->guard('customer')->user()->email) and in_array(auth()->guard('customer')->user()->email, explode(',', $coupons[0]->email_restrictions))) {
-                $response = array('success' => '2', 'message' => Lang::get("website.You are not allowed to use this coupon"));
+            if (!empty(auth()->guard('customer')->user()->email)
+                and in_array(auth()->guard('customer')->user()->email,
+                    explode(',', $coupons[0]->email_restrictions))) {
+                $response = array('success' => '2',
+                    'message' => Lang::get("website.You are not allowed to use this coupon"));
             } else {
                 if ($coupons[0]->usage_limit > 0 and $coupons[0]->usage_limit == $coupons[0]->usage_count) {
                     $response = array('success' => '2', 'message' => Lang::get("website.This coupon has been reached to its maximum usage limit"));
@@ -981,7 +999,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price;
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1014,7 +1032,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price;
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1041,7 +1059,7 @@ class Cart extends Model
                                                 //if coupon is apply for specific product
 
 
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',',$coupons[0]->product_ids))) {
+                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                     $product_price = $cart->final_price;
                                                     if ($product_price > $coupons[0]->amount) {
@@ -1091,7 +1109,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1123,7 +1141,7 @@ class Cart extends Model
                                                 if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
 
                                                     //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
+                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                         $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                         if ($product_price > $coupons[0]->amount) {
@@ -1151,7 +1169,7 @@ class Cart extends Model
 
 
                                                 //if coupon is apply for specific product
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id,explode(',',$coupons[0]->product_ids))) {
+                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
 
                                                     $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
                                                     if ($product_price > $coupons[0]->amount) {
@@ -1198,21 +1216,14 @@ class Cart extends Model
 
             if (empty($response)) {
                 if (!in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
-
-                    if (count($session_coupon_data) > 0) {
-                        $index = count($session_coupon_data);
-                    } else {
-                        $index = 0;
-                    }
-                    $session_coupon_data[$index] = $coupons[0];
-                    session(['coupon_discount' => session('coupon_discount') + $coupon_discount]);
+                    $this->tempStorage->createMultiTemp('coupon', $coupons[0]->coupans_id,$coupon_code);
+                    $this->tempStorage->createNewSingleTemp('coupon_discount', $this->tempStorage->getSingleTemp('coupon_discount') + $coupon_discount);
                     $response = array('success' => '1', 'message' => Lang::get("website.Couponisappliedsuccessfully"));
 
                 } else {
                     $response = array('success' => '0', 'message' => Lang::get("website.Coupon is already applied"));
                 }
 
-                session(['coupon' => $session_coupon_data]);
             }
 
 

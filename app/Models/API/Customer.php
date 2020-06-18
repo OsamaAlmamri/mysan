@@ -388,10 +388,8 @@ class Customer extends Model
 
     public function wishlist($request)
     {
-        $index = new Index();
         $productss = new Products();
         $result = array();
-        $result['commonContent'] = $index->commonContent();
 
         if (!empty($request->limit)) {
             $limit = $request->limit;
@@ -403,15 +401,7 @@ class Customer extends Model
         $products = $productss->products($data);
         $result['products'] = $products;
         $cart = '';
-        $result['cartArray'] = $productss->cartIdArray($cart);
 
-        //liked products
-        $result['liked_products'] = $productss->likedProducts();
-        if ($limit > $result['products']['total_record']) {
-            $result['limit'] = $result['products']['total_record'];
-        } else {
-            $result['limit'] = $limit;
-        }
 
         //echo '<pre>'.print_r($result['products'], true).'</pre>';
         return $result;

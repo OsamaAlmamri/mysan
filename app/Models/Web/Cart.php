@@ -873,6 +873,7 @@ class Cart extends Model
             }
         }
 
+
         $coupons = $data->get();
 
         if (count($coupons) > 0) {

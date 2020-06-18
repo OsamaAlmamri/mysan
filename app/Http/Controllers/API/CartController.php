@@ -1,14 +1,17 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 //use Mail;
 //validator is builtin class in laravel
 use App\Models\API\Cart;
 use App\Models\API\Index;
+
 //for password encryption or hash protected
 use App\Models\API\Products;
 
 //for authenitcate login data
+use App\tempStorage;
 use Carbon;
 
 //for requesting a value
@@ -19,15 +22,18 @@ use Illuminate\Routing\Controller;
 use Lang;
 use Session;
 
-class CartController extends Controller
+class CartController extends BaseAPIController
 {
 
     public function __construct(
         Index $index,
+        tempStorage $tempStorage,
         Products $products,
         Cart $cart
-    ) {
+    )
+    {
         $this->index = $index;
+        $this->tempStorage = $tempStorage;
         $this->products = $products;
         $this->cart = $cart;
 
@@ -37,25 +43,23 @@ class CartController extends Controller
     public function viewcart(Request $request)
     {
 
-        $title = array('pageTitle' => Lang::get("website.View Cart"));
-        $result = array();
         $data = array();
-        $result['commonContent'] = $this->index->commonContent();
-        $final_theme = $this->theme->theme();
 
-        $result['cart'] = $this->cart->myCart($data);
-        //apply coupon
-        if (session('coupon')) {
-            $session_coupon_data = session('coupon');
-            session(['coupon' => array()]);
-            $response = array();
-            if (!empty($session_coupon_data)) {
-                foreach ($session_coupon_data as $key => $session_coupon) {
-                    $response = $this->cart->common_apply_coupon($session_coupon->code);
-                }
-            }
-        }
-        return view("web.carts.viewcart", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
+
+        $result['cart'] = $this->cart->myCart($data,$request->lang);
+//        //apply coupon
+//        $coupon = $this->tempStorage->getMultiTemp('coupon');
+//        if ($coupon->count() > 0) {
+//            $session_coupon_data = session('coupon');
+//            session(['coupon' => array()]);
+//            $response = array();
+//            if (!empty($session_coupon_data)) {
+//                foreach ($session_coupon_data as $key => $session_coupon) {
+//                    $response = $this->cart->common_apply_coupon($session_coupon->code);
+//                }
+//            }
+//        }
+        return $this->sendNotFormatResponse($result);
     }
 
     //eidtCart
@@ -181,7 +185,7 @@ class CartController extends Controller
             } else {
                 $message = Lang::get("website.Cart item has been deleted successfully");
                 $final_theme = $this->index->finalTheme();
-                return view("web.headers.cartButtons.cartButton".$final_theme->header)->with('result', $result);
+                return view("web.headers.cartButtons.cartButton" . $final_theme->header)->with('result', $result);
             }
         } else {
             if (empty($check)) {
@@ -206,7 +210,7 @@ class CartController extends Controller
     {
         $this->cart->updatesinglecart($request);
         $final_theme = $this->index->finalTheme();
-        return view("web.headers.cartButtons.cartButton".$final_theme->header)->with('result', $result);
+        return view("web.headers.cartButtons.cartButton" . $final_theme->header)->with('result', $result);
     }
 
     //addToCart
@@ -233,18 +237,17 @@ class CartController extends Controller
     public function updateCart(Request $request)
     {
 
-        if (empty(session('customers_id'))) {
-            $customers_id = '';
-        } else {
-            $customers_id = session('customers_id');
-        }
+
+        $customers_id = auth()->user()->id;
         $session_id = Session::getId();
-        foreach ($request->cart as $key => $customers_basket_id) {
-            $this->cart->updateRecord($customers_basket_id, $customers_id, $session_id, $request->quantity[$key]);
+        $carts = explode(',', $request->cart);
+        $quantity = explode(',', $request->quantity);
+        foreach ($carts as $key => $customers_basket_id) {
+            $this->cart->updateRecord($customers_basket_id, $customers_id, $session_id, $quantity[$key]);
         }
 
         $message = Lang::get("website.Cart has been updated successfully");
-        return redirect()->back()->with('message', $message);
+        return $this->sendResponse('', $message);
 
     }
 
@@ -262,7 +265,7 @@ class CartController extends Controller
         } else {
             $response = array('success' => '0', 'message' => Lang::get("website.Coupon can not be apllied to empty cart"));
         }
-        print_r(json_encode($response));
+        return $this->sendNotFormatResponse(($response));
     }
 
     //removeCoupon
@@ -270,20 +273,19 @@ class CartController extends Controller
     {
         $coupons_id = $request->id;
 
-        $session_coupon_data = session('coupon');
-        session(['coupon' => array()]);
-        session(['coupon_discount' => 0]);
+        $session_coupon_data = $this->tempStorage->getMultiTemp('coupon');
+        $this->tempStorage::where('user_id', auth()->user()->id)->delete();
+
         $response = array();
         if (!empty($session_coupon_data)) {
             foreach ($session_coupon_data as $key => $session_coupon) {
-                if ($session_coupon->coupans_id != $coupons_id) {
-                    $response = $this->cart->common_apply_coupon($session_coupon->code);
+                if ($session_coupon->val != $coupons_id) {
+                    $response = $this->cart->common_apply_coupon($session_coupon->val2);
                 }
             }
         }
+        return $this->sendNotFormatResponse(($response));
 
-        $message = Lang::get("website.Coupon has been removed successfully");
-        return redirect()->back()->with('message', $message);
 
     }
 
