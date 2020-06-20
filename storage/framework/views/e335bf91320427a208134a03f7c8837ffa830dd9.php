@@ -43,6 +43,8 @@
 		  //push here
       });
 
+
+
 	//onesignal
 	OneSignal.push(["init", {
 	  appId: "<?php echo e($result['commonContent']['setting'][55]->value); ?>",

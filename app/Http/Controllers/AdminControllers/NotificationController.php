@@ -160,7 +160,7 @@ class NotificationController extends Controller
         );
 
         //get function from other controller
-
+        $response=[];
         $setting = $this->myVarSetting->getSetting();
 
         if ($device_type == 'all') { /* to all users notification */
