@@ -99,7 +99,7 @@
                   <div class="form-check">
                   <input class="form-check-input default_address" address_id="{{$address_data->address_id}}" type="radio" name="default" @if($address_data->default_address == 1) checked @endif>
                   <label class="form-check-label" for="gridCheck">
-                    {{$address_data->firstname}}, {{$address_data->lastname}}, {{$address_data->street}}, {{$address_data->city}}, {{$address_data->zone_name}}, {{$address_data->country_name}}, {{$address_data->postcode}}
+                     {{$address_data->name}}, {{$address_data->street}}, {{$address_data->city}}, {{$address_data->zone_name}}, {{$address_data->country_name}}
                   </label>
                 </div>
               </td>

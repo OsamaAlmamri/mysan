@@ -47,8 +47,6 @@ class CustomersController extends BaseAPIController
     public function updateMyProfile(Request $request)
     {
         $rules = [];
-
-
         $rules['username'] = ['string', Rule::unique('users', 'username')->ignore(auth()->user()->id)];
         $rules['firstname'] = 'required|string';
         $rules['gender'] = 'required';

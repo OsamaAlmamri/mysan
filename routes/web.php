@@ -34,7 +34,7 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 		Route::post('/change_currency', 'WebSettingController@changeCurrency');
 		Route::post('/addToCart', 'CartController@addToCart');
 		Route::post('/addToCartFixed', 'CartController@addToCartFixed');
-		
+
 		Route::post('/modal_show', 'ProductsController@ModalShow');
 		Route::post('/reviews', 'ProductsController@reviews');
 		Route::get('/deleteCart', 'CartController@deleteCart');
@@ -46,7 +46,7 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 
 		Route::get('/profile', 'CustomersController@profile')->middleware('Customer');
 		Route::get('/change-password', 'CustomersController@changePassword')->middleware('Customer');
-		
+
 		Route::get('/wishlist', 'CustomersController@wishlist')->middleware('Customer');
 		Route::post('/updateMyProfile', 'CustomersController@updateMyProfile')->middleware('Customer');
 		Route::post('/updateMyPassword', 'CustomersController@updateMyPassword')->middleware('Customer');
@@ -64,6 +64,7 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 		Route::post('/update-address', 'ShippingAddressController@updateAddress')->middleware('Customer');
 		Route::get('/delete-address/{id}', 'ShippingAddressController@deleteAddress')->middleware('Customer');
 		Route::post('/ajaxZones', 'ShippingAddressController@ajaxZones');
+
 		//news section
 		Route::get('/news', 'NewsController@news');
 		Route::get('/news-detail/{slug}', 'NewsController@newsDetail');
@@ -110,13 +111,13 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 		Route::post('/subscribeNotification/', 'CustomersController@subscribeNotification');
 		Route::get('/contact', 'IndexController@contactus');
 		Route::post('/processContactUs', 'IndexController@processContactUs');
-		
+
 		Route::get('/setcookie', 'IndexController@setcookie');
 		Route::get('/newsletter', 'IndexController@newsletter');
 
 		Route::get('/subscribeMail', 'IndexController@subscribeMail');
 
-		
+
 
 	});
 

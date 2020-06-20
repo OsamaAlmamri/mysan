@@ -23,17 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 });
 Route::middleware('auth:api')->group(function () {
-    //getAllBlockPersonsPerZone,
-    //saveIncommingBlockPersion,
-    //getAllQuarantineTypes,
-    //getMyAddBlockPerson,
-    //getBlockPerson,
-    //getAllZones,
-    //getAllQuarantines,
-    //getAllCheckPoint,
-    //getAllBlockPersonsPerCenter,
-    //userInfo,//
-
 
     Route::get('index', 'API\IndexController@index');
     Route::post('recursivecategories', 'API\IndexController@recursivecategories');
@@ -61,6 +50,13 @@ Route::middleware('auth:api')->group(function () {
 //    Route::post('processPassword', 'API\CustomersController@processPassword');
     Route::post('updateMyProfile', 'API\CustomersController@updateMyProfile');
 
+
+    Route::post('shipping_address', 'API\ShippingAddressController@shippingAddress');
+    Route::post('addMyAddress', 'API\ShippingAddressController@addMyAddress');
+    Route::post('myDefaultAddress', 'API\ShippingAddressController@myDefaultAddress');
+    Route::post('update_address', 'API\ShippingAddressController@updateAddress');
+    Route::post('delete_address', 'API\ShippingAddressController@deleteAddress');
+    Route::post('zones', 'API\ShippingAddressController@ajaxZones');
 
 
 

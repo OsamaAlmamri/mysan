@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `user_id` int(11) NOT NULL,
   `customers_id` int(11) DEFAULT NULL,
   `entry_company` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `entry_firstname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `entry_street_address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `entry_suburb` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `entry_city` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,

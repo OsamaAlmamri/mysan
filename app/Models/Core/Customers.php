@@ -38,8 +38,8 @@ class Customers extends Model
         return $this->belongsTo('App\Images');
     }
 
-    public $sortableAs = ['entry_street_address','entry_firstname','entry_company'];
-    public $sortable = ['id', 'gender', 'first_name','last_name','dob','email','phone','status','created_at','updated_at','entry_street_address'];
+    public $sortableAs = ['entry_street_address','name','entry_company'];
+    public $sortable = ['id', 'gender','name','dob','email','phone','status','created_at','updated_at','entry_street_address'];
 
     public function getter(){
 

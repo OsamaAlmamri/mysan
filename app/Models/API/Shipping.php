@@ -11,7 +11,7 @@ class Shipping extends Model
     public function addMyAddress($request)
     {
 
-        $customers_id = auth()->guard('customer')->user()->id;
+        $customers_id = auth()->user()->id;
         $name = $request->name;
         $entry_street_address = $request->entry_street_address;
         $entry_suburb = $request->entry_suburb;
@@ -19,6 +19,8 @@ class Shipping extends Model
         $entry_state = $request->entry_state;
         $entry_country_id = $request->entry_country_id;
         $entry_zone_id = $request->entry_zone_id;
+        $entry_longitude = $request->entry_longitude;
+        $entry_latitude = $request->entry_latitude;
         $entry_company = $request->entry_company;
         $customers_default_address_id = $request->customers_default_address_id;
 
@@ -32,6 +34,8 @@ class Shipping extends Model
                 'entry_country_id' => $entry_country_id,
                 'entry_zone_id' => $entry_zone_id,
                 'customers_id' => $customers_id,
+                'entry_latitude' => $entry_latitude,
+                'entry_longitude' => $entry_longitude,
                 'user_id' => $customers_id,
                 'entry_company' => $entry_company,
             );
@@ -41,10 +45,11 @@ class Shipping extends Model
 
             //default address id
             DB::table('user_to_address')
-                ->insert(['user_id' => auth()->guard('customer')->user()->id, 'address_book_id' => $address_book_id, 'is_default' => 0]);
+                ->insert(['user_id' => auth()->user()->id, 'address_book_id' => $address_book_id, 'is_default' => 0]);
         }
 
     }
+
     //get all customer addresses url
     public function getShippingAddress($address_id)
     {
@@ -70,7 +75,7 @@ class Shipping extends Model
                 'zones.zone_code as zone_code',
                 'zones.zone_name as zone_name'
             )
-            ->where('address_book.customers_id', auth()->guard('customer')->user()->id);
+            ->where('address_book.customers_id', auth()->user()->id);
 
         if (!empty($address_id)) {
             $addresses->where('address_book.address_book_id', '=', $address_id);
@@ -87,6 +92,7 @@ class Shipping extends Model
         return ($allCountries);
 
     }
+
     //get all zones
     public function zones($country_id)
     {
@@ -115,14 +121,13 @@ class Shipping extends Model
     public function deleteAddress($id)
     {
 
-        $customers_id = auth()->guard('customer')->user()->id;
+        $customers_id = auth()->user()->id;
         $address_book_id = $id;
-
+        $d = 0;
         if (!empty($customers_id)) {
 
             //delete address into address book
-            DB::table('user_to_address')->where('address_book_id', $address_book_id)->delete();
-
+            $d = DB::table('user_to_address')->where('address_book_id', $address_book_id)->delete();
             $defaultAddress = DB::table('user_to_address')->where([['user_id', $customers_id],
                 ['address_book_id', $address_book_id]])->get();
             if (count($defaultAddress) > 0) {
@@ -130,21 +135,25 @@ class Shipping extends Model
                 $customers_default_address_id = '0';
                 DB::table('user_to_address')->where('user_id', $customers_id)->update(['is_default' => $customers_default_address_id]);
             }
-
-            //$address_book_data = DB::table('address_book')->get();
         }
 
-        print 'success';
+        return $d;
 
     }
 
     public function myDefaultAddress($request)
     {
 
-        $customers_id = auth()->guard('customer')->user()->id;
+        $customers_id = auth()->user()->id;
         $address_book_id = $request->address_id;
-        DB::table('user_to_address')->where('user_id', $customers_id)->where('address_book_id', '!=', $address_book_id)->where('is_default', '=', 1)->update(['is_default' => 0]);
-        DB::table('user_to_address')->where('user_id', $customers_id)->where('address_book_id', '=', $address_book_id)->update(['is_default' => 1]);
+        $c = DB::table('user_to_address')->where('user_id', $customers_id)->where('address_book_id', '=', $address_book_id)->count();
+        if ($c > 0) {
+            DB::table('user_to_address')->where('user_id', $customers_id)->where('address_book_id', '!=', $address_book_id)->where('is_default', '=', 1)->update(['is_default' => 0]);
+            DB::table('user_to_address')->where('user_id', $customers_id)->where('address_book_id', '=', $address_book_id)->update(['is_default' => 1]);
+
+            return 1;
+        } else
+            return 0;
 
     }
 
