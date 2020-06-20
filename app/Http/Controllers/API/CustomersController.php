@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Web\AlertController;
@@ -8,12 +9,14 @@ use App\Models\API\Customer;
 use App\Models\API\Index;
 use App\Models\API\Languages;
 use App\Models\API\Products;
+use App\Rules\MatchOldPassword;
 use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Lang;
 use Session;
 use Socialite;
@@ -30,7 +33,8 @@ class CustomersController extends BaseAPIController
         Currency $currency,
         Customer $customer,
         Cart $cart
-    ) {
+    )
+    {
         $this->index = $index;
         $this->languages = $languages;
         $this->products = $products;
@@ -40,36 +44,65 @@ class CustomersController extends BaseAPIController
     }
 
 
-    public function profile()
-    {
-        $title = array('pageTitle' => Lang::get("website.Profile"));
-        $result['commonContent'] = $this->index->commonContent();
-        return view('web.profile', ['result' => $result, 'title' => $title]);
-    }
-
     public function updateMyProfile(Request $request)
     {
+        $rules = [];
+
+
+        $rules['username'] = ['string', Rule::unique('users', 'username')->ignore(auth()->user()->id)];
+        $rules['firstname'] = 'required|string';
+        $rules['gender'] = 'required';
+        $rules['lastname'] = 'required|string';
+        $rules['email'] = ['string', 'email', Rule::unique('users', 'email')->ignore(auth()->user()->id)];
+        $rules['phone'] = ['required', 'string', Rule::unique('users', 'phone')->ignore(auth()->user()->id)];
+        $validator = Validator::make($request->all(), $rules,
+            [
+                'gender.required' => 'الجنس',
+                'username.required' => 'إسم المستخدم مطلوب',
+                'username.unique' => 'إسم المستخدم هذا مستخدم من قبل',
+                'firstname.required' => 'الإسم الاول مطلوب',
+                'lastname.required' => 'الإسم الاخير مطلوب',
+                'email.required' => 'الإيميل مطلوب',
+                'email.email' => 'صيغة الإيميل غير صالحة',
+                'email.unique' => 'هذا الإيميل مستخدم بالفعل',
+                'phone.unique' => 'رقم الهاتف مستخدم من قبل',
+                'phone_number.required' => 'رقم الهاتف مطلوب',
+                'password.required' => 'كلمة المرور مطلوبة',
+                'password.confirmed' => 'كلمة المرور غير متطابقة',
+                'avatar2.image' => 'ملف الصورة غير صالح',
+                'avatar2.max' => 'حجم الصورة يجب ألا يزيد عن 5 ميجابيت',
+            ]);
+        if ($validator->fails()) {
+//            return response()->json([
+//                'errors' => $validator->errors(),
+//            ], 422);
+            return $this->sendError($validator->errors(),'خطاء في الببينات المطلوبة',422);
+
+        }
         $message = $this->customer->updateMyProfile($request);
-        return redirect()->back()->with('success', $message);
+        return$this->sendResponse(1,$message);
 
     }
 
-    public function changePassword()
+
+    public function changeProfile_infoAPI(Request $request)
     {
-        $title = array('pageTitle' => Lang::get("website.Change Password"));
-        $result['commonContent'] = $this->index->commonContent();
 
-        return view('web.changepassword', ['result' => $result, 'title' => $title]);
+        $user = auth()->user();
+        $user->update($request->all());
+
+        return response()->json(['message' => 'تم   تحديث المعلومات  بنجاح ', 'status' => 'success'], 200);
     }
+
 
     public function updateMyPassword(Request $request)
     {
-        $password = Auth::guard('customer')->user()->password;
+        $password = auth()->user()->password;
         if (Hash::check($request->current_password, $password)) {
             $message = $this->customer->updateMyPassword($request);
-            return redirect()->back()->with('success', $message);
-        }else{
-            return redirect()->back()->with('error', lang::get("website.Current password is invalid"));
+            return $this->sendResponse(1, $message);
+        } else {
+            return $this->sendResponse(0, lang::get("website.Current password is invalid"));
         }
     }
 

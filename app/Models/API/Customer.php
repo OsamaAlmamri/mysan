@@ -48,13 +48,13 @@ class Customer extends Model
     {
 
         $customers_id = auth()->user()->id;
-        $customers_firstname = $request->customers_firstname;
-        $customers_lastname = $request->customers_lastname;
+        $customers_firstname = $request->firstname;
+        $customers_lastname = $request->lastname;
         $customers_fax = $request->fax;
         $customers_newsletter = $request->newsletter;
-        $customers_telephone = $request->customers_telephone;
+        $customers_telephone = $request->phone;
         $customers_gender = $request->gender;
-        $customers_dob = $request->customers_dob;
+        $customers_dob = $request->dob;
         $customers_info_date_account_last_modified = date('y-m-d h:i:s');
 
         $extensions = array('gif', 'jpg', 'jpeg', 'png');
@@ -90,7 +90,6 @@ class Customer extends Model
     public function updateMyPassword($request)
     {
 
-        $old_session = Session::getId();
         $customers_id = auth()->user()->id;
         $new_password = $request->new_password;
         $current_password = $request->current_password;
@@ -106,7 +105,9 @@ class Customer extends Model
         $userData = DB::table('users')->where('id', $customers_id)->update($customer_data);
         $user = DB::table('users')->where('id', $customers_id)->get();
 
-        DB::table('customers_info')->where('customers_info_id', $customers_id)->update(['customers_info_date_account_last_modified' => $customers_info_date_account_last_modified]);
+        DB::table('customers_info')
+            ->where('customers_info_id', $customers_id)
+            ->update(['customers_info_date_account_last_modified' => $customers_info_date_account_last_modified]);
 
         $message = Lang::get("website.Password has been updated successfully");
         return $message;

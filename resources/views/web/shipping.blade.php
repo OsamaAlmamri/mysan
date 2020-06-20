@@ -10,7 +10,7 @@
           </ol>
       </div>
     </nav>
-</div> 
+</div>
 
 <!--Shipping Content -->
 <section class="shipping-content pro-content">
@@ -109,7 +109,7 @@
                   @if($address_data->default_address == 0)
                   <a  href="{{url('delete-address')}}/{{$address_data->address_id}}" ><i class="fa fa-trash" aria-hidden="true"></i>@lang('website.Remove') </a>
                   @endif
-                  
+
                 </ul>
                 @include('web.common.scripts.deleteAddress')
               </td>
@@ -183,13 +183,9 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputfirstname"><span class="star">*</span>@lang('website.First Name')</label>
-                      <input type="text" name="entry_firstname" class="form-control field-validate" required id="entry1_firstname" @if(!empty($result['editAddress'])) value="{{$result['editAddress'][0]->firstname}}" @endif>
+                      <input type="text" name="name" class="form-control field-validate" required id="entry1_firstname" @if(!empty($result['editAddress'])) value="{{$result['editAddress'][0]->name}}" @endif>
                       <span class="help-block error-content7" hidden>@lang('website.Please enter your first name')</span>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="inputlastname">@lang('website.Last Name')</label>
-                      <input type="text" name="entry_lastname" class="form-control field-validate" required id="entry1_lastname" @if(!empty($result['editAddress'])) value="{{$result['editAddress'][0]->lastname}}" @endif>
-                      <span class="help-block error-content7" hidden>@lang('website.Please enter your address')</span>                  </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
@@ -228,13 +224,7 @@
                       <span class="help-block error-content7" hidden>@lang('website.Please enter your city')</span>
                     </div>
                   </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="inputaddress"><span class="star">*</span> @lang('website.Zip/Postal Code')</label>
-                      <input type="text" name="entry_postcode" required class="form-control field-validate" id="entry_postcode1" @if(!empty($result['editAddress'])) value="{{$result['editAddress'][0]->postcode}}" @endif>
-                      <span class="help-block error-content7" hidden>@lang('website.Please enter your Zip/Postal Code')</span>
-                    </div>
-                  </div>
+
                   <div class="button">
                   @if(!empty($result['editAddress']))
                       <a href="{{ URL::to('/shipping-address')}}" class="btn btn-default">@lang('website.cancel')</a>

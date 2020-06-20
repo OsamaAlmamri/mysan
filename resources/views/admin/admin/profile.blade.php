@@ -94,13 +94,7 @@
                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">{{ trans('labels.SelectZoneText') }}</span>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="inputExperience" class="col-sm-2 control-label">{{ trans('labels.ZipCode') }}</label>
 
-                        <div class="col-sm-10">
-                         {!! Form::text('zip', $result['admin']->entry_postcode, array('class'=>'form-control', 'id'=>'zip'))!!}
-                        </div>
-                      </div>
                       <div class="form-group">
                         <label for="inputExperience" class="col-sm-2 control-label">{{ trans('labels.Phone') }}</label>
 

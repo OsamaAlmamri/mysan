@@ -118,9 +118,7 @@
                                                 @if(!empty($listingCustomers->entry_state))
                                                 {{ $listingCustomers->zone_name }},
                                                 @endif
-                                                @if(!empty($listingCustomers->entry_postcode))
-                                                {{ $listingCustomers->entry_postcode }}
-                                                @endif
+
                                                 @if(!empty($listingCustomers->countries_name))
                                                 {{ $listingCustomers->countries_name }}
                                                 @endif

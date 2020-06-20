@@ -119,33 +119,27 @@ class ShippingAddressController extends Controller
 
         $customers_id = auth()->guard('customer')->user()->id;
         $address_book_id = $request->address_book_id;
-        $entry_firstname = $request->entry_firstname;
-        $entry_lastname = $request->entry_lastname;
+        $name = $request->name;
         $entry_street_address = $request->entry_street_address;
         $entry_suburb = $request->entry_suburb;
-        $entry_postcode = $request->entry_postcode;
         $entry_city = $request->entry_city;
         $entry_state = $request->entry_state;
         $entry_country_id = $request->entry_country_id;
         $entry_zone_id = $request->entry_zone_id;
-        $entry_gender = $request->entry_gender;
         $entry_company = $request->entry_company;
         $customers_default_address_id = $request->customers_default_address_id;
 
         if (!empty($customers_id)) {
 
             $address_book_data = array(
-                'entry_firstname' => $entry_firstname,
-                'entry_lastname' => $entry_lastname,
+                'name' => $name,
                 'entry_street_address' => $entry_street_address,
                 'entry_suburb' => $entry_suburb,
-                'entry_postcode' => $entry_postcode,
                 'entry_city' => $entry_city,
                 'entry_state' => $entry_state,
                 'entry_country_id' => $entry_country_id,
                 'entry_zone_id' => $entry_zone_id,
                 'customers_id' => $customers_id,
-                'entry_gender' => $entry_gender,
                 'entry_company' => $entry_company
             );
 

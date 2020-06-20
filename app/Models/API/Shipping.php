@@ -12,33 +12,27 @@ class Shipping extends Model
     {
 
         $customers_id = auth()->guard('customer')->user()->id;
-        $entry_firstname = $request->entry_firstname;
-        $entry_lastname = $request->entry_lastname;
+        $name = $request->name;
         $entry_street_address = $request->entry_street_address;
         $entry_suburb = $request->entry_suburb;
-        $entry_postcode = $request->entry_postcode;
         $entry_city = $request->entry_city;
         $entry_state = $request->entry_state;
         $entry_country_id = $request->entry_country_id;
         $entry_zone_id = $request->entry_zone_id;
-        $entry_gender = $request->entry_gender;
         $entry_company = $request->entry_company;
         $customers_default_address_id = $request->customers_default_address_id;
 
         if (!empty($customers_id)) {
             $address_book_data = array(
-                'entry_firstname' => $entry_firstname,
-                'entry_lastname' => $entry_lastname,
+                'name' => $name,
                 'entry_street_address' => $entry_street_address,
                 'entry_suburb' => $entry_suburb,
-                'entry_postcode' => $entry_postcode,
                 'entry_city' => $entry_city,
                 'entry_state' => $entry_state,
                 'entry_country_id' => $entry_country_id,
                 'entry_zone_id' => $entry_zone_id,
                 'customers_id' => $customers_id,
                 'user_id' => $customers_id,
-                'entry_gender' => $entry_gender,
                 'entry_company' => $entry_company,
             );
 
@@ -62,13 +56,10 @@ class Shipping extends Model
             ->select(
                 'user_to_address.is_default as default_address',
                 'address_book.address_book_id as address_id',
-                'address_book.entry_gender as gender',
                 'address_book.entry_company as company',
-                'address_book.entry_firstname as firstname',
-                'address_book.entry_lastname as lastname',
+                'address_book.name as name',
                 'address_book.entry_street_address as street',
                 'address_book.entry_suburb as suburb',
-                'address_book.entry_postcode as postcode',
                 'address_book.entry_city as city',
                 'address_book.entry_state as state',
 

@@ -16,14 +16,11 @@ class CreateAddressBookTable extends Migration {
 		{
 			$table->integer('address_book_id', true);
 			$table->integer('user_id')->index('idx_address_book_customers_id');
-			$table->char('entry_gender', 1)->nullable();
 			$table->integer('customers_id')->nullable();
 			$table->string('entry_company', 191)->nullable();
-			$table->string('entry_firstname', 191);
-			$table->string('entry_lastname', 191);
+			$table->string('name', 191);
 			$table->string('entry_street_address', 191);
 			$table->string('entry_suburb', 191)->nullable();
-			$table->string('entry_postcode', 191);
 			$table->string('entry_city', 191);
 			$table->string('entry_state', 191)->nullable();
 			$table->integer('entry_country_id')->default(0);

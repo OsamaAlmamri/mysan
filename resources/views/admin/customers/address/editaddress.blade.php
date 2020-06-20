@@ -16,15 +16,10 @@
     <div class="form-group">
         <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.FirstName') }}*</label>
         <div class="col-sm-10 col-md-8">
-            {!! Form::text('entry_firstname', $data['customer_addresses'][0]->entry_firstname, array('class'=>'form-control field-validate', 'id'=>'entry_firstname')) !!}
+            {!! Form::text('name', $data['customer_addresses'][0]->name, array('class'=>'form-control field-validate', 'id'=>'entry_firstname')) !!}
         </div>
     </div>
-    <div class="form-group">
-        <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.LastName') }}*</label>
-        <div class="col-sm-10 col-md-8">
-            {!! Form::text('entry_lastname', $data['customer_addresses'][0]->entry_lastname, array('class'=>'form-control field-validate', 'id'=>'entry_lastname')) !!}
-        </div>
-    </div>
+
     <div class="form-group">
         <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.StreetAddress') }}*</label>
         <div class="col-sm-10 col-md-8">
@@ -38,12 +33,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.Postcode') }}*</label>
-        <div class="col-sm-10 col-md-8">
-            {!! Form::text('entry_postcode', $data['customer_addresses'][0]->entry_postcode, array('class'=>'form-control field-validate', 'id'=>'entry_postcode')) !!}
-        </div>
-    </div>
+
     <div class="form-group">
         <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.City') }}*</label>
         <div class="col-sm-10 col-md-8">

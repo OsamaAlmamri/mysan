@@ -57,6 +57,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateCart', 'API\CartController@updateCart');
     Route::post('viewcart', 'API\CartController@viewcart');
     Route::post('wishlist', 'API\CustomersController@wishlist');
+    Route::post('updateMyPassword', 'API\CustomersController@updateMyPassword');
+//    Route::post('processPassword', 'API\CustomersController@processPassword');
+    Route::post('updateMyProfile', 'API\CustomersController@updateMyProfile');
+
+
+
+
 
 
     Route::post('categoryProducts', 'API\IndexController@categoryProducts');
@@ -67,27 +74,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('featured', 'API\IndexController@featured');
     Route::post('weeklySoldProducts', 'API\IndexController@weeklySoldProducts');
 
-
-    Route::get('contact', 'API\IndexController@contactus');
-    Route::post('/processContactUs', 'API\IndexController@processContactUs');
-
-    Route::get('/setcookie', 'API\IndexController@setcookie');
-    Route::get('/newsletter', 'API\IndexController@newsletter');
-
-    Route::get('/subscribeMail', 'API\IndexController@subscribeMail');
-
-
-    Route::post('getAllBlockPersonsPerZone', 'API\ProjectApiController@getAllBlockPersonsPerZone');//
-    Route::post('saveIncommingBlockPersion', 'API\ProjectApiController@saveIncommingBlockPersion');
-    Route::post('getAllUsers', 'API\ProjectApiController@getAllUsers');//
-    Route::post('getAllQuarantineTypes', 'API\ProjectApiController@getAllQuarantineTypes');//
-    Route::post('getMyAddBlockPerson', 'API\ProjectApiController@getMyAddBlockPerson');//
-    Route::post('getBlockPerson', 'API\ProjectApiController@getBlockPerson');//
-    Route::post('getAllZones', 'API\ProjectApiController@getAllZones');//
-    Route::post('getAllQuarantines', 'API\ProjectApiController@getAllQuarantines');//
-    Route::post('getAllCheckPoint', 'API\ProjectApiController@getAllCheckPoint');//
-    Route::post('getAllBlockPersonsPerCenter', 'API\ProjectApiController@getAllBlockPersonsPerCenter');//
-    Route::post('getMyAddBlockPerson', 'API\ProjectApiController@getMyAddBlockPerson');//
 
 
     Route::post('userInfo', 'API\AuthController@userInfo');//

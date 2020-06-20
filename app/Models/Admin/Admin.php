@@ -60,24 +60,20 @@ class Admin extends Model
      if($exist){
        $address_book_id = $exist->address_book_id;
        DB::table('address_book')->where('user_id','=', auth()->user()->id)->where('user_id','=', auth()->user()->id)->update([
-         'entry_firstname'	      =>	$data['first_name'],
-         'entry_lastname'		      =>	$data['last_name'],
+         'name'	      =>	$data['name'],
          'entry_street_address'		=>	$data['address'],
          'entry_city'			        =>	$data['city'],
          'entry_state'			      =>	$data['state'],
-         'entry_postcode'		     	=>	$data['zip'],
          'entry_country_id'		    =>	$data['country'],
        ]);
 
      }else{
       $address_book_id = DB::table('address_book')->where('id','=', auth()->user()->id)->insertGetId([
          'user_id'		            =>	auth()->user()->id,
-         'entry_firstname'	      =>	$data['first_name'],
-         'entry_lastname'		      =>	$data['last_name'],
+         'name'		      =>	$data['name'],
          'entry_street_address'		=>	$data['address'],
          'entry_city'			        =>	$data['city'],
          'entry_state'			      =>	$data['state'],
-         'entry_postcode'		     	=>	$data['zip'],
          'entry_country_id'		    =>	$data['country'],
        ]);
 
