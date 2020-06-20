@@ -49,15 +49,14 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
     Route::post('addToCart', 'API\CartController@addToCart');
+    Route::post('deleteCart', 'API\CartController@deleteCart');
+
     Route::post('getquantity', 'API\ProductsController@getquantity');
     Route::post('apply_coupon', 'API\CartController@apply_coupon');
     Route::post('removeCoupon', 'API\CartController@removeCoupon');
     Route::post('updateCart', 'API\CartController@updateCart');
     Route::post('viewcart', 'API\CartController@viewcart');
     Route::post('wishlist', 'API\CustomersController@wishlist');
-
-
-
 
 
     Route::post('categoryProducts', 'API\IndexController@categoryProducts');

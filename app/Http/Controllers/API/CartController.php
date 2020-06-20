@@ -158,45 +158,26 @@ class CartController extends BaseAPIController
     }
 
     //deleteCart
+
+
     public function deleteCart(Request $request)
     {
 
         $check = $this->cart->deleteCart($request);
-        //apply coupon
-        if (!empty(session('coupon')) and count(session('coupon')) > 0) {
-            $session_coupon_data = session('coupon');
-            session(['coupon' => array()]);
-            if (count($session_coupon_data) == '2') {
-                $response = array();
-                if (!empty($session_coupon_data)) {
-                    foreach ($session_coupon_data as $key => $session_coupon) {
-                        $response = $this->cart->common_apply_coupon($session_coupon->code);
-                    }
-                }
+
+
+        $session_coupon_data = $this->tempStorage->getMultiTemp('coupon');
+        $this->tempStorage::where('user_id', auth()->user()->id)->delete();
+
+        $response = array();
+        if (!empty($session_coupon_data)) {
+            foreach ($session_coupon_data as $key => $session_coupon) {
+                    $response = $this->cart->common_apply_coupon($session_coupon->val2);
             }
         }
 
-        if (!empty($request->type) and $request->type == 'header cart') {
-            $result['commonContent'] = $this->index->commonContent();
-            if (empty($check)) {
-                $message = Lang::get("website.Cart item has been deleted successfully");
-                return redirect('/')->with('message', $message);
-
-            } else {
-                $message = Lang::get("website.Cart item has been deleted successfully");
-                $final_theme = $this->index->finalTheme();
-                return view("web.headers.cartButtons.cartButton" . $final_theme->header)->with('result', $result);
-            }
-        } else {
-            if (empty($check)) {
-                $message = Lang::get("website.Cart item has been deleted successfully");
-                return redirect('/')->with('message', $message);
-
-            } else {
-                $message = Lang::get("website.Cart item has been deleted successfully");
-                return redirect()->back()->with('message', $message);
-            }
-        }
+        $message = Lang::get("website.Cart item has been deleted successfully");
+        return $this->sendResponse($check,$message);
     }
 
     //getCart

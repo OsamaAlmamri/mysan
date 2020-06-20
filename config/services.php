@@ -45,7 +45,7 @@ return [
     ],
     'facebook' => [
       'client_id' => '123',
-      'client_secret' => 'FB_SECRET_KEY',
+      'client_secret' => '7e38a2b21cac7b00c7178c722441cd95',
       'redirect' => 'http://YOUR_DOMAIN_NAME/login/facebook/callback',
     ],
 

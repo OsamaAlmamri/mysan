@@ -296,8 +296,7 @@ class Cart extends Model
             ['customers_basket_id', '=', $baskit_id],
         ])->delete();
         $check = DB::table('customers_basket')
-            ->where('customers_basket.session_id', '=', Session::getId())
-            ->first();
+            ->where('customers_basket.customers_id', '=',auth()->user()->id)->get();
         return $check;
 
     }

@@ -22,7 +22,9 @@ class CreateReviewsTable extends Migration {
 			$table->boolean('reviews_status')->default(0);
 			$table->integer('reviews_read')->default(0);
 			$table->integer('vendors_id')->nullable();
-			$table->timestamps();
+            $table->text('reviews_text', 65535);
+
+            $table->timestamps();
 		});
 	}
 
