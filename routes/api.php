@@ -29,9 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('allCategories', 'API\IndexController@allCategories');
     Route::post('specialProducts', 'API\IndexController@filterData');
 
-    Route::post('filterProducts', 'API\ProductsController@filterProducts');
-    Route::post('shop', 'API\ProductsController@shop');
-    Route::post('productDetail', 'API\ProductsController@productDetail');
+
     Route::post('reviews', 'API\ProductsController@reviews');
     Route::post('currencies', 'API\IndexController@currencies');
     Route::post('manufacturers', 'API\IndexController@manufacturers');
@@ -45,7 +43,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('removeCoupon', 'API\CartController@removeCoupon');
     Route::post('updateCart', 'API\CartController@updateCart');
     Route::post('viewcart', 'API\CartController@viewcart');
-    Route::post('wishlist', 'API\CustomersController@wishlist');
     Route::post('updateMyPassword', 'API\CustomersController@updateMyPassword');
 //    Route::post('processPassword', 'API\CustomersController@processPassword');
     Route::post('updateMyProfile', 'API\CustomersController@updateMyProfile');
@@ -58,17 +55,19 @@ Route::middleware('auth:api')->group(function () {
     Route::post('delete_address', 'API\ShippingAddressController@deleteAddress');
     Route::post('zones', 'API\ShippingAddressController@ajaxZones');
 
+    Route::post('filterProducts', 'API\ProductsController@shop');
+    Route::post('shop', 'API\ProductsController@shop');
+    Route::post('productDetail', 'API\ProductsController@productDetail');
+    Route::post('wishlist', 'API\ProductsController@shop');
+    Route::post('categoryProducts', 'API\ProductsController@shop');
+    Route::post('flash_sale', 'API\ProductsController@shop');
+    Route::post('top_seller', 'API\ProductsController@shop');
+    Route::post('most_liked', 'API\ProductsController@shop');
+    Route::post('featured', 'API\ProductsController@shop');
 
 
-
-
-    Route::post('categoryProducts', 'API\IndexController@categoryProducts');
     Route::post('getProduct', 'API\IndexController@getProduct');
-    Route::post('flash_sale', 'API\IndexController@flash_sale');
-    Route::post('top_seller', 'API\IndexController@top_seller');
-    Route::post('most_liked', 'API\IndexController@most_liked');
-    Route::post('featured', 'API\IndexController@featured');
-    Route::post('weeklySoldProducts', 'API\IndexController@weeklySoldProducts');
+
 
 
 

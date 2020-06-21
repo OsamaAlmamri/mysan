@@ -561,7 +561,7 @@ class Products extends Model
 
         //wishlist customer id
         if ($type == "wishlist") {
-            $categories->where('liked_customers_id', '=', session('customers_id'));
+            $categories->where('liked_customers_id', '=', auth()->user()->id);
         }
 
         //wishlist customer id
@@ -942,6 +942,7 @@ class Products extends Model
         ztoa
         hightolow
         lowtohigh
+        
         topseller
         mostliked
         special
@@ -1244,7 +1245,7 @@ class Products extends Model
 
         //wishlist customer id
         if ($type == "wishlist") {
-            $categories->where('liked_customers_id', '=', session('customers_id'));
+            $categories->where('liked_customers_id', '=', auth()->user()->id);
         }
 
         //wishlist customer id

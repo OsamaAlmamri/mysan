@@ -1,31 +1,30 @@
-@extends('admin.layout')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-            <small>{{ trans('labels.title_dashboard') }} {{$result['commonContent']['setting']['admin_version']}}</small>
+            <small><?php echo e(trans('labels.title_dashboard')); ?> <?php echo e($result['commonContent']['setting']['admin_version']); ?></small>
             </h1>
             <ol class="breadcrumb">
-                <li class="active"><i class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</li>
+                <li class="active"><i class="fa fa-dashboard"></i> <?php echo e(trans('labels.breadcrumb_dashboard')); ?></li>
             </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
-            @if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->dashboard_view == 1)
+            <?php if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->dashboard_view == 1): ?>
             <div class="row">
                 <div class="col-lg-4 col-xs-6">
                   <!-- small box -->
                   <div class="small-box bg-aqua">
                     <div class="inner">
-                      <h3>{{ $result['total_orders'] }}</h3>
-        			        <p>{{ trans('labels.NewOrders') }}</p>
+                      <h3><?php echo e($result['total_orders']); ?></h3>
+        			        <p><?php echo e(trans('labels.NewOrders')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ URL::to('admin/orders/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllOrders') }}">{{ trans('labels.viewAllOrders') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/orders/display')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.viewAllOrders')); ?>"><?php echo e(trans('labels.viewAllOrders')); ?> <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -33,13 +32,13 @@
                   <!-- small box -->
                   <div class="small-box bg-light-blue">
                     <div class="inner">
-                      <h3>{{ $result['commonContent']['setting']['currency_symbol'] }}{{ $result['total_money'] }}</h3>
-        			  <p>{{ trans('labels.Total Money') }}</p>
+                      <h3><?php echo e($result['commonContent']['setting']['currency_symbol']); ?><?php echo e($result['total_money']); ?></h3>
+        			  <p><?php echo e(trans('labels.Total Money')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ URL::to('admin/products/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllProducts') }}">{{ trans('labels.viewAllProducts') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/products/display')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.viewAllProducts')); ?>"><?php echo e(trans('labels.viewAllProducts')); ?> <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -47,13 +46,13 @@
                   <!-- small box -->
                   <div class="small-box bg-teal">
                     <div class="inner">
-                      <h3>{{ $result['commonContent']['setting']['currency_symbol'] }}{{ $result['profit'] }}</h3>
-        			  <p>{{ trans('labels.Total Money Earned') }}</p>
+                      <h3><?php echo e($result['commonContent']['setting']['currency_symbol']); ?><?php echo e($result['profit']); ?></h3>
+        			  <p><?php echo e(trans('labels.Total Money Earned')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ URL::to('admin/orders/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllOrders') }}">{{ trans('labels.viewAllOrders') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/orders/display')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.viewAllOrders')); ?>"><?php echo e(trans('labels.viewAllOrders')); ?> <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -61,13 +60,13 @@
 
                   <div class="small-box bg-red">
                     <div class="inner">
-                      <h3>{{ $result['outOfStock'] }} </h3>
-                      <p>{{ trans('labels.outOfStock') }}</p>
+                      <h3><?php echo e($result['outOfStock']); ?> </h3>
+                      <p><?php echo e(trans('labels.outOfStock')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{ URL::to('admin/outofstock')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.outOfStock') }}">{{ trans('labels.outOfStock') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/outofstock')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.outOfStock')); ?>"><?php echo e(trans('labels.outOfStock')); ?> <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -75,14 +74,14 @@
                   <!-- small box -->
                   <div class="small-box bg-yellow">
                     <div class="inner">
-                      <h3>{{ $result['totalCustomers'] }}</h3>
+                      <h3><?php echo e($result['totalCustomers']); ?></h3>
 
-                      <p>{{ trans('labels.customerRegistrations') }}</p>
+                      <p><?php echo e(trans('labels.customerRegistrations')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="{{ URL::to('admin/customers/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllCustomers') }}">{{ trans('labels.viewAllCustomers') }}  <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/customers/display')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.viewAllCustomers')); ?>"><?php echo e(trans('labels.viewAllCustomers')); ?>  <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -90,14 +89,14 @@
                   <!-- small box -->
                   <div class="small-box bg-green">
                     <div class="inner">
-                      <h3>{{ $result['totalProducts'] }}</h3>
+                      <h3><?php echo e($result['totalProducts']); ?></h3>
 
-                      <p>{{ trans('labels.totalProducts') }}</p>
+                      <p><?php echo e(trans('labels.totalProducts')); ?></p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="{{ URL::to('admin/products/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllProducts') }}">{{ trans('labels.viewAllProducts') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo e(URL::to('admin/products/display')); ?>" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.viewAllProducts')); ?>"><?php echo e(trans('labels.viewAllProducts')); ?> <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -108,23 +107,23 @@
                 <div class="col-sm-12">
                     <div class="nav-tabs-custom">
                         <div class="box-header with-border">
-                            <h3 class="box-title"> {{ trans('labels.addedSaleReport') }}</h3>
+                            <h3 class="box-title"> <?php echo e(trans('labels.addedSaleReport')); ?></h3>
                             <div class="box-tools pull-right">
-                                <p class="notify-colors"><span class="sold-content" data-toggle="tooltip" data-placement="bottom" title="Sold Products"></span> {{ trans('labels.soldProducts') }}  <span class="purchased-content" data-toggle="tooltip" data-placement="bottom" title="Added Products"></span>{{ trans('labels.addedProducts') }} </p>
+                                <p class="notify-colors"><span class="sold-content" data-toggle="tooltip" data-placement="bottom" title="Sold Products"></span> <?php echo e(trans('labels.soldProducts')); ?>  <span class="purchased-content" data-toggle="tooltip" data-placement="bottom" title="Added Products"></span><?php echo e(trans('labels.addedProducts')); ?> </p>
                             </div>
                         </div>
-                        {{--{!! Form::hidden('reportBase',  $result['reportBase'] , array('id'=>'reportBase')) !!}--}}
+                        
                         <ul class="nav nav-tabs">
-                            <li class="{{ Request::is('admin/dashboard/last_year') ? 'active' : '' }}"><a href="{{ url('admin/dashboard/last_year')}}">{{ trans('labels.lastYear') }}</a></li>
-                            <li class="{{ Request::is('admin/dashboard/last_month') ? 'active' : '' }}"><a href="{{ url('admin/dashboard/last_month')}}">{{ trans('labels.LastMonth') }}</a></li>
-                            <li class="{{ Request::is('admin/dashboard/this_month') ? 'active' : '' }}"><a href="{{ url('admin/dashboard/this_month')}}">{{ trans('labels.thisMonth') }}</a></li>
+                            <li class="<?php echo e(Request::is('admin/dashboard/last_year') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/last_year')); ?>"><?php echo e(trans('labels.lastYear')); ?></a></li>
+                            <li class="<?php echo e(Request::is('admin/dashboard/last_month') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/last_month')); ?>"><?php echo e(trans('labels.LastMonth')); ?></a></li>
+                            <li class="<?php echo e(Request::is('admin/dashboard/this_month') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/this_month')); ?>"><?php echo e(trans('labels.thisMonth')); ?></a></li>
                             <li style="width: 33%"><a href="#" data-toggle="tab">
                                     <div class="input-group ">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" aria-label="Help">{{ trans('labels.custom') }}</button>
+                                            <button type="button" class="btn btn-default" aria-label="Help"><?php echo e(trans('labels.custom')); ?></button>
                                         </div>
                                         <input class="form-control reservation dateRange" readonly value="" name="dateRange" aria-label="Text input with multiple buttons ">
-                                        <div class="input-group-btn"><button type="button" class="btn btn-primary getRange" >{{ trans('labels.go') }}</button> </div>
+                                        <div class="input-group-btn"><button type="button" class="btn btn-primary getRange" ><?php echo e(trans('labels.go')); ?></button> </div>
                                     </div>
                                 </a></li>
                         </ul>
@@ -151,11 +150,11 @@
                             <div class="col-xs-12 col-lg-4">
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" aria-label="Help">{{ trans('labels.customDate') }}</button>
+                                        <button type="button" class="btn btn-default" aria-label="Help"><?php echo e(trans('labels.customDate')); ?></button>
                                     </div>
                                     <input class="form-control" aria-label="Text input with multiple buttons">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-primary">{{ trans('labels.go') }}</button>
+                                        <button type="button" class="btn btn-primary"><?php echo e(trans('labels.go')); ?></button>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +171,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="text-center">
-                                        <strong>{{ trans('labels.sales') }}: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                                        <strong><?php echo e(trans('labels.sales')); ?>: 1 Jan, 2014 - 30 Jul, 2014</strong>
                                     </p>
 
                                     <div class="chart">
@@ -194,7 +193,7 @@
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
                                         <h5 class="description-header">$35,210.43</h5>
-                                        <span class="description-text">{{ trans('labels.total_revenue') }}</span>
+                                        <span class="description-text"><?php echo e(trans('labels.total_revenue')); ?></span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -203,7 +202,7 @@
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
                                         <h5 class="description-header">$10,390.90</h5>
-                                        <span class="description-text">{{ trans('labels.total_cost') }}</span>
+                                        <span class="description-text"><?php echo e(trans('labels.total_cost')); ?></span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -212,7 +211,7 @@
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
                                         <h5 class="description-header">$24,813.53</h5>
-                                        <span class="description-text">{{ trans('labels.total_profit') }}</span>
+                                        <span class="description-text"><?php echo e(trans('labels.total_profit')); ?></span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -221,7 +220,7 @@
                                     <div class="description-block">
                                         <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
                                         <h5 class="description-header">1200</h5>
-                                        <span class="description-text">{{ trans('labels.goal_completions') }}</span>
+                                        <span class="description-text"><?php echo e(trans('labels.goal_completions')); ?></span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -250,10 +249,10 @@
                             <!-- USERS LIST -->
                             <div class="box box-danger">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">{{ trans('labels.latest_customers') }}</h3>
+                                    <h3 class="box-title"><?php echo e(trans('labels.latest_customers')); ?></h3>
 
                                     <div class="box-tools pull-right">
-                                        {{--<span class="label label-danger">{{ count($result['customers']) }} {{ trans('labels.new_members') }}</span>--}}
+                                        
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
                                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
@@ -263,30 +262,30 @@
 
                                 <!-- /.box-header -->
                                 <div class="box-body no-padding">
-                                    @if(count($result['customers'])>0)
+                                    <?php if(count($result['customers'])>0): ?>
                                         <ul class="users-list clearfix">
                                             <?php $i = 1; ?>
-                                            @foreach ($result['customers']  as $customer)
-                                                    @if($i<=21)
+                                            <?php $__currentLoopData = $result['customers']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php if($i<=21): ?>
                                                         <li>
-                                                            <img src="{{asset('images/user.png')}}">
-                                                            <a class="users-list-name" href="{{ url('admin/customers/edit/') }}/{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</a>
-                                                            <span class="users-list-date">{{$customer->created_at}}</span>
+                                                            <img src="<?php echo e(asset('images/user.png')); ?>">
+                                                            <a class="users-list-name" href="<?php echo e(url('admin/customers/edit/')); ?>/<?php echo e($customer->id); ?>"><?php echo e($customer->first_name); ?> <?php echo e($customer->last_name); ?></a>
+                                                            <span class="users-list-date"><?php echo e($customer->created_at); ?></span>
                                                         </li>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     <?php $i++; ?>
-                                                {{--@endforeach--}}
-                                            @endforeach
+                                                
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </ul>
-                                    @else
-                                        <p style="padding: 8px 0 0 10px;">{{ trans('labels.no_customer_exist') }}</p>
-                                @endif
+                                    <?php else: ?>
+                                        <p style="padding: 8px 0 0 10px;"><?php echo e(trans('labels.no_customer_exist')); ?></p>
+                                <?php endif; ?>
 
                                 <!-- /.users-list -->
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer text-center">
-                                    <a href="{{ url('admin/customers/display')}}" class="uppercase" data-toggle="tooltip" data-placement="bottom" title="View All Customers">{{ trans('labels.viewAllCustomers') }}</a>
+                                    <a href="<?php echo e(url('admin/customers/display')); ?>" class="uppercase" data-toggle="tooltip" data-placement="bottom" title="View All Customers"><?php echo e(trans('labels.viewAllCustomers')); ?></a>
                                 </div>
                                 <!-- /.box-footer -->
                             </div>
@@ -299,7 +298,7 @@
                     <!-- TABLE: LATEST ORDERS -->
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{ trans('labels.NewOrders') }}</h3>
+                            <h3 class="box-title"><?php echo e(trans('labels.NewOrders')); ?></h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -313,47 +312,48 @@
                                 <table class="table no-margin">
                                     <thead>
                                     <tr>
-                                        <th>{{ trans('labels.OrderID') }}</th>
-                                        <th>{{ trans('labels.CustomerName') }}</th>
-                                        <th>{{ trans('labels.TotalPrice') }}</th>
-                                        <th>{{ trans('labels.Status') }} </th>
+                                        <th><?php echo e(trans('labels.OrderID')); ?></th>
+                                        <th><?php echo e(trans('labels.CustomerName')); ?></th>
+                                        <th><?php echo e(trans('labels.TotalPrice')); ?></th>
+                                        <th><?php echo e(trans('labels.Status')); ?> </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if(count($result['orders'])>0)
-                                        @foreach($result['orders'] as $total_orders)
-                                            @foreach($total_orders as $key=>$orders)
-                                                @if($key<=10)
+                                    <?php if(count($result['orders'])>0): ?>
+                                        <?php $__currentLoopData = $result['orders']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $total_orders): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $total_orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$orders): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php if($key<=10): ?>
                                                     <tr>
-                                                        <td><a href="{{ URL::to('admin/orders/vieworder/') }}/{{ $orders->orders_id }}" data-toggle="tooltip" data-placement="bottom" title="Go to detail">{{ $orders->orders_id }}</a></td>
-                                                        <td>{{ $orders->customers_name }}</td>
-                                                        <td>{{ $result['commonContent']['setting']['currency_symbol'] }}{{ floatval($orders->total_price) }} </td>
+                                                        <td><a href="<?php echo e(URL::to('admin/orders/vieworder/')); ?>/<?php echo e($orders->orders_id); ?>" data-toggle="tooltip" data-placement="bottom" title="Go to detail"><?php echo e($orders->orders_id); ?></a></td>
+                                                        <td><?php echo e($orders->customers_name); ?></td>
+                                                        <td><?php echo e($result['commonContent']['setting']['currency_symbol']); ?><?php echo e(floatval($orders->total_price)); ?> </td>
                                                         <td>
-                                                            @if($orders->orders_status_id==1)
+                                                            <?php if($orders->orders_status_id==1): ?>
                                                                 <span class="label label-warning"></span>
-                            @elseif($orders->orders_status_id==2)
+                            <?php elseif($orders->orders_status_id==2): ?>
                                                                   <span class="label label-success">
-                            @elseif($orders->orders_status_id==3)
+                            <?php elseif($orders->orders_status_id==3): ?>
                                                                 </span>  <span class="label label-danger"></span>
-                            @else
+                            <?php else: ?>
                                                                   <span class="label label-primary">
-                            @endif
-                                                                                            {{ $orders->orders_status }}
+                            <?php endif; ?>
+                                                                                            <?php echo e($orders->orders_status); ?>
+
                                  </span>
 
 
                                                         </td>
                                                     </tr>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
+                                                <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                    @else
+                                    <?php else: ?>
                                         <tr>
-                                            <td colspan="4">{{ trans('labels.noOrderPlaced') }}</td>
+                                            <td colspan="4"><?php echo e(trans('labels.noOrderPlaced')); ?></td>
 
                                         </tr>
-                                    @endif
+                                    <?php endif; ?>
 
 
                                     </tbody>
@@ -364,7 +364,7 @@
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
                             <!--<a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>-->
-                            <a href="{{ URL::to('admin/orders/display') }}" class="btn btn-sm btn-default btn-flat pull-right" data-toggle="tooltip" data-placement="bottom" title="View All Orders">{{ trans('labels.viewAllOrders') }}</a>
+                            <a href="<?php echo e(URL::to('admin/orders/display')); ?>" class="btn btn-sm btn-default btn-flat pull-right" data-toggle="tooltip" data-placement="bottom" title="View All Orders"><?php echo e(trans('labels.viewAllOrders')); ?></a>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -378,7 +378,7 @@
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{ trans('labels.GoalCompletion') }}</h3>
+                            <h3 class="box-title"><?php echo e(trans('labels.GoalCompletion')); ?></h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -390,49 +390,49 @@
                         <div class="box-body">
 
                             <div class="progress-group">
-                                <span class="progress-text">{{ trans('labels.AddProductstoCart') }}</span>
-                                <span class="progress-number"><b>{{ $result['cart'] }}</b>/500</span>
+                                <span class="progress-text"><?php echo e(trans('labels.AddProductstoCart')); ?></span>
+                                <span class="progress-number"><b><?php echo e($result['cart']); ?></b>/500</span>
 
                                 <div class="progress sm">
-                                    <div class="progress-bar progress-bar-aqua" style="width: {{ $result['cart']*100/500 }}%"></div>
+                                    <div class="progress-bar progress-bar-aqua" style="width: <?php echo e($result['cart']*100/500); ?>%"></div>
                                 </div>
                             </div>
                             <!-- /.progress-group -->
-                            @if($result['total_orders']>0)
+                            <?php if($result['total_orders']>0): ?>
                                 <div class="progress-group">
-                                    <span class="progress-text">{{ trans('labels.CompleteOrders') }}</span>
-                                    <span class="progress-number"><b>{{ $result['compeleted_orders'] }}</b>/{{ $result['total_orders'] }}</span>
+                                    <span class="progress-text"><?php echo e(trans('labels.CompleteOrders')); ?></span>
+                                    <span class="progress-number"><b><?php echo e($result['compeleted_orders']); ?></b>/<?php echo e($result['total_orders']); ?></span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-green" style="width: {{ $result['compeleted_orders']*100/$result['total_orders'] }}%"></div>
+                                        <div class="progress-bar progress-bar-green" style="width: <?php echo e($result['compeleted_orders']*100/$result['total_orders']); ?>%"></div>
                                     </div>
                                 </div>
-                            @endif
-                            @if($result['total_orders']>0)
+                            <?php endif; ?>
+                            <?php if($result['total_orders']>0): ?>
                             <!-- /.progress-group -->
                                 <div class="progress-group">
-                                    <span class="progress-text">{{ trans('labels.PendingOrders') }}</span>
-                                    <span class="progress-number"><b>{{ $result['pending_orders'] }}</b>/{{ $result['total_orders'] }}</span>
+                                    <span class="progress-text"><?php echo e(trans('labels.PendingOrders')); ?></span>
+                                    <span class="progress-number"><b><?php echo e($result['pending_orders']); ?></b>/<?php echo e($result['total_orders']); ?></span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $result['pending_orders']*100/$result['total_orders'] }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" style="width: <?php echo e($result['pending_orders']*100/$result['total_orders']); ?>%"></div>
                                     </div>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         <!-- /.progress-group -->
-                            @if($result['total_orders']>0)
+                            <?php if($result['total_orders']>0): ?>
                                 <div class="progress-group">
-                                    <span class="progress-text">{{ trans('labels.InprocessOrders') }}</span>
-                                    <span class="progress-number"><b>{{ $result['inprocess'] }}</b>/{{ $result['total_orders'] }}</span>
+                                    <span class="progress-text"><?php echo e(trans('labels.InprocessOrders')); ?></span>
+                                    <span class="progress-number"><b><?php echo e($result['inprocess']); ?></b>/<?php echo e($result['total_orders']); ?></span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-red" style="width: {{ $result['inprocess']*100/$result['total_orders'] }}%"></div>
+                                        <div class="progress-bar progress-bar-red" style="width: <?php echo e($result['inprocess']*100/$result['total_orders']); ?>%"></div>
                                     </div>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
                         <!-- /.box-body -->
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{{ trans('labels.RecentlyAddedProducts') }}</h3>
+                            <h3 class="box-title"><?php echo e(trans('labels.RecentlyAddedProducts')); ?></h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
@@ -442,22 +442,23 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
-                                @foreach($result['recentProducts'] as $recentProducts)
+                                <?php $__currentLoopData = $result['recentProducts']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recentProducts): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <li class="item">
                                         <div class="product-img">
-                                            <img src="{{asset('').$recentProducts->products_image}}" alt="" width=" 100px" height="100px">
+                                            <img src="<?php echo e(asset('').$recentProducts->products_image); ?>" alt="" width=" 100px" height="100px">
                                         </div>
                                         <div class="product-info">
-                                            <a href="{{ URL::to('admin/products/edit') }}/{{ $recentProducts->products_id }}" class="product-title">{{ $recentProducts->products_name }}
-                                                <span class="label label-warning label-succes pull-right">{{ $result['commonContent']['setting']['currency_symbol'] }}{{ floatval($recentProducts->products_price) }}</span></a>
+                                            <a href="<?php echo e(URL::to('admin/products/edit')); ?>/<?php echo e($recentProducts->products_id); ?>" class="product-title"><?php echo e($recentProducts->products_name); ?>
+
+                                                <span class="label label-warning label-succes pull-right"><?php echo e($result['commonContent']['setting']['currency_symbol']); ?><?php echo e(floatval($recentProducts->products_price)); ?></span></a>
                                         </div>
                                     </li>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a href="{{ URL::to('admin/products/display') }}" class="uppercase" data-toggle="tooltip" data-placement="bottom" title="View All Products">{{ trans('labels.viewAllProducts') }}</a>
+                            <a href="<?php echo e(URL::to('admin/products/display')); ?>" class="uppercase" data-toggle="tooltip" data-placement="bottom" title="View All Products"><?php echo e(trans('labels.viewAllProducts')); ?></a>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -465,12 +466,14 @@
                 </div>
                 <!-- /.col -->
             </div>
-            @endif
+            <?php endif; ?>
             <!-- /.row -->
         </section>
         <!-- /.content -->
     </div>
-    {{--<script src="{!! asset('plugins/jQuery/jQuery-2.2.0.min.js') !!}"></script>--}}
+    
 
-    {{--<script src="{!! asset('dist/js/pages/dashboard2.js') !!}"></script>--}}
-@endsection
+    
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\sites\laravel-ecommerce-universal v4.0.12 preinstalled\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

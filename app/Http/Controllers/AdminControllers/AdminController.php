@@ -36,6 +36,8 @@ class AdminController extends Controller
 
 		$reportBase		  = 	$request->reportBase;
 
+//		return dd($reportBase);
+
 		//recently order placed
 		$orders = DB::table('orders')
 			->LeftJoin('currencies', 'currencies.code', '=', 'orders.currency')
@@ -47,7 +49,7 @@ class AdminController extends Controller
 		$index = 0;
 		$purchased_price = 0;
 		$sold_cost = 0;
-		
+
 		foreach($orders as $orders_data){
 
 			$orders_status_history = DB::table('orders_status_history')
@@ -61,7 +63,7 @@ class AdminController extends Controller
 			$orders[$index]->orders_status_id = $orders_status_history->orders_status_id;
 			$orders[$index]->orders_status = $orders_status_history->orders_status_name;
 
-			
+
 
 			$orders_products = DB::table('orders_products')
 				->select('final_price', DB::raw('SUM(final_price) as total_price') ,'products_id','products_quantity' )
@@ -69,7 +71,7 @@ class AdminController extends Controller
 				->groupBy('final_price')
 				->get();
 
-			
+
 			if(count($orders_products)>0 and !empty($orders_products[0]->total_price)){
 				$orders[$index]->total_price = $orders_products[0]->total_price;
 			}else{
@@ -87,14 +89,14 @@ class AdminController extends Controller
 						$single_product_purchase_price = 0;
 					}
 					$purchased_price += $single_product_purchase_price*$orders_product->products_quantity;
-	
-				}	
+
+				}
 			}
-			
+
 			$index++;
 
 		  }
-		  
+
 
   		//products profit
   		if($purchased_price==0){
@@ -102,11 +104,11 @@ class AdminController extends Controller
   		}else{
   			$profit = abs($purchased_price - $sold_cost);
 		}
-		
+
 
   		$result['profit'] = number_format($profit,2);
   		$result['total_money'] = number_format($purchased_price,2);
-		
+
   		$compeleted_orders = 0;
   		$pending_orders = 0;
   		foreach($orders as $orders_data){
@@ -120,21 +122,21 @@ class AdminController extends Controller
   				$pending_orders++;
   			}
 		  }
-		  
+
 
 
   		$result['orders'] = $orders->chunk(10);
   		$result['pending_orders'] = $pending_orders;
   		$result['compeleted_orders'] = $compeleted_orders;
 		$result['total_orders'] = count($orders);
-		  
+
 
   		$result['inprocess'] = count($orders)-$pending_orders-$compeleted_orders;
   		//add to cart orders
   		$cart = DB::table('customers_basket')->get();
 
   		$result['cart'] = count($cart);
-		  
+
   		//Rencently added products
 		$recentProducts = DB::table('products')
 			->LeftJoin('image_categories', function ($join) {
@@ -152,7 +154,7 @@ class AdminController extends Controller
 			->paginate(8);
 
   		$result['recentProducts'] = $recentProducts;
-		  
+
   		//products
   		$products = DB::table('products')
   			->leftJoin('products_description','products_description.products_id','=','products.products_id')
@@ -160,7 +162,7 @@ class AdminController extends Controller
   			->orderBy('products.products_id', 'DESC')
   			->get();
 
-			
+
   		//low products & out of stock
   		$lowLimit = 0;
   		$outOfStock = 0;
@@ -188,13 +190,13 @@ class AdminController extends Controller
   				$outOfStock++;
   			}
   		}
-		  
+
   		$result['lowLimit'] = $lowLimit;
   		$result['outOfStock'] = $outOfStock;
   		$result['totalProducts'] = count($products);
-		
-      	$users = array();		  
-		 
+
+      	$users = array();
+
   		$result['customers'] = $users;//->chunk(21);
   		$result['totalCustomers'] = count($users);
   		$result['reportBase'] = $reportBase;
@@ -762,7 +764,7 @@ class AdminController extends Controller
 			$admintype_update = $roles[0]->admintype_update;
 			$admintype_delete = $roles[0]->language_delete;
 			$manage_admins_role = $roles[0]->manage_admins_role;
-			
+
 			$reviews_view = $roles[0]->reviews_view;
 			$reviews_update = $roles[0]->reviews_update;
 
@@ -1104,10 +1106,10 @@ class AdminController extends Controller
 						'admintype_update' => $request->admintype_update,
 						'admintype_delete' => $request->admintype_delete,
 						'manage_admins_role' => $request->manage_admins_role,
-						
+
 						'reviews_view' => $request->reviews_view,
 						'reviews_update' => $request->reviews_update,
-						
+
 						]);
 
 		$message = Lang::get("labels.Roles has been added successfully");

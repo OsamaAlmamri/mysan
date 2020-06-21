@@ -11,6 +11,7 @@ use App\Models\API\Languages;
 
 //for authenitcate login data
 use App\Models\API\Products;
+use App\Models\Core\Categories;
 use Auth;
 
 //for requesting a value
@@ -55,32 +56,32 @@ class ProductsController extends BaseAPIController
                     'products_id.required' => 'رقم المنتج مطلوب',
                     'reviews_text.required' => ' نص التقييم مطلوب',
                     'reviews_rating.required' => 'التفييم مطلوب',
-                    'reviews_rating.numeric' => 'التفييم يجب ان يكون رقم   ' ,
-                    'reviews_rating.min' => 'يرجى اختيار رقم من 1 - 5   ' ,
-                    'reviews_rating.max' => 'يرجى اختيار رقم من 1 - 5   ' ,
+                    'reviews_rating.numeric' => 'التفييم يجب ان يكون رقم   ',
+                    'reviews_rating.min' => 'يرجى اختيار رقم من 1 - 5   ',
+                    'reviews_rating.max' => 'يرجى اختيار رقم من 1 - 5   ',
 
                 ]);
             if ($validator->fails()) {
                 return $this->sendError('error validation', $validator->errors(), 422);
             }
-            if (auth()->user()!=null) {
+            if (auth()->user() != null) {
                 $check = DB::table('reviews')
                     ->where('customers_id', auth()->user()->id)
                     ->where('products_id', $request->products_id)
                     ->first();
 
                 if ($check) {
-                    return $this->sendResponse(0,'already_commented');
+                    return $this->sendResponse(0, 'already_commented');
                 }
                 $id = DB::table('reviews')->insertGetId([
                     'products_id' => $request->products_id,
                     'reviews_text' => $request->reviews_text,
                     'reviews_rating' => $request->reviews_rating,
                     'customers_id' => auth()->user()->id,
-                    'customers_name' => auth()->user()->first_name.auth()->user()->last_name,
+                    'customers_name' => auth()->user()->first_name . auth()->user()->last_name,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
-                return $this->sendResponse(1,'done');
+                return $this->sendResponse(1, 'done');
 
 //
 //            DB::table('reviews_description')
@@ -96,30 +97,63 @@ class ProductsController extends BaseAPIController
 
             }
         } catch (Exception $ex) {
-            return $this->sendError('error',$ex->getMessage()) ;
+            return $this->sendError('error', $ex->getMessage());
 
         }
     }
 
     //shop
+    //shop
     public function shop(Request $request)
     {
 
+
+        if ($request->is('api/wishlist') == true or $request->type == 'wishlist') {
+            if (auth()->user() != null)
+                $type = 'wishlist';
+            else
+                return $this->sendError('0', 'قم بتسجيل الدخول اولا');
+
+        } elseif ($request->is('api/flash_sale') == true or $request->type == 'flash_sale') {
+            $type = 'flashsale';
+        } elseif ($request->is('api/top_seller') == true or $request->type == 'top_seller') {
+            $type = 'topseller';
+        } elseif ($request->is('api/most_liked') == true or $request->type == 'most_liked') {
+            $type = 'mostliked';
+        } elseif ($request->is('api/featured') == true or $request->type == 'featured') {
+            $type = 'special';
+        } elseif ($request->is('api/weeklySoldProducts') == true or $request->type == 'feweeklySoldProductsatured') {
+            $type = 'special';
+        } else {
+
+            $type = (!empty($request->type)) ? $request->type : '';
+        }
+
+
+        $withDeatils = ((!empty($request->withDeatils))
+            and $request->withDeatils == 1) ? 'allProductsWithDatails' : 'products';
         $page_number = (!empty($request->page)) ? $request->page : 0;
         $limit = (!empty($request->limit)) ? $request->limit : 15;
-        $type = (!empty($request->type)) ? $request->type : '';
         $max_price = (!empty($request->max_price)) ? $request->max_price : '';
         $min_price = (!empty($request->min_price)) ? $request->min_price : '';
         $search = (!empty($request->search)) ? $request->search : '';
         $lang = (!empty($request->lang)) ? $request->lang : 2;
 
         //category
+        if ($request->is('api/categoryProducts') == true and empty($request->category)) {
+            return $this->sendError('0', 'قم بتحدبد category اولا');
+
+        }
         if (!empty($request->category) and $request->category != 'all') {
             $category = $this->products->getCategories($request);
-            $categories_id = $category[0]->categories_id;
+            if ($category->count() > 0)
+                $categories_id = $category[0]->categories_id;
+            else
+                return $this->sendError('0', 'هذا الصنف غير موجود   ');
         } else {
             $categories_id = '';
         }
+
         $filters = array();
         if (!empty($request->filters_applied) and $request->filters_applied == 1) {
             $index = 0;
@@ -154,97 +188,12 @@ class ProductsController extends BaseAPIController
             'limit' => $limit,
             'min_price' => $min_price,
             'max_price' => $max_price);
-        $products = $this->products->allProductsWithDatails($data);
+        $products = $this->products->$withDeatils($data);
+//        $products = $this->products->allProductsWithDatails($data);
         return $this->sendNotFormatResponse($products);
 
     }
 
-    public function filterProducts(Request $request)
-    {
-        $this->index->commonContent();
-
-
-        //min_price
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        //max_price
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
-
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 15;
-        }
-
-        if (!empty($request->type)) {
-            $type = $request->type;
-        } else {
-            $type = '';
-        }
-
-
-        //if(!empty($request->category_id)){
-        if (!empty($request->category) and $request->category != 'all') {
-            $category = DB::table('categories')
-                ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
-                ->where('categories_slug', $request->category)
-                ->where('language_id', (!empty($request->lang)) ? $request->lang : 2)->get();
-
-            $categories_id = $category[0]->categories_id;
-        } else {
-            $categories_id = '';
-        }
-
-        //search value
-        if (!empty($request->search)) {
-            $search = $request->search;
-        } else {
-            $search = '';
-        }
-
-        //min_price
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        //max_price
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
-
-        if (!empty($request->filters_applied) and $request->filters_applied == 1) {
-            $filters['options_count'] = count($request->options_value);
-            $filters['options'] = $request->options;
-            $filters['option_value'] = $request->options_value;
-        } else {
-            $filters = array();
-        }
-
-        $data = array('page_number' => $request->page_number, 'type' => $type, 'limit' => $limit, 'categories_id' => $categories_id,
-            'search' => $search, 'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
-        $products = $this->products->products($data);
-        $result['products'] = $products;
-
-        $cart = '';
-        $result['cartArray'] = $this->products->cartIdArray($cart);
-        $result['limit'] = $limit;
-        return $this->sendNotFormatResponse($result);
-
-//        return view("web.filterproducts")->with('result', $result);
-
-    }
 
     public function ModalShow(Request $request)
     {
@@ -382,7 +331,7 @@ class ProductsController extends BaseAPIController
     {
         $data = array();
         $data['products_id'] = $request->products_id;
-        $data['attributes'] =  $request->attributeid;
+        $data['attributes'] = $request->attributeid;
 
         $result = $this->products->productQuantity($data);
         return $this->sendNotFormatResponse($result);
