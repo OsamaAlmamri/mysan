@@ -172,7 +172,7 @@ if($is_transaction=='0'){
 		  //'orderId' => '123',
 		  'paymentMethodNonce' => $nonce,
 		  'customer' => [
-			'firstName' => $delivery_firstname,
+			'Name' => $delivery_firstname,
 			'lastName' => $delivery_lastname,
 			//'phone' => $customers_telephone,
 			'email' => $email
@@ -187,8 +187,7 @@ if($is_transaction=='0'){
 			'countryName' => $delivery_country
 		  ],
 		  'billing' => [
-			'firstName' => $billing_firstname,
-			'lastName' => $billing_lastname,
+			'firstName' => $billing_name,
 			'streetAddress' => $billing_street_address,
 			'locality' => $billing_city,
 			'region' => $billing_state,

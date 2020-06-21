@@ -194,10 +194,9 @@ class OrdersController extends Controller
             $shipping_data[$key] = $value;
 
             //billing address
-            if ($key == 'firstname') {
-                $billing_data['billing_firstname'] = $value;
-            } else if ($key == 'lastname') {
-                $billing_data['billing_lastname'] = $value;
+            if ($key == 'name') {
+                $billing_data['billing_name'] = $value;
+
             } else if ($key == 'company') {
                 $billing_data['billing_company'] = $value;
             } else if ($key == 'street') {
@@ -208,8 +207,6 @@ class OrdersController extends Controller
                 $billing_data['billing_zone_id'] = $value;
             } else if ($key == 'city') {
                 $billing_data['billing_city'] = $value;
-            } else if ($key == 'postcode') {
-                $billing_data['billing_zip'] = $value;
             } else if ($key == 'delivery_phone') {
                 $billing_data['billing_phone'] = $value;
             }
@@ -373,7 +370,6 @@ class OrdersController extends Controller
         $result = array();
         if (!empty(session('shipping_address'))) {
             $countries_id = session('shipping_address')->countries_id;
-            $toPostalCode = session('shipping_address')->postcode;
             $toCity = session('shipping_address')->city;
             $toAddress = 'gh';
             $countries = $this->order->getCountries($countries_id);

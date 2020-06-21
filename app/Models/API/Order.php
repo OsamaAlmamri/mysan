@@ -92,12 +92,10 @@ class Order extends Model
 
         $delivery_country = $country[0]->countries_name;
 
-        $billing_firstname = session('billing_address')->billing_firstname;
-        $billing_lastname = session('billing_address')->billing_lastname;
+        $billing_name = session('billing_address')->billing_name;
         $billing_street_address = session('billing_address')->billing_street;
         $billing_suburb = '';
         $billing_city = session('billing_address')->billing_city;
-        $billing_postcode = session('billing_address')->billing_zip;
         $billing_phone = session('billing_address')->billing_phone;
 
         if (!empty(session('billing_company')->company)) {
@@ -336,11 +334,10 @@ class Order extends Model
                     'delivery_country' => $delivery_country,
                     // 'delivery_address_format_id' => $delivery_address_format_id,
 
-                    'billing_name' => $billing_firstname . ' ' . $billing_lastname,
+                    'billing_name' => $billing_name ,
                     'billing_street_address' => $billing_street_address,
                     'billing_suburb' => $billing_suburb,
                     'billing_city' => $billing_city,
-                    'billing_postcode' => $billing_postcode,
                     'billing_state' => $billing_state,
                     'billing_country' => $billing_country,
                     //'billing_address_format_id' => $billing_address_format_id,

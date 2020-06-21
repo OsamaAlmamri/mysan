@@ -33,7 +33,6 @@ class CreateOrdersTable extends Migration {
 			$table->string('delivery_street_address', 191);
 			$table->string('delivery_suburb', 191)->nullable();
 			$table->string('delivery_city', 191);
-			$table->string('delivery_postcode', 191);
 			$table->string('delivery_state', 191)->nullable();
 			$table->string('delivery_country', 191);
 			$table->integer('delivery_address_format_id')->nullable();
@@ -42,7 +41,6 @@ class CreateOrdersTable extends Migration {
 			$table->string('billing_street_address', 191);
 			$table->string('billing_suburb', 191)->nullable();
 			$table->string('billing_city', 191);
-			$table->string('billing_postcode', 191);
 			$table->string('billing_state', 191)->nullable();
 			$table->string('billing_country', 191);
 			$table->integer('billing_address_format_id');

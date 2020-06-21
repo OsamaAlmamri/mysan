@@ -154,7 +154,7 @@ class ProductsController extends BaseAPIController
             'limit' => $limit,
             'min_price' => $min_price,
             'max_price' => $max_price);
-        $products = $this->products->products($data);
+        $products = $this->products->allProductsWithDatails($data);
         return $this->sendNotFormatResponse($products);
 
     }

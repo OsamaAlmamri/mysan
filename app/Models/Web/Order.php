@@ -24,7 +24,7 @@ class Order extends Model
         $result = array();
         $cart_items = $cart->myCart($result);
         $result['cart'] = $cart_items;
-        
+
         if (count($result['cart']) > 0) {
             foreach ($result['cart'] as $products) {
                 $req = array();
@@ -56,8 +56,7 @@ class Order extends Model
                         'role_id' => 2,
                         'email' => $email = session('shipping_address')->email,
                         'password' => Hash::make('123456dfdfdf'),
-                        'first_name' => session('shipping_address')->firstname,
-                        'last_name' => session('shipping_address')->lastname,
+                        'name' => session('shipping_address')->name,
                         'phone' => session('billing_address')->billing_phone,
                     ]);
                 session(['customers_id' => $customers_id]);
@@ -71,13 +70,12 @@ class Order extends Model
             $email = auth()->guard('customer')->user()->email;
         }
         $delivery_company = session('shipping_address')->company;
-        $delivery_firstname = session('shipping_address')->firstname;
+        $delivery_name = session('shipping_address')->name;
 
-        $delivery_lastname = session('shipping_address')->lastname;
+        $delivery_name = session('shipping_address')->name;
         $delivery_street_address = session('shipping_address')->street;
         $delivery_suburb = '';
         $delivery_city = session('shipping_address')->city;
-        $delivery_postcode = session('shipping_address')->postcode;
         $delivery_phone = session('shipping_address')->delivery_phone;
 
         $delivery = DB::table('zones')->where('zone_id', '=', session('shipping_address')->zone_id)->get();
@@ -92,12 +90,10 @@ class Order extends Model
 
         $delivery_country = $country[0]->countries_name;
 
-        $billing_firstname = session('billing_address')->billing_firstname;
-        $billing_lastname = session('billing_address')->billing_lastname;
+        $billing_name = session('billing_address')->billing_name;
         $billing_street_address = session('billing_address')->billing_street;
         $billing_suburb = '';
         $billing_city = session('billing_address')->billing_city;
-        $billing_postcode = session('billing_address')->billing_zip;
         $billing_phone = session('billing_address')->billing_phone;
 
         if (!empty(session('billing_company')->company)) {
@@ -316,31 +312,28 @@ class Order extends Model
 
             $orders_id = DB::table('orders')->insertGetId(
                 ['customers_id' => $customers_id,
-                    'customers_name' => $delivery_firstname . ' ' . $delivery_lastname,
+                    'customers_name' => $delivery_name . ' ' . $delivery_name,
                     'customers_street_address' => $delivery_street_address,
                     'customers_suburb' => $delivery_suburb,
                     'customers_city' => $delivery_city,
-                    'customers_postcode' => $delivery_postcode,
                     'customers_state' => $delivery_state,
                     'customers_country' => $delivery_country,
                     //'customers_telephone' => $customers_telephone,
                     'email' => $email,
                     // 'customers_address_format_id' => $delivery_address_format_id,
 
-                    'delivery_name' => $delivery_firstname . ' ' . $delivery_lastname,
+                    'delivery_name' => $delivery_name . ' ' . $delivery_name,
                     'delivery_street_address' => $delivery_street_address,
                     'delivery_suburb' => $delivery_suburb,
                     'delivery_city' => $delivery_city,
-                    'delivery_postcode' => $delivery_postcode,
                     'delivery_state' => $delivery_state,
                     'delivery_country' => $delivery_country,
                     // 'delivery_address_format_id' => $delivery_address_format_id,
 
-                    'billing_name' => $billing_firstname . ' ' . $billing_lastname,
+                    'billing_name' => $billing_name ,
                     'billing_street_address' => $billing_street_address,
                     'billing_suburb' => $billing_suburb,
                     'billing_city' => $billing_city,
-                    'billing_postcode' => $billing_postcode,
                     'billing_state' => $billing_state,
                     'billing_country' => $billing_country,
                     //'billing_address_format_id' => $billing_address_format_id,
@@ -375,7 +368,7 @@ class Order extends Model
                     'customer_notified' => '1',
                     'comments' => $comments,
                 ]);
-                
+
             foreach ($cart_items as $products) {
                 //get products info
                 $orders_products_id = DB::table('orders_products')->insertGetId(
