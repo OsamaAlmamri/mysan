@@ -543,7 +543,7 @@ class Cart extends Model
         //check quantity
         if ($result['detail']['product_data'][0]->products_type == 1) {
             $qunatity['products_id'] = $request->products_id;
-            $qunatity['attributes'] = $attributeid;
+            $qunatity['attributes'] = $request->attributeid;
 
             $content = $products->productQuantity($qunatity);
             //dd($content);

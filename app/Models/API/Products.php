@@ -942,7 +942,7 @@ class Products extends Model
         ztoa
         hightolow
         lowtohigh
-        
+
         topseller
         mostliked
         special

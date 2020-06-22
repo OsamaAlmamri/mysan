@@ -69,6 +69,27 @@ Route::middleware('auth:api')->group(function () {
     Route::post('getProduct', 'API\IndexController@getProduct');
 
 
+/**********************************************/
+    Route::get('guest_checkout', 'API\OrdersController@guest_checkout');
+    Route::post('checkout', 'API\OrdersController@checkout');
+    Route::post('checkout_shipping_address', 'API\OrdersController@checkout_shipping_address');
+    Route::post('checkout_billing_address', 'API\OrdersController@checkout_billing_address');
+    Route::post('checkout_payment_method', 'API\OrdersController@checkout_payment_method');
+    Route::post('paymentComponent', 'API\OrdersController@paymentComponent');
+    Route::post('place_order', 'API\OrdersController@place_order');
+    Route::get('orders', 'API\OrdersController@orders');
+    Route::post('updatestatus/', 'API\OrdersController@updatestatus');
+    Route::post('myorders', 'API\OrdersController@myorders');
+    Route::get('stripeForm', 'API\OrdersController@stripeForm');
+    Route::get('view-order/{id}', 'API\OrdersController@viewOrder');
+    Route::post('pay-instamojo', 'API\OrdersController@payIinstamojo');
+    Route::get('thankyou', 'API\OrdersController@thankyou');
+
+
+
+
+
+
 
 
     Route::post('userInfo', 'API\AuthController@userInfo');//
