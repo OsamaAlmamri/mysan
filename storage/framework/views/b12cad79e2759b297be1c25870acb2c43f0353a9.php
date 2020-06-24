@@ -103,136 +103,136 @@
 
               </div>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="nav-tabs-custom">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"> <?php echo e(trans('labels.addedSaleReport')); ?></h3>
-                            <div class="box-tools pull-right">
-                                <p class="notify-colors"><span class="sold-content" data-toggle="tooltip" data-placement="bottom" title="Sold Products"></span> <?php echo e(trans('labels.soldProducts')); ?>  <span class="purchased-content" data-toggle="tooltip" data-placement="bottom" title="Added Products"></span><?php echo e(trans('labels.addedProducts')); ?> </p>
-                            </div>
-                        </div>
-                        
-                        <ul class="nav nav-tabs">
-                            <li class="<?php echo e(Request::is('admin/dashboard/last_year') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/last_year')); ?>"><?php echo e(trans('labels.lastYear')); ?></a></li>
-                            <li class="<?php echo e(Request::is('admin/dashboard/last_month') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/last_month')); ?>"><?php echo e(trans('labels.LastMonth')); ?></a></li>
-                            <li class="<?php echo e(Request::is('admin/dashboard/this_month') ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/dashboard/this_month')); ?>"><?php echo e(trans('labels.thisMonth')); ?></a></li>
-                            <li style="width: 33%"><a href="#" data-toggle="tab">
-                                    <div class="input-group ">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" aria-label="Help"><?php echo e(trans('labels.custom')); ?></button>
-                                        </div>
-                                        <input class="form-control reservation dateRange" readonly value="" name="dateRange" aria-label="Text input with multiple buttons ">
-                                        <div class="input-group-btn"><button type="button" class="btn btn-primary getRange" ><?php echo e(trans('labels.go')); ?></button> </div>
-                                    </div>
-                                </a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                <!-- Post -->
-                                <div class="chart">
-                                    <!-- Sales Chart Canvas -->
-                                    <canvas id="salesChart" style="height: 400px;"></canvas>
-                                </div>
-                                <!-- /.post -->
-                            </div>
-                            <!-- /.tab-pane -->
-                        </div>
-                        <!-- /.tab-content -->
-                    </div>
-                    <!-- /.nav-tabs-custom -->
-                </div>
-                <div class="col-md-12" style="display: none">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <!--<h3 class="box-title pull-left">Monthly Report</h3>-->
 
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" aria-label="Help"><?php echo e(trans('labels.customDate')); ?></button>
-                                    </div>
-                                    <input class="form-control" aria-label="Text input with multiple buttons">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-primary"><?php echo e(trans('labels.go')); ?></button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
 
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="text-center">
-                                        <strong><?php echo e(trans('labels.sales')); ?>: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                                    </p>
 
-                                    <div class="chart">
-                                        <!-- Sales Chart Canvas -->
-                                        <canvas id="salesChart" style="height: 400px;"></canvas>
-                                    </div>
-                                    <!-- /.chart-responsive -->
-                                </div>
-                                <!-- /.col -->
 
-                                <!-- /.col -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- ./box-body -->
-                        <div class="box-footer" style="display: none">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                                        <h5 class="description-header">$35,210.43</h5>
-                                        <span class="description-text"><?php echo e(trans('labels.total_revenue')); ?></span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                                        <h5 class="description-header">$10,390.90</h5>
-                                        <span class="description-text"><?php echo e(trans('labels.total_cost')); ?></span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                                        <h5 class="description-header">$24,813.53</h5>
-                                        <span class="description-text"><?php echo e(trans('labels.total_profit')); ?></span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block">
-                                        <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
-                                        <h5 class="description-header">1200</h5>
-                                        <span class="description-text"><?php echo e(trans('labels.goal_completions')); ?></span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.box-footer -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-                <!-- /.col -->
-            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- /.row -->
 
             <!-- Main row -->

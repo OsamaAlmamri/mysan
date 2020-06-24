@@ -5,6 +5,7 @@ use App\Models\Core\Setting;
 use App\Models\Admin\Admin;
 use App\Models\Core\Order;
 use App\Models\Core\Customers;
+use App\Models\Core\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -195,10 +196,11 @@ class AdminController extends Controller
   		$result['outOfStock'] = $outOfStock;
   		$result['totalProducts'] = count($products);
 
-      	$users = array();
+      	$totalCustomers = User::all()->where('role_id',2)->count();
+      	$users = User::all()->where('role_id',2)->take(21);
 
   		$result['customers'] = $users;//->chunk(21);
-  		$result['totalCustomers'] = count($users);
+  		$result['totalCustomers'] = ($totalCustomers);
   		$result['reportBase'] = $reportBase;
 
 		$result['commonContent'] = $this->Setting->commonContent();
