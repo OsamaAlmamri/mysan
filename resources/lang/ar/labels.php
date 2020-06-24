@@ -942,7 +942,7 @@ return [
     'Profile' => 'الملف الشخصي',
     'ProfileUpdateMessage' => 'تم تحديث معلومات الملف الشخصي بنجاح!',
     'PasswordUpdateMessage' => 'تم تغيير كلمة المرور بنجاح!',
-    'AdminProfile' => 'ملف تعريف المسؤول',
+    'AdminProfile' => 'الملف الشخصي   ',
     'Administrator' => 'مدير',
     'Re - EnterPassword' => 'إعادة إدخال كلمة المرور',
     'AdminPasswordRestriction' => 'الرجاء إدخال 6 أحرف كحد أدنى . ',
