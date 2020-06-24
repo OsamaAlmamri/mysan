@@ -127,29 +127,29 @@
                                             </div>
                                         </div>
 
-                                        <hr>
-                                        <h4><?php echo e(trans('labels.InqueryEmails')); ?></h4>
-                                        <hr>
 
-                                        <div class="form-group">
-                                            <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.ContactUsEmail')); ?></label>
-                                            <div class="col-sm-10 col-md-4">
-                                                <?php echo Form::text($result['settings'][3]->name, $result['settings'][3]->value, array('class'=>'form-control', 'id'=>$result['settings'][3]->name)); ?><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;margin-top: 0;">
-                                                    <?php echo e(trans('labels.ContactUsEmailText')); ?></span>
-                                            </div>
-                                        </div>
 
-                                        <hr>
-                                        <h4><?php echo e(trans('labels.OrderEmail')); ?></h4>
-                                        <hr>
 
-                                        <div class="form-group">
-                                            <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.OrderEmail')); ?></label>
-                                            <div class="col-sm-10 col-md-4">
-                                                <?php echo Form::text($result['settings'][70]->name, $result['settings'][70]->value, array('class'=>'form-control', 'id'=>$result['settings'][70]->name)); ?><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;margin-top: 0;">
-                                                    <?php echo e(trans('labels.OrderEmailText')); ?></span>
-                                            </div>
-                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                         <hr>
                                         <h4><?php echo e(trans('labels.Orders')); ?></h4>

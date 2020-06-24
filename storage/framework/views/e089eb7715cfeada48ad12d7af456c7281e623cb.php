@@ -39,15 +39,15 @@
 
             <?php endif; ?>
 
-            <?php if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->language_view == 1): ?>
+            
 
 
-                <li class="treeview <?php echo e(Request::is('admin/languages/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/languages/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/languages/edit/*') ? 'active' : ''); ?> ">
-                    <a href="<?php echo e(URL::to('admin/languages/display')); ?>">
-                        <i class="fa fa-language" aria-hidden="true"></i> <span> <?php echo e(trans('labels.languages')); ?> </span>
-                    </a>
-                </li>
-            <?php endif; ?>
+            
+            
+            
+            
+            
+            
 
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->general_setting_view == 1): ?>
 
@@ -94,11 +94,11 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="<?php echo e(Request::is('admin/products/attributes/display') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/products/attributes/add') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/products/attributes/*') ? 'active' : ''); ?>">
                                 <a href="<?php echo e(URL::to('admin/products/attributes/display' )); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.products_attributes')); ?></a></li>
-
-
-
-
-                                <li class="<?php echo e(Request::is('admin/products/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/attributes/add/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addinventory/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addproductimages/*') ? 'active' : ''); ?>">
+                            
+                            
+                            
+                            
+                            <li class="<?php echo e(Request::is('admin/products/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/attributes/add/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addinventory/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addproductimages/*') ? 'active' : ''); ?>">
                                 <a href="<?php echo e(URL::to('admin/products/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_all_products')); ?></a></li>
                             <li class="<?php echo e(Request::is('admin/products/inventory/display') ? 'active' : ''); ?>"><a
@@ -179,9 +179,10 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <span><?php echo e(trans('labels.link_tax_location')); ?></span> <i class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/countries/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/countries/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/countries/edit/*') ? 'active' : ''); ?> ">
-                            <a href="<?php echo e(URL::to('admin/countries/display')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_countries')); ?></a></li>
+
+
+
+
                         <li class="<?php echo e(Request::is('admin/zones/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/zones/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/zones/edit/*') ? 'active' : ''); ?>">
                             <a href="<?php echo e(URL::to('admin/zones/display')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_zones')); ?></a></li>
@@ -202,36 +203,41 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             <?php endif; ?>
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->shipping_methods_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/shippingmethods/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/upsShipping/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/flateRate/display') ? 'active' : ''); ?>">
-                    <a href="<?php echo e(URL::to('admin/shippingmethods/display')); ?>"><i class="fa fa-truck"
-                                                                               aria-hidden="true"></i>
+                    <a href="#">
+
+                        <i class="fa fa-truck"
+                           aria-hidden="true"></i>
                         <span> <?php echo e(trans('labels.link_shipping_methods')); ?></span>
                     </a>
                 </li>
             <?php endif; ?>
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->payment_methods_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/paymentmethods/index') ? 'active' : ''); ?> <?php echo e(Request::is('admin/paymentmethods/display/*') ? 'active' : ''); ?>">
-                    <a href="<?php echo e(URL::to('admin/paymentmethods/index')); ?>"><i class="fa fa-credit-card"
-                                                                            aria-hidden="true"></i> <span>
+                    <a href="#">
+                        
+                        <i class="fa fa-credit-card"
+                           aria-hidden="true"></i> <span>
               <?php echo e(trans('labels.link_payment_methods')); ?></span>
                     </a>
                 </li>
             <?php endif; ?>
-            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->news_view == 1): ?>
-                <li class="treeview <?php echo e(Request::is('admin/newscategories/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/newscategories/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/newscategories/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/news/display') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/news/add') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/news/edit/*') ? 'active' : ''); ?>">
-                    <a href="#">
-                        <i class="fa fa-database" aria-hidden="true"></i>
-                        <span>      <?php echo e(trans('labels.Blog')); ?></span> <i class="fa fa-angle-left pull-left"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/newscategories/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/newscategories/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/newscategories/edit/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/newscategories/display')); ?>"><i
-                                    class="fa fa-circle-o"></i><?php echo e(trans('labels.link_news_categories')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/news/display') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/news/add') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/news/edit/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/news/display')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_sub_news')); ?></a></li>
-                    </ul>
-                </li>
-            <?php endif; ?>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
             <?php if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->notifications_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?><?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?>">
                     <a href="<?php echo e(URL::to('admin/devices/display')); ?> ">
@@ -240,20 +246,21 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/pushnotification')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/devices/display')); ?>"><i
-                                    class="fa fa-circle-o"></i><?php echo e(trans('labels.link_devices')); ?> </a>
-                        </li>
-                        <li class="<?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?> ">
-                            <a href="<?php echo e(URL::to('admin/devices/notifications')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_send_notifications')); ?></a>
-                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                     </ul>
                 </li>
             <?php endif; ?>
+
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->general_setting_view == 1): ?>
 
                 <li class="treeview <?php echo e(Request::is('admin/facebooksettings') ? 'active' : ''); ?> <?php echo e(Request::is('admin/setting') ? 'active' : ''); ?> <?php echo e(Request::is('admin/googlesettings') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/alertsetting') ? 'active' : ''); ?>  ">
@@ -267,16 +274,17 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <li class="<?php echo e(Request::is('admin/setting') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(URL::to('admin/setting')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_store_setting')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/facebooksettings') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/facebooksettings')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_facebook')); ?></a></li>
+                        
+                        
+                        
+                        
                         <li class="<?php echo e(Request::is('admin/googlesettings') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(URL::to('admin/googlesettings')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_google')); ?></a></li>
 
-                        <li class="<?php echo e(Request::is('admin/alertsetting') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/alertsetting')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.alertSetting')); ?></a></li>
+                        
+                        
+                        
 
 
                     </ul>
@@ -468,47 +476,48 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                     </ul>
                 </li>
             <?php endif; ?>
+            
 
+            
+            
+            
+            
+            
+            
 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
+            
 
+            
+            
+            
+            
+            
+            
+            
 
+            
+            
+            
+            
+            
+            
+            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1): ?>
-
-            <!--------create middlewares -------->
-                <li class="treeview  <?php echo e(Request::is('admin/managements/restore') ? 'active' : ''); ?> <?php echo e(Request::is('admin/managements/backup') ? 'active' : ''); ?>">
-                    <a href="#">
-                        <i class="fa fa-gears" aria-hidden="true"></i>
-                        <span> <?php echo e(trans('labels.Backup / Restore')); ?></span> <i
-                            class="fa fa-angle-left pull-left"></i>
-                    </a>
-
-                    <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/managements/updater') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/managements/backup')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.backup')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/managements/updater') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/managements/import')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.restore')); ?></a></li>
-
-                    </ul>
-                </li>
-            <?php endif; ?>
+            
+            
+            
+            
         </ul>
     </section>
     <!-- /.sidebar -->

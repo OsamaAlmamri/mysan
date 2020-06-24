@@ -39,15 +39,15 @@
 
             @endif
 
-            @if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->language_view == 1)
+            {{--            @if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->language_view == 1)--}}
 
 
-                <li class="treeview {{ Request::is('admin/languages/display') ? 'active' : '' }} {{ Request::is('admin/languages/add') ? 'active' : '' }} {{ Request::is('admin/languages/edit/*') ? 'active' : '' }} ">
-                    <a href="{{ URL::to('admin/languages/display')}}">
-                        <i class="fa fa-language" aria-hidden="true"></i> <span> {{ trans('labels.languages') }} </span>
-                    </a>
-                </li>
-            @endif
+            {{--                <li class="treeview {{ Request::is('admin/languages/display') ? 'active' : '' }} {{ Request::is('admin/languages/add') ? 'active' : '' }} {{ Request::is('admin/languages/edit/*') ? 'active' : '' }} ">--}}
+            {{--                    <a href="{{ URL::to('admin/languages/display')}}">--}}
+            {{--                        <i class="fa fa-language" aria-hidden="true"></i> <span> {{ trans('labels.languages') }} </span>--}}
+            {{--                    </a>--}}
+            {{--                </li>--}}
+            {{--            @endif--}}
 
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->general_setting_view == 1)
 
@@ -93,11 +93,11 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="{{ Request::is('admin/products/attributes/display') ? 'active' : '' }}  {{ Request::is('admin/products/attributes/add') ? 'active' : '' }}  {{ Request::is('admin/products/attributes/*') ? 'active' : '' }}">
                                 <a href="{{ URL::to('admin/products/attributes/display' )}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.products_attributes') }}</a></li>
-{{--                            <li class="{{ Request::is('admin/units') ? 'active' : '' }} {{ Request::is('admin/addunit') ? 'active' : '' }} {{ Request::is('admin/editunit/*') ? 'active' : '' }} ">--}}
-{{--                                <a href="{{ URL::to('admin/units')}}"><i--}}
-{{--                                        class="fa fa-circle-o"></i> {{ trans('labels.link_units') }}</a></li>--}}
-{{--                            --}}
-                                <li class="{{ Request::is('admin/products/display') ? 'active' : '' }} {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products/edit/*') ? 'active' : '' }} {{ Request::is('admin/products/attributes/add/*') ? 'active' : '' }} {{ Request::is('admin/addinventory/*') ? 'active' : '' }} {{ Request::is('admin/addproductimages/*') ? 'active' : '' }}">
+                            {{--                            <li class="{{ Request::is('admin/units') ? 'active' : '' }} {{ Request::is('admin/addunit') ? 'active' : '' }} {{ Request::is('admin/editunit/*') ? 'active' : '' }} ">--}}
+                            {{--                                <a href="{{ URL::to('admin/units')}}"><i--}}
+                            {{--                                        class="fa fa-circle-o"></i> {{ trans('labels.link_units') }}</a></li>--}}
+                            {{--                            --}}
+                            <li class="{{ Request::is('admin/products/display') ? 'active' : '' }} {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products/edit/*') ? 'active' : '' }} {{ Request::is('admin/products/attributes/add/*') ? 'active' : '' }} {{ Request::is('admin/addinventory/*') ? 'active' : '' }} {{ Request::is('admin/addproductimages/*') ? 'active' : '' }}">
                                 <a href="{{ URL::to('admin/products/display')}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.link_all_products') }}</a></li>
                             <li class="{{ Request::is('admin/products/inventory/display') ? 'active' : '' }}"><a
@@ -178,9 +178,10 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <span>{{ trans('labels.link_tax_location') }}</span> <i class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="{{ Request::is('admin/countries/display') ? 'active' : '' }} {{ Request::is('admin/countries/add') ? 'active' : '' }} {{ Request::is('admin/countries/edit/*') ? 'active' : '' }} ">
-                            <a href="{{ URL::to('admin/countries/display')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_countries') }}</a></li>
+{{--                        <li class="{{ Request::is('admin/countries/display') ? 'active' : '' }} {{ Request::is('admin/countries/add') ? 'active' : '' }} {{ Request::is('admin/countries/edit/*') ? 'active' : '' }} ">--}}
+{{--                            <a href="{{ URL::to('admin/countries/display')}}"><i--}}
+{{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_countries') }}</a></li>--}}
+{{--                        --}}
                         <li class="{{ Request::is('admin/zones/display') ? 'active' : '' }} {{ Request::is('admin/zones/add') ? 'active' : '' }} {{ Request::is('admin/zones/edit/*') ? 'active' : '' }}">
                             <a href="{{ URL::to('admin/zones/display')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_zones') }}</a></li>
@@ -201,36 +202,41 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             @endif
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->shipping_methods_view == 1)
                 <li class="treeview {{ Request::is('admin/shippingmethods/display') ? 'active' : '' }} {{ Request::is('admin/shippingmethods/upsShipping/display') ? 'active' : '' }} {{ Request::is('admin/shippingmethods/flateRate/display') ? 'active' : '' }}">
-                    <a href="{{ URL::to('admin/shippingmethods/display')}}"><i class="fa fa-truck"
-                                                                               aria-hidden="true"></i>
+                    <a href="#">
+{{--                    <a href="{{ URL::to('admin/shippingmethods/display')}}">--}}
+                        <i class="fa fa-truck"
+                           aria-hidden="true"></i>
                         <span> {{ trans('labels.link_shipping_methods') }}</span>
                     </a>
                 </li>
             @endif
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->payment_methods_view == 1)
                 <li class="treeview {{ Request::is('admin/paymentmethods/index') ? 'active' : '' }} {{ Request::is('admin/paymentmethods/display/*') ? 'active' : '' }}">
-                    <a href="{{ URL::to('admin/paymentmethods/index')}}"><i class="fa fa-credit-card"
-                                                                            aria-hidden="true"></i> <span>
+                    <a href="#">
+                        {{--                    <a href="{{ URL::to('admin/paymentmethods/index')}}">--}}
+                        <i class="fa fa-credit-card"
+                           aria-hidden="true"></i> <span>
               {{ trans('labels.link_payment_methods') }}</span>
                     </a>
                 </li>
             @endif
-            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->news_view == 1)
-                <li class="treeview {{ Request::is('admin/newscategories/display') ? 'active' : '' }} {{ Request::is('admin/newscategories/add') ? 'active' : '' }} {{ Request::is('admin/newscategories/edit/*') ? 'active' : '' }} {{ Request::is('admin/news/display') ? 'active' : '' }}  {{ Request::is('admin/news/add') ? 'active' : '' }}  {{ Request::is('admin/news/edit/*') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa fa-database" aria-hidden="true"></i>
-                        <span>      {{ trans('labels.Blog') }}</span> <i class="fa fa-angle-left pull-left"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{{ Request::is('admin/newscategories/display') ? 'active' : '' }} {{ Request::is('admin/newscategories/add') ? 'active' : '' }} {{ Request::is('admin/newscategories/edit/*') ? 'active' : '' }}">
-                            <a href="{{ URL::to('admin/newscategories/display')}}"><i
-                                    class="fa fa-circle-o"></i>{{ trans('labels.link_news_categories') }}</a></li>
-                        <li class="{{ Request::is('admin/news/display') ? 'active' : '' }}  {{ Request::is('admin/news/add') ? 'active' : '' }}  {{ Request::is('admin/news/edit/*') ? 'active' : '' }}">
-                            <a href="{{ URL::to('admin/news/display')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_sub_news') }}</a></li>
-                    </ul>
-                </li>
-            @endif
+            {{--            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->news_view == 1)--}}
+            {{--                <li class="treeview {{ Request::is('admin/newscategories/display') ? 'active' : '' }} {{ Request::is('admin/newscategories/add') ? 'active' : '' }} {{ Request::is('admin/newscategories/edit/*') ? 'active' : '' }} {{ Request::is('admin/news/display') ? 'active' : '' }}  {{ Request::is('admin/news/add') ? 'active' : '' }}  {{ Request::is('admin/news/edit/*') ? 'active' : '' }}">--}}
+            {{--                    <a href="#">--}}
+            {{--                        <i class="fa fa-database" aria-hidden="true"></i>--}}
+            {{--                        <span>      {{ trans('labels.Blog') }}</span> <i class="fa fa-angle-left pull-left"></i>--}}
+            {{--                    </a>--}}
+            {{--                    <ul class="treeview-menu">--}}
+            {{--                        <li class="{{ Request::is('admin/newscategories/display') ? 'active' : '' }} {{ Request::is('admin/newscategories/add') ? 'active' : '' }} {{ Request::is('admin/newscategories/edit/*') ? 'active' : '' }}">--}}
+            {{--                            <a href="{{ URL::to('admin/newscategories/display')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i>{{ trans('labels.link_news_categories') }}</a></li>--}}
+            {{--                        <li class="{{ Request::is('admin/news/display') ? 'active' : '' }}  {{ Request::is('admin/news/add') ? 'active' : '' }}  {{ Request::is('admin/news/edit/*') ? 'active' : '' }}">--}}
+            {{--                            <a href="{{ URL::to('admin/news/display')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_sub_news') }}</a></li>--}}
+            {{--                    </ul>--}}
+            {{--                </li>--}}
+            {{--            @endif--}}
+
             @if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->notifications_view == 1)
                 <li class="treeview {{ Request::is('admin/pushnotification') ? 'active' : '' }}{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }} {{ Request::is('admin/devices/notifications') ? 'active' : '' }}">
                     <a href="{{ URL::to('admin/devices/display')}} ">
@@ -239,20 +245,21 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="{{ Request::is('admin/pushnotification') ? 'active' : '' }}"><a
-                                href="{{ URL::to('admin/pushnotification')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_setting') }}</a></li>
-                        <li class="{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }}">
-                            <a href="{{ URL::to('admin/devices/display')}}"><i
-                                    class="fa fa-circle-o"></i>{{ trans('labels.link_devices') }} </a>
-                        </li>
-                        <li class="{{ Request::is('admin/devices/notifications') ? 'active' : '' }} ">
-                            <a href="{{ URL::to('admin/devices/notifications') }}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_send_notifications') }}</a>
-                        </li>
+                        {{--                        <li class="{{ Request::is('admin/pushnotification') ? 'active' : '' }}"><a--}}
+                        {{--                                href="{{ URL::to('admin/pushnotification')}}"><i--}}
+                        {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_setting') }}</a></li>--}}
+                        {{--                        <li class="{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }}">--}}
+                        {{--                            <a href="{{ URL::to('admin/devices/display')}}"><i--}}
+                        {{--                                    class="fa fa-circle-o"></i>{{ trans('labels.link_devices') }} </a>--}}
+                        {{--                        </li>--}}
+                        {{--                        <li class="{{ Request::is('admin/devices/notifications') ? 'active' : '' }} ">--}}
+                        {{--                            <a href="{{ URL::to('admin/devices/notifications') }}"><i--}}
+                        {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_send_notifications') }}</a>--}}
+                        {{--                        </li>--}}
                     </ul>
                 </li>
             @endif
+
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->general_setting_view == 1)
 
                 <li class="treeview {{ Request::is('admin/facebooksettings') ? 'active' : '' }} {{ Request::is('admin/setting') ? 'active' : '' }} {{ Request::is('admin/googlesettings') ? 'active' : '' }}  {{ Request::is('admin/alertsetting') ? 'active' : '' }}  ">
@@ -266,16 +273,17 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <li class="{{ Request::is('admin/setting') ? 'active' : '' }}"><a
                                 href="{{ URL::to('admin/setting')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_store_setting') }}</a></li>
-                        <li class="{{ Request::is('admin/facebooksettings') ? 'active' : '' }}"><a
-                                href="{{ URL::to('admin/facebooksettings')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_facebook') }}</a></li>
+                        {{--                        <li class="{{ Request::is('admin/facebooksettings') ? 'active' : '' }}"><a--}}
+                        {{--                                href="{{ URL::to('admin/facebooksettings')}}"><i--}}
+                        {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_facebook') }}</a></li>--}}
+                        {{--                        --}}
                         <li class="{{ Request::is('admin/googlesettings') ? 'active' : '' }}"><a
                                 href="{{ URL::to('admin/googlesettings')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_google') }}</a></li>
 
-                        <li class="{{ Request::is('admin/alertsetting') ? 'active' : '' }}"><a
-                                href="{{ URL::to('admin/alertsetting')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.alertSetting') }}</a></li>
+                        {{--                        <li class="{{ Request::is('admin/alertsetting') ? 'active' : '' }}"><a--}}
+                        {{--                                href="{{ URL::to('admin/alertsetting')}}"><i--}}
+                        {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.alertSetting') }}</a></li>--}}
 
 
                     </ul>
@@ -466,47 +474,48 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                     </ul>
                 </li>
             @endif
-{{--            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1)--}}
+            {{--            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1)--}}
 
-{{--            <!--------create middlewares -------->--}}
-{{--                <li class="treeview {{ Request::is('admin/managements/merge') ? 'active' : '' }} {{ Request::is('admin/managements/updater') ? 'active' : '' }} {{ Request::is('admin/managements/restore') ? 'active' : '' }} {{ Request::is('admin/managements/backup') ? 'active' : '' }}">--}}
-{{--                    <a href="#">--}}
-{{--                        <i class="fa fa-gears" aria-hidden="true"></i>--}}
-{{--                        <span> {{ trans('labels.Code Manager') }}</span> <i class="fa fa-angle-left pull-left"></i>--}}
-{{--                    </a>--}}
+            {{--            <!--------create middlewares -------->--}}
+            {{--                <li class="treeview {{ Request::is('admin/managements/merge') ? 'active' : '' }} {{ Request::is('admin/managements/updater') ? 'active' : '' }} {{ Request::is('admin/managements/restore') ? 'active' : '' }} {{ Request::is('admin/managements/backup') ? 'active' : '' }}">--}}
+            {{--                    <a href="#">--}}
+            {{--                        <i class="fa fa-gears" aria-hidden="true"></i>--}}
+            {{--                        <span> {{ trans('labels.Code Manager') }}</span> <i class="fa fa-angle-left pull-left"></i>--}}
+            {{--                    </a>--}}
 
-{{--                    <ul class="treeview-menu">--}}
-{{--                        <li class="{{ Request::is('admin/managements/merge') ? 'active' : '' }}"><a--}}
-{{--                                href="{{ URL::to('admin/managements/merge')}}"><i--}}
-{{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_merge') }}</a></li>--}}
-{{--                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a--}}
-{{--                                href="{{ URL::to('admin/managements/updater')}}"><i--}}
-{{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_updater') }}</a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endif--}}
+            {{--                    <ul class="treeview-menu">--}}
+            {{--                        <li class="{{ Request::is('admin/managements/merge') ? 'active' : '' }}"><a--}}
+            {{--                                href="{{ URL::to('admin/managements/merge')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_merge') }}</a></li>--}}
+            {{--                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a--}}
+            {{--                                href="{{ URL::to('admin/managements/updater')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_updater') }}</a></li>--}}
+            {{--                    </ul>--}}
+            {{--                </li>--}}
+            {{--            @endif--}}
 
-            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1)
+            {{--            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1)--}}
 
-            <!--------create middlewares -------->
-                <li class="treeview  {{ Request::is('admin/managements/restore') ? 'active' : '' }} {{ Request::is('admin/managements/backup') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa fa-gears" aria-hidden="true"></i>
-                        <span> {{ trans('labels.Backup / Restore') }}</span> <i
-                            class="fa fa-angle-left pull-left"></i>
-                    </a>
+            {{--            <!--------create middlewares -------->--}}
+            {{--                <li class="treeview  {{ Request::is('admin/managements/restore') ? 'active' : '' }} {{ Request::is('admin/managements/backup') ? 'active' : '' }}">--}}
+            {{--                    <a href="#">--}}
+            {{--                        <i class="fa fa-gears" aria-hidden="true"></i>--}}
+            {{--                        <span> {{ trans('labels.Backup / Restore') }}</span> <i--}}
+            {{--                            class="fa fa-angle-left pull-left"></i>--}}
+            {{--                    </a>--}}
 
-                    <ul class="treeview-menu">
-                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a
-                                href="{{ URL::to('admin/managements/backup')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.backup') }}</a></li>
-                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a
-                                href="{{ URL::to('admin/managements/import')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.restore') }}</a></li>
+            {{--                    <ul class="treeview-menu">--}}
+            {{--                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a--}}
+            {{--                                href="{{ URL::to('admin/managements/backup')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.backup') }}</a></li>--}}
+            {{--                        <li class="{{ Request::is('admin/managements/updater') ? 'active' : '' }}"><a--}}
+            {{--                                href="{{ URL::to('admin/managements/import')}}"><i--}}
+            {{--                                    class="fa fa-circle-o"></i> {{ trans('labels.restore') }}</a></li>--}}
 
-                    </ul>
-                </li>
-            @endif
+            {{--                    </ul>--}}
+            {{--                </li>--}}
+            {{--            @endif--}}
+            {{--        --}}
         </ul>
     </section>
     <!-- /.sidebar -->
