@@ -12,6 +12,7 @@ use App\Models\Core\Manufacturers;
 use App\Models\Core\Products;
 use App\Models\Core\Reviews;
 use App\Models\Core\Setting;
+use App\ProductQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -20,9 +21,10 @@ class ProductController extends Controller
 {
 
     public function __construct(Products $products, Languages $language, Images $images, Categories $category, Setting $setting,
-        Manufacturers $manufacturer, Reviews $reviews) {
+        Manufacturers $manufacturer, Reviews $reviews, ProductQuestion $productQuestion) {
         $this->category = $category;
         $this->reviews = $reviews;
+        $this->productQuestion = $productQuestion;
         $this->language = $language;
         $this->images = $images;
         $this->manufacturer = $manufacturer;
@@ -41,6 +43,18 @@ class ProductController extends Controller
         $result['reviews'] = $data;
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.reviews.index", $title)->with('result', $result);
+
+    }
+
+    public function product_questions(Request $request)
+    {
+        $title = array('pageTitle' => Lang::get("labels.product_questions"));
+        $result = array();
+        $data = $this->productQuestion->paginator();
+        $result['productQuestion'] = $data;
+//        return dd($data);
+        $result['commonContent'] = $this->Setting->commonContent();
+        return view("admin.product_questions.index", $title)->with('result', $result);
 
     }
 
@@ -72,6 +86,38 @@ class ProductController extends Controller
                 ]);
         }
         $message = Lang::get("labels.reviewupdateMessage");
+        return redirect()->back()->withErrors([$message]);
+
+    }
+
+    public function edit_product_questions($id, $status)
+    {
+        if ($status == 1) {
+            DB::table('product_questions')
+                ->where('product_question_id', $id)
+                ->update([
+                    'question_status' => 1,
+                ]);
+            DB::table('product_questions')
+                ->where('product_question_id', $id)
+                ->update([
+                    'question_read' => 1,
+                ]);
+        } elseif ($status == 0) {
+            DB::table('product_questions')
+                ->where('product_question_id', $id)
+                ->update([
+                    'question_read' => 1,
+                ]);
+        } else {
+            DB::table('product_questions')
+                ->where('product_question_id', $id)
+                ->update([
+                    'question_read' => 1,
+                    'question_status' => -1,
+                ]);
+        }
+        $message = Lang::get("labels.product_question_updateMessage");
         return redirect()->back()->withErrors([$message]);
 
     }
@@ -242,7 +288,7 @@ class ProductController extends Controller
         $title = array('pageTitle' => Lang::get("labels.ProductInventory"));
         $id = $request->id;
         $result = $this->products->addinventory($id);
-        
+
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.products.inventory.add", $title)->with('result', $result);
 

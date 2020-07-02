@@ -537,17 +537,18 @@ class Setting extends Model
                    ->where('user_types_id',Auth()->user()->role_id)
                    ->first();
 
-        $result['roles'] = $roles;        
+        $result['roles'] = $roles;
 
         $settings = DB::table('settings')->get();
         $setting = array();
-        
+
         foreach($settings as $key=>$value){
           $setting[$value->name]=$value->value;
         }
 
         $result['setting'] = $setting;
-        $result['new_reviews'] = DB::table('reviews')->where('reviews_read',0)->count();    
+        $result['new_reviews'] = DB::table('reviews')->where('reviews_read',0)->count();
+        $result['new_product_questions'] = DB::table('product_questions')->where('question_read',0)->count();
 
         return $result;
     }

@@ -92,27 +92,8 @@ class Order extends Model
 
         $delivery_country = $country[0]->countries_name;
 
-        $billing_name = session('billing_address')->billing_name;
-        $billing_street_address = session('billing_address')->billing_street;
-        $billing_suburb = '';
-        $billing_city = session('billing_address')->billing_city;
-        $billing_phone = session('billing_address')->billing_phone;
 
-        if (!empty(session('billing_company')->company)) {
-            $billing_company = session('billing_address')->company;
-        }
 
-        $billing = DB::table('zones')->where('zone_id', '=', session('billing_address')->billing_zone_id)->get();
-
-        if (count($billing) > 0) {
-            $billing_state = $billing[0]->zone_code;
-        } else {
-            $billing_state = 'other';
-        }
-
-        $country = DB::table('countries')->where('countries_id', '=', session('billing_address')->billing_countries_id)->get();
-
-        $billing_country = $country[0]->countries_name;
 
         $payment_method = session('payment_method');
         $order_information = array();
@@ -334,13 +315,6 @@ class Order extends Model
                     'delivery_country' => $delivery_country,
                     // 'delivery_address_format_id' => $delivery_address_format_id,
 
-                    'billing_name' => $billing_name ,
-                    'billing_street_address' => $billing_street_address,
-                    'billing_suburb' => $billing_suburb,
-                    'billing_city' => $billing_city,
-                    'billing_state' => $billing_state,
-                    'billing_country' => $billing_country,
-                    //'billing_address_format_id' => $billing_address_format_id,
 
                     'payment_method' => $payment_method,
                     'cc_type' => $cc_type,
@@ -361,7 +335,6 @@ class Order extends Model
                     'total_tax' => $total_tax,
                     'ordered_source' => '1',
                     'delivery_phone' => $delivery_phone,
-                    'billing_phone' => $billing_phone,
                 ]);
 
             //orders status history

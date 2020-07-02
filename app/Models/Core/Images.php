@@ -34,7 +34,8 @@ public $sortable =['id','name'];
 
             ->get();
 
-         $result =$allimages ->merge($allimagesth)->keyBy('id');
+         $result =$allimagesth;
+//         $result =$allimages->merge($allimagesth)->keyBy('id');
 
        return $result;
 

@@ -28,14 +28,14 @@
                 {{ session()->get('error') }}
             </div>
         @endif
-        
-        
+
+
        </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header" style="padding-bottom: 25px">
-            <i class="fa fa-globe"></i> {{ trans('labels.OrderID') }}# {{ $data['orders_data'][0]->orders_id }} 
+            <i class="fa fa-globe"></i> {{ trans('labels.OrderID') }}# {{ $data['orders_data'][0]->orders_id }}
             <small class="pull-right">{{ trans('labels.OrderedDate') }}: {{ date('m/d/Y', strtotime($data['orders_data'][0]->date_purchased)) }}</small>
           </h2>
         </div>
@@ -43,7 +43,7 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
-        <div class="col-sm-4 invoice-col">
+        <div class="col-sm-6 invoice-col">
           {{ trans('labels.CustomerInfo') }}:
           <address>
             <strong>{{ $data['orders_data'][0]->customers_name }}</strong><br>
@@ -54,7 +54,7 @@
           </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
+        <div class="col-sm-6 invoice-col">
           {{ trans('labels.ShippingInfo') }}
           <address>
             <strong>{{ $data['orders_data'][0]->delivery_name }}</strong><br>
@@ -66,15 +66,7 @@
           </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
-         {{ trans('labels.BillingInfo') }} 
-          <address>
-            <strong>{{ $data['orders_data'][0]->billing_name }}</strong><br>
-            {{ trans('labels.Phone') }}: {{ $data['orders_data'][0]->billing_phone }}<br>
-            {{ $data['orders_data'][0]->billing_street_address }} <br>
-            {{ $data['orders_data'][0]->billing_city }}, {{ $data['orders_data'][0]->billing_state }} {{ $data['orders_data'][0]->billing_postcode }}, {{ $data['orders_data'][0]->billing_country }}<br>
-          </address>
-        </div>
+
         <!-- /.col -->
       </div>
       <!-- /.row -->
@@ -93,9 +85,9 @@
             </tr>
             </thead>
             <tbody>
-            
+
             @foreach($data['orders_data'][0]->data as $products)
-            	
+
             <tr>
                 <td>{{  $products->products_quantity }}</td>
                 <td  width="30%">
@@ -111,16 +103,16 @@
                     <b>{{ trans('labels.Price') }}:</b> {{ $data['currency'][19]->value }}{{ $attributes->options_values_price }}<br>
 
                 @endforeach</td>
-                
+
                 <td>{{ $data['currency'][19]->value }}{{ $products->final_price }}</td>
              </tr>
             @endforeach
-            
+
             </tbody>
           </table>
         </div>
         <!-- /.col -->
-        
+
       </div>
       <!-- /.row -->
 
@@ -141,8 +133,8 @@
                 	@foreach( json_decode($data['orders_data'][0]->coupon_code) as $couponData)
                     	<tr>
                         	<td>{{ $couponData->code}}</td>
-                            <td>{{ $couponData->amount}} 
-                            	
+                            <td>{{ $couponData->amount}}
+
                                 @if($couponData->discount_type=='percent_product')
                                     ({{ trans('labels.Percent') }})
                                 @elseif($couponData->discount_type=='percent')
@@ -155,9 +147,9 @@
                             </td>
                         </tr>
                     @endforeach
-				</table>                
+				</table>
           @endif
-          
+
           </p>
         </div>
         <!-- /.col -->
@@ -190,8 +182,8 @@
               </tr>
             </table>
           </div>
-              
-        </div>     
+
+        </div>
         <div class="col-xs-12">
         	<p class="lead" style="margin-bottom:10px">{{ trans('labels.Orderinformation') }}:</p>
         	<p class="text-muted well well-sm no-shadow" style="text-transform:capitalize; word-break:break-all;">
@@ -201,13 +193,13 @@
            		---
             @endif
             </p>
-        </div>  
-        
+        </div>
+
         <!-- /.col -->
       </div>
       <!-- /.row -->
 
-     
+
     </section>
   <!-- /.content -->
 </div>

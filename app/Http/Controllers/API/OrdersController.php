@@ -198,29 +198,9 @@ class OrdersController extends BaseAPIController
             $shipping_data[$key] = $value;
 
             //billing address
-            if ($key == 'name') {
-                $billing_data['billing_name'] = $value;
-
-            } else if ($key == 'company') {
-                $billing_data['billing_company'] = $value;
-            } else if ($key == 'street') {
-                $billing_data['billing_street'] = $value;
-            } else if ($key == 'countries_id') {
-                $billing_data['billing_countries_id'] = $value;
-            } else if ($key == 'zone_id') {
-                $billing_data['billing_zone_id'] = $value;
-            } else if ($key == 'city') {
-                $billing_data['billing_city'] = $value;
-            } else if ($key == 'delivery_phone') {
-                $billing_data['billing_phone'] = $value;
-            }
         }
 
-        if (empty(session('billing_address')) or session('billing_address')->same_billing_address == 1) {
-            $billing_address = (object)$billing_data;
-            $billing_address->same_billing_address = 1;
-            session(['billing_address' => $billing_address]);
-        }
+
 
         $address = (object)$shipping_data;
         session(['shipping_address' => $address]);

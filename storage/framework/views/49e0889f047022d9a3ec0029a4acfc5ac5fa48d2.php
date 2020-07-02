@@ -104,6 +104,9 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="<?php echo e(Request::is('admin/products/inventory/display') ? 'active' : ''); ?>"><a
                                     href="<?php echo e(URL::to('admin/products/inventory/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.inventory')); ?></a></li>
+                            <li class="<?php echo e(Request::is('admin/bouquet/display') ? 'active' : ''); ?>"><a
+                                    href="<?php echo e(URL::to('admin/bouquet/display')); ?>"><i
+                                        class="fa fa-circle-o"></i> <?php echo e(trans('labels.bouquet')); ?></a></li>
                         <?php endif; ?>
                         <?php
                         $status_check = DB::table('reviews')->where('reviews_read', 0)->first();
@@ -116,6 +119,14 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                     <span><?php echo e(trans('labels.reviews')); ?></span><?php if($result['commonContent']['new_reviews']>0): ?>
                                         <span
                                             class="label label-success pull-left"><?php echo e($result['commonContent']['new_reviews']); ?> <?php echo e(trans('labels.new')); ?></span><?php endif; ?>
+                                </a>
+                            </li>
+                            <li class="<?php echo e(Request::is('admin/product_questions/display') ? 'active' : ''); ?>">
+                                <a href="<?php echo e(URL::to('admin/product_questions/display')); ?>">
+                                    <i class="fa fa-circle-o" aria-hidden="true"></i>
+                                    <span><?php echo e(trans('labels.product_questions')); ?></span><?php if($result['commonContent']['new_product_questions']>0): ?>
+                                        <span
+                                            class="label label-success pull-left"><?php echo e($result['commonContent']['new_product_questions']); ?> <?php echo e(trans('labels.new')); ?></span><?php endif; ?>
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -246,17 +257,17 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                                                <li class="<?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?>"><a
+                                                        href="<?php echo e(URL::to('admin/pushnotification')); ?>"><i
+                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
+                                                <li class="<?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?>">
+                                                    <a href="<?php echo e(URL::to('admin/devices/display')); ?>"><i
+                                                            class="fa fa-circle-o"></i><?php echo e(trans('labels.link_devices')); ?> </a>
+                                                </li>
+                                                <li class="<?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?> ">
+                                                    <a href="<?php echo e(URL::to('admin/devices/notifications')); ?>"><i
+                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_send_notifications')); ?></a>
+                                                </li>
                     </ul>
                 </li>
             <?php endif; ?>

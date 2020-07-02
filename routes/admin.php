@@ -3,7 +3,9 @@
 Route::get('/clear-cache', function () {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('config:clear');
-    // $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('view:cache');
+    $exitCode = Artisan::call('route:cache');
+//     return back();
 });
 
 Route::get('/phpinfo', function () {
@@ -153,6 +155,16 @@ Route::group(['middleware' => ['installer']], function () {
 
 
     });
+    Route::group(['prefix' => 'admin/bouquet', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::get('display', 'BouquetController@addinventoryfromsidebar')->middleware('view_product');
+        // Route::post('/addnewstock', 'ProductController@addinventory')->middleware('view_product');
+        Route::get('/ajax_attr/{id}/', 'BouquetController@ajax_attr')->middleware('view_product');
+        Route::post('/addnewstock', 'BouquetController@addnewstock')->middleware('add_product');
+        Route::post('/addminmax', 'BouquetController@addminmax')->middleware('add_product');
+        Route::get('/addproductimages/{id}/', 'BouquetController@addproductimages')->middleware('add_product');
+
+    });
+
 
     Route::group(['prefix' => 'admin/products', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@display')->middleware('view_product');
@@ -235,6 +247,11 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin/reviews', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@reviews')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ProductController@editreviews')->middleware('edit_reviews');
+
+    });
+    Route::group(['prefix' => 'admin/product_questions', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::get('/display', 'ProductController@product_questions')->middleware('view_reviews');
+        Route::get('/edit/{id}/{status}', 'ProductController@edit_product_questions')->middleware('edit_reviews');
 
     });
 //customers

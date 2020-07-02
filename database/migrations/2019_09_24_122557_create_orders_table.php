@@ -36,14 +36,7 @@ class CreateOrdersTable extends Migration {
 			$table->string('delivery_state', 191)->nullable();
 			$table->string('delivery_country', 191);
 			$table->integer('delivery_address_format_id')->nullable();
-			$table->string('billing_name', 191);
-			$table->string('billing_company', 191)->nullable();
-			$table->string('billing_street_address', 191);
-			$table->string('billing_suburb', 191)->nullable();
-			$table->string('billing_city', 191);
-			$table->string('billing_state', 191)->nullable();
-			$table->string('billing_country', 191);
-			$table->integer('billing_address_format_id');
+
 			$table->string('payment_method', 191)->nullable();
 			$table->string('cc_type', 20)->nullable();
 			$table->string('cc_owner', 191)->nullable();
@@ -69,7 +62,6 @@ class CreateOrdersTable extends Migration {
 			$table->string('product_ids', 191);
 			$table->boolean('ordered_source')->default(1)->comment('1: Website, 2: App');
 			$table->string('delivery_phone', 30);
-			$table->string('billing_phone', 30);
 			$table->text('transaction_id', 65535)->nullable();
 			$table->timestamps();
 		});

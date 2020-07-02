@@ -1064,8 +1064,8 @@ return [
     'ListingAllOptions' => 'عرض جميع الخيارات',
     'AddNewOption' => 'إضافة خيارات جديدة',
     'AssociatedProducts' => 'المنتجات المرتبطة بها',
-    'DeletingErrorMessage' => 'هذه المنتجات مرتبطة بالخيار الحالي .  وبالتالي,',
-    'DeletingValueErrorMessage' => 'هذه المنتجات مرتبطة بالقيمة الحالية .  وبالتالي',
+    'DeletingErrorMessage' => 'هذه المنتجات مرتبطة بالخيار الحالي .  وبالتالي لا يمكن الحذف ',
+    'DeletingValueErrorMessage' => '  هذه المنتجات مرتبطة بالقيمة الحالية .    وبالتالي لا يمكن الحذف ',
     'Ok' => 'حسنا',
     'AddOptionVAlueOption' => 'أضف قيمة الخيار إلى أسوكايت بهذا الخيار . ',
     'AddValue' => 'إضافة قيمة',
@@ -1410,7 +1410,7 @@ return [
     'manage general_setting' => 'إدارة الإعدادات العامة',
     'manage application_setting' => 'إدارة إعداد التطبيق',
     'manage manage_admins' => 'إدارة المسؤولين',
-    'manage notifications' => 'إدارة الإخطارات',
+    'manage notifications' => 'إدارة الاشعارات',
     'manage website_setting' => 'إدارة إعداد موقع الويب',
     'Roles has been added successfully' => 'تمت إضافة الأدوار بنجاح!',
     'manage language' => 'إدارة اللغة',
@@ -1447,8 +1447,8 @@ return [
     'manage coupons_create' => 'إنشاء كوبونات',
     'manage coupons_update' => 'تحديث الكوبون ',
     'manage coupons_delete' => 'حذف القسائم',
-    'manage notifications_view' => 'عرض الإخطارات',
-    'manage notifications_send' => 'إرسال الإخطارات',
+    'manage notifications_view' => 'عرض الاشعارات',
+    'manage notifications_send' => 'إرسال الاشعارات',
     'manage orders_view' => 'عرض الطلبات',
     'manage orders_confirm' => 'تأكيد الطلبات',
     'manage shipping_methods_view' => 'عرض طرق الشحن',
@@ -2092,6 +2092,30 @@ return [
     'app_theme_7' => 'خوخ',
     'app_theme_8' => 'أزرق',
     'app_theme_9' => 'زهري',
-    'app_theme_10' => 'زهري'
+    'app_theme_10' => 'زهري',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    'Add Bouquet' => 'Add Bouquet',
+    'Bouquets' => ' Bouquets',
+    'product_questions' => ' product_questions',
+    'ListingAllproduct_questions' => ' ListingAllproduct_questions',
+    'question_text' => ' question_text',
+    'replay_text' => ' replay_text',
+    'product_question_updateMessage' => ' product_question_updateMessage',
+    'Replay' => ' Replay',
+    'replayToQuestion' => ' replayToQuestion',
+    'sendReplay' => ' sendReplay',
 
 ];

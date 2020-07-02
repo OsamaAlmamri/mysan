@@ -170,6 +170,8 @@ class OrdersController extends Controller
             }
 
             //breaintree token
+//            return dd('dddddddd');
+
             $token = $this->generateBraintreeTokenWeb();
             session(['braintree_token' => $token]);
 

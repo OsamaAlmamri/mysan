@@ -178,22 +178,14 @@ if($is_transaction=='0'){
 			'email' => $email
 		  ],
 		  'shipping' => [
-			'firstName' => $delivery_firstname,
-			'lastName' => $delivery_lastname,
+			'name' => $delivery_name,
 			'streetAddress' => $delivery_street_address,
 			'locality' => $delivery_postcode,
 			'region' => $delivery_state,
 			'postalCode' => $billing_postcode,
 			'countryName' => $delivery_country
 		  ],
-		  'billing' => [
-			'firstName' => $billing_name,
-			'streetAddress' => $billing_street_address,
-			'locality' => $billing_city,
-			'region' => $billing_state,
-			'postalCode' => $billing_postcode,
-			'countryName' => $billing_country
-		  ],
+
 		  'options' => [
 			'submitForSettlement' => true
 		  ]

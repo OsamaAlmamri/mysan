@@ -17,6 +17,8 @@ class CreateProductsOptionsValuesTable extends Migration {
 			$table->integer('products_options_values_id', true);
 			$table->integer('products_options_id');
 			$table->string('products_options_values_name', 64)->default('');
+
+
 		});
 	}
 

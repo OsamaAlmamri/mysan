@@ -12,6 +12,7 @@ class CreateUnitsTable extends Migration {
 	 */
 	public function up()
 	{
+	    //
 		Schema::create('units', function(Blueprint $table)
 		{
 			$table->increments('unit_id');

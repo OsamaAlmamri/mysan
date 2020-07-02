@@ -48,7 +48,7 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
-        <div class="col-sm-4 invoice-col">
+        <div class="col-sm-6 invoice-col">
           {{ trans('labels.CustomerInfo') }}:
           <address>
             <strong>{{ $data['orders_data'][0]->customers_name }}</strong><br>
@@ -59,7 +59,7 @@
           </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
+        <div class="col-sm-6 invoice-col">
           {{ trans('labels.ShippingInfo') }}
           <address>
             <strong>{{ $data['orders_data'][0]->delivery_name }}</strong><br>
@@ -72,15 +72,7 @@
           </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
-         {{ trans('labels.BillingInfo') }}
-          <address>
-            <strong>{{ $data['orders_data'][0]->billing_name }}</strong><br>
-            {{ $data['orders_data'][0]->billing_street_address }} <br>
-            <strong>{{ trans('labels.Phone') }}: </strong>{{ $data['orders_data'][0]->billing_phone }}<br>
-            {{ $data['orders_data'][0]->billing_city }}, {{ $data['orders_data'][0]->billing_state }} {{ $data['orders_data'][0]->billing_postcode }}, {{ $data['orders_data'][0]->billing_country }}<br>
-          </address>
-        </div>
+
         <!-- /.col -->
       </div>
       <!-- /.row -->
