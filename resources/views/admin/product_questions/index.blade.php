@@ -84,7 +84,7 @@
                                                     </td>
                                                     <td>{{ $review->products_name }}</td>
                                                     <td width="25%">{{ $review->question_text }}</td>
-                                                    <td width="25%">{{ $review->replay_text }}</td>
+                                                    <td width="25%" id="ReplyText{{$review->product_question_id}}">{{ $review->replay }}</td>
                                                     <td>{{ $review->created_at }}</td>
                                                     <td>
                                                         @if($review->reviews_read == 0 and $review->question_status == 0)
@@ -98,9 +98,9 @@
                                                            href="{{ URL::to('admin/product_questions/edit/'.$review->product_question_id.'/1')}}">{{ trans('labels.Active') }}</a>
                                                         </br>
                                                         <button class="btn btn-success replay_btn"
-                                                                data-replay_id="{{$review->replay_id}}"
-                                                                data-ques_id="{{$review->replay_text}}"
-                                                                data-old_replay="{{$review->replay_text}}"
+                                                                id="ReplyBtnShow{{$review->product_question_id}}"
+                                                                data-ques_id="{{$review->product_question_id}}"
+                                                                data-old_replay="{{$review->replay}}"
                                                                 style="width: 100%;  margin-bottom: 5px;">
                                                             {{ trans('labels.Replay') }}</button>
                                                         </br>
@@ -143,7 +143,6 @@
                             <h4 class="modal-title"
                                 id="deleteLanguagesModalLabel">{{ trans('labels.replayToQuestion') }}</h4>
                         </div>
-                        <input type="hidden" id="replay_ques_id" value="">
                         <input type="hidden" id="ques_ques_id" value="">
                         <div class="modal-body">
                             <div class="form-group">

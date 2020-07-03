@@ -2695,10 +2695,9 @@
 
 
     $(document).on('click', '.replay_btn', function () {
-        var ques_id = $(this).attr('ques_id');
-        var replay_id = $(this).attr('replay_id');
-        var old_replay = $(this).attr('old_replay');
-        $('#replay_ques_id').val(replay_id);
+        var ques_id = $(this).data('ques_id');
+        var old_replay = $('#ReplyText' + ques_id).text();
+
         $('#ques_ques_id').val(ques_id);
         $('#question_reply').val(old_replay);
         $('#replayModal').modal('show');
@@ -2706,41 +2705,36 @@
 
 
     $(document).on('click', '#btnSendReply', function (e) {
-        var data = '_token=' + encodeURIComponent("{{csrf_token()}}")
-            + '&condition_id=' + $(this).val();
 
-        var replay_id =$('#replay_ques_id').val();
-        var ques_ques_id =$('#ques_ques_id').val();
-        var question_reply =$('#replay_ques_id').val();
-        $('#').val();
-        $('#question_reply').val();
 
-        $.ajax({
-            url: '{{ URL::to("admin/managements/checkpassword")}}',
-            type: "post",
-            data: '&password=' + password,
-            success: function (res) {
+            var ques_ques_id = $('#ques_ques_id').val();
+            var question_reply = $('#question_reply').val();
 
-                if (res == 1) {
-                    //submit form of updater
-                    $("#checkpassword").modal('hide');
-                    $("#updater-form").submit();
-                } else {
-                    //$("#passowrd-error").show();
-                    //setTimeout(function(){ $("#passowrd-error").hide(); }, 3000);
-                }
-            },
-        });
-    }
-    else
-    {
-        $("#passowrd-error").show();
-        setTimeout(function () {
-            $("#passowrd-error").hide();
-        }, 3000);
-    }
-    })
-    ;
+            var describtion = $('#question_reply').val();
+            var describtion = describtion.replace(/\s+/g, '');
+            if (describtion == '')
+                alert('يجب الرد على السؤوال');
+            else {
+                var data = '_token=' + encodeURIComponent("{{csrf_token()}}")
+                    + '&ques_ques_id=' + ques_ques_id
+                    + '&reply=' + question_reply;
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/product_questions/replay', //Returns ID in body
+                    data: data,
+                    // async: false, // <<== THAT makes us wait until the server is done.
+                    success: function (data) {
+                        $('#ReplyText' + ques_ques_id).text(question_reply);
+                        $('#replayModal').modal('hide');
+                    },
+                    error: function (jqXhr, status) {
+                        console.log(jqXhr);
+                        // alert("Your error message goes here");
+                    }
+                });
+            }
+        }
+    );
 
 
 </script>

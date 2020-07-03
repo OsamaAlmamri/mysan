@@ -252,6 +252,7 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin/product_questions', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@product_questions')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ProductController@edit_product_questions')->middleware('edit_reviews');
+        Route::post('/replay', 'ProductController@replay_product_questions')->middleware('edit_reviews');
 
     });
 //customers

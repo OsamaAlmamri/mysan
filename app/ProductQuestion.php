@@ -12,21 +12,20 @@ class ProductQuestion extends Model
 
     use Sortable;
 
-    public function paginator()
+    protected $primaryKey = 'product_question_id';
+    protected $fillable = [
+        'question_products_id', 'question_customers_id', 'question_image', 'question_text',
+        'replay',  'question_read', 'sort', 'question_status',
+    ];
+
+    function paginator()
     {
         $reviews = ProductQuestion::sortable(['sort' => 'ASC'])
             ->leftJoin('products_description', 'product_questions.question_products_id', 'products_description.products_id')
-            ->select('product_questions.*', 'products_description.products_name',
-                DB::raw("(SELECT replay.question_text  FROM product_questions as replay
-
-                                limit 1
-                                ) as replay_text"),
-                DB::raw("(SELECT replay.question_products_id  FROM product_questions as replay
-                                 limit 1
-                                ) as replay_id")
+            ->select('product_questions.*', 'products_description.products_name'
             )
             ->groupBy('product_questions.product_question_id')
-            ->where('question_parent', 0)
+
             ->paginate(10);
         return $reviews;
     }

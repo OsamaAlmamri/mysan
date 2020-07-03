@@ -2117,5 +2117,6 @@ return [
     'Replay' => ' Replay',
     'replayToQuestion' => ' replayToQuestion',
     'sendReplay' => ' sendReplay',
+    'product_questions' => ' product_questions',
 
 ];

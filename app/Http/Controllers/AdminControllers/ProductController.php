@@ -21,7 +21,8 @@ class ProductController extends Controller
 {
 
     public function __construct(Products $products, Languages $language, Images $images, Categories $category, Setting $setting,
-        Manufacturers $manufacturer, Reviews $reviews, ProductQuestion $productQuestion) {
+                                Manufacturers $manufacturer, Reviews $reviews, ProductQuestion $productQuestion)
+    {
         $this->category = $category;
         $this->reviews = $reviews;
         $this->productQuestion = $productQuestion;
@@ -52,7 +53,6 @@ class ProductController extends Controller
         $result = array();
         $data = $this->productQuestion->paginator();
         $result['productQuestion'] = $data;
-//        return dd($data);
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.product_questions.index", $title)->with('result', $result);
 
@@ -87,6 +87,14 @@ class ProductController extends Controller
         }
         $message = Lang::get("labels.reviewupdateMessage");
         return redirect()->back()->withErrors([$message]);
+
+    }
+
+    public function replay_product_questions(Request $request)
+    {
+        $reply = ProductQuestion::find($request->ques_ques_id);
+        $reply->update(['replay' => $request->reply]);
+        return response(['data' => $reply], 200);
 
     }
 

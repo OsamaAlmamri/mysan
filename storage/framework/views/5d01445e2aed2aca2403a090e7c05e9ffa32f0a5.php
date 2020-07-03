@@ -87,7 +87,7 @@
                                                     </td>
                                                     <td><?php echo e($review->products_name); ?></td>
                                                     <td width="25%"><?php echo e($review->question_text); ?></td>
-                                                    <td width="25%"><?php echo e($review->replay_text); ?></td>
+                                                    <td width="25%" id="ReplyText<?php echo e($review->product_question_id); ?>"><?php echo e($review->replay); ?></td>
                                                     <td><?php echo e($review->created_at); ?></td>
                                                     <td>
                                                         <?php if($review->reviews_read == 0 and $review->question_status == 0): ?>
@@ -101,9 +101,9 @@
                                                            href="<?php echo e(URL::to('admin/product_questions/edit/'.$review->product_question_id.'/1')); ?>"><?php echo e(trans('labels.Active')); ?></a>
                                                         </br>
                                                         <button class="btn btn-success replay_btn"
-                                                                data-replay_id="<?php echo e($review->replay_id); ?>"
-                                                                data-ques_id="<?php echo e($review->replay_text); ?>"
-                                                                data-old_replay="<?php echo e($review->replay_text); ?>"
+                                                                id="ReplyBtnShow<?php echo e($review->product_question_id); ?>"
+                                                                data-ques_id="<?php echo e($review->product_question_id); ?>"
+                                                                data-old_replay="<?php echo e($review->replay); ?>"
                                                                 style="width: 100%;  margin-bottom: 5px;">
                                                             <?php echo e(trans('labels.Replay')); ?></button>
                                                         </br>
@@ -147,7 +147,6 @@
                             <h4 class="modal-title"
                                 id="deleteLanguagesModalLabel"><?php echo e(trans('labels.replayToQuestion')); ?></h4>
                         </div>
-                        <input type="hidden" id="replay_ques_id" value="">
                         <input type="hidden" id="ques_ques_id" value="">
                         <div class="modal-body">
                             <div class="form-group">
