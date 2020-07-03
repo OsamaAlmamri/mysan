@@ -15,7 +15,7 @@ class ProductQuestion extends Model
     protected $primaryKey = 'product_question_id';
     protected $fillable = [
         'question_products_id', 'question_customers_id', 'question_image', 'question_text',
-        'replay',  'question_read', 'sort', 'question_status',
+        'replay', 'question_read', 'sort', 'question_status',
     ];
 
     function paginator()
@@ -25,7 +25,6 @@ class ProductQuestion extends Model
             ->select('product_questions.*', 'products_description.products_name'
             )
             ->groupBy('product_questions.product_question_id')
-
             ->paginate(10);
         return $reviews;
     }

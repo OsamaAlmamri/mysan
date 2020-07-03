@@ -294,7 +294,7 @@ class ProductsController extends BaseAPIController
     {
         $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '', 'min_price' => '',
             'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
-        $detail = $this->products->singleproducts($data);
+        $detail = $this->products->singleproducts2($data);
         return $this->sendNotFormatResponse($detail);
         $result['detail'] = $detail;
 //        if (!empty($result['detail']['product_data'][0]->categories) and count($result['detail']['product_data'][0]->categories) > 0) {
