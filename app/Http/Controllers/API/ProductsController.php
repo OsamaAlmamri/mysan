@@ -121,6 +121,8 @@ class ProductsController extends BaseAPIController
         } elseif ($request->is('api/most_liked') == true or $request->type == 'most_liked') {
             $type = 'mostliked';
         } elseif ($request->is('api/featured') == true or $request->type == 'featured') {
+            $type = 'is_feature';
+        } elseif ($request->is('api/specialProducts') == true or $request->type == 'special') {
             $type = 'special';
         } elseif ($request->is('api/weeklySoldProducts') == true or $request->type == 'feweeklySoldProductsatured') {
             $type = 'special';
@@ -129,9 +131,6 @@ class ProductsController extends BaseAPIController
             $type = (!empty($request->type)) ? $request->type : '';
         }
 
-
-        $withDeatils = ((!empty($request->withDeatils))
-            and $request->withDeatils == 1) ? 'allProductsWithDatails' : 'products';
         $page_number = (!empty($request->page)) ? $request->page : 0;
         $limit = (!empty($request->limit)) ? $request->limit : 15;
         $max_price = (!empty($request->max_price)) ? $request->max_price : '';
@@ -188,7 +187,7 @@ class ProductsController extends BaseAPIController
             'limit' => $limit,
             'min_price' => $min_price,
             'max_price' => $max_price);
-        $products = $this->products->$withDeatils($data);
+        $products = $this->products->products($data);
 //        $products = $this->products->allProductsWithDatails($data);
         return $this->sendNotFormatResponse($products);
 

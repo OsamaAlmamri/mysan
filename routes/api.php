@@ -27,8 +27,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('index', 'API\IndexController@index');
     Route::post('recursivecategories', 'API\IndexController@recursivecategories');
     Route::post('allCategories', 'API\IndexController@allCategories');
-    Route::post('specialProducts', 'API\IndexController@filterData');
-
 
     Route::post('reviews', 'API\ProductsController@reviews');
     Route::post('currencies', 'API\IndexController@currencies');
@@ -64,6 +62,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('top_seller', 'API\ProductsController@shop');
     Route::post('most_liked', 'API\ProductsController@shop');
     Route::post('featured', 'API\ProductsController@shop');
+    Route::post('specialProducts', 'API\ProductsController@shop');
 
 
     Route::post('getProduct', 'API\IndexController@getProduct');
