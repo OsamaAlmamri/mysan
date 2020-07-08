@@ -361,7 +361,7 @@ class Customer extends Model
 
                 $responseData = array('success' => '1', 'message' =>
                     Lang::get("website.Product is disliked"), 'total_likes' => $products[0]->products_liked,
-                    'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
+                    'total_wishlist' => $total_wishlist);
             } else {
                 DB::table('liked_products')->insert([
                     'liked_products_id' => $liked_products_id,
@@ -374,14 +374,18 @@ class Customer extends Model
                 $total_wishlist = DB::table('liked_products')
                     ->leftjoin('products', 'products.products_id', '=', 'liked_products.liked_products_id')
                     ->where('products_status', '1')
-                    ->where('liked_customers_id', '=', session('customers_id'))->count();
+                    ->where('liked_customers_id', '=', $liked_customers_id)->count();
                 $products = DB::table('products')->where('products_id', '=', $liked_products_id)->get();
 
-                $responseData = array('success' => '2', 'message' => Lang::get("website.Product is liked"), 'total_likes' => $products[0]->products_liked, 'id' => 'like_count_' . $liked_products_id, 'total_wishlist' => $total_wishlist);
+                $responseData = array('success' => '2',
+                    'message' => Lang::get("website.Product is liked"),
+                    'total_likes' => $products[0]->products_liked,
+                    'total_wishlist' => $total_wishlist);
             }
 
         } else {
-            $responseData = array('success' => '0', 'message' => Lang::get("website.Please login first to like this product"));
+            $responseData = array('success' => '0',
+                'message' => Lang::get("website.Please login first to like this product"));
         }
 //        $cartResponse = json_encode($responseData);
         return $responseData;

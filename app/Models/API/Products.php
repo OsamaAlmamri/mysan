@@ -208,7 +208,15 @@ class Products extends Model
             ->leftJoin('manufacturers', 'manufacturers.manufacturers_id', '=', 'products.manufacturers_id')
             ->leftJoin('manufacturers_info', 'manufacturers.manufacturers_id', '=', 'manufacturers_info.manufacturers_id')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
-            ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id');
+//            ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id')
+            ->LeftJoin('image_categories', function ($join) {
+                $join->on('image_categories.image_id', '=', 'products.products_image')
+                    ->where(function ($query) {
+                        $query->where('image_categories.image_type', '=', 'ACTUAL')
+                            ->where('image_categories.image_type', '!=', 'ACTUAL')
+                            ->orWhere('image_categories.image_type', '=', 'THUMBNAIL');
+                    });
+            });
 
 
         if (!empty($data['categories_id'])) {
@@ -231,7 +239,7 @@ class Products extends Model
         if ($type == "wishlist") {
             $categories->LeftJoin('liked_products', 'liked_products.liked_products_id', '=', 'products.products_id')
 //                ->select('products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url');
-                ->select('products.products_id', 'products.products_type', 'products.products_image',
+                ->select('products.products_id', 'products.products_type', 'image_categories.path as image_path',
                     'products_description.products_name', 'products_description.products_description',
                     'products_model', 'products_liked', 'low_limit', 'products_price',
                     'is_feature', 'products_slug', 'products_min_order', 'products_max_stock',
@@ -246,7 +254,7 @@ class Products extends Model
 //                ->select('products.*', 'image_categories.path as image_path', 'products_description.*',
 //                'manufacturers.*', 'manufacturers_info.manufacturers_url',
 //                'specials.specials_new_products_price as discount_price');
-                ->select('products.products_id', 'products.products_type', 'products.products_image',
+                ->select('products.products_id', 'products.products_type', 'image_categories.path as image_path',
                     'products_description.products_name', 'products_description.products_description',
                     'products_model', 'products_liked', 'low_limit', 'products_price',
                     'is_feature', 'products_slug', 'products_min_order', 'products_max_stock',
@@ -258,7 +266,7 @@ class Products extends Model
             $categories->LeftJoin('flash_sale', 'flash_sale.products_id', '=', 'products.products_id')
 //                ->select(DB::raw(time() . ' as server_time'), 'products.*', 'image_categories.path as image_path', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url',
 //                    'flash_sale.flash_start_date', 'flash_sale.flash_expires_date', 'flash_sale.flash_sale_products_price as flash_price');
-                ->select('products.products_id', 'products.products_type', 'products.products_image',
+                ->select('products.products_id', 'products.products_type', 'image_categories.path as image_path',
                     'products_description.products_name', 'products_description.products_description',
                     'products_model', 'products_liked', 'low_limit', 'products_price',
                     'is_feature', 'products_slug', 'products_min_order', 'products_max_stock',
@@ -278,7 +286,8 @@ class Products extends Model
 //                ->select('products.*', 'image_categories.path as image_path', 'products_description.*',
 //                'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_new_products_price as discount_price'
 //               )
-                ->select('products.products_id', 'products.products_type', 'products.products_image',
+                ->select('products.products_id', 'products.products_type', 'image_categories.path as image_path',
+
                     'products_description.products_name', 'products_description.products_description',
                     'products_model', 'products_liked', 'low_limit', 'products_price',
                     'is_feature', 'products_slug', 'products_min_order', 'products_max_stock',
@@ -517,7 +526,7 @@ class Products extends Model
             ->LeftJoin('specials', function ($join) use ($currentDate) {
                 $join->on('specials.products_id', '=', 'products.products_id')->where('status', '=', '1')
                     ->where('expires_date', '>', $currentDate);
-            }) ->LeftJoin('flash_sale', function ($join) use ($currentDate) {
+            })->LeftJoin('flash_sale', function ($join) use ($currentDate) {
                 $join->on('flash_sale.products_id', '=', 'products.products_id')
                     ->where('flash_status', '=', '1')
                     ->where('flash_expires_date', '>', $currentDate);

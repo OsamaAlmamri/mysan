@@ -62,6 +62,14 @@ class ShippingAddressController extends BaseAPIController
 
 
     //get all customer addresses url
+    public function my_address(Request $request)
+    {
+        $result = $this->shipping->getShippingAddress($address_id = '');
+        return $this->sendResponse($result,'');
+
+    }
+
+    //get all customer addresses url
     public function shippingAddress(Request $request)
     {
 
@@ -135,7 +143,7 @@ class ShippingAddressController extends BaseAPIController
     //update shipping address
     public function updateAddress(Request $request)
     {
-        $validator = $this->validateAddress($request,1);
+        $validator = $this->validateAddress($request, 1);
         if ($validator->fails())
             return $this->sendError($validator->errors(), 'خطاء في الببينات المطلوبة', 422);
 
@@ -185,7 +193,7 @@ class ShippingAddressController extends BaseAPIController
     //delete shipping address
     public function deleteAddress(Request $request)
     {
-        $address_book_id=$request->address_book_id;
+        $address_book_id = $request->address_book_id;
         $this->shipping->deleteAddress($address_book_id);
         return $this->sendResponse('', 'Your address has been deleted successfully!');
 

@@ -48,97 +48,56 @@ class IndexController extends BaseAPIController
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-
-
         $result = array();
         $this->index->commonContent();
 
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 12;
-        }
-
-        /**  MINIMUM PRICE **/
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        /**  MAXIMUM PRICE  **/
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
-        /*************************************************************************/
-        /*********************************************************************/
-        /**                     FETCH NEWEST PRODUCTS                       **/
-        /*********************************************************************/
-
-
-        $data = array(
-
-            'page_number' => '0',
-            'type' => '',
-            'limit' => 10,
-            'min_price' => $min_price,
-            'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $limit = (!empty($request->limit)) ? $request->limit : 12;
+        $max_price = (!empty($request->max_price)) ? $request->max_price : '';
+        $min_price = (!empty($request->min_price)) ? $request->min_price : '';
+        $search = (!empty($request->search)) ? $request->search : '';
+        $lang = (!empty($request->lang)) ? $request->lang : 2;
+        $page_number = (!empty($request->page)) ? $request->page : 0;
+        $data = array( 'page_number' => $page_number, 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
 
         $newest_products = $this->products->products($data);
-        $result['products'] = $newest_products;
-        /*********************************************************************/
-        /**                     Compare Counts                              **/
-        /*********************************************************************/
-
-        /*********************************************************************/
-
-        /***************************************************************/
-        /**   CART ARRAY RECORDS TO CHECK WETHER OR NOT DISPLAYED--   **/
-        /**  --PRODUCT HAS BEEN ALREADY ADDE TO CART OR NOT           **/
+        $result['newest_products'] = $newest_products['product_data'];
         /***************************************************************/
         $cart = '';
         $result['cartArray'] = $this->products->cartIdArray($cart);
         /**************************************************************/
 
 //special products
-        $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
         $special_products = $this->products->products($data);
-        $result['special'] = $special_products;
+        $result['special_products'] = $special_products['product_data'];
 //Flash sale
 
-        $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
         $flash_sale = $this->products->products($data);
-        $result['flash_sale'] = $flash_sale;
+        $result['flash_sale_products'] = $flash_sale['product_data'];
 // //top seller
-        $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
         $top_seller = $this->products->products($data);
-        $result['top_seller'] = $top_seller;
+        $result['top_seller_products'] = $top_seller['product_data'];
 
 //most liked
-        $data = array('page_number' => '0', 'type' => 'mostliked', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $data = array('page_number' => '0', 'type' => 'mostliked', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
         $most_liked = $this->products->products($data);
-        $result['most_liked'] = $most_liked;
+        $result['most_liked_products'] = $most_liked['product_data'];
 
 //is feature
-        $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+        $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
         $featured = $this->products->products($data);
-        $result['featured'] = $featured;
+        $result['featured_products'] = $featured['product_data'];
 
-        $data = array('page_number' => '0', 'type' => '', 'limit' => '15', 'is_feature' => 1, 'lang' => (!empty($request->lang)) ? $request->lang : 2);
-        $news = $this->news->getAllNews($data);
-        $result['news'] = $news;
 //current time
-
         $currentDate = Carbon\Carbon::now();
         $currentDate = $currentDate->toDateTimeString();
 
         //liked products
         $result['liked_products'] = $this->products->likedProducts();
-
         $orders = $this->order->getOrders();
         if (count($orders) > 0) {
             $allOrders = $orders;
@@ -156,24 +115,15 @@ class IndexController extends BaseAPIController
         $detail = array();
         $temp_i = array_unique($temp_i);
         foreach ($temp_i as $temp_data) {
-            $data = array('page_number' => '0', 'type' => 'topseller', 'products_id' => $temp_data, 'limit' => 7, 'min_price' => '', 'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+            $data = array('page_number' => '0', 'type' => 'topseller', 'products_id' => $temp_data, 'limit' => 7, 'min_price' => '', 'max_price' => '', 'lang' => $lang);
             $single_product = $this->products->products($data);
             if (!empty($single_product['product_data'][0])) {
                 $detail[] = $single_product['product_data'][0];
             }
         }
+        $result['weeklySoldProducts'] =$detail;
 
-        $result['weeklySoldProducts'] =
-            array('success' => '1',
-                'product_data' => $detail,
-                'message' => "Returned all products.",
-                'total_record' => count($detail));
-
-
-//        return dd($result);
-        return $this->sendResponse($result, '');
-
-//        return view("web.index", ['title' => $title, 'final_theme' => $final_theme])->with(['result' => $result]);
+        return $this->sendNotFormatResponse($result);
     }
 
     public function filterData(Request $request)

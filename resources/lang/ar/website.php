@@ -14,7 +14,7 @@ return [
     */
 
   'Hotline' => 'الشحن مجانا',
-	
+
 	'SPECIAL DEALS' => 'الشحن مجانا',
 
 	'Call Us Now'  => 'الخط الساخن',
@@ -150,13 +150,13 @@ return [
 
 	'Coupon amount is greater than product price'=>'كمية الكوبون أكبر من سعر المنتج.',
 
-	'Coupon does not exist'=>'الكوبون غير موجود أو رمز قسيمة غير صالح.',
+	'Coupon does not exist'=>'الكوبون غير موجود أو منتهي الصلاحية .',
 
 	'Please enter a valid coupon code'=>'يرجى إدخال كود كوبون صالح',
 
 	'Coupon is already applied'=>'الكوبون مطبق بالفعل',
 
-	'Cart item has been deleted successfully'=>'تم حذف بند السلة بنجاح!',
+	'Cart item has been deleted successfully'=>'تم حذف المنتج السلة بنجاح ',
 
 	'Coupon has been removed successfully'=>'تمت إزالة الكوبون بنجاح!',
 
@@ -709,7 +709,7 @@ return [
 	'Product is unliked'=>'المنتج غير مرغوب فيه.',
 	'Please login first to like this product'=>'الرجاء تسجيل الدخول أولاً لمثل هذا المنتج.',
 	'Product is liked'=>'المنتج هو يحب.',
-	'Product is disliked'=>'المنتج غير محبوب.',
+	'Product is disliked'=>'تم اللغاء من المفضلة.',
 	'Password has been updated successfully'=>'تم تحديث كلمة المرور بنجاح.',
 
 
@@ -749,8 +749,8 @@ return [
 
 	'Product is unliked'=>'المنتج غير مرغوب فيه',
 	'Please login first to like this product'=>'الرجاء تسجيل الدخول أولاً لمثل هذا المنتج',
-	'Product is liked'=>'المنتج هو يحب',
-	'Product is disliked'=>'المنتج غير محبوب',
+	'Product is liked'=>'تم الاضافة الى المفضلة',
+	'Product is disliked'=>'تم الحذف من المفضلة',
 	'Password has been updated successfully'=>'تم تحديث كلمة المرور بنجاح',
 	'Empty Site Name'=>'إفراغ اسم الموقع',
 	'Instamojo Payment'=>'انسٹاموجو دفع',
@@ -774,9 +774,9 @@ return [
 	'If you do note want to apply this coupon just click cross button of this alert.'=>'إذا كنت ترغب في تطبيق هذه القسيمة ، فما عليك سوى النقر فوق الزر المتقاطع لهذا التنبيه.',
 	'You Are Not Allowed With These Credentials!'=>'يرجى إدخال تفاصيل حساب صالحة.',
 	'Removed Successfully'=>'تمت الإزالة بنجاح',
-	'error'=>'خطأ',	
+	'error'=>'خطأ',
 	'success'=>'نجاح',
-	
+
 	///// new labels /////
 	'Search Products'=>'البحث عن المنتجات',
 	'Currency'=>'عملة',
@@ -811,7 +811,7 @@ return [
 أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . ',
 	'Flash Sale Text'=>'وريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
 أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . ',
-	'Super deal of the Month'=>'صفقة الشهر الفائقة',	
+	'Super deal of the Month'=>'صفقة الشهر الفائقة',
 	'From our News'=>'الأخبار و الأحداث',
 	'From our News Text'=>'وريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
 أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . ',
@@ -874,7 +874,7 @@ return [
 	'Order page'=>'صفحة الطلب',
 	'Product Added Successfully'=>'تمت إضافة المنتج بنجاح',
 	'Categroy'=>'الفئة',
-	'Available'=>'متاح',	
+	'Available'=>'متاح',
 	'Please enter your review'=>'يرجى إدخال رأيك.',
 	'Product is ready to compare!'=>'المنتج جاهز للمقارنة!',
 	'Current password is invalid'=>'كلمة المرور الحالية غير صالحة.',

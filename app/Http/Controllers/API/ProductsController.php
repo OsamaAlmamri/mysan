@@ -106,8 +106,6 @@ class ProductsController extends BaseAPIController
     //shop
     public function shop(Request $request)
     {
-
-
         if ($request->is('api/wishlist') == true or $request->type == 'wishlist') {
             if (auth()->user() != null)
                 $type = 'wishlist';
@@ -294,28 +292,8 @@ class ProductsController extends BaseAPIController
         $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '', 'min_price' => '',
             'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
         $detail = $this->products->singleproducts2($data);
-        return $this->sendNotFormatResponse($detail);
-        $result['detail'] = $detail;
-//        if (!empty($result['detail']['product_data'][0]->categories) and count($result['detail']['product_data'][0]->categories) > 0) {
-//            $i = 0;
-//            foreach ($result['detail']['product_data'][0]->categories as $postCategory) {
-//                if ($i == 0) {
-//                    $postCategoryId = $postCategory->categories_id;
-//                    $i++;
-//                }
-//            }
-//        }
+        return $this->sendResponse($detail['product_data'],'');
 
-//        $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '',
-//            'min_price' => '', 'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
-//        $simliar_products = $this->products->products($data);
-//        $result['simliar_products'] = $simliar_products;
-//
-
-
-//        return $this->sendNotFormatResponse($result);
-
-        //dd($result);
     }
 
     //filters

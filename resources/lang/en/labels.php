@@ -2122,4 +2122,19 @@ return [
     'app_theme_8' => 'Blue',
     'app_theme_9' => 'Pink',
     'app_theme_10' => 'Pink',
+
+
+
+
+
+    'Add Bouquet' => 'Add Bouquet',
+    'Bouquets' => ' Bouquets',
+    'product_questions' => ' product questions',
+    'ListingAllproduct_questions' => ' Listing All product questions',
+    'question_text' => ' question text',
+    'replay_text' => ' replay text',
+    'product_question_updateMessage' => ' product question  update Message',
+    'Replay' => ' Replay',
+    'replayToQuestion' => ' replay To Question',
+    'sendReplay' => ' send Replay',
 ];

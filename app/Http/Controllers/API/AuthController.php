@@ -98,10 +98,9 @@ class AuthController extends BaseAPIController
             $input['user_name'] = ($input['phone']);
             $input['role_id'] = 2;
             $user = User::create($input);
-            $success['name'] = $user->name;
             $success['token'] = $user->createToken('MyApp')->accessToken;;
 
-            return $this->sendResponse($success, 'User  created succesfully');
+            return $this->sendResponse($success['token'], 'User  created succesfully');
         } catch (Exception $ex) {
             return $ex->getMessage();
 

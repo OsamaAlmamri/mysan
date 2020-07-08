@@ -34,18 +34,20 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
     Route::post('addToCart', 'API\CartController@addToCart');
-    Route::post('deleteCart', 'API\CartController@deleteCart');
+    Route::post('deleteFromCart', 'API\CartController@deleteCart');
 
     Route::post('getquantity', 'API\ProductsController@getquantity');
     Route::post('apply_coupon', 'API\CartController@apply_coupon');
     Route::post('removeCoupon', 'API\CartController@removeCoupon');
     Route::post('updateCart', 'API\CartController@updateCart');
+
     Route::post('viewcart', 'API\CartController@viewcart');
     Route::post('updateMyPassword', 'API\CustomersController@updateMyPassword');
 //    Route::post('processPassword', 'API\CustomersController@processPassword');
     Route::post('updateMyProfile', 'API\CustomersController@updateMyProfile');
 
 
+    Route::post('my_address', 'API\ShippingAddressController@my_address');
     Route::post('shipping_address', 'API\ShippingAddressController@shippingAddress');
     Route::post('addMyAddress', 'API\ShippingAddressController@addMyAddress');
     Route::post('myDefaultAddress', 'API\ShippingAddressController@myDefaultAddress');

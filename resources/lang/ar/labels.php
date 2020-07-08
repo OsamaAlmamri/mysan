@@ -2107,16 +2107,15 @@ return [
 
 
 
-    'Add Bouquet' => 'Add Bouquet',
-    'Bouquets' => ' Bouquets',
-    'product_questions' => ' product_questions',
-    'ListingAllproduct_questions' => ' ListingAllproduct_questions',
-    'question_text' => ' question_text',
-    'replay_text' => ' replay_text',
-    'product_question_updateMessage' => ' product_question_updateMessage',
-    'Replay' => ' Replay',
-    'replayToQuestion' => ' replayToQuestion',
-    'sendReplay' => ' sendReplay',
-    'product_questions' => ' product_questions',
+    'Add Bouquet' => 'اضافة باقة',
+    'Bouquets' => ' الباقات',
+    'product_questions' => 'اسئلة المنتجات',
+    'ListingAllproduct_questions' => ' عرض كافة اسئلة المنتجات',
+    'question_text' => ' السؤال',
+    'replay_text' => 'الاجابة',
+    'product_question_updateMessage' => ' تم التحديث بنجاح',
+    'Replay' => ' رد ',
+    'replayToQuestion' => ' رد على السؤوال',
+    'sendReplay' => ' ارسال الرد',
 
 ];

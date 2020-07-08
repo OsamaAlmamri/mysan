@@ -103,9 +103,9 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="{{ Request::is('admin/products/inventory/display') ? 'active' : '' }}"><a
                                     href="{{ URL::to('admin/products/inventory/display')}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.inventory') }}</a></li>
-                            <li class="{{ Request::is('admin/bouquet/display') ? 'active' : '' }}"><a
-                                    href="{{ URL::to('admin/bouquet/display')}}"><i
-                                        class="fa fa-circle-o"></i> {{ trans('labels.bouquet') }}</a></li>
+{{--                            <li class="{{ Request::is('admin/bouquet/display') ? 'active' : '' }}"><a--}}
+{{--                                    href="{{ URL::to('admin/bouquet/display')}}"><i--}}
+{{--                                        class="fa fa-circle-o"></i> {{ trans('labels.bouquet') }}</a></li>--}}
                         @endif
                         <?php
                         $status_check = DB::table('reviews')->where('reviews_read', 0)->first();
@@ -250,24 +250,27 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
 
             @if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->notifications_view == 1)
                 <li class="treeview {{ Request::is('admin/pushnotification') ? 'active' : '' }}{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }} {{ Request::is('admin/devices/notifications') ? 'active' : '' }}">
-                    <a href="{{ URL::to('admin/devices/display')}} ">
+                    <a href="#">
+{{--                    <a href="{{ URL::to('admin/devices/display')}} ">--}}
                         <i class="fa fa-bell-o" aria-hidden="true"></i>
                         <span>{{ trans('labels.link_notifications') }}</span> <i
                             class="fa fa-angle-left pull-left"></i>
                     </a>
-                    <ul class="treeview-menu">
-                                                <li class="{{ Request::is('admin/pushnotification') ? 'active' : '' }}"><a
-                                                        href="{{ URL::to('admin/pushnotification')}}"><i
-                                                            class="fa fa-circle-o"></i> {{ trans('labels.link_setting') }}</a></li>
-                                                <li class="{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }}">
-                                                    <a href="{{ URL::to('admin/devices/display')}}"><i
-                                                            class="fa fa-circle-o"></i>{{ trans('labels.link_devices') }} </a>
-                                                </li>
-                                                <li class="{{ Request::is('admin/devices/notifications') ? 'active' : '' }} ">
-                                                    <a href="{{ URL::to('admin/devices/notifications') }}"><i
-                                                            class="fa fa-circle-o"></i> {{ trans('labels.link_send_notifications') }}</a>
-                                                </li>
-                    </ul>
+
+{{--                    <ul class="treeview-menu">--}}
+{{--                                                <li class="{{ Request::is('admin/pushnotification') ? 'active' : '' }}"><a--}}
+{{--                                                        href="{{ URL::to('admin/pushnotification')}}"><i--}}
+{{--                                                            class="fa fa-circle-o"></i> {{ trans('labels.link_setting') }}</a></li>--}}
+{{--                                                <li class="{{ Request::is('admin/devices/display') ? 'active' : '' }} {{ Request::is('admin/devices/viewdevices/*') ? 'active' : '' }}">--}}
+{{--                                                    <a href="{{ URL::to('admin/devices/display')}}"><i--}}
+{{--                                                            class="fa fa-circle-o"></i>{{ trans('labels.link_devices') }} </a>--}}
+{{--                                                </li>--}}
+{{--                                                <li class="{{ Request::is('admin/devices/notifications') ? 'active' : '' }} ">--}}
+{{--                                                    <a href="{{ URL::to('admin/devices/notifications') }}"><i--}}
+{{--                                                            class="fa fa-circle-o"></i> {{ trans('labels.link_send_notifications') }}</a>--}}
+{{--                                                </li>--}}
+{{--                    </ul>--}}
+{{--               --}}
                 </li>
             @endif
 
