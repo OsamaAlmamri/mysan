@@ -50,6 +50,9 @@
 <!-- Bootstrap WYSIHTML5 -->
 <script src="{!! asset('admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') !!}"></script>
 
+<!-- DataTable  -->
+<script src="{!! asset('admin/plugins/datatables/jquery.dataTables.min.js') !!}"></script>
+
 <script type="text/javascript">
 
 

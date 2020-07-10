@@ -69,7 +69,6 @@
                                                         <td>{{ $currency->symbol_left }}
                                                             {{ $currency->symbol_right }}
                                                         </td>
-
                                                         <td>
                                                             @if(!empty($currency->symbol_left))
                                                                 @lang('labels.Left')

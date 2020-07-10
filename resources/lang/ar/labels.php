@@ -2118,4 +2118,10 @@ return [
     'replayToQuestion' => ' رد على السؤوال',
     'sendReplay' => ' ارسال الرد',
 
+
+    'total_App_visited' => ' اجمالي تثبيت التطبيقات    ',
+    'total_App_visited_android' => '  اجمالي تثبيت تطبيق Android',
+    'total_App_visited_ios' => 'IOS  اجمالي تثبيت تطبيق ',
+    'viewAllTotal_App_visited' => 'عرض',
+
 ];

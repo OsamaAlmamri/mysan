@@ -19,7 +19,8 @@ class Currency extends Model
       $setting = new Setting();
       $myVarsetting = new SiteSettingController($setting);
       $commonsetting = $myVarsetting->commonsetting();
-      $currencies = Currency::sortable(['id'=>'ASC'])->where('is_current', 1)->paginate($commonsetting['pagination']);
+      $currencies = Currency::sortable(['id'=>'ASC'])->where('is_current', 1)
+          ->paginate($commonsetting['pagination']);
       return $currencies;
     }
 
@@ -69,7 +70,7 @@ class Currency extends Model
 
     public function insert($request){
        $date_added	= date('y-m-d h:i:s');
-      
+
       if($request->position == 'left'){
         $symbol_left = $request->symbol;
         $symbol_right = '';
@@ -113,7 +114,7 @@ class Currency extends Model
         $symbol_left = '';
         $symbol_right = $request->symbol;
       }
-      
+
       if($request->warning == 1){
         $check = DB::table('currencies')->where('id', $request->id)->where('is_default',1)->first();
 

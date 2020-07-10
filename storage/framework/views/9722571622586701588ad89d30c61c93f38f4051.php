@@ -118,6 +118,57 @@
                     </div>
                     <!-- ./col -->
 
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner">
+                                <h3><?php echo e($result['total_App_visited']); ?></h3>
+                                <p><?php echo e(trans('labels.total_App_visited')); ?></p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-mobile-phone"></i>
+                            </div>
+                            <a href="<?php echo e(URL::to('admin/devices/display')); ?>" class="small-box-footer"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="<?php echo e(trans('labels.viewAllTotal_App_visited')); ?>"><?php echo e(trans('labels.viewAllTotal_App_visited')); ?> <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-light-blue">
+                            <div class="inner">
+                                <h3><?php echo e($result['total_App_visited_ios']); ?></h3>
+                                <p><?php echo e(trans('labels.total_App_visited_ios')); ?></p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-apple"></i>
+                            </div>
+                            <a href="<?php echo e(URL::to('admin/devices/display?filter=1')); ?>" class="small-box-footer"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="<?php echo e(trans('labels.viewAllTotal_App_visited')); ?>"><?php echo e(trans('labels.viewAllTotal_App_visited')); ?> <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-teal">
+                            <div class="inner">
+                                <h3><?php echo e($result['total_App_visited_android']); ?></h3>
+                                <p><?php echo e(trans('labels.total_App_visited_android')); ?></p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-android"></i>
+                            </div>
+                            <a href="<?php echo e(URL::to('admin/devices/display?filter=2')); ?>" class="small-box-footer"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="<?php echo e(trans('labels.viewAllTotal_App_visited')); ?>"><?php echo e(trans('labels.viewAllTotal_App_visited')); ?> <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
                 </div>
 
             

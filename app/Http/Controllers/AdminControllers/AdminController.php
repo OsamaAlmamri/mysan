@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Models\Core\Device;
 use App\Models\Core\Languages;
 use App\Models\Core\Setting;
 use App\Models\Admin\Admin;
@@ -125,11 +126,15 @@ class AdminController extends Controller
             }
         }
 
-
+        $ios = Device::all()->where('device_type', 1)->count();
+        $android = Device::all()->where('device_type', 2)->count();
         $result['orders'] = $orders->chunk(10);
         $result['pending_orders'] = $pending_orders;
         $result['compeleted_orders'] = $compeleted_orders;
         $result['total_orders'] = count($orders);
+        $result['total_App_visited'] = $ios+$android;
+        $result['total_App_visited_ios'] = $ios;
+        $result['total_App_visited_android'] = $android;
 
 
         $result['inprocess'] = count($orders) - $pending_orders - $compeleted_orders;

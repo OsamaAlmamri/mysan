@@ -2,27 +2,27 @@
 
 return [
 
-      'debug_blacklist' => [
-          '_ENV' => [
-              'APP_KEY',
-              'DB_PASSWORD',
-              'REDIS_PASSWORD',
-              'MAIL_PASSWORD',
-              'PUSHER_APP_KEY',
-              'PUSHER_APP_SECRET',
-          ],
-          '_SERVER' => [
-              'APP_KEY',
-              'DB_PASSWORD',
-              'REDIS_PASSWORD',
-              'MAIL_PASSWORD',
-              'PUSHER_APP_KEY',
-              'PUSHER_APP_SECRET',
-          ],
-          '_POST' => [
-              'password',
-          ],
-      ],
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+        ],
+        '_POST' => [
+            'password',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -175,9 +175,9 @@ return [
         /*
          * Package Service Providers...
          */
-         JoeyRush\BetterMigrateSeed\BetterMigrateSeedServiceProvider::class,
-         Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
-         Madnest\Madzipper\MadzipperServiceProvider::class,
+        JoeyRush\BetterMigrateSeed\BetterMigrateSeedServiceProvider::class,
+        Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+        Madnest\Madzipper\MadzipperServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -188,6 +188,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         'Folklore\Image\ImageServiceProvider',
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
 
     ],
@@ -243,9 +244,7 @@ return [
         'Image' => 'Folklore\Image\Facades\Image',
         'Madzipper' => Madnest\Madzipper\Madzipper::class,
         'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
-
-
-
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];
