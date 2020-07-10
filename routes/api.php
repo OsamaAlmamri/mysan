@@ -39,9 +39,9 @@ Route::post('top_seller', 'API\ProductsController@shop');
 Route::post('most_liked', 'API\ProductsController@shop');
 Route::post('featured', 'API\ProductsController@shop');
 Route::post('specialProducts', 'API\ProductsController@shop');
-
-
+Route::post('add_devices', 'API\IndexController@add_devices');
 Route::middleware('auth:api')->group(function () {
+    Route::post('add_auth_devices', 'API\IndexController@add_auth_devices');
     Route::post('reviews', 'API\ProductsController@reviews');
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
     Route::post('addToCart', 'API\CartController@addToCart');

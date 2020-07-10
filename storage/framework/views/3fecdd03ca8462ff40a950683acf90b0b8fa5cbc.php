@@ -2718,14 +2718,14 @@
                 + '&reply_id=' + id;
             $.ajax({
                 type: 'POST',
-                url: '/admin/product_questions/delete_replay', //Returns ID in body
+                url: '<?php echo e(URL::to("admin/product_questions/delete_replay")); ?>', //Returns ID in body
                 data: data,
                 // async: false, // <<== THAT makes us wait until the server is done.
                 success: function (data) {
                     if (data == 1)
                         $('#replay_dev_' + id).remove();
                     else
-                    alert(('حدث خطاء ماء اثناء الحذف'))
+                        alert(('حدث خطاء ماء اثناء الحذف'))
                 },
                 error: function (jqXhr, status) {
                     console.log(jqXhr);
@@ -2738,12 +2738,9 @@
 
 
     $(document).on('click', '#btnSendReply', function (e) {
-
-
             var ques_ques_id = $('#ques_ques_id').val();
             var question_reply = $('#question_reply').val();
             var ques_ques_replay_id = $('#ques_ques_replay_id').val();
-
             var describtion = $('#question_reply').val();
             var describtion = describtion.replace(/\s+/g, '');
             if (describtion == '')
@@ -2755,7 +2752,7 @@
                     + '&reply=' + question_reply;
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/product_questions/replay', //Returns ID in body
+                    url: '<?php echo e(URL::to("admin/product_questions/replay")); ?>', //Returns ID in body
                     data: data,
                     // async: false, // <<== THAT makes us wait until the server is done.
                     success: function (data) {

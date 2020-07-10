@@ -104,7 +104,7 @@ class NotificationController extends Controller
         }
 
         $sendData = array
-            (
+        (
             'body' => $message,
             'title' => $title,
             'icon' => 'myicon', /*Default Icon*/
@@ -112,7 +112,7 @@ class NotificationController extends Controller
             'image' => $websiteURL,
         );
 
-        $response = $this->onesignalNotification($device_id, $sendData, $pageResponse);
+        $response = $this->fcmNotification($device_id, $sendData, $pageResponse);
         return $response;
     }
 
@@ -151,29 +151,30 @@ class NotificationController extends Controller
         }
 
         $sendData = array
-            (
+        (
             'body' => $message,
             'title' => $title,
             'icon' => 'myicon', /*Default Icon*/
             'sound' => 'mySound', /*Default sound*/
+            "click_action" => "FLUTTER_NOTIFICATION_CLICK",
             'image' => $websiteURL,
         );
 
         //get function from other controller
-        $response=[];
+        $response = [];
         $setting = $this->myVarSetting->getSetting();
 
         if ($device_type == 'all') { /* to all users notification */
 
             $devices = DB::table('devices')
                 ->where('status', '=', $devices_status)
-                ->where('devices.' . $setting[54]->value, '=', '1')
+//                ->where('devices.' . $setting[54]->value, '=', '1')
                 ->where('devices.is_notify', '=', '1')
                 ->get();
 
             if (count($devices) > 0) {
                 foreach ($devices as $devices_data) {
-                    $response[] = $this->onesignalNotification($devices_data->device_id, $sendData, $pageResponse);
+                    $response[] = $this->fcmNotification($devices_data->device_id, $sendData, $pageResponse);
                 }
             } else {
                 $response[] = '2';
@@ -185,13 +186,13 @@ class NotificationController extends Controller
                 ->select('devices.device_id')
                 ->where('status', '=', $devices_status)
                 ->where('devices.is_notify', '=', '1')
-                ->where('devices.' . $setting[54]->value, '=', '1')
+//                ->where('devices.' . $setting[54]->value, '=', '1')
                 ->where('device_type', '=', $device_type)
                 ->get();
 
             if (count($devices) > 0) {
                 foreach ($devices as $devices_data) {
-                    $response[] = $this->onesignalNotification($devices_data->device_id, $sendData, $pageResponse);
+                    $response[] = $this->fcmNotification($devices_data->device_id, $sendData, $pageResponse);
                 }
             } else {
                 $response[] = '2';
@@ -203,13 +204,13 @@ class NotificationController extends Controller
                 ->select('devices.device_id')
                 ->where('status', '=', $devices_status)
                 ->where('devices.is_notify', '=', '1')
-                ->where('devices.' . $setting[54]->value, '=', '1')
+//                ->where('devices.' . $setting[54]->value, '=', '1')
                 ->where('device_type', '=', $device_type)
                 ->get();
 
             if (count($devices) > 0) {
                 foreach ($devices as $devices_data) {
-                    $response[] = $this->onesignalNotification($devices_data->device_id, $sendData, $pageResponse);
+                    $response[] = $this->fcmNotification($devices_data->device_id, $sendData, $pageResponse);
                 }
             } else {
                 $response[] = '2';
@@ -221,13 +222,13 @@ class NotificationController extends Controller
                 ->select('devices.device_id')
                 ->where('status', '=', $devices_status)
                 ->where('devices.is_notify', '=', '1')
-                ->where('devices.' . $setting[54]->value, '=', '1')
+//                ->where('devices.' . $setting[54]->value, '=', '1')
                 ->where('device_type', '=', $device_type)
                 ->get();
 
             if (count($devices) > 0) {
                 foreach ($devices as $devices_data) {
-                    $response[] = $this->onesignalNotification($devices_data->device_id, $sendData, $pageResponse);
+                    $response[] = $this->fcmNotification($devices_data->device_id, $sendData, $pageResponse);
                 }
             } else {
                 $response[] = '2';
@@ -262,7 +263,6 @@ class NotificationController extends Controller
             ->where('devices.is_notify', '=', '1')
             ->orderBy('register_date', 'DESC')->take(1)->get();
         $result['commonContent'] = $this->Setting->commonContent();
-
         return view("admin/devices/customerNotificationForm")->with('devices', $devices)->with('result', $result);
     }
 
@@ -283,14 +283,19 @@ class NotificationController extends Controller
             define('API_ACCESS_KEY', $setting[12]->value);
         }
 
+//        $notification = array('title' => $sendData['title'], 'text' => 'body');
+
         $fields = array
-            (
+        (
             'to' => $device_id,
             'data' => $sendData,
+            "priority" => "high",
+            'notification' => $sendData
         );
 
         $headers = array
-            (
+        (
+//            'Authorization: key=AAAAE3phGqk:APA91bGqAo6iuyB1DtVDEOJbUHagHEdlYoNGsiK-ajDTC54QXyKE-Ubj2US75TxnREHb3VvFd_wXDibJtVg4behA-1khsFVb8jsXW0TkhoR5euO-by-UjRx6jIlttDNqz8N3VPBu5jMe',
             'Authorization: key=' . API_ACCESS_KEY,
             'Content-Type: application/json',
         );
@@ -307,7 +312,6 @@ class NotificationController extends Controller
         if ($result === false) {
             die('Curl failed ' . curl_error());
         }
-
         curl_close($ch);
 
         if (!empty($data->success) and $data->success >= 1) {

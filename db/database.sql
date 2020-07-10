@@ -982,7 +982,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `longitude` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `device_model` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `manufacturer` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `operating_system` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `device_mac` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `browser_info` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_notify` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,

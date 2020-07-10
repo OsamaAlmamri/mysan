@@ -11,6 +11,7 @@ use App\Models\API\Languages;
 use App\Models\API\News;
 use App\Models\API\Order;
 use App\Models\API\Products;
+use App\Models\Core\Device;
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
+use Validator;
 
 class IndexController extends BaseAPIController
 {
@@ -59,7 +61,7 @@ class IndexController extends BaseAPIController
         $search = (!empty($request->search)) ? $request->search : '';
         $lang = (!empty($request->lang)) ? $request->lang : 2;
         $page_number = (!empty($request->page)) ? $request->page : 0;
-        $data = array( 'page_number' => $page_number, 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+        $data = array('page_number' => $page_number, 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
 
         $newest_products = $this->products->products($data);
         $result['newest_products'] = $newest_products['product_data'];
@@ -121,7 +123,7 @@ class IndexController extends BaseAPIController
                 $detail[] = $single_product['product_data'][0];
             }
         }
-        $result['weeklySoldProducts'] =$detail;
+        $result['weeklySoldProducts'] = $detail;
 
         return $this->sendNotFormatResponse($result);
     }
@@ -171,10 +173,8 @@ class IndexController extends BaseAPIController
         else
             $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
 
-
         $featured = $this->products->products($data);
         return $this->sendNotFormatResponse($featured);
-
     }
 
     public function recursivecategories(Request $request)
@@ -210,6 +210,63 @@ class IndexController extends BaseAPIController
     {
         $result = $this->manufacturers->getter($request->lang);
         return $this->sendResponse($result, 'currencies');
+    }
+
+    public function add_devices(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'device_id' => 'required',
+            'device_type' => 'required',
+            'device_model' => 'required',
+            'manufacturer' => 'required',
+            'device_mac' => 'required',
+            'device_os' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('error validation', $validator->errors(), 422);
+        }
+        $devices = Device::where('device_mac', $request->device_mac)
+            ->where('device_id', 'not like', $request->device_id)
+            ->where('user_id', '=', 0)
+            ->delete();
+        $device = Device::all()
+            ->where('device_id', 'like', $request->device_id)
+            ->where('device_mac', 'like', $request->device_mac)
+            ->where('user_id', '=', 0)
+            ->first();
+        $data = $request->all();
+        if ($device == null)
+            Device::create($data);
+        else
+            $device->update($data);
+        return $this->sendResponse(1, '');
+    }
+
+    public function add_auth_devices(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'device_id' => 'required',
+            'device_type' => 'required',
+            'device_model' => 'required',
+            'manufacturer' => 'required',
+            'device_mac' => 'required',
+            'device_os' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('error validation', $validator->errors(), 422);
+        }
+        $devices = Device::where('device_mac', $request->device_mac)
+            ->where('device_id', 'not like', $request->device_id)->delete();
+        $device = Device::all()
+            ->where('device_id', 'like', $request->device_id)
+            ->where('device_mac', 'like', $request->device_mac)
+            ->first();
+        $data = array_merge($request->all(), ['user_id' => auth()->user()->id]);
+        if ($device == null)
+            Device::create($data);
+        else
+            $device->update($data);
+        return $this->sendResponse(1, '');
     }
 
 

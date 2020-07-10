@@ -27,7 +27,7 @@ class CreateDevicesTable extends Migration {
 			$table->string('longitude', 100)->nullable();
 			$table->string('device_model', 191);
 			$table->string('manufacturer', 100);
-			$table->string('operating_system', 100);
+			$table->string('device_mac', 100);
 			$table->string('browser_info', 100);
 			$table->boolean('is_notify')->default(1);
 			$table->timestamps();

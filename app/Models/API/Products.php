@@ -2,6 +2,7 @@
 
 namespace App\Models\API;
 
+use App\ProductQuestion;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
@@ -476,11 +477,10 @@ class Products extends Model
     {
         $reviews = DB::table('product_questions')
             ->leftjoin('users', 'users.id', '=', 'product_questions.question_customers_id')
-            ->select(
-                'question_customers_id',
+            ->select('question_customers_id',
                 DB::raw("CONCAT(COALESCE(users.first_name,'') , '  ' ,COALESCE(users.last_name,'')) AS customers_name"),
-                'question_text as question',
-                'replay'
+                DB::raw("(select count(question_replays.product_question_id) from question_replays where question_replays.product_question_id = product_questions.product_question_id) AS replyes"),
+                'question_text as question'
             )
             ->where('question_products_id', $products_id)
             ->where('question_status', '1')
@@ -551,8 +551,9 @@ class Products extends Model
             $products_id = $products_data->products_id;
             $index = 0;
             $products_data->rating = $this->get_review($products_id);
+            $products_data->questions2 =ProductQuestion::with(['replies'])->withCount('replies')
+              ->where('question_products_id', '=', $products_id)->get() ;
             $products_data->questions = $this->get_question($products_id);
-
             //products_image
             $default_image_thumb = DB::table('products')
                 ->LeftJoin('image_categories', 'products.products_image', '=', 'image_categories.image_id')

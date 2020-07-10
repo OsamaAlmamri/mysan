@@ -54,10 +54,10 @@
                                                                 selected
                                                                 @endif
                                                                 value="fcm"> {{ trans('labels.fcm') }}</option>
-                                                        <option @if($result['settings'][54]->value == 'onesignal')
-                                                                selected
-                                                                @endif
-                                                                value="onesignal"> {{ trans('labels.onesignal') }}</option>
+{{--                                                        <option @if($result['settings'][54]->value == 'onesignal')--}}
+{{--                                                                selected--}}
+{{--                                                                @endif--}}
+{{--                                                                value="onesignal"> {{ trans('labels.onesignal') }}</option>--}}
                                                     </select>
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;margin-top: 0;">{{ trans('labels.defaultNotificationText') }}</span>
                                                 </div>

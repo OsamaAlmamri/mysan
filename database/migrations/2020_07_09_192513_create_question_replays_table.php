@@ -23,6 +23,7 @@ class CreateQuestionReplaysTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *

@@ -258,19 +258,19 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             class="fa fa-angle-left pull-left"></i>
                     </a>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    <ul class="treeview-menu">
+                                                <li class="<?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?>"><a
+                                                        href="<?php echo e(URL::to('admin/pushnotification')); ?>"><i
+                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
+                                                <li class="<?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?>">
+                                                    <a href="<?php echo e(URL::to('admin/devices/display')); ?>"><i
+                                                            class="fa fa-circle-o"></i><?php echo e(trans('labels.link_devices')); ?> </a>
+                                                </li>
+                                                <li class="<?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?> ">
+                                                    <a href="<?php echo e(URL::to('admin/devices/notifications')); ?>"><i
+                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_send_notifications')); ?></a>
+                                                </li>
+                    </ul>
 
                 </li>
             <?php endif; ?>
