@@ -48,4 +48,5 @@ return array(
     '17d016dc52a631c1e74d2eb8fdd57342' => $vendorDir . '/laravel/helpers/src/helpers.php',
     'f18cc91337d49233e5754e93f3ed9ec3' => $vendorDir . '/laravelcollective/html/src/helpers.php',
     '26780a83c716f8c0312cffe56b68991e' => $vendorDir . '/rehan/laravel-installer/src/Helpers/functions.php',
+    '2e63b8599f9ae982aad88ceedd763985' => $baseDir . '/app/Helper/Helpers.php',
 );

@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -100,12 +101,9 @@
                                                            style="width: 100%;  margin-bottom: 5px;"
                                                            href="<?php echo e(URL::to('admin/product_questions/edit/'.$review->product_question_id.'/1')); ?>"><?php echo e(trans('labels.Active')); ?></a>
                                                         </br>
-                                                        <button class="btn btn-success replay_btn"
-                                                                id="ReplyBtnShow<?php echo e($review->product_question_id); ?>"
-                                                                data-ques_id="<?php echo e($review->product_question_id); ?>"
-                                                                data-old_replay="<?php echo e($review->replay); ?>"
-                                                                style="width: 100%;  margin-bottom: 5px;">
-                                                            <?php echo e(trans('labels.Replay')); ?></button>
+                                                        <a class="btn btn-info"
+                                                           style="width: 100%;  margin-bottom: 5px;"
+                                                           href="<?php echo e(URL::to('admin/product_questions/show/'.$review->product_question_id)); ?>"><?php echo e(trans('labels.Replay')); ?></a>
                                                         </br>
                                                         <a class="btn btn-danger"
                                                            style="width: 100%;  margin-bottom: 5px;"

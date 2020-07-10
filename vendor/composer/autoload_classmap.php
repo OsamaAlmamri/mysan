@@ -236,6 +236,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\QuestionReplay' => $baseDir . '/app/QuestionReplay.php',
     'App\\Rules\\MatchOldPassword' => $baseDir . '/app/Rules/MatchOldPassword.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\tempStorage' => $baseDir . '/app/tempStorage.php',

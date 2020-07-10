@@ -29,4 +29,9 @@ class ProductQuestion extends Model
         return $reviews;
     }
 
+    function replies()
+    {
+        return $this->hasMany(QuestionReplay::class, 'product_question_id', 'product_question_id')->orderByDesc('replay_id');
+    }
+
 }

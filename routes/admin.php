@@ -1,10 +1,18 @@
 <?php
 
+use Illuminate\Support\Composer;
+
 Route::get('/clear-cache', function () {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('config:clear');
     $exitCode = Artisan::call('view:cache');
     $exitCode = Artisan::call('route:cache');
+//     return back();
+});
+Route::get('/dump-autoload', function () {
+
+    $exitCode = Artisan::call('dump-autoload');
+    $exitCode = Composer::call('dump-autoload');
 //     return back();
 });
 
@@ -252,7 +260,9 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin/product_questions', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@product_questions')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ProductController@edit_product_questions')->middleware('edit_reviews');
+        Route::get('/show/{id}', 'ProductController@show_product_questions')->middleware('view_reviews');
         Route::post('/replay', 'ProductController@replay_product_questions')->middleware('edit_reviews');
+        Route::post('/delete_replay', 'ProductController@delete_replay')->middleware('edit_reviews');
 
     });
 //customers

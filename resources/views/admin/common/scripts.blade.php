@@ -2695,21 +2695,52 @@
 
 
     $(document).on('click', '.replay_btn', function () {
-        var ques_id = $(this).data('ques_id');
-        var old_replay = $('#ReplyText' + ques_id).text();
-
-        $('#ques_ques_id').val(ques_id);
-        $('#question_reply').val(old_replay);
         $('#replayModal').modal('show');
+        $("#ques_ques_replay_id").val(0);
+        $("#question_reply").val('');
+    });
+
+
+    $(document).on('click', '.btn_update_replay', function () {
+        $('#replayModal').modal('show');
+        var id = $(this).data('id');
+        var old = $('#replay_text_' + id).text();
+        $("#ques_ques_replay_id").val(id)
+        $("#question_reply").val(old);
+    });
+
+
+    $(document).on('click', '.btn_delete_replay', function () {
+
+        if (confirm('هل تريد حذف هذا الاستفسار') == true) {
+            var id = $(this).data('id');
+            var data = '_token=' + encodeURIComponent("{{csrf_token()}}")
+                + '&reply_id=' + id;
+            $.ajax({
+                type: 'POST',
+                url: '{{ URL::to("admin/product_questions/delete_replay")}}', //Returns ID in body
+                data: data,
+                // async: false, // <<== THAT makes us wait until the server is done.
+                success: function (data) {
+                    if (data == 1)
+                        $('#replay_dev_' + id).remove();
+                    else
+                        alert(('حدث خطاء ماء اثناء الحذف'))
+                },
+                error: function (jqXhr, status) {
+                    console.log(jqXhr);
+                    // alert("Your error message goes here");
+                }
+            });
+        }
+
     });
 
 
     $(document).on('click', '#btnSendReply', function (e) {
-
-
             var ques_ques_id = $('#ques_ques_id').val();
             var question_reply = $('#question_reply').val();
-
+            var ques_ques_replay_id = $('#ques_ques_replay_id').val();
             var describtion = $('#question_reply').val();
             var describtion = describtion.replace(/\s+/g, '');
             if (describtion == '')
@@ -2717,15 +2748,20 @@
             else {
                 var data = '_token=' + encodeURIComponent("{{csrf_token()}}")
                     + '&ques_ques_id=' + ques_ques_id
+                    + '&ques_ques_replay_id=' + ques_ques_replay_id
                     + '&reply=' + question_reply;
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/product_questions/replay', //Returns ID in body
+                    url: '{{ URL::to("admin/product_questions/replay")}}', //Returns ID in body
                     data: data,
                     // async: false, // <<== THAT makes us wait until the server is done.
                     success: function (data) {
                         $('#ReplyText' + ques_ques_id).text(question_reply);
                         $('#replayModal').modal('hide');
+                        if (ques_ques_replay_id == 0)
+                            location.reload();
+                        else
+                            $('#replay_text_' + ques_ques_replay_id).text(question_reply);
                     },
                     error: function (jqXhr, status) {
                         console.log(jqXhr);

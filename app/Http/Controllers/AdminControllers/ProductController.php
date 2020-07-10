@@ -13,6 +13,7 @@ use App\Models\Core\Products;
 use App\Models\Core\Reviews;
 use App\Models\Core\Setting;
 use App\ProductQuestion;
+use App\QuestionReplay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -92,10 +93,27 @@ class ProductController extends Controller
 
     public function replay_product_questions(Request $request)
     {
-        $reply = ProductQuestion::find($request->ques_ques_id);
-        $reply->update(['replay' => $request->reply]);
-        return response(['data' => $reply], 200);
+        $dada = array(
+            'product_question_id' => $request->ques_ques_id,
+            'text' => $request->reply,
+            'replay_user_id' => auth()->user()->id,
+            'replay_user_type' => 'admin',
+        );
+        if ($request->ques_ques_replay_id == 0)
+            $replay = QuestionReplay::create($dada);
+        else {
+            $replay = QuestionReplay::find($request->ques_ques_replay_id);
+            $replay->update($dada);
+        }
+        return response($replay, 200);
+    }
 
+    public function delete_replay(Request $request)
+    {
+
+        $replay = QuestionReplay::find($request->reply_id)->delete();
+
+        return response($replay==true?1:0, 200);
     }
 
     public function edit_product_questions($id, $status)
@@ -129,6 +147,17 @@ class ProductController extends Controller
         return redirect()->back()->withErrors([$message]);
 
     }
+
+
+    public function show_product_questions($id)
+    {
+        $title = array('pageTitle' => Lang::get("labels.product_question_replies"));
+        $result['commonContent'] = $this->Setting->commonContent();
+        $productQuestion = ProductQuestion::find($id);
+        return view("admin.product_questions.show", $title)->with('result', $result)->with('productQuestion', $productQuestion);
+
+    }
+
 
     public function display(Request $request)
     {

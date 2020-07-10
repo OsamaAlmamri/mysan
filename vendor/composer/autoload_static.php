@@ -49,6 +49,7 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         '17d016dc52a631c1e74d2eb8fdd57342' => __DIR__ . '/..' . '/laravel/helpers/src/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         '26780a83c716f8c0312cffe56b68991e' => __DIR__ . '/..' . '/rehan/laravel-installer/src/Helpers/functions.php',
+        '2e63b8599f9ae982aad88ceedd763985' => __DIR__ . '/../..' . '/app/Helper/Helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -875,6 +876,7 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\QuestionReplay' => __DIR__ . '/../..' . '/app/QuestionReplay.php',
         'App\\Rules\\MatchOldPassword' => __DIR__ . '/../..' . '/app/Rules/MatchOldPassword.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\tempStorage' => __DIR__ . '/../..' . '/app/tempStorage.php',

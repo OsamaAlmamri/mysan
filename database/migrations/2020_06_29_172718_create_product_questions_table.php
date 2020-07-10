@@ -17,10 +17,9 @@ class CreateProductQuestionsTable extends Migration
         Schema::create('product_questions', function (Blueprint $table) {
             $table->bigIncrements('product_question_id');
             $table->integer('question_products_id')->index('products_images_questions_id');
-            $table->integer('question_customers_id')->index('idx_q uestions_customers_id');
+            $table->integer('question_customers_id')->index('idx_questions_customers_id');
             $table->string('question_image')->nullable();
-            $table->text('question_text', 65535)->nullable();
-            $table->text('replay', 65535)->nullable();
+            $table->text('text', 65535)->nullable();
             $table->smallInteger('question_read')->default(0);
             $table->integer('sort')->default(1);;
             $table->integer('question_status')->default(0);
