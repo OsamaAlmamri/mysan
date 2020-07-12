@@ -54,22 +54,6 @@ class OrdersController extends BaseAPIController
 
     }
 
-    //test stripe
-    public function stripeForm(Request $request)
-    {
-        $title = array('pageTitle' => Lang::get('website.Checkout'));
-        $result = array();
-        $result['commonContent'] = $this->index->commonContent();
-        return view("stripeForm", $title)->with('result', $result);
-    }
-
-    public function guest_checkout()
-    {
-
-        session(['guest_checkout' => 1]);
-        return redirect('/checkout');
-    }
-
     //checkout
     public function checkout(Request $request)
     {

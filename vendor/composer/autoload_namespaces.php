@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Rize\\UriTemplate' => array($vendorDir . '/rize/uri-template/src'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Orangehill\\Iseed' => array($vendorDir . '/orangehill/iseed/src'),

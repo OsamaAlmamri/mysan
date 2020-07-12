@@ -158,7 +158,6 @@ class CustomersController extends BaseAPIController
         if (auth()->guard('customer')->check()) {
             return redirect('/');
         } else {
-
             $title = array('pageTitle' => Lang::get("website.Forgot Password"));
             $result = array();
             $result['commonContent'] = $this->index->commonContent();
@@ -199,11 +198,8 @@ class CustomersController extends BaseAPIController
 
         /* Desktop */
         $type = 3;
-
         session(['device_id' => $request->device_id]);
-
         if (!empty(auth()->guard('customers')->user()->id)) {
-
             $device_data = array(
                 'device_id' => $request->device_id,
                 'device_type' => $type,

@@ -128,55 +128,6 @@ class IndexController extends BaseAPIController
         return $this->sendNotFormatResponse($result);
     }
 
-    public function filterData(Request $request)
-    {
-
-
-        /**  SET LIMIT OF PRODUCTS  **/
-        if (!empty($request->limit)) {
-            $limit = $request->limit;
-        } else {
-            $limit = 12;
-        }
-
-        /**  MINIMUM PRICE **/
-        if (!empty($request->min_price)) {
-            $min_price = $request->min_price;
-        } else {
-            $min_price = '';
-        }
-
-        /**  MAXIMUM PRICE  **/
-        if (!empty($request->max_price)) {
-            $max_price = $request->max_price;
-        } else {
-            $max_price = '';
-        }
-        /**  MAXIMUM PRICE  **/
-        if (isset($request->type)) {
-            $type = $request->type;
-        } else {
-            $type = 'is_feature';
-        }
-
-        $lang = (!empty($request->lang)) ? $request->lang : 2;
-        if ($type === 'newest')
-            $data = array('page_number' => '0', 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        elseif ($type === 'special_products')
-            $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        elseif ($type === 'flash_sale')
-            $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        elseif ($type === 'top_seller')
-            $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        elseif ($type === 'most_liked')
-            $data = array('page_number' => '0', 'type' => 'mostliked', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        else
-            $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-
-        $featured = $this->products->products($data);
-        return $this->sendNotFormatResponse($featured);
-    }
-
     public function recursivecategories(Request $request)
     {
         $lang = (isset($request->lang) and $request->lang < 3) ? $request->lang : 2;

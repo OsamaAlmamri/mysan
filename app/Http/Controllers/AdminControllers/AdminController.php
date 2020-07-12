@@ -68,15 +68,11 @@ class AdminController extends Controller
 
             $orders[$index]->orders_status_id = $orders_status_history->orders_status_id;
             $orders[$index]->orders_status = $orders_status_history->orders_status_name;
-
-
             $orders_products = DB::table('orders_products')
                 ->select('final_price', DB::raw('SUM(final_price) as total_price'), 'products_id', 'products_quantity')
                 ->where('orders_id', '=', $orders_data->orders_id)
                 ->groupBy('final_price')
                 ->get();
-
-
             if (count($orders_products) > 0 and !empty($orders_products[0]->total_price)) {
                 $orders[$index]->total_price = $orders_products[0]->total_price;
             } else {
@@ -109,11 +105,8 @@ class AdminController extends Controller
         } else {
             $profit = abs($purchased_price - $sold_cost);
         }
-
-
         $result['profit'] = number_format($profit, 2);
         $result['total_money'] = number_format($purchased_price, 2);
-
         $compeleted_orders = 0;
         $pending_orders = 0;
         foreach ($orders as $orders_data) {
@@ -602,8 +595,6 @@ class AdminController extends Controller
         return view("admin.admins.roles.manageroles", $title)->with('result', $result);
 
     }
-
-
     //add admins type
     public function addadmintype(Request $request)
     {
