@@ -16,7 +16,6 @@
                     <a href="#">
                         <i class="fa fa-picture-o"></i> <span><?php echo e(trans('labels.media')); ?></span> <i
                             class="fa fa-angle-left pull-left"></i>
-
                     </a>
                     <ul class="treeview-menu">
                         <li class="treeview <?php echo e(Request::is('admin/media/add') ? 'active' : ''); ?> ">
@@ -39,18 +38,7 @@
 
             <?php endif; ?>
 
-            
-
-
-            
-            
-            
-            
-            
-            
-
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->general_setting_view == 1): ?>
-
 
                 <li class="treeview <?php echo e(Request::is('admin/currencies/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/currencies/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/currencies/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/currencies/filter') ? 'active' : ''); ?>">
                     <a href="<?php echo e(URL::to('admin/currencies/display')); ?>">
@@ -97,16 +85,15 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             
                             
                             
-                            
                             <li class="<?php echo e(Request::is('admin/products/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/edit/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/products/attributes/add/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addinventory/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addproductimages/*') ? 'active' : ''); ?>">
                                 <a href="<?php echo e(URL::to('admin/products/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_all_products')); ?></a></li>
                             <li class="<?php echo e(Request::is('admin/products/inventory/display') ? 'active' : ''); ?>"><a
                                     href="<?php echo e(URL::to('admin/products/inventory/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.inventory')); ?></a></li>
-
-
-
+                            
+                            
+                            
                         <?php endif; ?>
                         <?php
                         $status_check = DB::table('reviews')->where('reviews_read', 0)->first();
@@ -190,10 +177,10 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <span><?php echo e(trans('labels.link_tax_location')); ?></span> <i class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-
-
-
-
+                        
+                        
+                        
+                        
                         <li class="<?php echo e(Request::is('admin/zones/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/zones/add') ? 'active' : ''); ?> <?php echo e(Request::is('admin/zones/edit/*') ? 'active' : ''); ?>">
                             <a href="<?php echo e(URL::to('admin/zones/display')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_zones')); ?></a></li>
@@ -215,7 +202,7 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->shipping_methods_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/shippingmethods/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/upsShipping/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/flateRate/display') ? 'active' : ''); ?>">
                     <a href="#">
-
+                        
                         <i class="fa fa-truck"
                            aria-hidden="true"></i>
                         <span> <?php echo e(trans('labels.link_shipping_methods')); ?></span>
@@ -252,24 +239,24 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             <?php if($result['commonContent']['roles']!= null and $result['commonContent']['roles']->notifications_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?><?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?>">
                     <a href="#">
-
+                        
                         <i class="fa fa-bell-o" aria-hidden="true"></i>
                         <span><?php echo e(trans('labels.link_notifications')); ?></span> <i
                             class="fa fa-angle-left pull-left"></i>
                     </a>
 
                     <ul class="treeview-menu">
-                                                <li class="<?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?>"><a
-                                                        href="<?php echo e(URL::to('admin/pushnotification')); ?>"><i
-                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
-                                                <li class="<?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?>">
-                                                    <a href="<?php echo e(URL::to('admin/devices/display')); ?>"><i
-                                                            class="fa fa-circle-o"></i><?php echo e(trans('labels.link_devices')); ?> </a>
-                                                </li>
-                                                <li class="<?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?> ">
-                                                    <a href="<?php echo e(URL::to('admin/devices/notifications')); ?>"><i
-                                                            class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_send_notifications')); ?></a>
-                                                </li>
+                        <li class="<?php echo e(Request::is('admin/pushnotification') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(URL::to('admin/pushnotification')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
+                        <li class="<?php echo e(Request::is('admin/devices/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/devices/viewdevices/*') ? 'active' : ''); ?>">
+                            <a href="<?php echo e(URL::to('admin/devices/display')); ?>"><i
+                                    class="fa fa-circle-o"></i><?php echo e(trans('labels.link_devices')); ?> </a>
+                        </li>
+                        <li class="<?php echo e(Request::is('admin/devices/notifications') ? 'active' : ''); ?> ">
+                            <a href="<?php echo e(URL::to('admin/devices/notifications')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_send_notifications')); ?></a>
+                        </li>
                     </ul>
 
                 </li>
@@ -304,174 +291,6 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                     </ul>
                 </li>
             <?php endif; ?>
-            <?php
-
-            $route = DB::table('settings')
-                ->where('name', 'is_web_purchased')
-                ->where('value', 1)
-                ->first();
-            ?>
-            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->website_setting_view == 1 and $route != null): ?>
-
-                <li class="treeview <?php echo e(Request::is('admin/menus') ? 'active' : ''); ?> <?php echo e(Request::is('admin/mailchimp') ? 'active' : ''); ?> <?php echo e(Request::is('admin/topoffer/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/webPagesSettings/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/homebanners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/sliders') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addsliderimage') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editslide/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/webpages') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/addwebpage') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/editwebpage/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/websettings') ? 'active' : ''); ?> <?php echo e(Request::is('admin/webthemes') ? 'active' : ''); ?> <?php echo e(Request::is('admin/customstyle') ? 'active' : ''); ?> <?php echo e(Request::is('admin/constantbanners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addconstantbanner') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editconstantbanner/*') ? 'active' : ''); ?>">
-                    <a href="#">
-                        <i class="fa fa-gears" aria-hidden="true"></i>
-                        <span> <?php echo e(trans('labels.link_site_settings')); ?></span> <i
-                            class="fa fa-angle-left pull-left"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="treeview <?php echo e(Request::is('admin/topoffer/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/webPagesSettings/*') ? 'active' : ''); ?>">
-                            <a href="#">
-                                <i class="fa fa-picture-o"></i> <span><?php echo e(trans('labels.Theme Setting')); ?></span> <i
-                                    class="fa fa-angle-left pull-left"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li class="treeview <?php echo e(Request::is('admin/topoffer/display') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/topoffer/display')); ?>">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Top Offer')); ?> </span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/1') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/1">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Home Page')); ?> </span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/8') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/8">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.login')); ?> </span>
-                                    </a>
-                                </li>
-
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/9') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/9">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.News')); ?> </span>
-                                    </a>
-                                </li>
-
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/5') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/5">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Shop Page Settings')); ?> </span>
-                                    </a>
-                                </li>
-
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/2') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/2">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Cart Page Settings')); ?> </span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/6') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/6">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Contact Page Settings')); ?></span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/7') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/7">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Colors Settings')); ?></span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/10') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/10">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Banner Transition Settings')); ?> </span>
-                                    </a>
-                                </li>
-                                <li class="treeview <?php echo e(Request::is('admin/webPagesSettings/4') ? 'active' : ''); ?> ">
-                                    <a href="<?php echo e(url('admin/webPagesSettings')); ?>/4">
-                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                        <span> <?php echo e(trans('labels.Product Page Settings')); ?> </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="<?php echo e(Request::is('admin/sliders') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addsliderimage') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editslide/*') ? 'active' : ''); ?> ">
-                            <a href="<?php echo e(URL::to('admin/sliders')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_Sliders')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/homebanners') ? 'active' : ''); ?> "><a
-                                href="<?php echo e(URL::to('admin/homebanners')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.Parallax Banners')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/constantbanners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/constantbanners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/constantbanners/*') ? 'active' : ''); ?> ">
-                            <a href="<?php echo e(URL::to('admin/constantbanners')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_Banners')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/menus') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/addmenus') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/editmenus/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/menus')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.menus')); ?>
-
-                            </a></li>
-
-                        <li class="<?php echo e(Request::is('admin/webpages') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/addwebpage') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/editwebpage/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/webpages')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.content_pages')); ?></a></li>
-
-                    <!-- <li class="<?php echo e(Request::is('admin/webthemes') ? 'active' : ''); ?> "><a href="<?php echo e(URL::to('admin/webthemes')); ?>"><i class="fa fa-circle-o"></i> <?php echo e(trans('labels.website_themes')); ?></a></li> -->
-
-                        <li class="<?php echo e(Request::is('admin/seo') ? 'active' : ''); ?> "><a href="<?php echo e(URL::to('admin/seo')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.seo content')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/customstyle') ? 'active' : ''); ?> "><a
-                                href="<?php echo e(URL::to('admin/customstyle')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.custom_style_js')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/newsletter') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/newsletter')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.mailchimp')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/websettings') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/websettings')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
-                    </ul>
-                </li>
-            <?php endif; ?>
-            <?php
-            $route = DB::table('settings')
-                ->where('name', 'is_app_purchased')
-                ->where('value', 1)
-                ->first();
-            ?>
-            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->application_setting_view == 1 and $route != null): ?>
-
-
-                <li class="treeview <?php echo e(Request::is('admin/banners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addbanner') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editbanner/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/pages') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/addpage') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/editpage/*') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/appSettings') ? 'active' : ''); ?> <?php echo e(Request::is('admin/admobSettings') ? 'active' : ''); ?> <?php echo e(Request::is('admin/applabel') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addappkey') ? 'active' : ''); ?> <?php echo e(Request::is('admin/applicationapi') ? 'active' : ''); ?>">
-                    <a href="#">
-                        <i class="fa fa-gears" aria-hidden="true"></i>
-                        <span> <?php echo e(trans('labels.link_app_settings')); ?></span> <i class="fa fa-angle-left pull-left"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/banners') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addbanner') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editbanner/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/banners')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_Banners')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/pages') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/addpage') ? 'active' : ''); ?>  <?php echo e(Request::is('admin/editpage/*') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/pages')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.content_pages')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/admobSettings') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/admobSettings')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_admob')); ?></a></li>
-
-                        <li class="android-hide <?php echo e(Request::is('admin/applabel') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addappkey') ? 'active' : ''); ?>">
-                            <a href="<?php echo e(URL::to('admin/applabel')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.labels')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/applicationapi') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/applicationapi')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.applicationApi')); ?></a></li>
-
-                        <li class="<?php echo e(Request::is('admin/appsettings') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/appsettings')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_setting')); ?></a></li>
-
-                    </ul>
-                </li>
-            <?php endif; ?>
-
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->manage_admins_view == 1): ?>
 
                 <li class="treeview <?php echo e(Request::is('admin/admins') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addadmins') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editadmin/*') ? 'active' : ''); ?> <?php echo e(Request::is('admin/manageroles') ? 'active' : ''); ?> <?php echo e(Request::is('admin/addadminType') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editadminType/*') ? 'active' : ''); ?>">
@@ -490,48 +309,28 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                     </ul>
                 </li>
             <?php endif; ?>
-            
+            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->edit_management == 1): ?>
 
-            
-            
-            
-            
-            
-            
+            <!--------create middlewares -------->
+                <li class="treeview  <?php echo e(Request::is('admin/managements/restore') ? 'active' : ''); ?> <?php echo e(Request::is('admin/managements/backup') ? 'active' : ''); ?>">
+                    <a href="#">
+                        <i class="fa fa-gears" aria-hidden="true"></i>
+                        <span> <?php echo e(trans('labels.Backup / Restore')); ?></span> <i
+                            class="fa fa-angle-left pull-left"></i>
+                    </a>
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                    <ul class="treeview-menu">
+                        <li class="<?php echo e(Request::is('admin/managements/updater') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(URL::to('admin/managements/backup')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.backup')); ?></a></li>
+                        <li class="<?php echo e(Request::is('admin/managements/updater') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(URL::to('admin/managements/import')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.restore')); ?></a></li>
 
-            
+                    </ul>
+                </li>
+            <?php endif; ?>
 
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
         </ul>
     </section>
     <!-- /.sidebar -->
