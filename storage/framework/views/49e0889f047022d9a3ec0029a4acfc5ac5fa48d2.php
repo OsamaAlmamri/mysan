@@ -194,10 +194,17 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                 </li>
             <?php endif; ?>
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->coupons_view == 1): ?>
-                <li class="treeview <?php echo e(Request::is('admin/coupons/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/editcoupons/*') ? 'active' : ''); ?>">
+                <li class="treeview <?php echo e(Request::is('admin/coupons/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/coupons/*') ? 'active' : ''); ?>">
                     <a href="<?php echo e(URL::to('admin/coupons/display')); ?>"><i class="fa fa-tablet" aria-hidden="true"></i>
                         <span><?php echo e(trans('labels.link_coupons')); ?></span></a>
                 </li>
+            <?php endif; ?>
+            <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->coupons_view == 1): ?>
+                <li class="treeview  <?php echo e(Request::is('admin/view_categories/*') ? 'active' : ''); ?>">
+                    <a href="<?php echo e(URL::to('admin/view_categories')); ?>"><i class="fa fa-tablet" aria-hidden="true"></i>
+                        <span><?php echo e(trans('labels.link_view_categories')); ?></span></a>
+                </li>
+
             <?php endif; ?>
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->shipping_methods_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/shippingmethods/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/upsShipping/display') ? 'active' : ''); ?> <?php echo e(Request::is('admin/shippingmethods/flateRate/display') ? 'active' : ''); ?>">

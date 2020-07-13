@@ -358,7 +358,7 @@ class Products extends Model
 
         //wishlist customer id
         if ($type == "wishlist") {
-            $categories->where('liked_customers_id', '=', auth()->user()->id);
+            $categories->where('liked_customers_id', '=', auth()->guard('api')->user()->id);
         }
 
         //wishlist customer id
@@ -381,52 +381,43 @@ class Products extends Model
 
         //check if record exist
         if (count($products) > 0) {
-
             $index = 0;
             foreach ($products as $products_data) {
-                if ($products_data != null) {
-                    $products_id = $products_data->products_id;
-                    $index = 0;
-                    $products_data->rating = $this->get_review($products_id);
-                    array_push($result, $products_data);
-                    $options = array();
-                    $attr = array();
-                    //like product
-                    if (auth()->user() != null) {
-                        $liked_customers_id = auth()->user()->id;
-                        $categories = DB::table('liked_products')->where('liked_products_id', '=', $products_id)->where('liked_customers_id', '=', $liked_customers_id)->get();
-                        if (count($categories) > 0) {
-                            $result[$index]->isLiked = '1';
-                        } else {
-                            $result[$index]->isLiked = '0';
-                        }
+                $products_id = $products_data->products_id;
+                $products_data->rating = $this->get_review($products_id, 0);
+                array_push($result, $products_data);
+                if (auth()->guard('api')->user() != null) {
+                    $liked_customers_id = auth()->guard('api')->user()->id;
+                    $categories = DB::table('liked_products')
+                        ->where('liked_products_id', '=', $products_id)
+                        ->where('liked_customers_id', '=', $liked_customers_id)->get();
+                    if (count($categories) > 0) {
+                        $result[$index]->isLiked = '1';
                     } else {
                         $result[$index]->isLiked = '0';
                     }
-
-                    //in cart
-                    if (auth()->user() != null) {
-                        $cart_customers_id = auth()->user()->id;
-                        $categories = DB::table('customers_basket')
-                            ->where('products_id', '=', $products_id)
-                            ->where('customers_id', '=', $liked_customers_id)->get();
-                        if (count($categories) > 0) {
-                            $result[$index]->inCart = '1';
-                        } else {
-                            $result[$index]->inCart = '0';
-                        }
+                } else {
+                    $result[$index]->isLiked = '0';
+                }
+                //in cart
+                if (auth()->guard('api')->user() != null) {
+                    $cart_customers_id = auth()->guard('api')->user()->id;
+                    $basketes = DB::table('customers_basket')
+                        ->where('products_id', '=', $products_id)
+                        ->where('customers_id', '=', $cart_customers_id)->get();
+                    if (count($basketes) > 0) {
+                        $result[$index]->inCart = '1';
                     } else {
                         $result[$index]->inCart = '0';
                     }
-
-
-                    $index++;
-
-                    $responseData = array('success' => '1', 'product_data' => $result, 'message' => Lang::get('labels.Returned all products'));
-
+                } else {
+                    $result[$index]->inCart = '0';
                 }
+                $index++;
+
 
             }
+            $responseData = array('success' => '1', 'product_data' => $result, 'message' => Lang::get('labels.Returned all products'));
         }
         $responseData = array('success' => '0', 'product_data' => $result, 'message' => Lang::get('labels.Returned all products'), 'total_record' => count($total_record));
         return ($responseData);
@@ -757,7 +748,7 @@ class Products extends Model
 
         //wishlist customer id
         if ($type == "wishlist") {
-            $categories->where('liked_customers_id', '=', auth()->user()->id);
+            $categories->where('liked_customers_id', '=', auth()->guard('api')->user()->id);
         }
 
         //wishlist customer id
@@ -1150,8 +1141,8 @@ class Products extends Model
             $attr = array();
             $result[$index]->defaultStock = $this->getDefaultStock($products_data->products_type, $products_id);
             //like product
-            if (auth()->user() != null) {
-                $liked_customers_id = auth()->user()->id;
+            if (auth()->guard('api')->user() != null) {
+                $liked_customers_id = auth()->guard('api')->user()->id;
                 $categories = DB::table('liked_products')->where('liked_products_id', '=', $products_id)->where('liked_customers_id', '=', $liked_customers_id)->get();
                 if (count($categories) > 0) {
                     $result[$index]->isLiked = '1';
@@ -1211,7 +1202,7 @@ class Products extends Model
         return ($responseData);
     }
 
-    public function get_review($products_id)
+    public function get_review($products_id, $withReview = 1)
     {
         $reviews = DB::table('reviews')
             ->leftjoin('users', 'users.id', '=', 'reviews.customers_id')
@@ -1288,16 +1279,27 @@ class Products extends Model
             $one_ratio = 0;
         }
 
-        return array(
-            'rating' => number_format($avarage_rate, 2),
-            'total_user_rated' => $total_user_rated,
-            'five_ratio' => $five_ratio,
-            'four_ratio' => $four_ratio,
-            'three_ratio' => $three_ratio,
-            'two_ratio' => $two_ratio,
-            'one_ratio' => $one_ratio,
-            'reviewed_customers' => $reviewed_customers
-        );
+        if ($withReview == 1)
+            return array(
+                'rating' => number_format($avarage_rate, 2),
+                'total_user_rated' => $total_user_rated,
+                'five_ratio' => $five_ratio,
+                'four_ratio' => $four_ratio,
+                'three_ratio' => $three_ratio,
+                'two_ratio' => $two_ratio,
+                'one_ratio' => $one_ratio,
+                'reviewed_customers' => $reviewed_customers
+            );
+        else
+            return array(
+                'rating' => number_format($avarage_rate, 2),
+                'total_user_rated' => $total_user_rated,
+                'five_ratio' => $five_ratio,
+                'four_ratio' => $four_ratio,
+                'three_ratio' => $three_ratio,
+                'two_ratio' => $two_ratio,
+                'one_ratio' => $one_ratio,
+            );
 
 
     }
@@ -1349,10 +1351,10 @@ class Products extends Model
 
         $cart = DB::table('customers_basket')->where('customers_basket.is_order', '=', '0');
 
-        if (empty(session('customers_id'))) {
+        if (empty(auth()->guard('api')->user())) {
             $cart->where('customers_basket.session_id', '=', Session::getId());
         } else {
-            $cart->where('customers_basket.customers_id', '=', session('customers_id'));
+            $cart->where('customers_basket.customers_id', '=', auth()->guard('api')->user()->id);
         }
 
         $baskit = $cart->get();

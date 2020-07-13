@@ -14,22 +14,31 @@ class BaseAPIController extends Controller
 
     public function sendResponse($result, $message)
     {
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'];
+
         $response = [
 //            'code' => 200,
             'success' => true,
             'data' => $result,
             'message' => $message
         ];
-        return response()->json($response, 200);
+        return response()->json($response, 200, $headers, JSON_UNESCAPED_UNICODE);
     }
+
     public function sendNotFormatResponse($result)
     {
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'];
 
-        return response()->json($result, 200);
+        return response()->json($result, 200, $headers, JSON_UNESCAPED_UNICODE);
+
     }
 
     public function sendError($error, $errorMessages = [], $code = 400)
     {
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'];
         $response = [
 //            'code' => 400,
             'success' => false,
@@ -40,6 +49,7 @@ class BaseAPIController extends Controller
             $response['date'] = $errorMessages;
         }
         return response()->json($response, $code);
+
 
     }
 

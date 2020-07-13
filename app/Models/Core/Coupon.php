@@ -32,8 +32,6 @@ class Coupon extends Model
         $products = DB::table('products')
             ->LeftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
             ->select('products_name', 'products.products_id', 'products.products_model')->get();
-
-
         return $products;
 
     }

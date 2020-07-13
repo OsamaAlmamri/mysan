@@ -358,6 +358,10 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/delete', 'CouponsController@delete')->middleware('delete_coupon');
         Route::get('/filter', 'CouponsController@filter')->middleware('view_coupon');
     });
+    Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::post('/view_categories/delete', 'ViewCategoriesController@delete');
+        Route::resource('view_categories', 'ViewCategoriesController');
+    });
     Route::group(['prefix' => 'admin/devices', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'NotificationController@devices')->middleware('view_notification');
         Route::get('/viewdevices/{id}', 'NotificationController@viewdevices')->middleware('view_notification');

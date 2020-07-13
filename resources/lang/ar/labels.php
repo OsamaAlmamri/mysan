@@ -2114,5 +2114,28 @@ return [
     'viewAllTotal_App_visited' => 'عرض',
     'replyes' => 'الردود',
     'replay_product_questions' => 'الردود',
+    'link_view_categories' => 'اصناف العرض',
+    'view_categories' => 'اصناف العرض',
+    'ListingAllView_categories' => ' جميع  اصناف العرض',
+    'AddView_categories' => ' اضافة  صنف عرض',
+
+    'name_ar' => '    الاسم باللغة العربية',
+    'view_categories_name_ar' => '  اسم صنف العرض  باللغة العربية',
+
+    'name_en' => '    الاسم باللغة الانجليزية',
+    'view_categories_name_en' => '  اسم صنف العرض  باللغة الانجليزية',
+    'view_categories_sort' => '  ترتيب صنف العرض ',
+    'view_categories_sortText' => ' اذا لم تحدد الترتيب سيعرض اولا  ',
+    'view_categories_products' => ' قائمة المنتجات الذي تريد عرضها ضمن هذا التصنيف  ',
+    'ViewCategoryAddedMessage' => 'تمت اضافة صنف العرض بنجاح  ',
+    'EditViewCategories' => 'تعديل صنف العرض   ',
+    'EditViewCategory' => 'تعديل صنف العرض   ',
+    'AddViewCategory' => 'اضافة صنف عرض   ',
+    'sort' => 'ترتب الفرز   ',
+    'products' => 'المنتجات  ',
+    'DeleteView_categories' => 'حذف صنف العرض  ',
+    'DeleteView_categoriesText' => 'هل أنت متأكد أنك تريد حذف  صنف العرض هذا ؟  ',
+    'view_categoriesDeletedMessage' => 'تم حذف  صنف العرض بنجاح   ',
+    'ViewCategoriesUpdatedMessage' => 'تم تحديث  صنف العرض بنجاح   ',
 
 ];

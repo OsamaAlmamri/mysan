@@ -193,10 +193,17 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                 </li>
             @endif
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->coupons_view == 1)
-                <li class="treeview {{ Request::is('admin/coupons/display') ? 'active' : '' }} {{ Request::is('admin/editcoupons/*') ? 'active' : '' }}">
+                <li class="treeview {{ Request::is('admin/coupons/display') ? 'active' : '' }} {{ Request::is('admin/coupons/*') ? 'active' : '' }}">
                     <a href="{{ URL::to('admin/coupons/display')}}"><i class="fa fa-tablet" aria-hidden="true"></i>
                         <span>{{ trans('labels.link_coupons') }}</span></a>
                 </li>
+            @endif
+            @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->coupons_view == 1)
+                <li class="treeview  {{ Request::is('admin/view_categories/*') ? 'active' : '' }}">
+                    <a href="{{ URL::to('admin/view_categories')}}"><i class="fa fa-tablet" aria-hidden="true"></i>
+                        <span>{{ trans('labels.link_view_categories') }}</span></a>
+                </li>
+
             @endif
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->shipping_methods_view == 1)
                 <li class="treeview {{ Request::is('admin/shippingmethods/display') ? 'active' : '' }} {{ Request::is('admin/shippingmethods/upsShipping/display') ? 'active' : '' }} {{ Request::is('admin/shippingmethods/flateRate/display') ? 'active' : '' }}">
