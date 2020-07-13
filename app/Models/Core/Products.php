@@ -10,6 +10,7 @@ use App\Models\Core\Languages;
 use App\Models\Core\Manufacturers;
 use App\Models\Core\Categories;
 use App\Models\Core\Products;
+use App\Models\Core\ProductQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdminControllers\SiteSettingController;

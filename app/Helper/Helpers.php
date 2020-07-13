@@ -22,5 +22,19 @@ function dateFormFormat($date)
     return Carbon::parse($date)->month . '/' . Carbon::parse($date)->day . '/' . Carbon::parse($date)->year;
 }
 
+if (!function_exists('lang')) {
+    function lang()
+    {
+        if (session()->has('lang')) {
+            return session('lang');
+        } else {
+            if (setting('default_lang') != null)
+                return setting('default_lang');
+            else
+                return 'ar';
+        }
+
+    }
+}
 
 

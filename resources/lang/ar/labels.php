@@ -14,7 +14,7 @@ return [
     */
 
     //links labels
-    'get_site_name' => 'متجر ميسان',
+    'get_site_name' => 'متجر ميسان بوتيك',
     'Returned all products' => 'كل المنتجات ',
     'Empty record' => 'ليس هناك منتجات',
     'Are You Sure To Delete This?' => 'هل انت متاكد انك تريد الحذف ؟',
@@ -891,7 +891,7 @@ return [
     'ContactUsEmailText' => 'سيتصل المستخدم بك عبر عنوان البريد الإلكتروني هذا.',
     'SenderId' => 'Sender Id',
     'SenderIdText' => 'معرف المرسل  لـ FCM . ',
-    'AppKey' =>'App Key',
+    'AppKey' => 'App Key',
     'AppKeyText' => 'مفتاح التطبيق لـ  FCM . ',
 //    'FacebookSecretID'=>'معرف Facebook السري',
 //    'FacebookSecretIDText'=>'أدخل لك معرف سري' Facbook ',
@@ -2095,18 +2095,6 @@ return [
     'app_theme_10' => 'زهري',
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     'Add Bouquet' => 'اضافة باقة',
     'Bouquets' => ' الباقات',
     'product_questions' => 'اسئلة المنتجات',
@@ -2117,11 +2105,14 @@ return [
     'Replay' => ' رد ',
     'replayToQuestion' => ' رد على السؤوال',
     'sendReplay' => ' ارسال الرد',
+    'Re-EnterPassword' => 'اعد ادخال كلمة السر',
 
 
     'total_App_visited' => ' اجمالي تثبيت التطبيقات    ',
     'total_App_visited_android' => '  اجمالي تثبيت تطبيق Android',
     'total_App_visited_ios' => 'IOS  اجمالي تثبيت تطبيق ',
     'viewAllTotal_App_visited' => 'عرض',
+    'replyes' => 'الردود',
+    'replay_product_questions' => 'الردود',
 
 ];

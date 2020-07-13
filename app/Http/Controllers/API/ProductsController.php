@@ -12,6 +12,8 @@ use App\Models\API\Languages;
 //for authenitcate login data
 use App\Models\API\Products;
 use App\Models\Core\Categories;
+use App\Models\Core\ProductQuestion;
+use App\QuestionReplay;
 use Auth;
 
 //for requesting a value
@@ -88,6 +90,183 @@ class ProductsController extends BaseAPIController
         } catch (Exception $ex) {
             return $this->sendError('error', $ex->getMessage());
 
+        }
+    }
+
+    public function addQuestion(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'question_products_id' => 'required',
+                'text' => 'required',
+            ],
+                [
+                    'question_products_id.required' => 'رقم المنتج مطلوب',
+                    'text.required' => ' نص السؤال مطلوب',
+                ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                ProductQuestion::create(array_merge($request->all(), [
+                    'question_customers_id' => auth()->user()->id,
+                ]));
+                return $this->sendResponse(1, 'done');
+            } else {
+                return $this->sendError('error not_login', '', 400);
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
+
+        }
+    }
+
+    public function updateQuestion(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'product_question_id' => 'required',
+                'text' => 'required',
+            ],
+                [
+                    'product_question_id.required' => 'رقم السؤال مطلوب',
+                    'text.required' => ' نص السؤال مطلوب',
+                ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                $q = ProductQuestion::find($request->product_question_id);
+                if ($q != null and $q->question_customers_id == auth()->user()->id)
+                    $q->update($request->all());
+                return $this->sendResponse($q->text, 'done');
+            } else {
+                return $this->sendError('error not_login', '', 400);
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
+
+        }
+    }
+
+    public function deleteQuestion(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'product_question_id' => 'required',
+            ],
+                [
+                    'product_question_id.required' => 'رقم السؤال مطلوب',
+                ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                $q = ProductQuestion::find($request->product_question_id);
+                if ($q != null and $q->question_customers_id == auth()->user()->id) {
+                    $reples = QuestionReplay::all()->where('product_question_id', $request->product_question_id)
+                        ->where('replay_user_type', 'admin')->count();
+                    if ($reples == 0) {
+                        $q->delete();
+                        return $this->sendResponse(1, 'تم الحذف بنجاح');
+                    }
+                }
+                return $this->sendResponse(0, 'لايمكن حذف هذا السؤال');
+
+            } else {
+                return $this->sendError('error not_login', '', 400);
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
+
+        }
+    }
+
+    public function addReplay(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'product_question_id' => 'required',
+                'text' => 'required',
+            ],
+                [
+                    'product_question_id.required' => 'رقم السؤال مطلوب',
+                    'text.required' => ' نص السؤال مطلوب',
+                ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                QuestionReplay::create(array_merge($request->all(), [
+                    'replay_user_id' => auth()->user()->id,
+                ]));
+                return $this->sendResponse(1, 'done');
+            } else {
+                return $this->sendError('error not_login', '', 400);
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
+
+        }
+    }
+
+
+    public function updateReplay(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'replay_id' => 'required',
+                'text' => 'required',
+            ], [
+                'replay_id.required' => 'رقم الرد مطلوب',
+                'text.required' => ' نص الرد مطلوب',
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                $q = QuestionReplay::find($request->replay_id);
+                if ($q != null and $q->replay_user_id == auth()->user()->id)
+                    $q->update($request->all());
+                return $this->sendResponse($q->text, 'done');
+            } else {
+                return $this->sendError('error not_login', '', 400);
+
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
+
+        }
+    }
+
+
+    public function deleteReplay(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'replay_id' => 'required',
+            ], [
+                'replay_id.required' => 'رقم الرد مطلوب',
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError('error validation', $validator->errors(), 422);
+            }
+            if (auth()->user() != null) {
+                $q = QuestionReplay::find($request->replay_id);
+                if ($q != null and $q->replay_user_id == auth()->user()->id) {
+                    $q->delete();
+                } else
+                    return $this->sendResponse(0, 'لايممكن حذف هذا الرد');
+                return $this->sendResponse(1, 'done');
+            } else {
+                return $this->sendError('error not_login', '', 400);
+            }
+        } catch (Exception $ex) {
+            return $this->sendError('error', $ex->getMessage());
         }
     }
 

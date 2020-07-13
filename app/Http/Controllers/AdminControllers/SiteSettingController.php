@@ -22,7 +22,7 @@ class SiteSettingController extends Controller
 
     public function commonsetting()
     {
-        $result = array('pagination' => '20');
+        $result = array('pagination' => '10');
         return $result;
     }
 
@@ -135,7 +135,7 @@ class SiteSettingController extends Controller
                         $value = $allimagesth->path;
                         $this->Setting->settingUpdate($key, $value);
                 }
-                
+
             }
             //website logo
             elseif ($key == 'website_logo') {
@@ -149,7 +149,7 @@ class SiteSettingController extends Controller
                         $value = $allimagesth->path;
                         $this->Setting->settingUpdate($key, $value);
                 }
-                
+
             }else{
 
                 if ($key == 'favicon') {
@@ -163,16 +163,16 @@ class SiteSettingController extends Controller
                             $value = $allimagesth->path;
                             $this->Setting->settingUpdate($key, $value);
                     }
-                    
+
                 }else{
                     $this->Setting->settingUpdate($key, $value);
                 }
 
             }
 
-           
 
-            
+
+
         }
 
         $message = Lang::get("labels.SettingUpdateMessage");
@@ -215,7 +215,7 @@ class SiteSettingController extends Controller
 
     }
 
-    
+
 
     //appSettings
     public function appSettings(Request $request)

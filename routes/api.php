@@ -43,6 +43,12 @@ Route::post('add_devices', 'API\IndexController@add_devices');
 Route::middleware('auth:api')->group(function () {
     Route::post('add_auth_devices', 'API\IndexController@add_auth_devices');
     Route::post('reviews', 'API\ProductsController@reviews');
+    Route::post('addQuestion', 'API\ProductsController@addQuestion');
+    Route::post('addReplay', 'API\ProductsController@addReplay');
+    Route::post('updateQuestion', 'API\ProductsController@updateQuestion');
+    Route::post('deleteQuestion', 'API\ProductsController@deleteQuestion');
+    Route::post('updateReplay', 'API\ProductsController@updateReplay');
+    Route::post('deleteReplay', 'API\ProductsController@deleteReplay');
     Route::post('likeMyProduct', 'API\CustomersController@likeMyProduct');
     Route::post('addToCart', 'API\CartController@addToCart');
     Route::post('deleteFromCart', 'API\CartController@deleteCart');

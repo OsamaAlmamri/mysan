@@ -14,7 +14,7 @@ return [
     */
 
 	//links labels
-    'get_site_name' => ' Mysan Store',
+    'get_site_name' => ' Maysan Boutique Store',
     'Returned all products' => 'Returned all products',
     'Empty record' => 'Empty record',
 

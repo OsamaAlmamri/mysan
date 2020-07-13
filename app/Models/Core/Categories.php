@@ -87,17 +87,17 @@ class Categories extends Model
             ->LeftJoin('image_categories as categoryTable', function ($join) {
                 $join->on('categoryTable.image_id', '=', 'categories.categories_image')
                     ->where(function ($query) {
-                        $query->where('categoryTable.image_type', '=', 'THUMBNAIL')
-                            ->where('categoryTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('categoryTable.image_type', '=', 'ACTUAL');
+                        $query->where('categoryTable.image_type', '=', 'ACTUAL')
+                            ->where('categoryTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('categoryTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->LeftJoin('image_categories as iconTable', function ($join) {
                 $join->on('iconTable.image_id', '=', 'categories.categories_icon')
                     ->where(function ($query) {
-                        $query->where('iconTable.image_type', '=', 'THUMBNAIL')
-                            ->where('iconTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('iconTable.image_type', '=', 'ACTUAL');
+                        $query->where('iconTable.image_type', '=', 'ACTUAL')
+                            ->where('iconTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('iconTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->select('categories.categories_id as id', 'categories.categories_image as image',
@@ -123,17 +123,17 @@ class Categories extends Model
             ->LeftJoin('image_categories as categoryTable', function ($join) {
                 $join->on('categoryTable.image_id', '=', 'categories.categories_image')
                     ->where(function ($query) {
-                        $query->where('categoryTable.image_type', '=', 'THUMBNAIL')
-                            ->where('categoryTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('categoryTable.image_type', '=', 'ACTUAL');
+                        $query->where('categoryTable.image_type', '=', 'ACTUAL')
+                            ->where('categoryTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('categoryTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->LeftJoin('image_categories as iconTable', function ($join) {
                 $join->on('iconTable.image_id', '=', 'categories.categories_icon')
                     ->where(function ($query) {
-                        $query->where('iconTable.image_type', '=', 'THUMBNAIL')
-                            ->where('iconTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('iconTable.image_type', '=', 'ACTUAL');
+                        $query->where('iconTable.image_type', '=', 'ACTUAL')
+                            ->where('iconTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('iconTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->select('categories.categories_id as id', 'categories_description.categories_name as name',
@@ -195,17 +195,17 @@ class Categories extends Model
             ->LeftJoin('image_categories as categoryTable', function ($join) {
                 $join->on('categoryTable.image_id', '=', 'categories.categories_image')
                     ->where(function ($query) {
-                        $query->where('categoryTable.image_type', '=', 'THUMBNAIL')
-                            ->where('categoryTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('categoryTable.image_type', '=', 'ACTUAL');
+                        $query->where('categoryTable.image_type', '=', 'ACTUAL')
+                            ->where('categoryTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('categoryTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->LeftJoin('image_categories as iconTable', function ($join) {
                 $join->on('iconTable.image_id', '=', 'categories.categories_icon')
                     ->where(function ($query) {
-                        $query->where('iconTable.image_type', '=', 'THUMBNAIL')
-                            ->where('iconTable.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('iconTable.image_type', '=', 'ACTUAL');
+                        $query->where('iconTable.image_type', '=', 'ACTUAL')
+                            ->where('iconTable.image_type', '!=', 'ACTUAL')
+                            ->orWhere('iconTable.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->select('categories.categories_id',
@@ -237,7 +237,6 @@ class Categories extends Model
             ->where('categories_description.language_id', '=', $language_id)
             ->where('categories_status', '1')
             ->get();
-
         return $listingCategories;
     }
 

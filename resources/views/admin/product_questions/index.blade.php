@@ -56,8 +56,8 @@
                                         <tr>
                                             <th>@sortablelink('product_question_id', trans('labels.ID') )</th>
                                             <th>@sortablelink('products_name', trans('labels.products_name') )</th>
-                                            <th>@sortablelink('question_text', trans('labels.question_text') )</th>
-                                            <th>@sortablelink('replay_text', trans('labels.replay_text') )</th>
+                                            <th>@sortablelink('text', trans('labels.question_text') )</th>
+                                            <th>@sortablelink('replyes', trans('labels.replyes') )</th>
                                             <th>@sortablelink('created_at', trans('labels.Date') )</th>
                                             <th>{{trans('labels.Action')}}</th>
                                         </tr>
@@ -84,8 +84,8 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $review->products_name }}</td>
-                                                    <td width="25%">{{ $review->question_text }}</td>
-                                                    <td width="25%" id="ReplyText{{$review->product_question_id}}">{{ $review->replay }}</td>
+                                                    <td width="25%">{{ $review->text }}</td>
+                                                    <td >{{ $review->replyes }}</td>
                                                     <td>{{ $review->created_at }}</td>
                                                     <td>
                                                         @if($review->reviews_read == 0 and $review->question_status == 0)

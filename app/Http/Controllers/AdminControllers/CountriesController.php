@@ -103,7 +103,6 @@ class CountriesController extends Controller
         $zones = Zone::sortable()
             ->LeftJoin('countries', 'zones.zone_country_id', '=', 'countries.countries_id')
             ->paginate(60);
-
         $result['message'] = $message;
         $result['zones'] = $zones;
         $result['commonContent'] = $this->Setting->commonContent();

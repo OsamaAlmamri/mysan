@@ -12,7 +12,7 @@ use App\Models\Core\Manufacturers;
 use App\Models\Core\Products;
 use App\Models\Core\Reviews;
 use App\Models\Core\Setting;
-use App\ProductQuestion;
+use App\Models\Core\ProductQuestion;
 use App\QuestionReplay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

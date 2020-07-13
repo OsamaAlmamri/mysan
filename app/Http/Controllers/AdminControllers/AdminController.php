@@ -36,7 +36,7 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {
         $title = array('pageTitle' => Lang::get("labels.title_dashboard"));
-        $language_id = '1';
+        $language_id = '2';
 
         $result = array();
 
@@ -141,9 +141,9 @@ class AdminController extends Controller
             ->LeftJoin('image_categories', function ($join) {
                 $join->on('image_categories.image_id', '=', 'products.products_image')
                     ->where(function ($query) {
-                        $query->where('image_categories.image_type', '=', 'THUMBNAIL')
-                            ->where('image_categories.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('image_categories.image_type', '=', 'ACTUAL');
+                        $query->where('image_categories.image_type', '=', 'ACTUAL')
+                            ->where('image_categories.image_type', '!=', 'ACTUAL')
+                            ->orWhere('image_categories.image_type', '=', 'THUMBNAIL');
                     });
             })
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
@@ -220,6 +220,7 @@ class AdminController extends Controller
 
     public function admininfo()
     {
+        $title='adminInfo';
         $administor = administrators::all();
         return view("admin.login", $title);
     }
@@ -307,7 +308,8 @@ class AdminController extends Controller
         $extensions = $myVar->imageType();
 
         $uploadImage = $request->oldImage;
-        $orders_status = DB::table('users')->where('id', '=', Auth()->user()->id)->update([
+        $orders_status = DB::table('users')->where('id', '=', Auth()->user()->id)
+            ->update([
             'user_name' => $request->user_name,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -543,7 +545,7 @@ class AdminController extends Controller
                 'phone' => 'required',
                 'city' => 'required',
                 'country' => 'required',
-                'zip' => 'required'
+//                'zip' => 'required'
             )
         );
         if ($validator->fails()) {

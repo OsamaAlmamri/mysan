@@ -131,7 +131,8 @@
                             </div>
                             <a href="{{ URL::to('admin/devices/display')}}" class="small-box-footer"
                                data-toggle="tooltip" data-placement="bottom"
-                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }} <i
+                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }}
+                                <i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -148,7 +149,8 @@
                             </div>
                             <a href="{{ URL::to('admin/devices/display?filter=1')}}" class="small-box-footer"
                                data-toggle="tooltip" data-placement="bottom"
-                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }} <i
+                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }}
+                                <i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -165,7 +167,8 @@
                             </div>
                             <a href="{{ URL::to('admin/devices/display?filter=2')}}" class="small-box-footer"
                                data-toggle="tooltip" data-placement="bottom"
-                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }} <i
+                               title="{{ trans('labels.viewAllTotal_App_visited') }}">{{ trans('labels.viewAllTotal_App_visited') }}
+                                <i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>

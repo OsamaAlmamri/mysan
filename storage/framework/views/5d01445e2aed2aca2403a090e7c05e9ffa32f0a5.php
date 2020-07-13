@@ -58,8 +58,8 @@
                                         <tr>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('product_question_id', trans('labels.ID')));?></th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('products_name', trans('labels.products_name')));?></th>
-                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('question_text', trans('labels.question_text')));?></th>
-                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('replay_text', trans('labels.replay_text')));?></th>
+                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('text', trans('labels.question_text')));?></th>
+                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('replyes', trans('labels.replyes')));?></th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('created_at', trans('labels.Date')));?></th>
                                             <th><?php echo e(trans('labels.Action')); ?></th>
                                         </tr>
@@ -87,8 +87,8 @@
                                                         <?php endif; ?>
                                                     </td>
                                                     <td><?php echo e($review->products_name); ?></td>
-                                                    <td width="25%"><?php echo e($review->question_text); ?></td>
-                                                    <td width="25%" id="ReplyText<?php echo e($review->product_question_id); ?>"><?php echo e($review->replay); ?></td>
+                                                    <td width="25%"><?php echo e($review->text); ?></td>
+                                                    <td ><?php echo e($review->replyes); ?></td>
                                                     <td><?php echo e($review->created_at); ?></td>
                                                     <td>
                                                         <?php if($review->reviews_read == 0 and $review->question_status == 0): ?>
