@@ -44,10 +44,14 @@
                                             <th>@sortablelink('name_ar', trans('labels.name_ar') )</th>
                                             <th>@sortablelink('name_en', trans('labels.name_en') )</th>
                                             <th>@sortablelink('sort', trans('labels.sort') )</th>
+                                            <th>@sortablelink('parent', trans('labels.parent') )</th>
+                                            <th>@sortablelink('content', trans('labels.content') )</th>
+                                            <th>{{ trans('labels.Image') }}</th>
                                             <th>{{ trans('labels.Action') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
+
                                         @if($coupons !== null)
                                             @foreach ($coupons as $key=>$coupan)
                                                 <tr>
@@ -55,6 +59,10 @@
                                                     <td>{{ $coupan->name_ar }}</td>
                                                     <td>{{ $coupan->name_en }} </td>
                                                     <td>{{ $coupan->sort }} </td>
+                                                    <td>{{ ($coupan->parent==0)?trans('labels.no'):trans('labels.yes') }} </td>
+                                                    <td>{{ ($coupan->content=='products')?trans('labels.view_type_products'):trans('labels.view_type_categories') }} </td>
+                                                    <td><img src="{{asset($coupan->imagePath->imagesTHUMBNAIL->path)}}" alt="" width=" 100px"></td>
+
                                                     <td><a data-toggle="tooltip" data-placement="bottom"
                                                            title="{{ trans('labels.Edit') }}"
                                                            href="{{ url('admin/view_categories/'.$coupan->id.'/edit')}}"

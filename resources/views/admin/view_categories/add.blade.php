@@ -60,12 +60,12 @@
                                             @if(isset($viewCategory))
                                                 {!! Form::model($viewCategory, ['route' => ['view_categories.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
 
+                                                {!! Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')) !!}
                                             @else
                                                 {!! Form::open(array('route' =>'view_categories.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)) !!}
                                             @endif
-                                                {!! Form::hidden('oldImage', $old_image , array('id'=>'oldImage')) !!}
 
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                 <label for="name"
                                                        class="col-sm-2 col-md-3 control-label">{{ trans('labels.name_ar') }}</label>
                                                 <div class="col-sm-10 col-md-4">
@@ -109,7 +109,8 @@
                                                                 <div class="modal-body manufacturer-image-embed">
                                                                     @if(isset($allimage))
                                                                         <select
-                                                                            class="image-picker show-html field-validate"
+{{--                                                                            @if(!isset($viewCategory)) field-validate @endif--}}
+                                                                            class="image-picker show-html "
                                                                             name="image_id" id="select_img">
                                                                             <option value=""></option>
                                                                             @foreach($allimage as $key=>$image)
@@ -136,7 +137,11 @@
                                                         </div>
                                                     </div>
                                                     <div id="imageselected">
-                                                        {!! Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )) !!}
+                                                        @if(isset($viewCategory))
+                                                            {!! Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )) !!}
+                                                        @else
+                                                            {!! Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )) !!}
+                                                        @endif
                                                         <br>
                                                         <div id="selectedthumbnail"
                                                              class="selectedthumbnail col-md-5"></div>
@@ -192,7 +197,7 @@
                                                 <label for="view_categories_parent"
                                                        class="col-sm-2 col-md-3 control-label">{{ trans('labels.view_categories_parent') }}</label>
                                                 <div class="col-sm-10 col-md-4">
-                                                    {!!Form ::select('parent',['0'=>trans('labels.view_categories_parent_0'), 'categories'=>trans('labels.view_categories_parent_1')],null,['class' => 'select2 form-control', 'id' => 'view_categories_parent'])!!}
+                                                    {!!Form ::select('parent',['0'=>trans('labels.view_categories_parent_0'), '1'=>trans('labels.view_categories_parent_1')],null,['class' => 'select2 form-control', 'id' => 'view_categories_parent'])!!}
                                                     <span class="help-block"
                                                           style="font-weight: normal;font-size: 11px;margin-bottom: 0;">{{ trans('labels.view_categories_parentText') }}</span>
                                                 </div>
@@ -224,7 +229,7 @@
                                                             class="form-control select2">
                                                         @foreach($result['categories'] as $categories)
                                                             <option value="{{ $categories->id }}"
-                                                                    @if(in_array($products->products_id,$old_products)) selected="" @endif >{{ $categories->name_ar }}</option>
+                                                                    @if(in_array($categories->id,$old_products)) selected="" @endif >{{ $categories->name_ar }}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="help-block"

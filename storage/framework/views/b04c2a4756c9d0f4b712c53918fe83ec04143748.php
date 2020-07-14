@@ -65,14 +65,14 @@
                                                 <?php echo Form::model($viewCategory, ['route' => ['view_categories.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
 
 
+                                                <?php echo Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')); ?>
+
                                             <?php else: ?>
                                                 <?php echo Form::open(array('route' =>'view_categories.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
 
                                             <?php endif; ?>
-                                                <?php echo Form::hidden('oldImage', $old_image , array('id'=>'oldImage')); ?>
 
-
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                 <label for="name"
                                                        class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.name_ar')); ?></label>
                                                 <div class="col-sm-10 col-md-4">
@@ -119,7 +119,8 @@
                                                                 <div class="modal-body manufacturer-image-embed">
                                                                     <?php if(isset($allimage)): ?>
                                                                         <select
-                                                                            class="image-picker show-html field-validate"
+
+                                                                            class="image-picker show-html "
                                                                             name="image_id" id="select_img">
                                                                             <option value=""></option>
                                                                             <?php $__currentLoopData = $allimage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -146,8 +147,13 @@
                                                         </div>
                                                     </div>
                                                     <div id="imageselected">
-                                                        <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
+                                                        <?php if(isset($viewCategory)): ?>
+                                                            <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
 
+                                                        <?php else: ?>
+                                                            <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
+
+                                                        <?php endif; ?>
                                                         <br>
                                                         <div id="selectedthumbnail"
                                                              class="selectedthumbnail col-md-5"></div>
@@ -206,7 +212,7 @@
                                                 <label for="view_categories_parent"
                                                        class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.view_categories_parent')); ?></label>
                                                 <div class="col-sm-10 col-md-4">
-                                                    <?php echo Form ::select('parent',['0'=>trans('labels.view_categories_parent_0'), 'categories'=>trans('labels.view_categories_parent_1')],null,['class' => 'select2 form-control', 'id' => 'view_categories_parent']); ?>
+                                                    <?php echo Form ::select('parent',['0'=>trans('labels.view_categories_parent_0'), '1'=>trans('labels.view_categories_parent_1')],null,['class' => 'select2 form-control', 'id' => 'view_categories_parent']); ?>
 
                                                     <span class="help-block"
                                                           style="font-weight: normal;font-size: 11px;margin-bottom: 0;"><?php echo e(trans('labels.view_categories_parentText')); ?></span>
@@ -239,7 +245,7 @@
                                                             class="form-control select2">
                                                         <?php $__currentLoopData = $result['categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categories): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <option value="<?php echo e($categories->id); ?>"
-                                                                    <?php if(in_array($products->products_id,$old_products)): ?> selected="" <?php endif; ?> ><?php echo e($categories->name_ar); ?></option>
+                                                                    <?php if(in_array($categories->id,$old_products)): ?> selected="" <?php endif; ?> ><?php echo e($categories->name_ar); ?></option>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                     <span class="help-block"

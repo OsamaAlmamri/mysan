@@ -30,7 +30,6 @@ class ViewCategoriesController extends Controller
         $result = array();
         $message = array();
         $coupons = ViewCategory::sortable()
-            ->with('image')
             ->orderBy('created_at', 'DESC')
             ->paginate(7);
         $result['coupons'] = $coupons;
@@ -118,11 +117,14 @@ class ViewCategoriesController extends Controller
     public
     function update(Request $request, ViewCategory $viewCategory)
     {
-        if ($request->image_id !== null) {
-            $uploadImage = $request->image_id;
-        } else {
+
+//return dd($request);
+        if ($request->image_id == null) {
             $uploadImage = $request->oldImage;
+        } else {
+            $uploadImage = $request->image_id;
         }
+
         if ($request->content == 'products')
             $product_ids = ($request->products !== null) ? implode(',', $request->products) : '';
         else
@@ -140,7 +142,7 @@ class ViewCategoriesController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         } //check coupon already exist
         else {
-            $viewCategory->update(array_merge($request->all(), ['image' => $request->image_id, 'product_ids' => $product_ids]));
+            $viewCategory->update(array_merge($request->all(), ['image' => $uploadImage, 'product_ids' => $product_ids]));
             return redirect('admin/view_categories')
                 ->with('success', Lang::get("labels.ViewCategoriesUpdatedMessage"));
         }

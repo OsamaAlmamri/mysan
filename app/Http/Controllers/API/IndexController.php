@@ -31,6 +31,7 @@ class IndexController extends BaseAPIController
         Index $index,
         News $news,
         Languages $languages,
+        ViewCategory $viewCategories,
         Products $products,
         Currency $currency,
         Order $order,
@@ -44,9 +45,9 @@ class IndexController extends BaseAPIController
         $this->categories = $categories;
         $this->languages = $languages;
         $this->products = $products;
+        $this->viewCategories = $viewCategories;
         $this->currencies = $currency;
         $this->manufacturers = $manufacturers;
-        $this->theme = new ThemeController();
         $this->theme = new ThemeController();
     }
 
@@ -54,13 +55,19 @@ class IndexController extends BaseAPIController
     public function getViewCategories($data, $lang)
     {
 
-        $allViewCategories = ViewCategory::all()->sortBy('sort');
+        $allViewCategories = ViewCategory::all()->where('parent', 1)->sortBy('sort');
         $categories = [];
         foreach ($allViewCategories as $category) {
+
+            if ($category->content == 'products')
+                $products = $this->products->products($data, explode(',', $category->product_ids))['product_data'];
+            else
+                $products = $this->viewCategories->subViewCategories(explode(',', $category->product_ids), $lang);
             $categories[] = array(
                 'id' => $category->id,
+                'image' => $category->imagePath->imagesTHUMBNAIL->path,
                 'name' => ($lang == 1) ? $category->name_en : $category->name_ar,
-                'products' => $this->products->products($data, explode(',', $category->product_ids))['product_data'],
+                'products' => $products,
             );
         }
         return $categories;

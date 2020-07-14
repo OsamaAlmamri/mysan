@@ -44,10 +44,14 @@
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('name_ar', trans('labels.name_ar')));?></th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('name_en', trans('labels.name_en')));?></th>
                                             <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('sort', trans('labels.sort')));?></th>
+                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('parent', trans('labels.parent')));?></th>
+                                            <th><?php echo \Kyslik\ColumnSortable\SortableLink::render(array ('content', trans('labels.content')));?></th>
+                                            <th><?php echo e(trans('labels.Image')); ?></th>
                                             <th><?php echo e(trans('labels.Action')); ?></th>
                                         </tr>
                                         </thead>
                                         <tbody>
+
                                         <?php if($coupons !== null): ?>
                                             <?php $__currentLoopData = $coupons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$coupan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
@@ -55,6 +59,10 @@
                                                     <td><?php echo e($coupan->name_ar); ?></td>
                                                     <td><?php echo e($coupan->name_en); ?> </td>
                                                     <td><?php echo e($coupan->sort); ?> </td>
+                                                    <td><?php echo e(($coupan->parent==0)?trans('labels.no'):trans('labels.yes')); ?> </td>
+                                                    <td><?php echo e(($coupan->content=='products')?trans('labels.view_type_products'):trans('labels.view_type_categories')); ?> </td>
+                                                    <td><img src="<?php echo e(asset($coupan->imagePath->imagesTHUMBNAIL->path)); ?>" alt="" width=" 100px"></td>
+
                                                     <td><a data-toggle="tooltip" data-placement="bottom"
                                                            title="<?php echo e(trans('labels.Edit')); ?>"
                                                            href="<?php echo e(url('admin/view_categories/'.$coupan->id.'/edit')); ?>"

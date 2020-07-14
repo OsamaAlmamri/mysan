@@ -2146,5 +2146,8 @@ return [
     'view_categories_parent_1' => 'نعم  ',
     'view_categories_parentText' => 'اذا كان نعم سيعرض في القائمة الرئيسية كصنف رئيسي  ',
     'view_categoriesCategoriesText' => 'الاصناف الذي ستعرض كاصناف فرعية ضمن هذا الصنف ',
+    'parent' => 'يعرض كصنف رئيسي ',
+    'yes' => 'نعم ',
+    'no' => 'لا ',
 
 ];
