@@ -17,7 +17,10 @@ class CreateViewCategoriesTable extends Migration
             $table->increments('id');
             $table->text('product_ids');
             $table->string('name_ar');
+            $table->string('image')->nullable();
             $table->string('name_en');
+            $table->integer('parent')->default(0);
+            $table->enum('content', ['products', 'categories'])->default('products');
             $table->integer('sort')->default(1);
             $table->timestamps();
         });

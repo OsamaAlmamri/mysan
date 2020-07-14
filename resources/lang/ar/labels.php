@@ -2137,5 +2137,14 @@ return [
     'DeleteView_categoriesText' => 'هل أنت متأكد أنك تريد حذف  صنف العرض هذا ؟  ',
     'view_categoriesDeletedMessage' => 'تم حذف  صنف العرض بنجاح   ',
     'ViewCategoriesUpdatedMessage' => 'تم تحديث  صنف العرض بنجاح   ',
+    'view_categories_content' => ' نوع المحتوى  ',
+    'view_type_products' => 'منتجات   ',
+    'view_type_categories' => 'اصناف عرض فرعية  ',
+    'view_type_categoriesText' => 'نوع المحوى الذي سظهر تحت هذا الفئة   ',
+    'view_categories_parent' => 'يظهر كصنف رئيسي   ',
+    'view_categories_parent_0' => 'لا   ',
+    'view_categories_parent_1' => 'نعم  ',
+    'view_categories_parentText' => 'اذا كان نعم سيعرض في القائمة الرئيسية كصنف رئيسي  ',
+    'view_categoriesCategoriesText' => 'الاصناف الذي ستعرض كاصناف فرعية ضمن هذا الصنف ',
 
 ];

@@ -2776,5 +2776,22 @@
     );
 
 
+
+    $(document).on('change', '#view_categories_content', function () {
+        if($(this).val()=='products')
+        {
+            $('#div_categories_view_categories').hide();
+            $('#div_products_view_categories').show();
+        }
+        else
+        {
+            $('#div_categories_view_categories').show();
+            $('#div_products_view_categories').hide();
+        }
+
+        $("#question_reply").val('');
+    });
+
+
 </script>
 <?php /**PATH F:\sites\mysan\resources\views/admin/common/scripts.blade.php ENDPATH**/ ?>
