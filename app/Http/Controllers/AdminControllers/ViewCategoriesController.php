@@ -111,7 +111,7 @@ class ViewCategoriesController extends Controller
         } //check coupon already exist
         else {
             $viewCategory->update(array_merge($request->all(), ['product_ids' => $product_ids]));
-            return redirect('admin/view_categories/display')
+            return redirect('admin/view_categories')
                 ->with('success', Lang::get("labels.ViewCategoriesUpdatedMessage"));
         }
 

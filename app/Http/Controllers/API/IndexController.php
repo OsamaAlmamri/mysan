@@ -12,6 +12,7 @@ use App\Models\API\News;
 use App\Models\API\Order;
 use App\Models\API\Products;
 use App\Models\Core\Device;
+use App\ViewCategory;
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 use Illuminate\Http\Request;
@@ -50,6 +51,23 @@ class IndexController extends BaseAPIController
     }
 
 
+    public function getViewCategories($data, $lang)
+    {
+
+        $allViewCategories = ViewCategory::all()->sortBy('sort');
+        $categories = [];
+        foreach ($allViewCategories as $category) {
+            $categories[] = array(
+                'id' => $category->id,
+                'name' => ($lang == 1) ? $category->name_en : $category->name_ar,
+                'products' => $this->products->products($data, explode(',', $category->product_ids))['product_data'],
+            );
+        }
+        return $categories;
+
+
+    }
+
     public function index(Request $request)
     {
         $result = array();
@@ -61,69 +79,78 @@ class IndexController extends BaseAPIController
         $search = (!empty($request->search)) ? $request->search : '';
         $lang = (!empty($request->lang)) ? $request->lang : 2;
         $page_number = (!empty($request->page)) ? $request->page : 0;
-        $data = array('page_number' => $page_number, 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
 
-        $newest_products = $this->products->products($data);
-        $result['newest_products'] = $newest_products['product_data'];
-        /***************************************************************/
-        $cart = '';
-        $result['cartArray'] = $this->products->cartIdArray($cart);
-        /**************************************************************/
+        //getViewCategories
+        $data = array('page_number' => '0', 'type' => 'ViewCategories', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+        $special_products = $this->getViewCategories($data, $lang);
+        $result['data'] = $special_products;
 
-//special products
-        $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        $special_products = $this->products->products($data);
-        $result['special_products'] = $special_products['product_data'];
-//Flash sale
-
-        $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        $flash_sale = $this->products->products($data);
-        $result['flash_sale_products'] = $flash_sale['product_data'];
-// //top seller
-        $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        $top_seller = $this->products->products($data);
-        $result['top_seller_products'] = $top_seller['product_data'];
-
-//most liked
-        $data = array('page_number' => '0', 'type' => 'mostliked', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        $most_liked = $this->products->products($data);
-        $result['most_liked_products'] = $most_liked['product_data'];
-
-//is feature
-        $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
-        $featured = $this->products->products($data);
-        $result['featured_products'] = $featured['product_data'];
-
-//current time
-        $currentDate = Carbon\Carbon::now();
-        $currentDate = $currentDate->toDateTimeString();
-
-        //liked products
-        $result['liked_products'] = $this->products->likedProducts();
-        $orders = $this->order->getOrders();
-        if (count($orders) > 0) {
-            $allOrders = $orders;
-        } else {
-            $allOrders = $this->order->allOrders();
-        }
-
-        $temp_i = array();
-        foreach ($allOrders as $orders_data) {
-            $mostOrdered = $this->order->mostOrders($orders_data);
-            foreach ($mostOrdered as $mostOrderedData) {
-                $temp_i[] = $mostOrderedData->products_id;
-            }
-        }
-        $detail = array();
-        $temp_i = array_unique($temp_i);
-        foreach ($temp_i as $temp_data) {
-            $data = array('page_number' => '0', 'type' => 'topseller', 'products_id' => $temp_data, 'limit' => 7, 'min_price' => '', 'max_price' => '', 'lang' => $lang);
-            $single_product = $this->products->products($data);
-            if (!empty($single_product['product_data'][0])) {
-                $detail[] = $single_product['product_data'][0];
-            }
-        }
-        $result['weeklySoldProducts'] = $detail;
+//
+//        $data = array('page_number' => $page_number, 'type' => '', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//
+//        $newest_products = $this->products->products($data);
+//        $result['newest_products'] = $newest_products['product_data'];
+//        /***************************************************************/
+//        $cart = '';
+//        $result['cartArray'] = $this->products->cartIdArray($cart);
+//        /**************************************************************/
+//
+//
+////special products
+//        $data = array('page_number' => '0', 'type' => 'special', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//        $special_products = $this->products->products($data);
+//        $result['special_products'] = $special_products['product_data'];
+//
+//        //Flash sale
+//
+//        $data = array('page_number' => '0', 'type' => 'flashsale', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//        $flash_sale = $this->products->products($data);
+//        $result['flash_sale_products'] = $flash_sale['product_data'];
+//// //top seller
+//        $data = array('page_number' => '0', 'type' => 'topseller', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//        $top_seller = $this->products->products($data);
+//        $result['top_seller_products'] = $top_seller['product_data'];
+//
+////most liked
+//        $data = array('page_number' => '0', 'type' => 'mostliked', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//        $most_liked = $this->products->products($data);
+//        $result['most_liked_products'] = $most_liked['product_data'];
+//
+////is feature
+//        $data = array('page_number' => '0', 'type' => 'is_feature', 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price, 'lang' => $lang);
+//        $featured = $this->products->products($data);
+//        $result['featured_products'] = $featured['product_data'];
+//
+////current time
+//        $currentDate = Carbon\Carbon::now();
+//        $currentDate = $currentDate->toDateTimeString();
+//
+//        //liked products
+//        $result['liked_products'] = $this->products->likedProducts();
+//        $orders = $this->order->getOrders();
+//        if (count($orders) > 0) {
+//            $allOrders = $orders;
+//        } else {
+//            $allOrders = $this->order->allOrders();
+//        }
+//
+//        $temp_i = array();
+//        foreach ($allOrders as $orders_data) {
+//            $mostOrdered = $this->order->mostOrders($orders_data);
+//            foreach ($mostOrdered as $mostOrderedData) {
+//                $temp_i[] = $mostOrderedData->products_id;
+//            }
+//        }
+//        $detail = array();
+//        $temp_i = array_unique($temp_i);
+//        foreach ($temp_i as $temp_data) {
+//            $data = array('page_number' => '0', 'type' => 'topseller', 'products_id' => $temp_data, 'limit' => 7, 'min_price' => '', 'max_price' => '', 'lang' => $lang);
+//            $single_product = $this->products->products($data);
+//            if (!empty($single_product['product_data'][0])) {
+//                $detail[] = $single_product['product_data'][0];
+//            }
+//        }
+//        $result['weeklySoldProducts'] = $detail;
 
         return $this->sendNotFormatResponse($result);
     }

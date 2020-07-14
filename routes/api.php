@@ -39,7 +39,7 @@ Route::post('most_liked', 'API\ProductsController@shop');
 Route::post('featured', 'API\ProductsController@shop');
 Route::post('specialProducts', 'API\ProductsController@shop');
 Route::post('add_devices', 'API\IndexController@add_devices');
-Route::get('index', 'API\IndexController@index');
+Route::post('index', 'API\IndexController@index');
 Route::middleware('auth:api')->group(function () {
     Route::post('add_auth_devices', 'API\IndexController@add_auth_devices');
     Route::post('reviews', 'API\ProductsController@reviews');

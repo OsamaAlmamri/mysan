@@ -14,7 +14,7 @@ class Products extends Model
     public function likedProducts()
     {
 
-        $products = DB::table('liked_products')->where('liked_customers_id', '=', session('customers_id'))->get();
+        $products = DB::table('liked_products')->where('liked_customers_id', '=', auth()->guard('api')->user()->id)->get();
         $result = array();
         $index = 0;
         foreach ($products as $products_data) {
@@ -147,7 +147,7 @@ class Products extends Model
         }
     }
 
-    public function products($data)
+    public function products($data, $products_ids = [])
     {
         if (empty($data['page_number']) or $data['page_number'] == 0) {
             $skip = $data['page_number'] . '0';
@@ -364,6 +364,11 @@ class Products extends Model
         //wishlist customer id
         if ($type == "is_feature") {
             $categories->where('products.is_feature', '=', 1);
+        }
+
+        //ViewCategories c
+        if ($type == "ViewCategories") {
+            $categories->whereIn('products.products_id', $products_ids);
         }
 
         $categories->where('products_description.language_id', '=', $data['lang'])->where('products_status', '=', 1);
