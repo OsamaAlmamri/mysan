@@ -65,6 +65,7 @@ class IndexController extends BaseAPIController
                 $products = $this->viewCategories->subViewCategories(explode(',', $category->product_ids), $lang);
             $categories[] = array(
                 'id' => $category->id,
+                'content' => $category->content,
                 'image' => $category->imagePath->imagesTHUMBNAIL->path,
                 'name' => ($lang == 1) ? $category->name_en : $category->name_ar,
                 'products' => $products,

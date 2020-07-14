@@ -65,7 +65,10 @@ class ViewCategoriesController extends Controller
     public function store(Request $request)
     {
 //        return dd($request);
-        $product_ids = ($request->products !== null) ? implode(',', $request->products) : '';
+        if ($request->content == 'products')
+            $product_ids = ($request->products !== null) ? implode(',', $request->products) : '';
+        else
+            $product_ids = ($request->categories !== null) ? implode(',', $request->categories) : '';
         $validator = Validator::make(
             ['name_en' => $request->name_en,
                 'name_ar' => $request->name_ar,
