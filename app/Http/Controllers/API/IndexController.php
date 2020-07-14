@@ -58,7 +58,6 @@ class IndexController extends BaseAPIController
         $allViewCategories = ViewCategory::all()->where('parent', 1)->sortBy('sort');
         $categories = [];
         foreach ($allViewCategories as $category) {
-
             if ($category->content == 'products')
                 $products = $this->products->products($data, explode(',', $category->product_ids))['product_data'];
             else

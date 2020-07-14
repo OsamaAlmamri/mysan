@@ -388,6 +388,17 @@ class Products extends Model
         if (count($products) > 0) {
             $index = 0;
             foreach ($products as $products_data) {
+
+                $discount_percentage = 0;
+                $discounted_price = 0;
+                if (!empty($products_data->discount_price))
+                    if (($products_data->products_price + 0) > 0) {
+                        $discounted_price = $products_data->products_price - $products_data->discount_price;
+                        $discount_percentage = $discounted_price / $products_data->products_price * 100;
+                    }
+                $products_data->discount_price =($discount_percentage==0) ?$products_data->products_price :$products_data->discount_price;
+                $products_data->discount_percentage = $discount_percentage;
+
                 $products_id = $products_data->products_id;
                 $products_data->rating = $this->get_review($products_id, 0);
                 array_push($result, $products_data);
@@ -1298,12 +1309,7 @@ class Products extends Model
         else
             return array(
                 'rating' => number_format($avarage_rate, 2),
-                'total_user_rated' => $total_user_rated,
-                'five_ratio' => $five_ratio,
-                'four_ratio' => $four_ratio,
-                'three_ratio' => $three_ratio,
-                'two_ratio' => $two_ratio,
-                'one_ratio' => $one_ratio,
+                'total_user_rated' => $total_user_rated
             );
 
 
