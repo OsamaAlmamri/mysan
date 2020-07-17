@@ -5,13 +5,14 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateProductsToCategoriesTable extends Migration {
 
-	/**
+	/**ProductsToCategory
 	 * Run the migrations.
 	 *
 	 * @return void
 	 */
 	public function up()
 	{
+
 		Schema::create('products_to_categories', function(Blueprint $table)
 		{
 			$table->integer('products_to_categories_id', true);

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\DataTables;
+
 use App\Models\Core\Currency;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Services\DataTable;
 
 class CurrenciesDataTable extends DataTable
@@ -20,20 +22,23 @@ class CurrenciesDataTable extends DataTable
 
         return datatables($query)
             ->addIndexColumn()
-            ->addColumn('manage', 'admin.good_types.btn.manage')
+            ->addColumn('btn_id', 'admin.currencies.btn.id')
+            ->addColumn('manage', 'admin.currencies.btn.manage')
+            ->addColumn('btn_posisttion', 'admin.currencies.btn.posisttion')
+            ->addColumn('posisttion_trans', 'admin.currencies.btn.posisttion_trans')
             ->rawColumns([
                 'manage',
+                'btn_posisttion',
+                'posisttion_trans',
+                'btn_id',
             ]);
     }
 
 
     public function query()
     {
-
-        $data = Currency::all();
-
+        $data = Currency::all()->where('is_current', 1);
         return $data;
-
     }
 
 
@@ -45,13 +50,15 @@ class CurrenciesDataTable extends DataTable
     public function html()
     {
         $btnAdd = [];
-//        $route = route('admin.currencies.create');
-        if (Auth::user()->can('manage good_types') != false) {
-            $btnAdd = ['className' => 'btn btn-info ', 'text' => '<i class="fa fa-plus" ></i> ' . trans('form.add.good_types'),
+        $route = "";
+        $route =URL::to('admin/currencies/add');
+
+//        if (Auth::user()->can('manage good_types') != false) {
+            $btnAdd = ['className' => 'btn btn-primary', 'text' => '<i class="fa fa-plus" ></i> ' . trans('labels.AddNew'),
                 'action' => " function(){
                               window.location.href='$route'
                               }"];
-        }
+//        }
 
         return $this->builder()
             ->columns($this->getColumns())
@@ -62,14 +69,15 @@ class CurrenciesDataTable extends DataTable
                 [
                     'paging' => true,
 //                    'responsive' => true,
-//                    'scrollX' => true,
+                    'scrollX' => true,
                     'searching' => true,
                     'autoWidth' => true,
 
-                    'info' => false, 'searchDelay' => 350,
+                    'info' => false,
+                    'searchDelay' => 350,
 //                    'language' => ['url' => url('js/dataTables/language.json')],
                     'language' => datatable_lang(),
-                    'dom' => 'Blfrtip',
+//                    'dom' => 'Blfrtip',
                     'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('dataTable.all')]],
                     'buttons' => [
                         $btnAdd,
@@ -85,19 +93,54 @@ class CurrenciesDataTable extends DataTable
     protected function getColumns()
     {
 
-
         return [
             ['name' => 'DT_RowIndex',
                 'data' => 'DT_RowIndex',
                 'title' => '#'],
             [
-                'name' => 'name',
-                'data' => 'name',
-                'title' => trans('dataTable.good_type'),
+                'name' => 'btn_id',
+                'data' => 'btn_id',
+                'title' => trans('labels.ID'),
             ],
+            [
+                'name' => 'title',
+                'data' => 'title',
+                'title' => trans('labels.Title'),
+            ],
+
+            [
+                'name' => 'code',
+                'data' => 'code',
+                'title' => trans('labels.code'),
+            ],
+
+            [
+                'name' => 'btn_posisttion',
+                'data' => 'btn_posisttion',
+                'title' => trans('labels.symbol'),
+            ],
+
+            [
+                'name' => 'posisttion_trans',
+                'data' => 'posisttion_trans',
+                'title' => trans('labels.Position'),
+            ],
+
+            [
+                'name' => 'decimal_places',
+                'data' => 'decimal_places',
+                'title' => trans('labels.decimal_places'),
+            ],
+
+            [
+                'name' => 'value',
+                'data' => 'value',
+                'title' => trans('labels.value'),
+            ],
+
             ['name' => 'manage',
                 'data' => 'manage',
-                'title' => trans('dataTable.manage'),
+                'title' => trans('labels.Action'),
                 'exportable' => false,
                 'printable' => false,
                 'orderable' => false,

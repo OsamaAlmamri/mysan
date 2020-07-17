@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\DataTables\CompaniesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Images;
 use App\Models\Core\Languages;
@@ -21,12 +22,22 @@ class ManufacturerController extends Controller
         $this->Setting = $setting;
     }
 
+//    public function display()
+//    {
+//        $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
+//        $manufacturers = $this->manufacturers->paginator(20);
+//        $result['commonContent'] = $this->Setting->commonContent();
+//        return view("admin.manufacturers.index")->with('manufacturers', $manufacturers)->with('result', $result);
+//    }
+
     public function display()
     {
+        $reviews = new CompaniesDataTable();
         $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
-        $manufacturers = $this->manufacturers->paginator(20);        
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.manufacturers.index")->with('manufacturers', $manufacturers)->with('result', $result);
+        return $reviews->render('admin.manufacturers.index2', ['title' => $title, 'result' => $result,
+         'dataTableType' => 'php']);
+
     }
 
     public function add(Request $request)
@@ -49,7 +60,7 @@ class ManufacturerController extends Controller
         $title = array('pageTitle' => Lang::get("labels.EditManufacturers"));
         $manufacturers_id = $request->id;
         $editManufacturer = $this->manufacturers->edit($manufacturers_id);
-        $allimage = $this->images->getimages();        
+        $allimage = $this->images->getimages();
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.manufacturers.edit", $title)->with('result', $result)->with('editManufacturer', $editManufacturer)->with('allimage', $allimage);
     }

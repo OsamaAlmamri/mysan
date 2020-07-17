@@ -20,7 +20,7 @@ class ReviewsDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('manage', 'admin.reviews.btn.manage')
             ->addColumn('btn_id', 'admin.reviews.btn.id')
-            ->rawColumns(['manage','btn_id']);
+            ->rawColumns(['manage', 'btn_id']);
     }
 
 
@@ -31,12 +31,12 @@ class ReviewsDataTable extends DataTable
 //
 //        return dd($data)  ;
 //
-             $reviews = Reviews::sortable(['reviews_id'=>'desc'])
-                 ->leftJoin('reviews_description','reviews.reviews_id','reviews_description.review_id')
-                 ->leftJoin('products_description','reviews.products_id','products_description.products_id')
-                 ->select('reviews.*','products_description.products_name')
-                 ->groupBy('reviews.reviews_id');
-             return $reviews;
+        $reviews = Reviews::sortable(['reviews_id' => 'desc'])
+            ->leftJoin('reviews_description', 'reviews.reviews_id', 'reviews_description.review_id')
+            ->leftJoin('products_description', 'reviews.products_id', 'products_description.products_id')
+            ->select('reviews.*', 'products_description.products_name')
+            ->groupBy('reviews.reviews_id');
+        return $reviews;
 
     }
 
@@ -56,7 +56,7 @@ class ReviewsDataTable extends DataTable
             ->parameters(
                 [
                     'paging' => true,
-//                    'responsive' => true,
+                    'responsive' => true,
 //                    'scrollX' => true,
                     'searching' => true,
                     'autoWidth' => true,
@@ -64,7 +64,7 @@ class ReviewsDataTable extends DataTable
                     'info' => false, 'searchDelay' => 350,
 //                    'language' => ['url' => url('js/dataTables/language.json')],
                     'language' => datatable_lang(),
-//                    'dom' => 'Blfrtip',
+//                    'dom' => 'Blftip',
                     'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('dataTable.all')]],
                 ]
             );

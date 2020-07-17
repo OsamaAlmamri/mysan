@@ -22,7 +22,7 @@
                             <div class="box-tools pull-right">
                                 <a href="{{ URL::to('admin/currencies/add')}}" type="button" class="btn btn-block btn-primary">{{ trans('labels.AddNew') }}</a>
                             </div>
-                            </br>
+                            <br>
                         </div>
 
                         <!-- /.box-header -->

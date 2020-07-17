@@ -1,6 +1,9 @@
 <?php
 
 
+use App\Models\Core\Categories;
+use App\Models\Core\Products;
+use App\Models\Core\ProductsToCategory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -37,6 +40,27 @@ if (!function_exists('lang')) {
     }
 }
 
+function getProductsIdsAccordingForMainCategory($id)
+{
+    $ids = [];
+    $products = ProductsToCategory::whereIn('categories_id', function ($query) use ($id) {
+        $query->select('categories_id')
+            ->from(with(new Categories())->getTable())
+            ->where('parent_id', $id);
+    })->orWhere('categories_id', $id)->get();
+    foreach ($products as $product)
+        $ids[] = $product->products_id;
+    return $ids;
+}
+
+function getProductsIdsAccordingForSubCategory($id)
+{
+    $ids = [];
+    $products = ProductsToCategory::all()->where('categories_id', $id);
+    foreach ($products as $product)
+        $ids[] = $product->products_id;
+    return $ids;
+}
 
 if (!function_exists('datatable_lang')) {
     function datatable_lang()

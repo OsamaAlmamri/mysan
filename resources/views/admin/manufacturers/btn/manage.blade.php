@@ -1,0 +1,2 @@
+<a data-toggle="tooltip" data-placement="bottom" title="Edit" href="{{ URL::to('admin/manufacturers/edit/'.$id)}}" class="badge bg-light-blue"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+<a id="manufacturerFrom" manufacturers_id='{{ $id }}' data-toggle="tooltip" data-placement="bottom" title="Delete" data-href="{{url('admin/manufacturers/delete')}}" class="badge bg-red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>

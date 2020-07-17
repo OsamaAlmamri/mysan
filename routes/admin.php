@@ -255,6 +255,13 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin/reviews', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ReviewController@reviews')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ReviewController@editreviews')->middleware('edit_reviews');
+        Route::get('/filter2', 'ReviewController@filter2')->name('reviews.filter2');
+        Route::post('/filter2', 'ReviewController@filter2')->name('info.getCategories');
+
+    });
+    Route::group(['prefix' => 'admin/info', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::post('/getCategories', 'ReviewController@getCategories')->name('info.getCategories');
+        Route::post('/getProducts', 'ReviewController@getProducts')->name('info.getProducts');
 
     });
 
