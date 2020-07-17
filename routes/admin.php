@@ -253,16 +253,17 @@ Route::group(['middleware' => ['installer']], function () {
     });
 
     Route::group(['prefix' => 'admin/reviews', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
-        Route::get('/display', 'ProductController@reviews')->middleware('view_reviews');
-        Route::get('/edit/{id}/{status}', 'ProductController@editreviews')->middleware('edit_reviews');
+        Route::get('/display', 'ReviewController@reviews')->middleware('view_reviews');
+        Route::get('/edit/{id}/{status}', 'ReviewController@editreviews')->middleware('edit_reviews');
 
     });
+
     Route::group(['prefix' => 'admin/product_questions', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
-        Route::get('/display', 'ProductController@product_questions')->middleware('view_reviews');
-        Route::get('/edit/{id}/{status}', 'ProductController@edit_product_questions')->middleware('edit_reviews');
-        Route::get('/show/{id}', 'ProductController@show_product_questions')->middleware('view_reviews');
-        Route::post('/replay', 'ProductController@replay_product_questions')->middleware('edit_reviews');
-        Route::post('/delete_replay', 'ProductController@delete_replay')->middleware('edit_reviews');
+        Route::get('/display', 'ProductQuestionController@product_questions')->middleware('view_reviews');
+        Route::get('/edit/{id}/{status}', 'ProductQuestionController@edit_product_questions')->middleware('edit_reviews');
+        Route::get('/show/{id}', 'ProductQuestionController@show_product_questions')->middleware('view_reviews');
+        Route::post('/replay', 'ProductQuestionController@replay_product_questions')->middleware('edit_reviews');
+        Route::post('/delete_replay', 'ProductQuestionController@delete_replay')->middleware('edit_reviews');
 
     });
 //customers

@@ -1046,7 +1046,8 @@ class AdminController extends Controller
         $user_types_id = $request->user_types_id;
         DB::table('manage_role')->where('user_types_id', $user_types_id)->delete();
 
-        $roles = DB::table('manage_role')->where('user_types_id', $request->user_types_id)->insert([
+        $roles = DB::table('manage_role')
+            ->where('user_types_id', $request->user_types_id)->insert([
             'user_types_id' => $request->user_types_id,
             'dashboard_view' => $request->dashboard_view,
 
@@ -1055,10 +1056,10 @@ class AdminController extends Controller
             'manufacturer_update' => $request->manufacturer_update,
             'manufacturer_delete' => $request->manufacturer_delete,
 
-            'view_media' => $request->media_view,
-            'add_media' => $request->media_create,
-            'edit_media' => $request->media_update,
-            'delete_media' => $request->media_delete,
+            'view_media' => $request->media_view,//
+            'add_media' => $request->media_create,//
+            'edit_media' => $request->media_update,//
+            'delete_media' => $request->media_delete,//
 
             'categories_view' => $request->categories_view,
             'categories_create' => $request->categories_create,

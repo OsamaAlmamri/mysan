@@ -37,126 +37,7 @@ class ProductController extends Controller
 
     }
 
-    public function reviews(Request $request)
-    {
-        $title = array('pageTitle' => Lang::get("labels.reviews"));
-        $result = array();
-        $data = $this->reviews->paginator();
-        $result['reviews'] = $data;
-        $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.reviews.index", $title)->with('result', $result);
 
-    }
-
-    public function product_questions(Request $request)
-    {
-        $title = array('pageTitle' => Lang::get("labels.product_questions"));
-        $result = array();
-        $data = $this->productQuestion->paginator();
-        $result['productQuestion'] = $data;
-        $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.product_questions.index", $title)->with('result', $result);
-
-    }
-
-    public function editreviews($id, $status)
-    {
-        if ($status == 1) {
-            DB::table('reviews')
-                ->where('reviews_id', $id)
-                ->update([
-                    'reviews_status' => 1,
-                ]);
-            DB::table('reviews')
-                ->where('reviews_id', $id)
-                ->update([
-                    'reviews_read' => 1,
-                ]);
-        } elseif ($status == 0) {
-            DB::table('reviews')
-                ->where('reviews_id', $id)
-                ->update([
-                    'reviews_read' => 1,
-                ]);
-        } else {
-            DB::table('reviews')
-                ->where('reviews_id', $id)
-                ->update([
-                    'reviews_read' => 1,
-                    'reviews_status' => -1,
-                ]);
-        }
-        $message = Lang::get("labels.reviewupdateMessage");
-        return redirect()->back()->withErrors([$message]);
-
-    }
-
-    public function replay_product_questions(Request $request)
-    {
-        $dada = array(
-            'product_question_id' => $request->ques_ques_id,
-            'text' => $request->reply,
-            'replay_user_id' => auth()->user()->id,
-            'replay_user_type' => 'admin',
-        );
-        if ($request->ques_ques_replay_id == 0)
-            $replay = QuestionReplay::create($dada);
-        else {
-            $replay = QuestionReplay::find($request->ques_ques_replay_id);
-            $replay->update($dada);
-        }
-        return response($replay, 200);
-    }
-
-    public function delete_replay(Request $request)
-    {
-
-        $replay = QuestionReplay::find($request->reply_id)->delete();
-
-        return response($replay==true?1:0, 200);
-    }
-
-    public function edit_product_questions($id, $status)
-    {
-        if ($status == 1) {
-            DB::table('product_questions')
-                ->where('product_question_id', $id)
-                ->update([
-                    'question_status' => 1,
-                ]);
-            DB::table('product_questions')
-                ->where('product_question_id', $id)
-                ->update([
-                    'question_read' => 1,
-                ]);
-        } elseif ($status == 0) {
-            DB::table('product_questions')
-                ->where('product_question_id', $id)
-                ->update([
-                    'question_read' => 1,
-                ]);
-        } else {
-            DB::table('product_questions')
-                ->where('product_question_id', $id)
-                ->update([
-                    'question_read' => 1,
-                    'question_status' => -1,
-                ]);
-        }
-        $message = Lang::get("labels.product_question_updateMessage");
-        return redirect()->back()->withErrors([$message]);
-
-    }
-
-
-    public function show_product_questions($id)
-    {
-        $title = array('pageTitle' => Lang::get("labels.product_question_replies"));
-        $result['commonContent'] = $this->Setting->commonContent();
-        $productQuestion = ProductQuestion::find($id);
-        return view("admin.product_questions.show", $title)->with('result', $result)->with('productQuestion', $productQuestion);
-
-    }
 
 
     public function display(Request $request)
@@ -515,7 +396,6 @@ class ProductController extends Controller
 
     public function deleteoption(Request $request)
     {
-
         $products_attributes = $this->products->deleteoption($request);
         return ($products_attributes);
 
@@ -536,7 +416,6 @@ class ProductController extends Controller
 
     public function currentstock(Request $request)
     {
-
         $result = $this->products->currentstock($request);
         print_r(json_encode($result));
 

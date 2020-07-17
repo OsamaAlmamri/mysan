@@ -2,7 +2,12 @@
 <html>
 
 <!-- meta contains meta taga, css and fontawesome icons etc -->
-@include('admin.common.meta')
+<head>
+    @include('admin.common.meta')
+    @yield('dataTablesCss')
+    @yield('css')
+
+</head>
 <!-- ./end of meta -->
 
 <body class=" hold-transition skin-blue sidebar-mini">
@@ -27,10 +32,15 @@
     @include('admin.common.footer')
 </div>
 <!-- ./wrapper -->
-
 <!-- all js scripts including custom js -->
+@include('admin.common.libs')
+@yield('dataTablesJs')
+@yield('scripts')
+
+@yield('dataTableImport')
 @include('admin.common.scripts')
 <!-- ./end of js scripts -->
-
+@stack('js')
+@stack('css')
 </body>
 </html>

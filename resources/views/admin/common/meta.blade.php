@@ -1,7 +1,6 @@
-<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>maysan </title>
 {{--{{ $pageTitle }}--}}
 <!-- Tell the browser to be responsive to screen width -->
@@ -78,18 +77,9 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/jquery-2.2.4.min"><\/script>')</script>
 
     <![endif]-->
-</head>
 <style>
     .dragable-box-cursor img {
         cursor: move;
     }
-
-    /*.skin-blue .main-header .navbar .nav>li>a {*/
-    /*    color: #B2323A;*/
-    /*}*/
-
-    /*.skin-blue .main-header .navbar {*/
-    /*    background-color: #ffb4b5;*/
-    /*}*/
 
 </style>

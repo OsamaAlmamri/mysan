@@ -71,7 +71,6 @@
                                                             <?php echo e($currency->symbol_right); ?>
 
                                                         </td>
-
                                                         <td>
                                                             <?php if(!empty($currency->symbol_left)): ?>
                                                                 <?php echo app('translator')->get('labels.Left'); ?>
