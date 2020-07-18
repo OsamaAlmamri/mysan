@@ -84,16 +84,12 @@ class ReviewController extends Controller
             $ids = 'all';
         elseif ($main > 0 and $sub == 'all' and $product == 'all')
             $ids = getProductsIdsAccordingForMainCategory($main);
-
         elseif (
             ($main == 'all' and $sub > 0 and $product == 'all') or
             ($main > 0 and $sub > 0 and $product == 'all'))
             $ids = getProductsIdsAccordingForSubCategory($sub);
         else
             $ids = [$product];
-
-        /*   ******$table->string('first_name', 191);
-			$table->string('last_name', 191);******/
         $data = DB::table('reviews')
             ->leftJoin('users', 'reviews.customers_id', 'users.id')
             ->leftJoin('reviews_description', 'reviews.reviews_id', 'reviews_description.review_id')
@@ -107,12 +103,9 @@ class ReviewController extends Controller
             ->whereBetween('reviews.created_at', [$from_date, $to_date])
             ->groupBy('reviews.reviews_id')->get();
         return $data;
-
-//        return $data->orderByDesc('id')->get();
     }
 
-    public
-    function filter2(Request $request)
+    public function filter2(Request $request)
     {
 
         $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
@@ -124,7 +117,6 @@ class ReviewController extends Controller
             ->addColumn('btn_id', 'admin.reviews.btn.id')
             ->rawColumns(['manage', 'btn_id'])
             ->make(true);
-
     }
 
     public function getCategories(Request $request)
@@ -132,8 +124,8 @@ class ReviewController extends Controller
         $allData = [];
         $data = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id');
-        if ($request->id != 'all') {
-            $data = $data->where('categories.parent_id', '<>', 0);
+        if ($request->id == 'all') {
+            $data = $data->where('categories.parent_id', '=', 0);
         } else
             $data = $data->where('categories.parent_id', '=', $request->id);
         $data = $data->where('language_id', 2)

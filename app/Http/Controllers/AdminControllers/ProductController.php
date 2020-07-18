@@ -38,25 +38,96 @@ class ProductController extends Controller
     }
 
 
-
+//    public function display(Request $request)
+//    {
+//        $language_id = '1';
+//        $categories_id = $request->categories_id;
+//        $product = $request->product;
+//        $title = array('pageTitle' => Lang::get("labels.Products"));
+//        $subCategories = $this->category->allcategories($language_id);
+//        $products = $this->products->paginator($request);
+//        $results['products'] = $products;
+//        $results['currency'] = $this->myVarsetting->getSetting();
+//        $results['units'] = $this->myVarsetting->getUnits();
+//        $results['subCategories'] = $subCategories;
+//        $currentTime = array('currentTime' => time());
+//        $result['commonContent'] = $this->Setting->commonContent();
+//        return view("admin.products.index", $title)->with('result', $result)->with('results', $results)->with('categories_id', $categories_id)->with('product', $product);
+//
+//    }
 
     public function display(Request $request)
     {
-        $language_id = '1';
-        $categories_id = $request->categories_id;
-        $product = $request->product;
         $title = array('pageTitle' => Lang::get("labels.Products"));
-        $subCategories = $this->category->allcategories($language_id);
-        $products = $this->products->paginator($request);
-        $results['products'] = $products;
         $results['currency'] = $this->myVarsetting->getSetting();
-        $results['units'] = $this->myVarsetting->getUnits();
-        $results['subCategories'] = $subCategories;
-        $currentTime = array('currentTime' => time());
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.products.index", $title)->with('result', $result)->with('results', $results)->with('categories_id', $categories_id)->with('product', $product);
-
+        return view("admin.products.index2", $title)
+            ->with('result', $result)
+            ->with('results', $results);
     }
+
+
+    public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09')
+    {
+        if ($main == 'all' and $sub == 'all')
+            $ids = 'all';
+        elseif ($main > 0 and $sub == 'all')
+            $ids = getProductsIdsAccordingForMainCategory($main);
+        elseif (
+            ($main == 'all' and $sub > 0) or
+            ($main > 0 and $sub > 0))
+            $ids = getProductsIdsAccordingForSubCategory($sub);
+
+        $data = DB::table('products')
+            ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
+            ->LeftJoin('manufacturers', function ($join) {
+                $join->on('manufacturers.manufacturers_id', '=', 'products.manufacturers_id');
+            })
+            ->LeftJoin('specials', function ($join) {
+                $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1');
+            })
+            ->LeftJoin('image_categories', function ($join) {
+                $join->on('image_categories.image_id', '=', 'products.products_image')
+                    ->where(function ($query) {
+                        $query->where('image_categories.image_type', '=', 'THUMBNAIL')
+                            ->where('image_categories.image_type', '!=', 'THUMBNAIL')
+                            ->orWhere('image_categories.image_type', '=', 'ACTUAL');
+                    });
+            })
+            ->leftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
+            ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
+            ->leftJoin('categories_description', 'categories.categories_id', '=', 'categories_description.categories_id')
+            ->select('products.*', 'products_description.*', 'specials.specials_id', 'manufacturers.*',
+                'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price',
+                'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified',
+                'specials.expires_date', 'image_categories.path as path', 'products.updated_at as productupdate', 'categories_description.categories_id',
+                'categories_description.categories_name')
+            ->where('products_description.language_id', '=', 2)
+            ->where('categories_description.language_id', '=', 2);
+
+
+        if (!($main == 'all' and $sub == 'all'))
+            $data = $data->whereIn('products.products_id', $ids);
+        $data = $data
+            ->whereBetween('products.created_at', [$from_date, $to_date])
+            ->get()->unique('products_id')->keyBy('products_id');
+        return $data;
+    }
+
+    public function filter2(Request $request)
+    {
+        $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
+        $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
+        $data = $this->getData($request->main, $request->sub, $from, $to);
+        return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('manage', 'admin.products.btn.manage')
+            ->addColumn('btn_image', 'admin.products.btn.image')
+            ->addColumn('info', 'admin.products.btn.info')
+            ->rawColumns(['manage', 'btn_image', 'info'])
+            ->make(true);
+    }
+
 
     public function add(Request $request)
     {

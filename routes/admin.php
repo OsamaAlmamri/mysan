@@ -182,6 +182,8 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/update', 'ProductController@update')->middleware('edit_product');
         Route::post('/delete', 'ProductController@delete')->middleware('delete_product');
         Route::get('/filter', 'ProductController@filter')->middleware('view_product');
+        Route::get('/filter2', 'ProductController@filter2')->name('products.filter2');
+
         Route::group(['prefix' => 'inventory'], function () {
             Route::get('/display', 'ProductController@addinventoryfromsidebar')->middleware('view_product');
             // Route::post('/addnewstock', 'ProductController@addinventory')->middleware('view_product');
@@ -256,7 +258,6 @@ Route::group(['middleware' => ['installer']], function () {
         Route::get('/display', 'ReviewController@reviews')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ReviewController@editreviews')->middleware('edit_reviews');
         Route::get('/filter2', 'ReviewController@filter2')->name('reviews.filter2');
-        Route::post('/filter2', 'ReviewController@filter2')->name('info.getCategories');
 
     });
     Route::group(['prefix' => 'admin/info', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
@@ -271,6 +272,7 @@ Route::group(['middleware' => ['installer']], function () {
         Route::get('/show/{id}', 'ProductQuestionController@show_product_questions')->middleware('view_reviews');
         Route::post('/replay', 'ProductQuestionController@replay_product_questions')->middleware('edit_reviews');
         Route::post('/delete_replay', 'ProductQuestionController@delete_replay')->middleware('edit_reviews');
+        Route::get('/filter2', 'ProductQuestionController@filter2')->name('product_questions.filter2');
 
     });
 //customers

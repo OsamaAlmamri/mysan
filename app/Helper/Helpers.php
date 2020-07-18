@@ -1,9 +1,11 @@
 <?php
 
 
+use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Models\Core\Categories;
 use App\Models\Core\Products;
 use App\Models\Core\ProductsToCategory;
+use App\Models\Core\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -23,6 +25,14 @@ function dateFormFormat($date)
 {
 //       return Carbon::parse($date)->diffForHumans();
     return Carbon::parse($date)->month . '/' . Carbon::parse($date)->day . '/' . Carbon::parse($date)->year;
+}
+
+function getSetting()
+{
+    $setting = new Setting();
+    $myVarsetting = new SiteSettingController($setting);
+    $setting = $myVarsetting->getSetting();
+    return $setting;
 }
 
 if (!function_exists('lang')) {

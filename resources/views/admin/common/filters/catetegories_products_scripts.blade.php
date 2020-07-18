@@ -1,5 +1,5 @@
 <script>
-    function getCategories(id, data_list, type = 'noAll') {
+    function getCategories(id, data_list, type = 'all') {
         var zone = $('#' + data_list);
         var _this = $(this);
         return $.ajax({

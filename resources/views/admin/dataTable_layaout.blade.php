@@ -2,12 +2,12 @@
 @section('css')
 @endsection
 @section('dataTablesCss')
-{{--        <link href="{!! asset('admin/newLibs/data-table/css/buttons.dataTables.min.css') !!}" media="all" rel="stylesheet"--}}
-{{--              type="text/css"/>--}}
-{{--        <link href="{!! asset('admin/newLibs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') !!}"--}}
-{{--              media="all" rel="stylesheet" type="text/css"/>--}}
-{{--        <link href="{!! asset('admin/newLibs/data-table/extensions/responsive/css/responsive.dataTables.css') !!}"--}}
-{{--              media="all" rel="stylesheet" type="text/css"/>--}}
+        <link href="{!! asset('admin/newLibs/data-table/css/buttons.dataTables.min.css') !!}" media="all" rel="stylesheet"
+              type="text/css"/>
+        <link href="{!! asset('admin/newLibs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') !!}"
+              media="all" rel="stylesheet" type="text/css"/>
+        <link href="{!! asset('admin/newLibs/data-table/extensions/responsive/css/responsive.dataTables.css') !!}"
+              media="all" rel="stylesheet" type="text/css"/>
 @endsection
 @section('dataTablesJs')
     <script src="{!! asset('admin/newLibs/datatables.net/js/jquery.dataTables.min.js') !!}"></script>
@@ -39,12 +39,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
-                    @yield('btn_add')
+
                     <!-- /.box-header -->
 
                         <div class="box-body">
                             @yield('filters')
                             @include('admin.common.messages')
+                            @yield('btn_add')
                             <div class="row">
                                 <div class="col-xs-12">
                                     @if(isset($dataTableType) and  $dataTableType=='php')
@@ -69,5 +70,35 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        var language = {
+            lengthMenu: "Show _MENU_ Entries",
+
+            sSearch: '{{trans('dataTable.sSearch')}}',
+            info: "Showing _START_ to _END_ of _TOTAL_ Entries",
+            sEmptyTable: '{{ trans('dataTable.sEmptyTable')}}',
+            sInfo: '{{ trans('dataTable.sInfo')}}',
+            sInfoEmpty: '{{ trans('dataTable.sInfoEmpty')}}',
+            sInfoFiltered: '{{ trans('dataTable.sInfoFiltered')}}',
+            sInfoPostFix: '{{ trans('dataTable.sInfoPostFix')}}',
+            sLengthMenu: '{{ trans('dataTable.sLengthMenu')}}',
+            sInfoThousands: '{{ trans('dataTable.sInfoThousands')}}',
+            sLoadingRecords: '{{ trans('dataTable.sLoadingRecords')}}',
+            sProcessing: '{{ trans('dataTable.sProcessing')}}',
+            sZeroRecords: '{{ trans('dataTable.sZeroRecords')}}',
+            sSearch: '{{ trans('dataTable.sSearch')}}',
+            oPaginate: {
+                sNext: '{{ trans('dataTable.sNext')}}',
+                sPrevious: '{{ trans('dataTable.sPrevious')}}',
+                sFirst: '{{ trans('dataTable.sFirst')}}',
+                sLast: '{{ trans('dataTable.sLast')}}',
+            },
+            oAria: {
+                sSortAscending: '{{ trans('dataTable.sSortAscending')}}',
+                sSortDescending: '{{ trans('dataTable.sSortDescending')}}',
+            },
+        };
+
+    </script>
     @yield('custom_scripts')
 @endsection

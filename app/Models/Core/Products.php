@@ -53,14 +53,9 @@ class Products extends Model
                             ->orWhere('image_categories.image_type', '=', 'ACTUAL');
                     });
             });
-
-
             $data->leftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
                 ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
                 ->leftJoin('categories_description', 'categories.categories_id', '=', 'categories_description.categories_id');
-
-
-
         $data->select('products.*', 'products_description.*', 'specials.specials_id', 'manufacturers.*',
         'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price',
         'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified',

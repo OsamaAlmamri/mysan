@@ -97,10 +97,7 @@
                                                     <td>
                                                         <?php echo e($product->products_name); ?> <?php if(!empty($product->products_model)): ?> ( <?php echo e($product->products_model); ?> ) <?php endif; ?>
                                                     </td>
-                                                    <td>
-                                                        <?php echo e($product->first_name); ?> <?php echo e($product->last_name); ?>
 
-                                                    </td>
                                                     <td>
                                                         <strong><?php echo e(trans('labels.Product Type')); ?>:</strong>
                                                         <?php if($product->products_type==0): ?>

@@ -96,9 +96,7 @@
                                                     <td>
                                                         {{ $product->products_name }} @if(!empty($product->products_model)) ( {{ $product->products_model }} ) @endif
                                                     </td>
-                                                    <td>
-                                                        {{ $product->first_name }} {{ $product->last_name }}
-                                                    </td>
+
                                                     <td>
                                                         <strong>{{ trans('labels.Product Type') }}:</strong>
                                                         @if($product->products_type==0)

@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Lang;
 class ProductQuestionController extends Controller
 
 {
-
-
     public function __construct(Products $products, Languages $language, Images $images, Categories $category, Setting $setting,
                                 ProductQuestion $productQuestion)
     {
@@ -37,12 +35,10 @@ class ProductQuestionController extends Controller
     {
         $title = array('pageTitle' => Lang::get("labels.product_questions"));
         $result = array();
-        $data = $this->productQuestion->paginator();
-        $result['productQuestion'] = $data;
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.product_questions.index", $title)->with('result', $result);
-
+        return view("admin.product_questions.index2", $title)->with('result', $result);
     }
+
     public function replay_product_questions(Request $request)
     {
         $dada = array(
@@ -65,7 +61,7 @@ class ProductQuestionController extends Controller
 
         $replay = QuestionReplay::find($request->reply_id)->delete();
 
-        return response($replay==true?1:0, 200);
+        return response($replay == true ? 1 : 0, 200);
     }
 
     public function edit_product_questions($id, $status)
@@ -99,6 +95,7 @@ class ProductQuestionController extends Controller
         return redirect()->back()->withErrors([$message]);
 
     }
+
     public function show_product_questions($id)
     {
         $title = array('pageTitle' => Lang::get("labels.product_question_replies"));
@@ -106,6 +103,59 @@ class ProductQuestionController extends Controller
         $productQuestion = ProductQuestion::find($id);
         return view("admin.product_questions.show", $title)->with('result', $result)->with('productQuestion', $productQuestion);
 
+    }
+
+
+    public function getData($product, $main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09')
+    {
+        if ($main == 'all' and $sub == 'all' and $product == 'all')
+            $ids = 'all';
+        elseif ($main > 0 and $sub == 'all' and $product == 'all')
+            $ids = getProductsIdsAccordingForMainCategory($main);
+        elseif (
+            ($main == 'all' and $sub > 0 and $product == 'all') or
+            ($main > 0 and $sub > 0 and $product == 'all'))
+            $ids = getProductsIdsAccordingForSubCategory($sub);
+        else
+            $ids = [$product];
+        //            $table->integer('question_products_id')->index('products_images_questions_id');
+        //            $table->integer('question_customers_id')->index('idx_questions_customers_id');
+        //            $table->string('question_image')->nullable();
+        //            $table->text('text', 65535)->nullable();
+        //            $table->smallInteger('question_read')->default(0);
+        //            $table->integer('sort')->default(1);;
+        //            $table->integer('question_status')->default(0);
+        $data = DB::table('product_questions')
+            ->leftJoin('users', 'product_questions.question_customers_id', 'users.id')
+            ->leftJoin('products_description', 'product_questions.question_products_id', 'products_description.products_id')
+            ->select('product_questions.*',
+                DB::raw("CONCAT(COALESCE(users.first_name,'') , '  ' ,COALESCE(users.last_name,'')) AS user"),
+                'products_description.products_name',
+                DB::raw("(select count(question_replays.product_question_id) from question_replays where question_replays.product_question_id = product_questions.product_question_id) AS replyes")
+            );
+        if (!($main == 'all' and $sub == 'all' and $product == 'all'))
+            $data = $data->whereIn('product_questions.question_products_id', $ids);
+        $data = $data
+            ->whereBetween('product_questions.created_at', [$from_date, $to_date])
+            ->where('products_description.language_id', '=', 2)
+            ->groupBy('product_questions.product_question_id')
+            ->orderBy('sort')
+            ->orderByDesc('updated_at')
+            ->get();
+        return $data;
+    }
+
+    public function filter2(Request $request)
+    {
+        $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
+        $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
+        $data = $this->getData($request->product, $request->main, $request->sub, $from, $to);
+        return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('manage', 'admin.product_questions.btn.manage')
+            ->addColumn('btn_id', 'admin.product_questions.btn.id')
+            ->rawColumns(['manage', 'btn_id'])
+            ->make(true);
     }
 
 
