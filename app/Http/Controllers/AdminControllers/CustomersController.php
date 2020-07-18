@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\AdminControllers;
 
+use App\DataTables\CustomersDataTable;
 use App\Models\Core\Customers;
 use App\Models\Core\Images;
 use App\Models\Core\Setting;
@@ -25,32 +26,42 @@ class CustomersController extends Controller
         $this->Setting = $setting;
     }
 
+//    public function display()
+//    {
+//        $title = array('pageTitle' => Lang::get("labels.ListingCustomers"));
+//        $language_id = '1';
+//
+//        $customers = $this->Customers->paginator();
+//
+//        $result = array();
+//        $index = 0;
+//        foreach($customers as $customers_data){
+//            array_push($result, $customers_data);
+//
+//            $devices = DB::table('devices')->where('user_id','=',$customers_data->id)->orderBy('created_at','DESC')->take(1)->get();
+//            $result[$index]->devices = $devices;
+//            $index++;
+//        }
+//
+//        $customerData = array();
+//        $message = array();
+//        $errorMessage = array();
+//
+//        $customerData['message'] = $message;
+//        $customerData['errorMessage'] = $errorMessage;
+//        $customerData['result'] = $customers;
+//        $result['commonContent'] = $this->Setting->commonContent();
+//        return view("admin.customers.index", $title)->with('customers', $customerData)->with('result', $result);
+//    }
+
     public function display()
     {
-        $title = array('pageTitle' => Lang::get("labels.ListingCustomers"));
-        $language_id = '1';
-
-        $customers = $this->Customers->paginator();
-
-        $result = array();
-        $index = 0;
-        foreach($customers as $customers_data){
-            array_push($result, $customers_data);
-
-            $devices = DB::table('devices')->where('user_id','=',$customers_data->id)->orderBy('created_at','DESC')->take(1)->get();
-            $result[$index]->devices = $devices;
-            $index++;
-        }
-
-        $customerData = array();
-        $message = array();
-        $errorMessage = array();
-
-        $customerData['message'] = $message;
-        $customerData['errorMessage'] = $errorMessage;
-        $customerData['result'] = $customers;
+        $reviews = new CustomersDataTable();
+//        $customers = $this->Customers->paginator();
+        $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.customers.index", $title)->with('customers', $customerData)->with('result', $result);
+        return $reviews->render('admin.customers.index2', ['title' => $title, 'result' => $result,
+            'dataTableType' => 'php']);
     }
 
     public function add(Request $request)
@@ -236,7 +247,7 @@ class CustomersController extends Controller
 
         $this->Customers->updaterecord($customer_data,$user_id,$user_data);
         return redirect('admin/customers/address/display/'.$user_id);
-        
+
     }
 
     public function delete(Request $request){

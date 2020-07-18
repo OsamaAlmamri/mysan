@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-3 col-xs-6">
         <div class="input-group ">
-            <span class="input-group-addon"><?php echo e(trans('labels.Categories')); ?></span>
+            <span class="input-group-addon"><?php echo e(trans('labels.MainCategories')); ?></span>
             <?php echo Form ::select('main_categories',[],'',['class' => 'select2 form-control', 'id' => 'main_categories']); ?>
 
         </div>

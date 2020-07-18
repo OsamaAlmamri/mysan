@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\DataTables\CouponsDataTable;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Coupon;
@@ -22,22 +23,33 @@ class CouponsController extends Controller
 
     }
 
-    public function display(Request $request)
+//    public function display(Request $request)
+//    {
+//
+//        $title = array('pageTitle' => Lang::get("labels.ListingCoupons"));
+//        $result = array();
+//        $message = array();
+//        $coupons = Coupon::sortable()
+//            ->orderBy('created_at', 'DESC')
+//            ->paginate(7);
+//        $result['coupons'] = $coupons;
+//        //get function from other controller
+//        $result['currency'] = $this->myVarSetting->getSetting();
+//        $result['commonContent'] = $this->Setting->commonContent();
+//        return view("admin.coupons.index", $title)->with('result', $result)->with('coupons', $coupons);
+//
+//    }
+
+    public function display()
     {
-
-        $title = array('pageTitle' => Lang::get("labels.ListingCoupons"));
-        $result = array();
-        $message = array();
-        $coupons = Coupon::sortable()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(7);
-        $result['coupons'] = $coupons;
-        //get function from other controller
-        $result['currency'] = $this->myVarSetting->getSetting();
+        $reviews = new CouponsDataTable();
+//        $customers = $this->Customers->paginator();
+        $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.coupons.index", $title)->with('result', $result)->with('coupons', $coupons);
-
+        return $reviews->render('admin.coupons.index2', ['title' => $title, 'result' => $result,
+            'dataTableType' => 'php']);
     }
+
 
     public function filter(Request $request)
     {

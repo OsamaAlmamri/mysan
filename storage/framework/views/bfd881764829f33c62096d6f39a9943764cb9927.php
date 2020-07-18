@@ -211,7 +211,7 @@
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;"><?php echo e(trans('labels.ExcludeProductsText')); ?></span>
                                                 </div>
                                             </div>
-
+//
                                             <div class="form-group">
                                                 <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.IncludeCategories')); ?></label>
                                                 <div class="col-sm-10 col-md-4">

@@ -28,7 +28,7 @@
                         ],
                         info: false,
                         searchDelay: 350,
-//                    'language' : ['url' : HostUrl('js/dataTables/language.json')],
+                        language: language,
 //                         dom: 'Blftip',
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons:
