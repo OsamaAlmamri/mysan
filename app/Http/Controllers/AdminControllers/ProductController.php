@@ -104,8 +104,6 @@ class ProductController extends Controller
                 'categories_description.categories_name')
             ->where('products_description.language_id', '=', 2)
             ->where('categories_description.language_id', '=', 2);
-
-
         if (!($main == 'all' and $sub == 'all'))
             $data = $data->whereIn('products.products_id', $ids);
         $data = $data
@@ -136,10 +134,8 @@ class ProductController extends Controller
         $allimage = $this->images->getimages();
         $result = array();
         $categories = $this->category->recursivecategories($request);
-
         $parent_id = array();
         $option = '<ul class="list-group list-group-root well">';
-
         foreach ($categories as $parents) {
 
             if (in_array($parents->categories_id, $parent_id)) {
@@ -147,7 +143,6 @@ class ProductController extends Controller
             } else {
                 $checked = '';
             }
-
             $option .= '<li href="#" class="list-group-item">
           <label style="width:100%">
             <input id="categories_' . $parents->categories_id . '" ' . $checked . ' type="checkbox" class=" required_one categories sub_categories" name="categories[]" value="' . $parents->categories_id . '">

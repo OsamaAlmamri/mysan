@@ -423,7 +423,9 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
 
         Route::get('/statscustomers', 'ReportsController@statsCustomers')->middleware('report');
+        Route::get('/report/{type?}', 'ReportsController@showProductsReoprts')->middleware('report')->name('report.show');
         Route::get('/statsproductspurchased', 'ReportsController@statsProductsPurchased')->middleware('report');
+        Route::get('/statsproductspurchased2', 'ReportsController@filter2')->middleware('report')->name('statsProductsPurchased.filter2');
         Route::get('/statsproductsliked', 'ReportsController@statsProductsLiked')->middleware('report');
         Route::get('/outofstock', 'ReportsController@outofstock')->middleware('report');
         Route::get('/lowinstock', 'ReportsController@lowinstock')->middleware('report');

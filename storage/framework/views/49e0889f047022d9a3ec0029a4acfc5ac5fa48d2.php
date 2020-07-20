@@ -158,11 +158,11 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                 href="<?php echo e(URL::to('admin/statscustomers')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_customer_orders_total')); ?></a>
                         </li>
-                        <li class="<?php echo e(Request::is('admin/statsproductspurchased') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/statsproductspurchased')); ?>"><i
+                        <li class="<?php echo e(Request::is('admin/report/inventory') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','inventory')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_total_purchased')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/statsproductsliked') ? 'active' : ''); ?>"><a
-                                href="<?php echo e(URL::to('admin/statsproductsliked')); ?>"><i
+                        <li class="<?php echo e(Request::is('admin/report/like') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','like')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_products_liked')); ?></a></li>
                     </ul>
                 </li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\DataTables\ViewCategoriesDataTable;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Coupon;
@@ -24,22 +25,31 @@ class ViewCategoriesController extends Controller
 
     }
 
-    public function index(Request $request)
+//    public function index(Request $request)
+//    {
+//        $title = array('pageTitle' => Lang::get("labels.ListingCoupons"));
+//        $result = array();
+//        $coupons = ViewCategory::sortable()
+//            ->orderBy('created_at', 'DESC')
+//            ->paginate(7);
+//        $result['coupons'] = $coupons;
+//        //get function from other controller
+//        $result['currency'] = $this->myVarSetting->getSetting();
+//        $result['commonContent'] = $this->Setting->commonContent();
+//        return view("admin.view_categories.index", $title)
+//            ->with('result', $result)->with('coupons', $coupons);
+//
+//    }
+
+    public function index()
     {
+
+        $reviews = new ViewCategoriesDataTable();
         $title = array('pageTitle' => Lang::get("labels.ListingCoupons"));
-        $result = array();
-        $message = array();
-        $coupons = ViewCategory::sortable()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(7);
-        $result['coupons'] = $coupons;
-        //get function from other controller
-        $result['currency'] = $this->myVarSetting->getSetting();
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.view_categories.index", $title)->with('result', $result)->with('coupons', $coupons);
-
+        return $reviews->render('admin.view_categories.index2', ['title' => $title, 'result' => $result,
+            'dataTableType' => 'php']);
     }
-
 
     public function create(Request $request)
     {

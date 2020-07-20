@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\AdminControllers;
 
 use App;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Setting;
+
 //for password encryption or hash protected
 use DB;
 use Hash;
@@ -42,57 +44,99 @@ class ReportsController extends Controller
     }
 
     //statsProductsPurchased
-    public function statsProductsPurchased(Request $request)
+
+    public function showProductsReoprts($reportType = 'inventory')
     {
-
         $title = array('pageTitle' => Lang::get("labels.StatsProductsPurchased"));
-
-        $products = DB::table('products')
-            ->join('products_description', 'products_description.products_id', '=', 'products.products_id')
-            ->join('inventory', 'inventory.products_id', '=', 'products.products_id')
-            ->LeftJoin('image_categories', function ($join) {
-                $join->on('image_categories.image_id', '=', 'products.products_image')
-                    ->where(function ($query) {
-                        $query->where('image_categories.image_type', '=', 'THUMBNAIL')
-                            ->where('image_categories.image_type', '!=', 'THUMBNAIL')
-                            ->orWhere('image_categories.image_type', '=', 'ACTUAL');
-                    });
-            })
-            ->select('products_description.*', 'image_categories.path as path', 'inventory.*')
-            ->where('stock_type', 'in')
-            ->orderBy('products_ordered', 'DESC')
-            ->where('products_description.language_id', '=', '1')
-            ->paginate(20);
-
-        $result['data'] = $products;
-        //get function from other controller
         $myVar = new SiteSettingController();
         $result['currency'] = $myVar->getSetting();
         $result['commonContent'] = $myVar->Setting->commonContent();
-
-        return view("admin.reports.statsProductsPurchased", $title)->with('result', $result);
+        return view("admin.reports.showProductsReoprts", $title)
+            ->with('reportType', $reportType)
+            ->with('result', $result);
 
     }
+
+    public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09', $reportType = 'inventory')
+    {
+        if ($main == 'all' and $sub == 'all')
+            $ids = 'all';
+        elseif ($main > 0 and $sub == 'all')
+            $ids = getProductsIdsAccordingForMainCategory($main);
+        elseif (
+            ($main == 'all' and $sub > 0) or
+            ($main > 0 and $sub > 0))
+            $ids = getProductsIdsAccordingForSubCategory($sub);
+        /**/
+        if ($reportType == 'inventory') {
+            $select = 'inventory.*';
+            $whereDate = 'inventory.created_at';
+        } else {
+            $select = 'products_liked';
+            $whereDate = 'products.created_at';
+        }
+
+
+        $data = \Illuminate\Support\Facades\DB::table('products')
+            ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id');
+        if ($reportType == 'inventory')
+            $data = $data->join('inventory', 'inventory.products_id', '=', 'products.products_id');
+        $data = $data->LeftJoin('image_categories', function ($join) {
+            $join->on('image_categories.image_id', '=', 'products.products_image')
+                ->where(function ($query) {
+                    $query->where('image_categories.image_type', '=', 'THUMBNAIL')
+                        ->where('image_categories.image_type', '!=', 'THUMBNAIL')
+                        ->orWhere('image_categories.image_type', '=', 'ACTUAL');
+                });
+        })
+            ->leftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
+            ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
+            ->leftJoin('categories_description', 'categories.categories_id', '=', 'categories_description.categories_id')
+            ->select($select, 'products_description.*',
+                'image_categories.path as path', 'products.updated_at as productupdate', 'categories_description.categories_id',
+                'categories_description.categories_name')
+            ->where('products_description.language_id', '=', 2)
+            ->where('categories_description.language_id', '=', 2);
+        if (!($main == 'all' and $sub == 'all'))
+            $data = $data->whereIn('products.products_id', $ids);
+        if ($reportType == 'inventory')
+            $data = $data->where('stock_type', 'in')
+                ->orderBy('products_ordered', 'DESC');
+        else
+            $data = $data->where('products.products_liked', '>', '0');
+
+        return $data->whereBetween($whereDate, [$from_date, $to_date])
+            ->get();
+    }
+
+    public function filter2(Request $request)
+    {
+        $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
+        $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
+        $data = $this->getData($request->main, $request->sub, $from, $to,$request->reportType);
+        return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('btn_image', 'admin.products.btn.image')
+            ->rawColumns(['btn_image'])
+            ->make(true);
+    }
+
 
     //statsProductsLiked
     public function statsProductsLiked(Request $request)
     {
 
         $title = array('pageTitle' => Lang::get("labels.StatsProductsLiked"));
-
         $products = DB::table('products')
             ->join('products_description', 'products_description.products_id', '=', 'products.products_id')
             ->where('products.products_liked', '>', '0')
             ->where('products_description.language_id', '=', '1')
             ->orderBy('products_liked', 'DESC')
             ->paginate(20);
-
         $result['data'] = $products;
-
         //get function from other controller
         $myVar = new SiteSettingController();
         $result['currency'] = $myVar->getSetting();
-
         $result['commonContent'] = $myVar->Setting->commonContent();
         return view("admin.reports.statsProductsLiked", $title)->with('result', $result);
 
@@ -104,7 +148,6 @@ class ReportsController extends Controller
 
         $title = array('pageTitle' => Lang::get("labels.outOfStock"));
         $language_id = 1;
-
         $products = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
             ->where('products_description.language_id', '=', $language_id)
@@ -162,7 +205,7 @@ class ReportsController extends Controller
 
         $products = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
-        //->leftJoin('inventory','inventory.products_id','=','products.products_id')
+            //->leftJoin('inventory','inventory.products_id','=','products.products_id')
             ->where('products_description.language_id', '=', $language_id)
             ->orderBy('products.products_id', 'DESC')
             ->get();
@@ -222,6 +265,7 @@ class ReportsController extends Controller
 
         return view("admin.reports.lowinstock", $title)->with('result', $result);
     }
+
     //productsStock
     public function stockin(Request $request)
     {

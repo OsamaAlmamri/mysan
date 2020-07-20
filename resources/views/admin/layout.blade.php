@@ -10,7 +10,8 @@
 </head>
 <!-- ./end of meta -->
 
-<body class=" hold-transition skin-blue sidebar-mini">
+{{--<body class="skin-blue sidebar-mini sidebar-collapse" >--}}
+<body class="hold-transition skin-blue sidebar-mini" >
 <!-- wrapper -->
 <div class="wrapper">
 
