@@ -2157,6 +2157,7 @@ return [
     'fromDate' => 'من تاريخ ',
     'toDate' => 'الى تاريخ ',
     'filter' => 'فرز ',
+    'Print' => 'طباعة ',
     'MainCategories' => 'الاصناف الرئيسية ',
 
 ];

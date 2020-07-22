@@ -68,8 +68,8 @@ class CurrenciesDataTable extends DataTable
             ->parameters(
                 [
                     'paging' => true,
-//                    'responsive' => true,
-                    'scrollX' => true,
+                    'responsive' => true,
+//                    'scrollX' => true,
                     'searching' => true,
                     'autoWidth' => true,
 

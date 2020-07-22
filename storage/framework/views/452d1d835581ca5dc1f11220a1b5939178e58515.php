@@ -28,7 +28,7 @@
                         processing: true,
                         // serverSide: true,
                         paging: true,
-                        scrollX: true,
+                        // scrollX: true,
                         responsive: true,
                         searching: true,
                         language: language,

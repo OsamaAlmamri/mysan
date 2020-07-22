@@ -72,7 +72,7 @@ class CustomersDataTable extends DataTable
                 [
                     'paging' => true,
                     'responsive' => true,
-//                    'scrollX' => true,
+                    'scrollX' => true,
                     'searching' => true,
                     'autoWidth' => true,
 
