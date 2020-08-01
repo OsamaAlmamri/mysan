@@ -29,6 +29,7 @@
         "razorpay/razorpay": "^2.5",
         "rehan/laravel-installer": "dev-master",
         "spatie/db-dumper": "^2.14",
+        "staudenmeir/eloquent-json-relations": "^1.1",
         "vinkla/instagram": "^9.3",
         "yajra/laravel-datatables": "^1.5"
     },

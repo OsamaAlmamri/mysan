@@ -11,12 +11,13 @@
         <input type='hidden' id='has-attribute' value='1'>
         <ul class="list-group list-group-root well list-group-root2">
             @foreach ($result['attributes'] as $attribute)
-            <li href="#" class="list-group-item"><label style="width:100%">
-                    <input id="attribute_id" type="hidden" class="attributeid_<?=$attribute['option']['id']?>" name="attributeid[]" value=""> {{ $attribute['option']['name']}}</label></li>
+            <li href="#" class="list-group-item"><label style="width:100%" >
+                    <input id="attribute_id"  attributeid="{{ $attribute['option']['id'] }}" attribute_name="{{ $attribute['option']['name'] }}" type="hidden" class="attributes_ids attributeid_<?=$attribute['option']['id']?>" name="attributeid[]" value=""> {{ $attribute['option']['name']}} </label></li>
             <ul class="list-group">
                 <li class="list-group-item">
-                    @foreach ($attribute['values'] as $value)<label><input name="values_<?=$attribute['option']['id']?>" type="radio" class="currentstock required_one" value="{{ $value['products_attributes_id'] }}"
-                          attributeid="{{ $attribute['option']['id'] }}"> {{ $value['value'] }}</label> @endforeach</li>
+                    @foreach ($attribute['values'] as $value)<label>
+                        <input  name="values_<?=$attribute['option']['id']?>" type="radio" class="currentstock required_one" value="{{ $value['products_attributes_id'] }}"
+                          attributeid="{{ $attribute['option']['id'] }}"      > {{ $value['value'] }}</label> @endforeach</li>
             </ul>
             @endforeach
         </ul>

@@ -1,4 +1,0 @@
-<td><a data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.Edit')); ?>" href="<?php echo e(url('admin/coupons/edit')); ?>/<?php echo e($coupans_id); ?>" class="badge bg-light-blue"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-    <a data-toggle="tooltip" data-placement="bottom" title="<?php echo e(trans('labels.Delete')); ?>" id="deleteCoupans_id" coupans_id ="<?php echo e($coupans_id); ?>" class="badge bg-red"><i class="fa fa-trash" aria-hidden="true"></i></a>
-</td>
-<?php /**PATH F:\sites\mysan\resources\views/admin/coupons/btn/manage.blade.php ENDPATH**/ ?>

@@ -163,16 +163,21 @@ Route::group(['middleware' => ['installer']], function () {
 
 
     });
-    Route::group(['prefix' => 'admin/bouquet', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
-        Route::get('display', 'BouquetController@addinventoryfromsidebar')->middleware('view_product');
-        // Route::post('/addnewstock', 'ProductController@addinventory')->middleware('view_product');
-        Route::get('/ajax_attr/{id}/', 'BouquetController@ajax_attr')->middleware('view_product');
-        Route::post('/addnewstock', 'BouquetController@addnewstock')->middleware('add_product');
-        Route::post('/addminmax', 'BouquetController@addminmax')->middleware('add_product');
-        Route::get('/addproductimages/{id}/', 'BouquetController@addproductimages')->middleware('add_product');
+//    Route::group(['prefix' => 'admin/bouquet', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+//        Route::get('display', 'BouquetController@addinventoryfromsidebar')->middleware('view_product');
+//        // Route::post('/addnewstock', 'ProductController@addinventory')->middleware('view_product');
+//        Route::get('/ajax_attr/{id}/', 'BouquetController@ajax_attr')->middleware('view_product');
+//        Route::post('/addnewstock', 'BouquetController@addnewstock')->middleware('add_product');
+//        Route::post('/addminmax', 'BouquetController@addminmax')->middleware('add_product');
+//        Route::get('/addproductimages/{id}/', 'BouquetController@addproductimages')->middleware('add_product');
+//
+//    });
 
+    Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::get('/bouquet/display', 'BouquetController@addinventoryfromsidebar');
+        Route::post('/bouquet/delete', 'BouquetController@delete');
+        Route::resource('bouquet', 'BouquetController');
     });
-
 
     Route::group(['prefix' => 'admin/products', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@display')->middleware('view_product');

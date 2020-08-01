@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Bouquet;
 use App\Http\Controllers\AdminControllers\AlertController;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
@@ -42,6 +43,31 @@ class BouquetController extends Controller
         $result = $this->products->addinventoryfromsidebar();
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.bouquets.add1", $title)->with('result', $result);
+
+    }
+
+    public function store(Request $request)
+    {
+        $b=Bouquet::find(6);
+        return dd($b->all_products);
+        foreach ( ($b->products) as $pro )
+        return dd($pro->options);
+
+        Bouquet::create(array_merge($request->all(),[
+            'bouquet_name_ar'=>'',
+            'bouquet_name_en'=>'',
+            'bouquet_price'=>'',
+            'bouquet_description_ar'=>'',
+            'default_image'=>'',
+            'additional_images'=>'',
+            'bouquet_description_en'=>'',
+            'expiry_date'=>'',
+            'sort'=>1,
+            'bouquet_type'=>'1',
+            'usage_count'=>'',
+            'usage_limit'=>1,
+            'free_shipping'=>'',
+        ]));
 
     }
 

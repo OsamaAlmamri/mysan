@@ -7292,6 +7292,55 @@
         ]
     },
     {
+        "name": "staudenmeir/eloquent-json-relations",
+        "version": "v1.3.3",
+        "version_normalized": "1.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/staudenmeir/eloquent-json-relations.git",
+            "reference": "7018a7b12add15300b36d6cc9223652e470c3faf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/staudenmeir/eloquent-json-relations/zipball/7018a7b12add15300b36d6cc9223652e470c3faf",
+            "reference": "7018a7b12add15300b36d6cc9223652e470c3faf",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/database": "^6.0",
+            "php": "^7.2"
+        },
+        "require-dev": {
+            "laravel/homestead": "^10.0",
+            "phpunit/phpunit": "^8.0"
+        },
+        "time": "2020-05-16T20:49:30+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Staudenmeir\\EloquentJsonRelations\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonas Staudenmeir",
+                "email": "mail@jonas-staudenmeir.de"
+            }
+        ],
+        "description": "Laravel Eloquent relationships with JSON keys",
+        "funding": [
+            {
+                "url": "https://paypal.me/JonasStaudenmeir",
+                "type": "custom"
+            }
+        ]
+    },
+    {
         "name": "swiftmailer/swiftmailer",
         "version": "v6.2.3",
         "version_normalized": "6.2.3.0",

@@ -40,6 +40,7 @@ return array(
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Bridge\\PsrHttpMessage\\' => array($vendorDir . '/symfony/psr-http-message-bridge'),
+    'Staudenmeir\\EloquentJsonRelations\\' => array($vendorDir . '/staudenmeir/eloquent-json-relations/src'),
     'Spatie\\DbDumper\\' => array($vendorDir . '/spatie/db-dumper/src'),
     'Riverline\\MultiPartParser\\' => array($vendorDir . '/riverline/multipart-parser/src'),
     'RehanTariq\\LaravelInstaller\\' => array($vendorDir . '/rehan/laravel-installer/src'),

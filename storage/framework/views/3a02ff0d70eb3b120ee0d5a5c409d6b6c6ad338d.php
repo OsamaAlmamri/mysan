@@ -1,3 +1,0 @@
-<a data-toggle="tooltip" data-placement="bottom" title="Edit" href="<?php echo e(URL::to('admin/manufacturers/edit/'.$id)); ?>" class="badge bg-light-blue"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-<a id="manufacturerFrom" manufacturers_id='<?php echo e($id); ?>' data-toggle="tooltip" data-placement="bottom" title="Delete" data-href="<?php echo e(url('admin/manufacturers/delete')); ?>" class="badge bg-red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-<?php /**PATH F:\sites\mysan\resources\views/admin/manufacturers/btn/manage.blade.php ENDPATH**/ ?>

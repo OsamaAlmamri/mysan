@@ -56,6 +56,9 @@
                     </a>
                 </li>
             <?php endif; ?>
+            <script>
+                
+            </script>
 
 
 
@@ -91,9 +94,9 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="<?php echo e(Request::is('admin/products/inventory/display') ? 'active' : ''); ?>"><a
                                     href="<?php echo e(URL::to('admin/products/inventory/display')); ?>"><i
                                         class="fa fa-circle-o"></i> <?php echo e(trans('labels.inventory')); ?></a></li>
-                            
-                            
-                            
+                                                        <li class="<?php echo e(Request::is('admin/bouquet/display') ? 'active' : ''); ?>"><a
+                                                                href="<?php echo e(URL::to('admin/bouquet/display')); ?>"><i
+                                                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.bouquet')); ?></a></li>
                         <?php endif; ?>
                         <?php
                         $status_check = DB::table('reviews')->where('reviews_read', 0)->first();

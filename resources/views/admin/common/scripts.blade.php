@@ -2244,7 +2244,6 @@
 
     $(document).on('change', '.product-type', function () {
         var product_id = $(this).val();
-
         $.ajax({
             url: '{{ URL::to("admin/products/inventory/ajax_min_max")}}' + '/' + product_id,
             type: "GET",
@@ -2719,21 +2718,70 @@
     );
 
 
-
     $(document).on('change', '#view_categories_content', function () {
-        if($(this).val()=='products')
-        {
+        if ($(this).val() == 'products') {
             $('#div_categories_view_categories').hide();
             $('#div_products_view_categories').show();
-        }
-        else
-        {
+        } else {
             $('#div_categories_view_categories').show();
             $('#div_products_view_categories').hide();
         }
 
         $("#question_reply").val('');
     });
+    product_n = 1;
+    $(document).on('click', '#btn_add_bouquets_products', function (e) {
 
+        e.preventDefault();
+        // alert('d');
+        var count = $("#products_count").val();
+        var product_text = $("#select_product_id  option:selected").text();
+        var product_id = $("#select_product_id").val();
+        // var address_text = $("#to_address_id option:selected").text();
+        // var map = {};
+        // $(".attributes_ids").each(function() {
+        //     map[$(this).attr('attributeid')] = $(this).attr('attribute_name');
+        //
+        //     alert($(this).attr('attributeid'));
+        //     alert($(this).attr('attribute_name'));
+        // });
+
+
+        var map = {};
+        var temptext = "";
+        var tempInputes = "";
+        $('input[name^="attributeid"]').each(function () {
+            map[$(this).attr('attributeid')] = $(this).attr('attribute_name');
+
+            var id = ($(this).attr('attributeid'));
+            var name = ($(this).attr('attribute_name'));
+            var option_name = $('input[name^="values_' + id + '"]:checked').data('name');
+            var option_id = $('input[name^="values_' + id + '"]:checked').data('name');
+            temptext += name + " ( " + option_name + ") , ";
+            tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][attribute]\" value='" + id + "'>";
+            tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][value]\" value='" + option_id + "'>";
+        });
+        console.log(map);
+        add_row_address(product_id, product_text, count, tempInputes, temptext);
+
+    });
+
+    function add_row_address(product_id, product_text, count, product_options, options) {
+        var data = " <tr id=\"product_n_" + product_n + "\">\n" +
+            "            <td> <input type=\"hidden\" name=\"products[" + product_n + "][product_id]\" value='" + product_id + "'>" + product_text + "" +
+            " <div class=\"print-error-msg alert-danger\"id=\"modal_error_products." + product_n + ".zone\"></div></td>\n" +
+            "            <td width='10%'> <input type=\"number\" name=\"products[" + product_n + "][count]\" value='" + count + "'>" +
+            " <div class=\"print-error-msg alert-danger\"id=\"modal_error_products." + product_n + ".zone\"></div></td>\n" +
+            "            <td width='50%'> " + options +product_options+ "</div>\n </td>\n" +
+            "            <td>  <button onclick=\"deleteOneProduct(" + product_n + ")\"><i class=\"fa fa-trash\"></i></button></td>\n" +
+            "            </tr>";
+        $('#products_list_table').append(data);
+        product_n++;
+
+    }
+
+    function deleteOneProduct(id) {
+        $("#product_n_" + id).remove();
+    }
 
 </script>

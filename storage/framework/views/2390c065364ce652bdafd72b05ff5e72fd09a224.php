@@ -13,11 +13,11 @@
         <ul class="list-group list-group-root well list-group-root2">
             <?php $__currentLoopData = $result['attributes']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <li href="#" class="list-group-item"><label style="width:100%">
-                    <input id="attribute_id" type="hidden" class="attributeid_<?=$attribute['option']['id']?>" name="attributeid[]" value=""> <?php echo e($attribute['option']['name']); ?></label></li>
+                    <input id="attribute_id" attribute_name="<?php echo e($attribute['option']['name']); ?>" attributeid="<?php echo e($attribute['option']['id']); ?>" type="hidden" class="attributeid_<?=$attribute['option']['id']?>" name="attributeid[]" value=""> <?php echo e($attribute['option']['name']); ?></label></li>
             <ul class="list-group">
                 <li class="list-group-item">
                     <?php $__currentLoopData = $attribute['values']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><label><input name="values_<?=$attribute['option']['id']?>" type="radio" class="currentstock required_one" value="<?php echo e($value['products_attributes_id']); ?>"
-                          attributeid="<?php echo e($attribute['option']['id']); ?>"> <?php echo e($value['value']); ?></label> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></li>
+                      data-name="<?php echo e($value['value']); ?>"    attributeid="<?php echo e($attribute['option']['id']); ?>" checked> <?php echo e($value['value']); ?></label> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></li>
             </ul>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>

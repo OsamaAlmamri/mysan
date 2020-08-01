@@ -1,2 +1,0 @@
-<td><?php echo e($id); ?> <?php if($id==1): ?> <span class="label label-success"><?php echo e(trans('labels.is_default')); ?></span><?php endif; ?></td>
-<?php /**PATH F:\sites\mysan\resources\views/admin/currencies/btn/id.blade.php ENDPATH**/ ?>

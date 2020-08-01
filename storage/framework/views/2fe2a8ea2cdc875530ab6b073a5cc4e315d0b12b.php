@@ -42,6 +42,17 @@
 
                         </div>
 
+                        <?php if(isset($viewCategory)): ?>
+                            <?php echo Form::model($viewCategory, ['route' => ['view_categories.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
+
+
+                            <?php echo Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')); ?>
+
+                        <?php else: ?>
+                            <?php echo Form::open(array('route' =>'bouquet.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
+
+                        <?php endif; ?>
+
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="box box-info">
@@ -67,14 +78,11 @@
                                                             </div>
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
-                                                                <?php echo Form::open(array('url' =>'admin/products/inventory/addnewstock', 'name'=>'inventoryfrom', 'id'=>'addewinventoryfrom', 'method'=>'post', 'class' => 'form-horizontal form-validate',
-                                                                'enctype'=>'multipart/form-data')); ?>
-
 
                                                                 <div class="form-group">
                                                                     <label for="name" class="col-sm-2 col-md-4 control-label"><?php echo e(trans('labels.Products')); ?><span style="color:red;">*</span> </label>
                                                                     <div class="col-sm-10 col-md-8">
-                                                                        <select class="form-control field-validate product-type" name="products_id">
+                                                                        <select class="form-control field-validate select2 product-type" id="select_product_id" name="products_id">
                                                                             <option value=""><?php echo e(trans('labels.Choose Product')); ?></option>
                                                                             <?php $__currentLoopData = $result['products']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <option value="<?php echo e($pro->products_id); ?>"><?php echo e($pro->products_name); ?></option>
@@ -95,9 +103,9 @@
                                                                     <div class="col-sm-10 col-md-8">
                                                                         <p id="current_stocks" style="width:100%">0</p><br>
 
+
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="form-group">
                                                                     <label for="name" class="col-sm-2 col-md-4 control-label">
                                                                         <?php echo e(trans('labels.Total Purchase Price')); ?>
@@ -105,48 +113,26 @@
                                                                     </label>
                                                                     <div class="col-sm-10 col-md-8">
                                                                         <p class="purchase_price_content" style="width:100%"><?php echo e($result['currency'][19]->value); ?><span id="total_purchases">0</span></p><br>
-
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name" class="col-sm-2 col-md-4 control-label"><?php echo e(trans('labels.Enter Stock')); ?><span style="color:red;">*</span></label>
                                                                     <div class="col-sm-10 col-md-8">
-                                                                        <input type="text" name="stock" value="" class="form-control number-validate">
+                                                                        <input type="number" id="products_count" name="count" value="" class="form-control number-validate">
                                                                         <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                                             <?php echo e(trans('labels.Enter Stock Text')); ?></span>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="name" class="col-sm-2 col-md-4 control-label"><?php echo e(trans('labels.Purchase Price')); ?><span style="color:red;">*</span></label>
-                                                                    <div class="col-sm-10 col-md-8">
-                                                                        <input type="text" name="purchase_price" value="" class="form-control number-validate">
-                                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                                            <?php echo e(trans('labels.Purchase Price Text')); ?></span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="name" class="col-sm-2 col-md-4 control-label"><?php echo e(trans('labels.Reference / Purchase Code')); ?></label>
-                                                                    <div class="col-sm-10 col-md-8">
-                                                                        <input type="text" name="reference_code" value="" class="form-control field-validate">
-                                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                                            <?php echo e(trans('labels.Reference / Purchase Code Text')); ?></span>
-                                                                    </div>
-                                                                </div>
-
                                                                 <!-- /.users-list -->
                                                             </div>
                                                            <?php if(count($result['products'])> 0): ?>
                                                                 <?php if(count($result['attributes'])>0 and $result['products'][0]->products_type==1 or $result['products'][0]->products_type==0): ?>
                                                                 <!-- /.box-body -->
                                                                 <div class="box-footer text-center">
-                                                                    <button type="submit" id="attribute-btn" class="btn btn-primary pull-right"><?php echo e(trans('labels.Add Stock')); ?></button>
+                                                                    <button type="submit" id="btn_add_bouquets_products" class="btn btn-primary pull-right"><?php echo e(trans('labels.Add Stock')); ?></button>
                                                                 </div>
                                                                 <?php endif; ?>
                                                             <?php endif; ?>
-
-                                                            <?php echo Form::close(); ?>
 
                                                             <!-- /.box-footer -->
                                                         </div>
@@ -168,54 +154,24 @@
                                                         <!-- USERS LIST -->
                                                         <div class="box box-danger">
                                                             <div class="box-header with-border">
-                                                                <h3 class="box-title"><?php echo e(trans('labels.Manage Min/Max Quantity')); ?></h3>
+                                                                <h3 class="box-title"><?php echo e(trans('labels.Products')); ?></h3>
                                                             </div>
-                                                            <!-- /.box-header -->
-                                                            <div class="box-body">
-                                                                <?php echo Form::open(array('url' =>'admin/products/inventory/addminmax', 'name'=>'addminmax', 'id'=>'addminmax', 'method'=>'post', 'class' => 'form-horizontal form-validate-level',
-                                                                'enctype'=>'multipart/form-data')); ?>
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th> المنتج </th>
+                                                                        <th>الكمية </th>
+                                                                        <th>السمات </th>
+                                                                        <th>حذف</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody style="text-align: right;" id="products_list_table">
 
-                                                                 <input class="form-control check_reference_id" id="inventory_ref_id" name="inventory_ref_id" type="hidden" value="">
-                                                                 <input class="form-control check_reference_id" id="inventory_pro_id" name="products_id" type="hidden" value="">
-
-                                                                <div class="form-group">
-                                                                    <label for="name" class="col-sm-2 col-md-4 control-label">
-                                                                        <?php echo e(trans('labels.Min Level')); ?><span style="color:red;">*</span>
-                                                                    </label>
-                                                                    <div class="col-sm-10 col-md-8">
-                                                                        <input type="text" name="min_level" id="min_level" value="" class="form-control number-validate-level">
-                                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                                            <?php echo e(trans('labels.Min Level Text')); ?></span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="name" class="col-sm-2 col-md-4 control-label">
-                                                                        <?php echo e(trans('labels.Max Level')); ?><span style="color:red;">*</span>
-                                                                    </label>
-                                                                    <div class="col-sm-10 col-md-8">
-                                                                        <input type="text" name="max_level" id="max_level" value="" class="form-control number-validate-level">
-                                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                                            <?php echo e(trans('labels.Min Level Text')); ?></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="alert alert-danger alert-dismissible" id="minmax-error" role="alert" style="display: none">
-                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                                    <?php echo e(trans('labels.This stock is not asscociated with any attributes. Please choose products attributes first')); ?>
-
-                                                                </div>
-                                                                <!-- /.users-list -->
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
-                                                            <!-- /.box-body -->
-                                                            <?php if(count($result['products'])> 0): ?>
-                                                            <div class="box-footer text-center">
-                                                                <button type="submit" class="btn btn-primary pull-right"><?php echo e(trans('labels.Submit')); ?></button>
-                                                            </div>
-                                                            <?php endif; ?>
 
-                                                            <?php echo Form::close(); ?>
-
-                                                            <!-- /.box-footer -->
                                                         </div>
                                                         <!--/.box -->
                                                     </div>
@@ -225,17 +181,15 @@
                                                 <!-- /.row -->
                                             </div>
 
-                                            <div class="box-footer col-xs-12">
-                                                <?php if(count($result['products'])> 0 && $result['products'][0]->products_type==1): ?>
-                                                <a href="<?php echo e(URL::to("admin/products/attach/attribute/display/".$result['products'][0]->products_id)); ?>" class="btn btn-default pull-left"><?php echo e(trans('labels.AddOptions')); ?></a>
-                                                <?php endif; ?>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="box-footer text-center">
+                            <button type="submit"  class="btn btn-primary pull-right"><?php echo e(trans('labels.Add Stock')); ?></button>
+                        </div>
+                        <?php echo Form::close(); ?>
 
 
                     </div>
