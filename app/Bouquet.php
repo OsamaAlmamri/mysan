@@ -22,7 +22,8 @@ class Bouquet extends Model
 
     protected $fillable = [
         'bouquet_name_ar', 'bouquet_name_en', 'bouquet_price',
-        'bouquet_description_ar', 'default_image', 'additional_images', 'bouquet_description_en', 'expiry_date',
+        'bouquet_description_ar', 'default_image', 'additional_images', 'bouquet_description_en',
+         'expiry_date',
         'products', 'sort', 'count', 'free_shipping',
     ];
 }

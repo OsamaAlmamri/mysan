@@ -38,7 +38,6 @@ class BouquetController extends Controller
 
     public function addinventoryfromsidebar(Request $request)
     {
-//        return dd('ddddd');
         $title = array('pageTitle' => Lang::get("labels.ProductInventory"));
         $result = $this->products->addinventoryfromsidebar();
         $result['commonContent'] = $this->Setting->commonContent();
@@ -46,8 +45,11 @@ class BouquetController extends Controller
 
     }
 
+
     public function store(Request $request)
     {
+        $expiryDate = str_replace('/', '-', $request->expiry_date);
+        $request->expiry_date = strtotime($expiryDate);
         $products = [];
         foreach ($request->products as $product) {
             $ops = [];
@@ -64,7 +66,6 @@ class BouquetController extends Controller
             'default_image' => $request->image_id,
             'products' => $products,
         ]));
-
         return redirect()->back()
             ->with('success', Lang::get("labels.BouquetAddedMessage"));
 
@@ -72,24 +73,13 @@ class BouquetController extends Controller
 
     public function create(Request $request)
     {
-        $title = array('pageTitle' => Lang::get("labels.AddCoupon"));
-        $result = array();
-        $message = array();
-        $result['message'] = $message;
-        $products = $this->Coupon->cutomers();
-        $images = new Images;
-        $allimage = $images->getimages();
-        $result['products'] = $products;
-        $result['categories'] = ViewCategory::all();
+        $title = array('pageTitle' => Lang::get("labels.ProductInventory"));
+        $result = $this->products->addinventoryfromsidebar();
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.view_categories.add", $title)
+        return view("admin.bouquets.add1", $title)
             ->with('result', $result)
-            ->with('old_products', [])
-            ->with('old_image', null)
-            ->with('allimage', $allimage)
-            ->with('content', 'products');
+            ->with('old_image', null);
     }
-
 
 
 }
