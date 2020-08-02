@@ -48,28 +48,48 @@ class BouquetController extends Controller
 
     public function store(Request $request)
     {
-        $b=Bouquet::find(6);
-        return dd($b->all_products);
-        foreach ( ($b->products) as $pro )
-        return dd($pro->options);
-
-        Bouquet::create(array_merge($request->all(),[
-            'bouquet_name_ar'=>'',
-            'bouquet_name_en'=>'',
-            'bouquet_price'=>'',
-            'bouquet_description_ar'=>'',
-            'default_image'=>'',
-            'additional_images'=>'',
-            'bouquet_description_en'=>'',
-            'expiry_date'=>'',
-            'sort'=>1,
-            'bouquet_type'=>'1',
-            'usage_count'=>'',
-            'usage_limit'=>1,
-            'free_shipping'=>'',
+        $products = [];
+        foreach ($request->products as $product) {
+            $ops = [];
+            foreach ($product['options'] as $op)
+                $ops[] = $op;
+            $product['options'] = $ops;
+            $products[] = $product;
+        }
+        $b = Bouquet::create(array_merge($request->all(), [
+            'bouquet_name_en' => $request->bouquet_name_1,
+            'bouquet_name_ar' => $request->bouquet_name_2,
+            'bouquet_description_en' => $request->bouquet_description_1,
+            'bouquet_description_ar' => $request->bouquet_description_2,
+            'default_image' => $request->image_id,
+            'products' => $products,
         ]));
 
+        return redirect()->back()
+            ->with('success', Lang::get("labels.BouquetAddedMessage"));
+
     }
+
+    public function create(Request $request)
+    {
+        $title = array('pageTitle' => Lang::get("labels.AddCoupon"));
+        $result = array();
+        $message = array();
+        $result['message'] = $message;
+        $products = $this->Coupon->cutomers();
+        $images = new Images;
+        $allimage = $images->getimages();
+        $result['products'] = $products;
+        $result['categories'] = ViewCategory::all();
+        $result['commonContent'] = $this->Setting->commonContent();
+        return view("admin.view_categories.add", $title)
+            ->with('result', $result)
+            ->with('old_products', [])
+            ->with('old_image', null)
+            ->with('allimage', $allimage)
+            ->with('content', 'products');
+    }
+
 
 
 }

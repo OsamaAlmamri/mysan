@@ -58,7 +58,6 @@ class ViewCategoriesController extends Controller
         $message = array();
         $result['message'] = $message;
         $products = $this->Coupon->cutomers();
-
         $images = new Images;
         $allimage = $images->getimages();
         $result['products'] = $products;

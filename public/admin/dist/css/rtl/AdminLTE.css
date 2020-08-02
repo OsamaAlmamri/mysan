@@ -2037,7 +2037,7 @@ a:focus {
     display: inline-block;
     font-size: 18px;
     margin: 0;
-    float: left;
+    /*float: left;*/
     line-height: 1;
 }
 

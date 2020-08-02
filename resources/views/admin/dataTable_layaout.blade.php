@@ -39,9 +39,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
-
-                    <!-- /.box-header -->
-
                         <div class="box-body">
                             @yield('filters')
                             @include('admin.common.messages')

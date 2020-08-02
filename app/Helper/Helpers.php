@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Models\Core\Categories;
+use App\Models\Core\Images;
 use App\Models\Core\Products;
 use App\Models\Core\ProductsToCategory;
 use App\Models\Core\Setting;
@@ -70,6 +71,24 @@ function getProductsIdsAccordingForSubCategory($id)
     foreach ($products as $product)
         $ids[] = $product->products_id;
     return $ids;
+}
+
+function getAllImages()
+{
+
+    $images = new Images;
+    return $images->getimages();
+}
+
+function getLanguage()
+{
+    $language = DB::table('languages')->get();
+    return $language;
+//    $all = [array('languages_id' => 'en', "name" => 'English'), array('languages_id' => 'ar', "name" => 'Arabic')];
+//
+//    $all = collect($all)->reject(function ($item) {
+//    });
+//    return $all;
 }
 
 if (!function_exists('datatable_lang')) {

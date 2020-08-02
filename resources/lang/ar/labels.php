@@ -2095,6 +2095,17 @@ return [
     'app_theme_10' => 'زهري',
 
 
+    'BouquetName' => ' اسم الباقة',
+    'BouquetAddedMessage' => ' تم اضافة  الباقة بنجاح',
+    'AllowBouquetFreeShippingText' => 'حدد هذا المربع إذا كانت الباقة تمنح الشحن المجاني . ',
+    'BouquetPrice' => ' سعر الباقة',
+    'BouquetExpiryDate' => 'تاريخ انتهاء صلاحية هذا الباقة',
+    'Add Bouquet Products' => 'اضافة منتجات الباقة',
+    'Usage Limit For Bouquet' => 'عدد الباقات المتوفر بيعها',
+    'Usage Limit For Bouquet count' => 'اذا تركتة فارغ فان الاستخدام غير محدود',
+    'Enter Bouquet Products count' => 'ادخل عدد كمية المنتج لهذ الباقة',
+    'count' => 'العدد',
+    'Bouquet Products' => ' منتجات الباقة',
     'Add Bouquet' => 'اضافة باقة',
     'Bouquets' => ' الباقات',
     'product_questions' => 'اسئلة المنتجات',

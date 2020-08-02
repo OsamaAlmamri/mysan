@@ -369,7 +369,6 @@
                                                     </ul>
                                                     <div class="tab-content">
                                                         @foreach($result['languages'] as $key=>$languages)
-
                                                         <div style="margin-top: 15px;" class="tab-pane @if($key==0) active @endif" id="product_<?=$languages->languages_id?>">
                                                             <div class="">
                                                                 <div class="form-group">
@@ -448,12 +447,9 @@
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
         CKEDITOR.replace('editor{{$languages->languages_id}}');
-
         @endforeach
-
         //bootstrap WYSIHTML5 - text editor
         $(".textarea").wysihtml5();
-
     });
 </script>
 @endsection

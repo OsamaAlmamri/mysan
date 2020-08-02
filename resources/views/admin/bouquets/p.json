@@ -1,34 +1,46 @@
 [
-   {
-        "product_id": "1",
-        "count": "2",
-        "options": {
-            "1": {
-                "attribute": "1",
-                "value": "red"
-            }
-        }
-    },
     {
         "product_id": "3",
-        "count": "2",
-        "options": {
-            "4": {
+        "count": "5",
+        "options": [
+            {
                 "attribute": "4",
                 "value": "mileLiter"
             },
-            "1": {
+            {
                 "attribute": "1",
                 "value": "red"
             },
-            "2": {
+            {
                 "attribute": "2",
                 "value": "mideum"
             },
-            "3": {
+            {
                 "attribute": "3",
                 "value": "5\u062c\u0631\u0627\u0645"
             }
-        }
+        ]
+    },
+    {
+        "product_id": "3",
+        "count": "5",
+        "options": [
+            {
+                "attribute": "4",
+                "value": "Liter"
+            },
+            {
+                "attribute": "1",
+                "value": "red"
+            },
+            {
+                "attribute": "2",
+                "value": "mideum"
+            },
+            {
+                "attribute": "3",
+                "value": "5\u062c\u0631\u0627\u0645"
+            }
+        ]
     }
 ]
