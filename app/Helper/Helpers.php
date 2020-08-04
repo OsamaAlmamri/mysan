@@ -10,6 +10,7 @@ use App\Models\Core\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use mysql_xdevapi\Table;
 
 
 function formatDateToTimeLine($date)
@@ -27,6 +28,20 @@ function dateFormFormat($date)
 //       return Carbon::parse($date)->diffForHumans();
     return Carbon::parse($date)->month . '/' . Carbon::parse($date)->day . '/' . Carbon::parse($date)->year;
 }
+
+function dateFormat($date)
+{
+//    return $expiryDate = str_replace('/', '-', $date);
+
+    $y = '';
+    if (isset($date)) {
+        $x = (explode('-', $date));
+        $y = $x[1] . '/' . $x[2] . '/' . $x[0];
+    }
+    return $y;
+
+}
+
 
 function getSetting()
 {
@@ -127,7 +142,7 @@ if (!function_exists('datatable_lang')) {
 }
 
 
-function changeOrder($request, $sortData,$sortData_id='id',$colSort='sort')
+function changeOrder($request, $sortData, $sortData_id = 'id', $colSort = 'sort')
 {
     foreach ($sortData as $element) {
         $element->timestamps = false; // To disable update_at field updation
@@ -140,4 +155,29 @@ function changeOrder($request, $sortData,$sortData_id='id',$colSort='sort')
     }
 
     return 1;
+}
+
+function getProductName($products_id, $language_id = 2)
+{
+    $data = DB::table('products_description')->where('products_id', '=', $products_id)
+        ->where('language_id', '=', $language_id)->first();
+    return $data->products_name;
+}
+
+function getAttributeName($products_options_id, $language_id = 2)
+{
+    $data = DB::table('products_options_descriptions')
+        ->where('products_options_id','=',$products_options_id)
+        ->where('language_id','=',$language_id)
+        ->first();
+    return $data->options_name;
+}
+
+function getAttributeOptionName($products_options_id, $language_id = 2)
+{
+    $data = DB::table('products_options_values_descriptions')
+        ->where('products_options_values_descriptions_id','=',$products_options_id)
+//        ->where('language_id','=',$language_id)
+        ->first();
+    return $data->options_values_name;
 }

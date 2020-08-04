@@ -25,11 +25,11 @@
                         </div>
                         <div class="box-body">
                             <?php echo $__env->make('admin.common.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                            <?php if(isset($viewCategory)): ?>
-                                <?php echo Form::model($viewCategory, ['route' => ['bouquets.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
+                            <?php if(isset($bouquet)): ?>
+                                <?php echo Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
 
 
-                                <?php echo Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')); ?>
+                                <?php echo Form::hidden('oldImage', $bouquet->default_image , array('id'=>'oldImage')); ?>
 
                             <?php else: ?>
                                 <?php echo Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
@@ -172,7 +172,48 @@
                                                                         </thead>
                                                                         <tbody style="text-align: right;"
                                                                                id="products_list_table">
+                                                                        <?php if(isset($bouquet)): ?>
+                                                                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <tr id="product_n_<?php echo e($k); ?>">
+                                                                                    <td>
+                                                                                        <input type="hidden"
+                                                                                               name="products[<?php echo e($k); ?>][product_id]"
+                                                                                               value="<?php echo e($product->product_id); ?>"> <?php echo e($product->product); ?>
 
+                                                                                        <div
+                                                                                            class="print-error-msg alert-danger"
+                                                                                            id="modal_error_products."></div>
+                                                                                    </td>
+                                                                                    <td width='10%'>
+                                                                                        <input type="number" min="1"
+                                                                                               name="products[<?php echo e($k); ?>][count]"
+                                                                                               value="<?php echo e($product->count); ?>">
+                                                                                        <div
+                                                                                            class="print-error-msg alert-danger"
+                                                                                            id="modal_error_products."></div>
+                                                                                    </td>
+                                                                                    <td width='50%'>
+
+                                                                                        <?php $__currentLoopData = $product->options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                            <input type="hidden"
+                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->attribute); ?>][attribute]"
+                                                                                                   value=<?php echo e($option->attribute); ?>>
+                                                                                            <input type="hidden"
+                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->attribute); ?>][value]"
+                                                                                                   value=<?php echo e($option->value); ?>>
+                                                                                             <?php echo e($option->attribute_name); ?>( <?php echo e($option->option_name); ?>        ),
+                                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button
+                                                                                            onclick="deleteOneProduct(<?php echo e($k); ?>)">
+                                                                                            <i class="fa fa-trash"></i>
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -210,9 +251,10 @@
                                         <label for="name"
                                                class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.BouquetExpiryDate')); ?></label>
                                         <div class="col-sm-10 col-md-8">
-                                            <?php echo Form::text('expiry_date',  '', array('class'=>'form-control field-validate datepicker', 'id'=>'datepicker', 'readonly'=>'readonly')); ?>
+                                            <?php echo Form::text('expiry_date',   isset($bouquet)?dateFormat($bouquet->expiry_date ):'', array('class'=>'form-control field-validate datepicker', 'id'=>'datepicker', 'readonly'=>'readonly')); ?>
 
-                                            <span class="help-block hidden"><?php echo e(trans('labels.BouquetExpiryDate')); ?></span>
+                                            <span
+                                                class="help-block hidden"><?php echo e(trans('labels.BouquetExpiryDate')); ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -221,29 +263,34 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.BouquetPrice')); ?><span style="color:red;">*</span></label>
+                                        <label for="name"
+                                               class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.BouquetPrice')); ?>
+
+                                            <span style="color:red;">*</span></label>
                                         <div class="col-sm-10 col-md-8">
                                             <?php echo Form::number('bouquet_price',  '1', array('class'=>'form-control ','min'=>1, 'placeholder'=>trans('labels.BouquetPrice'), 'id'=>'usage_limit')); ?>
 
-                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                            <span class="help-block"
+                                                  style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                             <?php echo e(trans('labels.ProductPriceText')); ?>
 
                                                         </span>
-                                            <span class="help-block hidden"><?php echo e(trans('labels.ProductPriceText')); ?></span>
+                                            <span
+                                                class="help-block hidden"><?php echo e(trans('labels.ProductPriceText')); ?></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.AllowFreeShipping')); ?></label>
+                                        <label for="name"
+                                               class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.AllowFreeShipping')); ?></label>
                                         <div class="col-sm-10 col-md-8" style="padding-top: 7px;">
                                             <label style="margin-bottom:0">
                                                 <?php echo Form::checkbox('free_shipping', 1, null, ['class' => 'minimal']); ?>
 
                                             </label>
                                             &nbsp; <?php echo e(trans('labels.AllowBouquetFreeShippingText')); ?>
-
 
                                         </div>
                                     </div>
@@ -294,7 +341,7 @@
                                         </div>
                                     </div>
                                     <div id="imageselected">
-                                        <?php if(isset($viewCategory)): ?>
+                                        <?php if(isset($bouquet)): ?>
                                             <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
 
                                         <?php else: ?>
@@ -355,7 +402,8 @@
                                                                 (<?php echo e($languages->name); ?>)</label>
                                                             <div class="col-sm-10 col-md-8">
                                                                 <input type="text"
-                                                                       name="bouquet_name_<?php echo e($languages->languages_id); ?>"
+                                                                       <?php if(isset($bouquet)): ?> value="<?php echo e(($languages->languages_id==1)?$bouquet->bouquet_name_en:$bouquet->bouquet_name_ar); ?>"
+                                                                       <?php endif; ?>
                                                                        class="form-control field-validate">
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
@@ -373,7 +421,9 @@
                                                             <div class="col-sm-10 col-md-8">
                                                                 <textarea id="editor<?php echo e($languages->languages_id); ?>"
                                                                           name="bouquet_description_<?php echo e($languages->languages_id); ?>"
-                                                                          class="form-control" rows="5"></textarea>
+                                                                          class="form-control" rows="5">
+                                                                          <?php if(isset($bouquet)): ?> <?php echo ($languages->languages_id==1)?$bouquet->bouquet_description_en:$bouquet->bouquet_description_ar; ?> <?php endif; ?>
+                                                                </textarea>
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                                             <?php echo e(trans('labels.EnterProductDetailIn')); ?> <?php echo e($languages->name); ?></span>
@@ -382,7 +432,6 @@
                                                     </div>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
                                         </div>
                                     </div>
                                 </div>
@@ -398,19 +447,13 @@
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
-
             </div>
-
-
         </section>
         <!-- /.row -->
-
         <!-- Main row -->
     </div>
-
     <!-- /.row -->
     <script src="<?php echo asset('admin/plugins/jQuery/jQuery-2.2.0.min.js'); ?>"></script>
-
     <script type="text/javascript">
         $(function () {
 

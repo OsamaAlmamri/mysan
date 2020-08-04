@@ -107,7 +107,6 @@ class ViewCategoriesController extends Controller
         $result['message'] = $message;
         $result['viewCategory'] = $viewCategory;
         $result['categories'] = ViewCategory::all()->where('id', '<>', $viewCategory->id);
-
         $products = $this->Coupon->getproduct();
         $result['products'] = $products;
         $old_products = explode(',', $viewCategory->product_ids);

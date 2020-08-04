@@ -42,7 +42,6 @@ class BouquetController extends Controller
         $result = $this->products->addinventoryfromsidebar();
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.bouquets.index2", $title)->with('result', $result);
-
     }
 
     public
@@ -87,18 +86,31 @@ class BouquetController extends Controller
             ->make(true);
     }
 
+    public function create(Request $request)
+    {
+        $title = array('pageTitle' => Lang::get("labels.ProductInventory"));
+        $result = $this->products->addinventoryfromsidebar();
+        $result['commonContent'] = $this->Setting->commonContent();
+        return view("admin.bouquets.add1", $title)
+            ->with('result', $result)
+            ->with('old_image', null);
+    }
 
+private function products_to_json($request)
+{
+    $products = [];
+    foreach ($request->products as $product) {
+        $ops = [];
+        foreach ($product['options'] as $op)
+            $ops[] = $op;
+        $product['options'] = $ops;
+        $products[] = $product;
+    }
+    return$products;
+}
     public function store(Request $request)
     {
-
-        $products = [];
-        foreach ($request->products as $product) {
-            $ops = [];
-            foreach ($product['options'] as $op)
-                $ops[] = $op;
-            $product['options'] = $ops;
-            $products[] = $product;
-        }
+        $products = $this->products_to_json($request);
         $b = Bouquet::create(array_merge($request->all(), [
             'bouquet_name_en' => $request->bouquet_name_1,
             'bouquet_name_ar' => $request->bouquet_name_2,
@@ -110,20 +122,60 @@ class BouquetController extends Controller
         ]));
         return redirect()->back()
             ->with('success', Lang::get("labels.BouquetAddedMessage"));
-
     }
 
-    public function create(Request $request)
+    public function edit(Bouquet $bouquet)
     {
         $title = array('pageTitle' => Lang::get("labels.ProductInventory"));
         $result = $this->products->addinventoryfromsidebar();
         $result['commonContent'] = $this->Setting->commonContent();
+        $old_image = ($bouquet->imagePath->imagesTHUMBNAIL);
+        $old_image = ($old_image != null) ? $old_image : $bouquet->imagePath->imagesACTUAL;
+        $old_image = ($old_image != null) ? $old_image->path : null;
+        $products=$bouquet->products;
+        foreach ($products as $product) {
+            $product->product = getProductName($product->product_id);
+            foreach ( $product->options as $option) {
+
+                $option->attribute_name = getAttributeName($option->attribute);
+                $option->option_name = getAttributeOptionName($option->value);
+
+            }
+
+        }
+
         return view("admin.bouquets.add1", $title)
             ->with('result', $result)
-            ->with('old_image', null);
+            ->with('bouquet', $bouquet)
+            ->with('products', $products)
+            ->with('old_image', $old_image);
     }
 
+    public
+    function update(Request $request, Bouquet $bouquet )
+    {
 
+//return dd($request);
+        if ($request->image_id == null) {
+            $uploadImage = $request->oldImage;
+        } else {
+            $uploadImage = $request->image_id;
+        }
+        $products = $this->products_to_json($request);
+        $bouquet->update(array_merge($request->all(), [
+            'bouquet_name_en' => $request->bouquet_name_1,
+            'bouquet_name_ar' => $request->bouquet_name_2,
+            'bouquet_description_en' => $request->bouquet_description_1,
+            'bouquet_description_ar' => $request->bouquet_description_2,
+            'default_image' => $uploadImage,
+            'expiry_date' => setEntryDateAttribute($request->expiry_date),
+            'products' => $products]));
+
+        return redirect()->route('bouquets.index')
+            ->with('success', Lang::get("labels.product_question_updateMessage"));
+
+
+    }
     public function delete($id)
     {
         $bouquet = Bouquet::find(decrypt($id));

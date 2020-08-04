@@ -16,7 +16,6 @@ class ViewCategory extends Model
 //
     public function imagePath()
     {
-        //            ->leftJoin('image_categories as categoryTable', 'categoryTable.image_id', '=', 'categories.categories_image')
         return $this->belongsTo(Images::class, 'image', 'id');
     }
 

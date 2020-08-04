@@ -26,10 +26,10 @@
                         </div>
                         <div class="box-body">
                             @include('admin.common.messages')
-                            @if(isset($viewCategory))
-                                {!! Form::model($viewCategory, ['route' => ['bouquets.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
+                            @if(isset($bouquet))
+                                {!! Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
 
-                                {!! Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')) !!}
+                                {!! Form::hidden('oldImage', $bouquet->default_image , array('id'=>'oldImage')) !!}
                             @else
                                 {!! Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)) !!}
                             @endif
@@ -165,7 +165,47 @@
                                                                         </thead>
                                                                         <tbody style="text-align: right;"
                                                                                id="products_list_table">
+                                                                        @isset($bouquet)
+                                                                            @foreach($products as $k=>$product)
+                                                                                <tr id="product_n_{{$k}}">
+                                                                                    <td>
+                                                                                        <input type="hidden"
+                                                                                               name="products[{{$k}}][product_id]"
+                                                                                               value="{{$product->product_id}}"> {{$product->product}}
+                                                                                        <div
+                                                                                            class="print-error-msg alert-danger"
+                                                                                            id="modal_error_products."></div>
+                                                                                    </td>
+                                                                                    <td width='10%'>
+                                                                                        <input type="number" min="1"
+                                                                                               name="products[{{$k}}][count]"
+                                                                                               value="{{$product->count}}">
+                                                                                        <div
+                                                                                            class="print-error-msg alert-danger"
+                                                                                            id="modal_error_products."></div>
+                                                                                    </td>
+                                                                                    <td width='50%'>
 
+                                                                                        @foreach($product->options as $k=>$option)
+                                                                                            <input type="hidden"
+                                                                                                   name="products[{{$k}}][options][{{$option->attribute}}][attribute]"
+                                                                                                   value={{$option->attribute}}>
+                                                                                            <input type="hidden"
+                                                                                                   name="products[{{$k}}][options][{{$option->attribute}}][value]"
+                                                                                                   value={{$option->value}}>
+                                                                                             {{$option->attribute_name}}( {{$option->option_name}}        ),
+                                                                                        @endforeach
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button
+                                                                                            onclick="deleteOneProduct({{$k}})">
+                                                                                            <i class="fa fa-trash"></i>
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        @endisset
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -202,8 +242,9 @@
                                         <label for="name"
                                                class="col-sm-2 col-md-3 control-label">{{ trans('labels.BouquetExpiryDate') }}</label>
                                         <div class="col-sm-10 col-md-8">
-                                            {!! Form::text('expiry_date',  '', array('class'=>'form-control field-validate datepicker', 'id'=>'datepicker', 'readonly'=>'readonly'))!!}
-                                            <span class="help-block hidden">{{ trans('labels.BouquetExpiryDate') }}</span>
+                                            {!! Form::text('expiry_date',   isset($bouquet)?dateFormat($bouquet->expiry_date ):'', array('class'=>'form-control field-validate datepicker', 'id'=>'datepicker', 'readonly'=>'readonly'))!!}
+                                            <span
+                                                class="help-block hidden">{{ trans('labels.BouquetExpiryDate') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -212,26 +253,30 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.BouquetPrice') }}<span style="color:red;">*</span></label>
+                                        <label for="name"
+                                               class="col-sm-2 col-md-3 control-label">{{ trans('labels.BouquetPrice') }}
+                                            <span style="color:red;">*</span></label>
                                         <div class="col-sm-10 col-md-8">
                                             {!! Form::number('bouquet_price',  '1', array('class'=>'form-control ','min'=>1, 'placeholder'=>trans('labels.BouquetPrice'), 'id'=>'usage_limit'))!!}
-                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                            <span class="help-block"
+                                                  style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                             {{ trans('labels.ProductPriceText') }}
                                                         </span>
-                                            <span class="help-block hidden">{{ trans('labels.ProductPriceText') }}</span>
+                                            <span
+                                                class="help-block hidden">{{ trans('labels.ProductPriceText') }}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.AllowFreeShipping') }}</label>
+                                        <label for="name"
+                                               class="col-sm-2 col-md-3 control-label">{{ trans('labels.AllowFreeShipping') }}</label>
                                         <div class="col-sm-10 col-md-8" style="padding-top: 7px;">
                                             <label style="margin-bottom:0">
                                                 {!! Form::checkbox('free_shipping', 1, null, ['class' => 'minimal']) !!}
                                             </label>
                                             &nbsp; {{ trans('labels.AllowBouquetFreeShippingText') }}
-
                                         </div>
                                     </div>
                                 </div>
@@ -280,7 +325,7 @@
                                         </div>
                                     </div>
                                     <div id="imageselected">
-                                        @if(isset($viewCategory))
+                                        @if(isset($bouquet))
                                             {!! Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )) !!}
                                         @else
                                             {!! Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )) !!}
@@ -338,7 +383,8 @@
                                                                 ({{ $languages->name }})</label>
                                                             <div class="col-sm-10 col-md-8">
                                                                 <input type="text"
-                                                                       name="bouquet_name_{{$languages->languages_id}}"
+                                                                       @isset($bouquet) value="{{($languages->languages_id==1)?$bouquet->bouquet_name_en:$bouquet->bouquet_name_ar}}"
+                                                                       @endisset
                                                                        class="form-control field-validate">
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
@@ -355,7 +401,9 @@
                                                             <div class="col-sm-10 col-md-8">
                                                                 <textarea id="editor{{$languages->languages_id}}"
                                                                           name="bouquet_description_{{$languages->languages_id}}"
-                                                                          class="form-control" rows="5"></textarea>
+                                                                          class="form-control" rows="5">
+                                                                          @isset($bouquet) {!! ($languages->languages_id==1)?$bouquet->bouquet_description_en:$bouquet->bouquet_description_ar  !!} @endisset
+                                                                </textarea>
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                                             {{ trans('labels.EnterProductDetailIn') }} {{ $languages->name }}</span>
@@ -364,7 +412,6 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-
                                         </div>
                                     </div>
                                 </div>
@@ -379,19 +426,13 @@
                     <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
-
             </div>
-
-
         </section>
         <!-- /.row -->
-
         <!-- Main row -->
     </div>
-
     <!-- /.row -->
     <script src="{!! asset('admin/plugins/jQuery/jQuery-2.2.0.min.js') !!}"></script>
-
     <script type="text/javascript">
         $(function () {
 

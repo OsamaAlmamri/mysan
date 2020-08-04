@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Core\Images;
 use App\Models\Core\OrdersProduct;
 use App\Models\Core\Products;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,10 @@ class Bouquet extends Model
         'expiry_date',
         'products', 'sort', 'count', 'free_shipping',
     ];
+    public function imagePath()
+    {
+        return $this->belongsTo(Images::class, 'default_image', 'id');
+    }
 
 //DB::raw("(SELECT count(*) FROM orders_products WHERE orders_products_id=bouquets.bouquet_id and orders_products_type like '%bouquet%' ) as sold_count"),
 

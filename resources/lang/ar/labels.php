@@ -2120,6 +2120,7 @@ return [
     'question_text' => ' السؤال',
     'replay_text' => 'الاجابة',
     'product_question_updateMessage' => ' تم التحديث بنجاح',
+
     'Replay' => ' رد ',
     'replayToQuestion' => ' رد على السؤال',
     'sendReplay' => ' ارسال الرد',

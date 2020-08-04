@@ -2241,7 +2241,6 @@
 
     }
 
-
     $(document).on('change', '.product-type', function () {
         var product_id = $(this).val();
         $.ajax({
@@ -2747,7 +2746,7 @@ if(product_id>0 && count>0 )
                 var id = ($(this).attr('attributeid'));
                 var name = ($(this).attr('attribute_name'));
                 var option_name = $('input[name^="values_' + id + '"]:checked').data('name');
-                var option_id = $('input[name^="values_' + id + '"]:checked').data('name');
+                var option_id = $('input[name^="values_' + id + '"]:checked').val();
                 temptext += name + " ( " + option_name + ") , ";
                 tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][attribute]\" value='" + id + "'>";
                 tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][value]\" value='" + option_id + "'>";
