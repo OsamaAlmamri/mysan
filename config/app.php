@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'date_format' => 'm/d/Y',
+//    'date_format_js' => 'YYYY-MM-DD',
+    'date_format_js' => 'mm/dd/yy',
+
 
     'debug_blacklist' => [
         '_ENV' => [

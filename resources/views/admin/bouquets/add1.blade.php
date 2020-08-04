@@ -27,11 +27,11 @@
                         <div class="box-body">
                             @include('admin.common.messages')
                             @if(isset($viewCategory))
-                                {!! Form::model($viewCategory, ['route' => ['bouquet.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
+                                {!! Form::model($viewCategory, ['route' => ['bouquets.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
 
                                 {!! Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')) !!}
                             @else
-                                {!! Form::open(array('route' =>'bouquet.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)) !!}
+                                {!! Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)) !!}
                             @endif
                             <div class="row">
                                 <div class="col-xs-12">
@@ -371,7 +371,7 @@
                             </div>
                             <div class="box-footer text-center">
                                 <button type="submit"
-                                        class="btn btn-primary pull-right">{{ trans('labels.Add Stock') }}</button>
+                                        class="btn btn-primary pull-right">{{ trans('labels.Add') }}</button>
                             </div>
                             {!! Form::close() !!}
                         </div>

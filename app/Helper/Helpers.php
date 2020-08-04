@@ -91,6 +91,11 @@ function getLanguage()
 //    return $all;
 }
 
+function setEntryDateAttribute($input)
+{
+    return Carbon::createFromFormat(config('app.date_format'), $input)->format('Y-m-d');
+}
+
 if (!function_exists('datatable_lang')) {
     function datatable_lang()
     {
@@ -121,3 +126,18 @@ if (!function_exists('datatable_lang')) {
     }
 }
 
+
+function changeOrder($request, $sortData,$sortData_id='id',$colSort='sort')
+{
+    foreach ($sortData as $element) {
+        $element->timestamps = false; // To disable update_at field updation
+        $id = $element->$sortData_id;
+        foreach ($request->order as $order) {
+            if ($order['id'] == $id) {
+                $element->update([$colSort => $order['position']]);
+            }
+        }
+    }
+
+    return 1;
+}

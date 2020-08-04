@@ -174,9 +174,10 @@ Route::group(['middleware' => ['installer']], function () {
 //    });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
-        Route::get('/bouquet/display', 'BouquetController@addinventoryfromsidebar');
         Route::post('/bouquet/delete', 'BouquetController@delete');
-        Route::resource('bouquet', 'BouquetController');
+        Route::get('/filter2', 'BouquetController@filter2')->name('bouquets.filter2');
+        Route::post('bouquets/changeOrder', 'BouquetController@changeOrder')->name('bouquets.changeOrder');
+        Route::resource('bouquets', 'BouquetController');
     });
 
     Route::group(['prefix' => 'admin/products', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {

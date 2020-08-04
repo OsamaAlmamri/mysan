@@ -2095,6 +2095,11 @@ return [
     'app_theme_10' => 'زهري',
 
 
+    'free_shipping' => ' شحن مجاني ',
+    'sold_count' => '  الكمية المباعة ',
+    'expiry_date' => ' تاريخ الانتهاء ',
+    'updated_at' => ' تاريخ اخر تعديل ',
+    'btn_sort' => ' اسحب للترتيب',
     'BouquetName' => ' اسم الباقة',
     'BouquetAddedMessage' => ' تم اضافة  الباقة بنجاح',
     'AllowBouquetFreeShippingText' => 'حدد هذا المربع إذا كانت الباقة تمنح الشحن المجاني . ',

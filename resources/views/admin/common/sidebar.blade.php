@@ -56,9 +56,8 @@
                 </li>
             @endif
             <script>
-                
-            </script>
 
+            </script>
 
 
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->products_view == 1
@@ -93,9 +92,9 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                             <li class="{{ Request::is('admin/products/inventory/display') ? 'active' : '' }}"><a
                                     href="{{ URL::to('admin/products/inventory/display')}}"><i
                                         class="fa fa-circle-o"></i> {{ trans('labels.inventory') }}</a></li>
-                                                        <li class="{{ Request::is('admin/bouquet/display') ? 'active' : '' }}"><a
-                                                                href="{{ URL::to('admin/bouquet/display')}}"><i
-                                                                    class="fa fa-circle-o"></i> {{ trans('labels.bouquet') }}</a></li>
+                            <li class="{{ Request::is('admin/bouquets') ? 'active' : '' }}"><a
+                                    href="{{ route('bouquets.index')}}"><i
+                                        class="fa fa-circle-o"></i> {{ trans('labels.Bouquets') }}</a></li>
                         @endif
                         <?php
                         $status_check = DB::table('reviews')->where('reviews_read', 0)->first();

@@ -26,13 +26,13 @@
                         <div class="box-body">
                             <?php echo $__env->make('admin.common.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             <?php if(isset($viewCategory)): ?>
-                                <?php echo Form::model($viewCategory, ['route' => ['bouquet.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
+                                <?php echo Form::model($viewCategory, ['route' => ['bouquets.update', $viewCategory->id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
 
 
                                 <?php echo Form::hidden('oldImage', $viewCategory->image , array('id'=>'oldImage')); ?>
 
                             <?php else: ?>
-                                <?php echo Form::open(array('route' =>'bouquet.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
+                                <?php echo Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
 
                             <?php endif; ?>
                             <div class="row">
@@ -389,7 +389,7 @@
                             </div>
                             <div class="box-footer text-center">
                                 <button type="submit"
-                                        class="btn btn-primary pull-right"><?php echo e(trans('labels.Add Stock')); ?></button>
+                                        class="btn btn-primary pull-right"><?php echo e(trans('labels.Add')); ?></button>
                             </div>
                             <?php echo Form::close(); ?>
 

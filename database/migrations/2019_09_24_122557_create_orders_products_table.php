@@ -19,6 +19,7 @@ class CreateOrdersProductsTable extends Migration {
 			$table->integer('products_id')->index('idx_orders_products_products_id');
 			$table->string('products_model', 12)->nullable();
 			$table->string('products_name', 64);
+			$table->enum('orders_products_type', ['bouquet','product'])->default('product');
 			$table->decimal('products_price', 15);
 			$table->decimal('final_price', 15);
 			$table->decimal('products_tax', 7, 0);

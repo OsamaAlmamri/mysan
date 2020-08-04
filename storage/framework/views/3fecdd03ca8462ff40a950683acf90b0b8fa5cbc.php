@@ -2777,4 +2777,8 @@ if(product_id>0 && count>0 )
     }
 
 </script>
+
+
+
+
 <?php /**PATH F:\sites\mysan\resources\views/admin/common/scripts.blade.php ENDPATH**/ ?>
