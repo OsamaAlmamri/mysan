@@ -2716,8 +2716,6 @@
             }
         }
     );
-
-
     $(document).on('change', '#view_categories_content', function () {
         if ($(this).val() == 'products') {
             $('#div_categories_view_categories').hide();

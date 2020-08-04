@@ -65,7 +65,7 @@ class BouquetController extends Controller
                     });
             })
             ->select('bouquets.*',
-                DB::raw("(SELECT count(*) FROM orders_products WHERE orders_products_id=bouquets.bouquet_id and orders_products_type like '%bouquet%' ) as sold_count"),
+                DB::raw("(SELECT count(*) FROM orders_products WHERE products_id=bouquets.bouquet_id and orders_products_type like '%bouquet%' ) as sold_count"),
                 'image_categories.path as path')
             ->whereBetween('bouquets.created_at', [$from_date, $to_date])
             ->get();
@@ -83,7 +83,7 @@ class BouquetController extends Controller
             ->addColumn('manage', 'admin.bouquets.btn.manage')
             ->addColumn('btn_image', 'admin.bouquets.btn.image')
             ->addColumn('info', 'admin.bouquets.btn.info')
-            ->rawColumns(['btn_sort','manage', 'btn_image', 'info'])
+            ->rawColumns(['btn_sort', 'manage', 'btn_image', 'info'])
             ->make(true);
     }
 
@@ -123,5 +123,14 @@ class BouquetController extends Controller
             ->with('old_image', null);
     }
 
+
+    public function delete($id)
+    {
+        $bouquet = Bouquet::find(decrypt($id));
+        if ($bouquet->orders_products->count() > 0)
+            return redirect()->back()->with('danger', 'Not allow to delete because this bouquet has related data  ');
+        $bouquet->delete();
+        return redirect()->back()->with('success', 'bouquet deleted successfully');
+    }
 
 }

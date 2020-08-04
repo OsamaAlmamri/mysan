@@ -6,7 +6,7 @@
             <ol class="breadcrumb">
                 <li><a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>"><i
                             class="fa fa-dashboard"></i> <?php echo e(trans('labels.breadcrumb_dashboard')); ?></a></li>
-                <li><a href="<?php echo e(URL::to('admin/bouquet/display')); ?>"><i
+                <li><a href="<?php echo e(route('bouquets.index')); ?>"><i
                             class="fa fa-database"></i> <?php echo e(trans('labels.Bouquets')); ?></a></li>
 
                 <li class="active"><?php echo e(trans('labels.Add Bouquet')); ?></li>

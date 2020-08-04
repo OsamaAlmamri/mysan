@@ -7,7 +7,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('admin/dashboard/this_month') }}"><i
                             class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</a></li>
-                <li><a href="{{ URL::to('admin/bouquet/display') }}"><i
+                <li><a href="{{ route('bouquets.index')}}"><i
                             class="fa fa-database"></i> {{ trans('labels.Bouquets') }}</a></li>
 
                 <li class="active">{{ trans('labels.Add Bouquet') }}</li>

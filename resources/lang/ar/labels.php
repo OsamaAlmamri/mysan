@@ -2112,6 +2112,8 @@ return [
     'count' => 'العدد',
     'Bouquet Products' => ' منتجات الباقة',
     'Add Bouquet' => 'اضافة باقة',
+    'EditBouquet' => 'تعديل الباقة',
+    'DeleteBouquet' => 'حذف الباقة',
     'Bouquets' => ' الباقات',
     'product_questions' => 'اسئلة المنتجات',
     'ListingAllproduct_questions' => ' عرض كافة اسئلة المنتجات',

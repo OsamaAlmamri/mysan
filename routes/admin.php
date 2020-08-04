@@ -175,6 +175,7 @@ Route::group(['middleware' => ['installer']], function () {
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::post('/bouquet/delete', 'BouquetController@delete');
+        Route::get('products/{id}/delete', 'BouquetController@delete')->name('bouquets.delete');
         Route::get('/filter2', 'BouquetController@filter2')->name('bouquets.filter2');
         Route::post('bouquets/changeOrder', 'BouquetController@changeOrder')->name('bouquets.changeOrder');
         Route::resource('bouquets', 'BouquetController');
