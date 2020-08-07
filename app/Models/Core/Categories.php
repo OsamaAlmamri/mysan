@@ -32,7 +32,7 @@ class Categories extends Model
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->select('categories.categories_id', 'categories_description.categories_name', 'categories.parent_id')
             ->where('language_id', '=', $lang)
-            ->where('categories_status', '1')
+//            ->where('categories_status', '1')
             //->orderby('categories_id','ASC')
             ->get();
 

@@ -30,6 +30,9 @@ return [
     'SelectAll' => 'تحديد الكل',
     'UnSelectAll' => 'الغاء تحديد الكل',
 
+    'avg_rating' => 'المتوسط',
+    'count_rating' => 'عدد المقيمين',
+    'rating' => 'تقييم العملاء',
 
     'Active' => 'مفعل',
     'Disable' => 'معطل',

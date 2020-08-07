@@ -17,6 +17,11 @@
 
 <?php $__env->startSection('custom_scripts'); ?>
     <?php echo $__env->make('admin.common.filters.catetegories_products_scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+    <?php echo $__env->make('admin.common.active', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <script>
+        Active("<?php echo e(route('products.active')); ?>");
+    </script>
     <script>
         $(document).ready(function () {
             var firstTime = 1;
@@ -86,10 +91,20 @@
                                 title: '<?php echo e(trans('labels.Additional info')); ?>',
                                 data: 'info',
                                 name: 'info',
-                            }, {
+                            },  {
+                                title: '<?php echo e(trans('labels.rating')); ?>',
+                                data: 'rating',
+                                name: 'rating',
+                            },
+                            {
                                 title: '<?php echo e(trans('labels.ModifiedDate')); ?>',
                                 data: 'productupdate',
                                 name: 'productupdate',
+                            },
+                            {
+                                title: '<?php echo e(trans('labels.Status')); ?>',
+                                data: 'status',
+                                name: 'status',
                             },
                             {
                                 title: '<?php echo e(trans('labels.Action')); ?>',

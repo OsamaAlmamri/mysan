@@ -197,6 +197,8 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/delete', 'ProductController@delete')->middleware('delete_product');
         Route::get('/filter', 'ProductController@filter')->middleware('view_product');
         Route::get('/filter2', 'ProductController@filter2')->name('products.filter2');
+        Route::post('/active', 'ProductController@active')->name('products.active');
+
 
         Route::group(['prefix' => 'inventory'], function () {
             Route::get('/display', 'ProductController@addinventoryfromsidebar')->middleware('view_product');

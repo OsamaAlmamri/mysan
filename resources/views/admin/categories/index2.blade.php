@@ -38,7 +38,7 @@
 @section('custom_scripts')
     @include('admin.common.active')
     <script>
-        {{--Active("{{route('categories.active')}}");--}}
+        Active("{{route('categories.active')}}");
     </script>
     <script>
         $(document).ready(function () {

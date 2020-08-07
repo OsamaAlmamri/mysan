@@ -81,6 +81,10 @@
     .dragable-box-cursor img {
         cursor: move;
     }
+    .ratingDiv .checked {
+        color: orange;
+    }
+
 
 </style>
 <?php /**PATH F:\sites\mysan\resources\views/admin/common/meta.blade.php ENDPATH**/ ?>

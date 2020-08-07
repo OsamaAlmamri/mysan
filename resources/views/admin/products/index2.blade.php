@@ -18,6 +18,11 @@
 
 @section('custom_scripts')
     @include('admin.common.filters.catetegories_products_scripts')
+
+    @include('admin.common.active')
+    <script>
+        Active("{{route('products.active')}}");
+    </script>
     <script>
         $(document).ready(function () {
             var firstTime = 1;
@@ -87,10 +92,20 @@
                                 title: '{{trans('labels.Additional info')}}',
                                 data: 'info',
                                 name: 'info',
-                            }, {
+                            },  {
+                                title: '{{trans('labels.rating')}}',
+                                data: 'rating',
+                                name: 'rating',
+                            },
+                            {
                                 title: '{{trans('labels.ModifiedDate')}}',
                                 data: 'productupdate',
                                 name: 'productupdate',
+                            },
+                            {
+                                title: '{{trans('labels.Status')}}',
+                                data: 'status',
+                                name: 'status',
                             },
                             {
                                 title: '{{trans('labels.Action')}}',

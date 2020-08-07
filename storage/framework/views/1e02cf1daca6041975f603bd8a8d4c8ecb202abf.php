@@ -38,7 +38,7 @@
 <?php $__env->startSection('custom_scripts'); ?>
     <?php echo $__env->make('admin.common.active', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
-        
+        Active("<?php echo e(route('categories.active')); ?>");
     </script>
     <script>
         $(document).ready(function () {

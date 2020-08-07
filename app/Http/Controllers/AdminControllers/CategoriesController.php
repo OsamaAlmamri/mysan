@@ -32,13 +32,13 @@ class CategoriesController extends Controller
 
     public function active(Request $r)
     {
-//        $new_status = 1;
-//        if ($r->status == 1)
-//            $new_status = 0;
-//        $user = Categories::find($r->id);
-//        $user->categories_status = $new_status;
-//        $user->save();
-//        return $new_status;
+        $new_status = 1;
+        if ($r->status == 1)
+            $new_status = 0;
+        $user = Categories::find($r->id);
+        $user->categories_status = $new_status;
+        $user->save();
+        return $new_status;
     }
 
 
@@ -84,7 +84,7 @@ class CategoriesController extends Controller
             ->addColumn('manage', 'admin.categories.btn.manage')
             ->addColumn('btn_image', 'admin.categories.btn.image')
             ->addColumn('info', 'admin.categories.btn.info')
-            ->addColumn('status', 'admin.categories.btn.info')
+            ->addColumn('status', 'admin.categories.btn.status')
             ->addColumn('btn_sort', 'admin.sortFiles.btn_sort')
 
             ->rawColumns(['manage', 'btn_sort','btn_image', 'status','info'])

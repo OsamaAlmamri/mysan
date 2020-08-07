@@ -25,6 +25,7 @@ class Products extends Model
     use Sortable;
     public $sortable =['products_id','updated_at'];
     public $sortableAs =['categories_name','products_name'];
+    protected $primaryKey='products_id';
 
 	public function paginator($request){
         $setting = new Setting();

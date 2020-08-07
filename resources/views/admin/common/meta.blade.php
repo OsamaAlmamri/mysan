@@ -81,5 +81,9 @@
     .dragable-box-cursor img {
         cursor: move;
     }
+    .ratingDiv .checked {
+        color: orange;
+    }
+
 
 </style>

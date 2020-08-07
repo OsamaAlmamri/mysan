@@ -66,6 +66,17 @@ class ProductController extends Controller
             ->with('results', $results);
     }
 
+    public function active(Request $r)
+    {
+        $new_status = 1;
+        if ($r->status == 1)
+            $new_status = 0;
+        $user = Products::find($r->id);
+        $user->products_status = $new_status;
+        $user->save();
+        return $new_status;
+    }
+
 
     public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09')
     {
@@ -77,6 +88,8 @@ class ProductController extends Controller
             ($main == 'all' and $sub > 0) or
             ($main > 0 and $sub > 0))
             $ids = getProductsIdsAccordingForSubCategory($sub);
+        $btn__avg_Rating = "(SELECT COALESCE(AVG(reviews_rating),0) FROM reviews WHERE reviews.products_id=products.products_id ) as avg_rating";
+        $btn_count_Rating = "(SELECT count(reviews_rating) FROM reviews WHERE reviews.products_id=products.products_id  ) as count_rating";
 
         $data = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
@@ -97,7 +110,10 @@ class ProductController extends Controller
             ->leftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
             ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
             ->leftJoin('categories_description', 'categories.categories_id', '=', 'categories_description.categories_id')
-            ->select('products.*', 'products_description.*', 'specials.specials_id', 'manufacturers.*',
+            ->select('products.*',
+                DB::raw($btn__avg_Rating),
+                DB::raw($btn_count_Rating),
+                'products_description.*', 'specials.specials_id', 'manufacturers.*',
                 'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price',
                 'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified',
                 'specials.expires_date', 'image_categories.path as path', 'products.updated_at as productupdate', 'categories_description.categories_id',
@@ -122,7 +138,10 @@ class ProductController extends Controller
             ->addColumn('manage', 'admin.products.btn.manage')
             ->addColumn('btn_image', 'admin.products.btn.image')
             ->addColumn('info', 'admin.products.btn.info')
-            ->rawColumns(['manage', 'btn_image', 'info'])
+            ->addColumn('status', 'admin.products.btn.status')
+            ->addColumn('rating', 'admin.products.btn.rating')
+
+            ->rawColumns(['manage','rating','status', 'btn_image', 'info'])
             ->make(true);
     }
 
@@ -359,7 +378,12 @@ class ProductController extends Controller
         $allimage = $this->images->getimages();
         $products_images = $this->products->editProductImages($id);
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin/products/images/edit")->with('products_images', $products_images)->with('allimage', $allimage);
+
+//        return dd($allimage);
+        return view("admin/products/images/edit")
+            ->with('products_images', $products_images)
+            ->with('allimage', $allimage)
+            ->with('result', $result);
 
     }
 
