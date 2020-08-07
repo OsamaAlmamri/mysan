@@ -181,3 +181,22 @@ function getAttributeOptionName($products_options_id, $language_id = 2)
         ->first();
     return $data->options_values_name;
 }
+
+
+function getCategoriesToSelect()
+{
+    $items = DB::table('categories')
+        ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
+        ->select('categories.categories_id', 'categories_description.categories_name', 'categories.parent_id')
+        ->where('language_id', '=', 2)
+        ->where('parent_id', '0')
+        //->orderby('categories_id','ASC')
+        ->get();
+    $data=[];
+    $data[0]=trans('labels.MainCategories');
+    foreach ($items as $item)
+    {
+        $data[$item->categories_id]=$item->categories_name;
+    }
+    return $data;
+}

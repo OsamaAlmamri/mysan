@@ -130,14 +130,14 @@ class ProductController extends Controller
     public function add(Request $request)
     {
         $title = array('pageTitle' => Lang::get("labels.AddProduct"));
-        $language_id = '1';
+        $language_id = '2';
         $allimage = $this->images->getimages();
         $result = array();
-        $categories = $this->category->recursivecategories($request);
+        $categories = $this->category->recursivecategories($language_id);
+//        return dd($categories);
         $parent_id = array();
         $option = '<ul class="list-group list-group-root well">';
         foreach ($categories as $parents) {
-
             if (in_array($parents->categories_id, $parent_id)) {
                 $checked = 'checked';
             } else {
@@ -145,9 +145,13 @@ class ProductController extends Controller
             }
             $option .= '<li href="#" class="list-group-item">
           <label style="width:100%">
-            <input id="categories_' . $parents->categories_id . '" ' . $checked . ' type="checkbox" class=" required_one categories sub_categories" name="categories[]" value="' . $parents->categories_id . '">
           ' . $parents->categories_name . '
           </label></li>';
+//            $option .= '<li href="#" class="list-group-item">
+//          <label style="width:100%">
+//            <input id="categories_' . $parents->categories_id . '" ' . $checked . ' type="checkbox"  class=" required_one categories sub_categories" name="categories[]" value="' . $parents->categories_id . '">
+//          ' . $parents->categories_name . '
+//          </label></li>';
 
             if (isset($parents->childs)) {
                 $option .= '<ul class="list-group">
@@ -200,7 +204,7 @@ class ProductController extends Controller
         $allimage = $this->images->getimages();
         $result = $this->products->edit($request);
         //dd($result['categories_array']);
-        $categories = $this->category->recursivecategories($request);
+        $categories = $this->category->recursivecategories();
 
         $parent_id = $result['categories_array'];
         $option = '<ul class="list-group list-group-root well">';
@@ -255,6 +259,8 @@ class ProductController extends Controller
 
     public function insert(Request $request)
     {
+        return dd($request);
+
         $title = array('pageTitle' => Lang::get("labels.AddAttributes"));
         $language_id = '1';
         $products_id = $this->products->insert($request);

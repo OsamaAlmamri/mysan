@@ -49,7 +49,7 @@
                                                             <option value=""><?php echo e(trans('labels.Choose Type')); ?></option>
                                                             <option value="0"><?php echo e(trans('labels.Simple')); ?></option>
                                                             <option value="1"><?php echo e(trans('labels.Variable')); ?></option>
-                                                            <option value="2"><?php echo e(trans('labels.External')); ?></option>
+
                                                         </select><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                             <?php echo e(trans('labels.Product Type Text')); ?>.</span>
                                                     </div>
@@ -223,7 +223,7 @@
 
                                                                         <a href="<?php echo e(url('admin/media/add')); ?>" target="_blank" class="btn btn-primary pull-left"><?php echo e(trans('labels.Add Image')); ?></a>
                                                                         <button type="button" class="btn btn-default refresh-image"><i class="fa fa-refresh"></i></button>
-                                                                        <button type="button" class="btn btn-primary" id="selected" data-dismiss="modal">Done</button>
+                                                                        <button type="button" class="btn btn-primary" id="selected" data-dismiss="modal"><?php echo e(trans('labels.Done')); ?></button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -381,7 +381,6 @@
                                                     </ul>
                                                     <div class="tab-content">
                                                         <?php $__currentLoopData = $result['languages']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$languages): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
                                                         <div style="margin-top: 15px;" class="tab-pane <?php if($key==0): ?> active <?php endif; ?>" id="product_<?=$languages->languages_id?>">
                                                             <div class="">
                                                                 <div class="form-group">
@@ -461,12 +460,9 @@
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
         CKEDITOR.replace('editor<?php echo e($languages->languages_id); ?>');
-
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
         //bootstrap WYSIHTML5 - text editor
         $(".textarea").wysihtml5();
-
     });
 </script>
 <?php $__env->stopSection(); ?>

@@ -48,7 +48,7 @@
                                                             <option value="">{{ trans('labels.Choose Type') }}</option>
                                                             <option value="0">{{ trans('labels.Simple') }}</option>
                                                             <option value="1">{{ trans('labels.Variable') }}</option>
-                                                            <option value="2">{{ trans('labels.External') }}</option>
+{{--                                                            <option value="2">{{ trans('labels.External') }}</option>--}}
                                                         </select><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                             {{ trans('labels.Product Type Text') }}.</span>
                                                     </div>
@@ -213,7 +213,7 @@
 
                                                                         <a href="{{url('admin/media/add')}}" target="_blank" class="btn btn-primary pull-left">{{ trans('labels.Add Image') }}</a>
                                                                         <button type="button" class="btn btn-default refresh-image"><i class="fa fa-refresh"></i></button>
-                                                                        <button type="button" class="btn btn-primary" id="selected" data-dismiss="modal">Done</button>
+                                                                        <button type="button" class="btn btn-primary" id="selected" data-dismiss="modal">{{trans('labels.Done')}}</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

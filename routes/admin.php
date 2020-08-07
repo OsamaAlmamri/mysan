@@ -130,6 +130,7 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/update', 'NewsCategoriesController@update')->middleware('edit_news');
         Route::post('/delete', 'NewsCategoriesController@delete')->middleware('delete_news');
         Route::get('/filter', 'NewsCategoriesController@filter')->middleware('view_news');
+
     });
 
     Route::group(['prefix' => 'admin/news', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
@@ -150,6 +151,13 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/update', 'CategoriesController@update')->middleware('edit_categories');;
         Route::post('/delete', 'CategoriesController@delete')->middleware('delete_categories');;
         Route::get('/filter', 'CategoriesController@filter')->middleware('view_categories');;
+        Route::get('/filter2', 'CategoriesController@filter2')->name('categories.filter2');
+        Route::post('/changeOrder', 'CategoriesController@changeOrder')->name('categories.changeOrder');
+        Route::post('/active', 'CategoriesController@active')->name('categories.active');
+
+
+
+
     });
 
     Route::group(['prefix' => 'admin/currencies', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {

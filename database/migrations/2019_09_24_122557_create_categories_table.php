@@ -19,8 +19,6 @@ class CreateCategoriesTable extends Migration {
 			$table->text('categories_icon', 65535);
 			$table->integer('parent_id')->default(0)->index('idx_categories_parent_id');
 			$table->integer('sort_order')->nullable();
-			$table->dateTime('date_added')->nullable();
-			$table->dateTime('last_modified')->nullable();
 			$table->string('categories_slug', 191);
 			$table->boolean('categories_status')->default(1);
 			$table->timestamps();

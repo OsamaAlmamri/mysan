@@ -19,8 +19,6 @@ class CreateProductsTable extends Migration {
 			$table->string('products_model', 191)->nullable()->index('idx_products_model');
 			$table->text('products_image', 65535)->nullable();
 			$table->decimal('products_price', 15);
-			$table->dateTime('products_date_added')->index('idx_products_date_added');
-			$table->dateTime('products_last_modified')->nullable();
 			$table->dateTime('products_date_available')->nullable();
 //			$table->string('products_weight', 191);
 //			$table->string('products_weight_unit', 191)->nullable();

@@ -16,6 +16,7 @@ return [
     //links labels
     'get_site_name' => 'متجر ميسان بوتيك',
     'Returned all products' => 'كل المنتجات ',
+    'Leave As Parent' => 'حفظ كعنصر رئيسي',
     'Empty record' => 'ليس هناك منتجات',
     'Are You Sure To Delete This?' => 'هل انت متاكد انك تريد الحذف ؟',
     'Add File Here' => 'اضاف الصور هنا ',

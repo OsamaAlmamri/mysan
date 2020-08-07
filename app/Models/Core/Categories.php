@@ -24,13 +24,14 @@ class Categories extends Model
 
     public $sortable = ['categories_id', 'created_at'];
     public $sortableAs = ['categories_name'];
+    protected $primaryKey='categories_id';
 
-    public function recursivecategories()
+    public function recursivecategories($lang=2)
     {
         $items = DB::table('categories')
             ->leftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
             ->select('categories.categories_id', 'categories_description.categories_name', 'categories.parent_id')
-            ->where('language_id', '=', 1)
+            ->where('language_id', '=', $lang)
             ->where('categories_status', '1')
             //->orderby('categories_id','ASC')
             ->get();

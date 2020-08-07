@@ -20,14 +20,13 @@ use Illuminate\Support\Facades\Lang;
 class BouquetController extends Controller
 {
 
-    public function __construct(Products $products, Languages $language, Images $images, Categories $category, Setting $setting,
-                                Manufacturers $manufacturer, Reviews $reviews)
+    public function __construct(Products $products,
+                                Languages $language, Images $images,Setting $setting )
     {
-        $this->category = $category;
-        $this->reviews = $reviews;
+
         $this->language = $language;
         $this->images = $images;
-        $this->manufacturer = $manufacturer;
+
         $this->products = $products;
         $this->myVarsetting = new SiteSettingController($setting);
         $this->myVaralter = new AlertController($setting);
@@ -170,7 +169,6 @@ private function products_to_json($request)
             'default_image' => $uploadImage,
             'expiry_date' => setEntryDateAttribute($request->expiry_date),
             'products' => $products]));
-
         return redirect()->route('bouquets.index')
             ->with('success', Lang::get("labels.product_question_updateMessage"));
 
