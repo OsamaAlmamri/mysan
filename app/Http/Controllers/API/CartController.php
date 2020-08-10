@@ -46,7 +46,7 @@ class CartController extends BaseAPIController
         $data = array();
 
 
-        $result['cart'] = $this->cart->myCart($data,$request->lang);
+        $result['cart'] = $this->cart->myCart($data, $request->lang);
 //        //apply coupon
 //        $coupon = $this->tempStorage->getMultiTemp('coupon');
 //        if ($coupon->count() > 0) {
@@ -172,12 +172,12 @@ class CartController extends BaseAPIController
         $response = array();
         if (!empty($session_coupon_data)) {
             foreach ($session_coupon_data as $key => $session_coupon) {
-                    $response = $this->cart->common_apply_coupon($session_coupon->val2);
+                $response = $this->cart->common_apply_coupon($session_coupon->val2);
             }
         }
 
         $message = Lang::get("website.Cart item has been deleted successfully");
-        return $this->sendResponse($check,$message);
+        return $this->sendResponse($check, $message);
     }
 
     //getCart
@@ -197,6 +197,20 @@ class CartController extends BaseAPIController
     //addToCart
     public function addToCart(Request $request)
     {
+
+        /*
+         * {"data":[
+  {
+    "option_id": 1,
+    "attributes_id":55
+  },
+
+  {
+    "option_id": 1,
+    "attributes_id": 56
+  }
+]}
+         */
 
         $result = $this->cart->addToCart($request);
 //        if (!empty($result['status']) && $result['status'] == 'exceed') {

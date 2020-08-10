@@ -1,6 +1,6 @@
 <a data-id="{{$id}}"
         data-status="{{$categories_status}}"
-        class="active"
+        class="active_btn"
 >
     @if($categories_status==1)
 {{--        enabled--}}

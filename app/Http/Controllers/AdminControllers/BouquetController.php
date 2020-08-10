@@ -109,6 +109,7 @@ private function products_to_json($request)
 }
     public function store(Request $request)
     {
+//        return dd($request);
         $products = $this->products_to_json($request);
         $b = Bouquet::create(array_merge($request->all(), [
             'bouquet_name_en' => $request->bouquet_name_1,
@@ -133,11 +134,11 @@ private function products_to_json($request)
         $old_image = ($old_image != null) ? $old_image->path : null;
         $products=$bouquet->products;
         foreach ($products as $product) {
-            $product->product = getProductName($product->product_id);
+            $product->product = getProductName($product->products_id);
             foreach ( $product->options as $option) {
 
-                $option->attribute_name = getAttributeName($option->attribute);
-                $option->option_name = getAttributeOptionName($option->value);
+                $option->option_name = getProductOptionName($option->option_id);
+                $option->attribute_name = getAttributeOptionName($option->attribute_id);
 
             }
 

@@ -1,6 +1,6 @@
 <a data-id="<?php echo e($id); ?>"
         data-status="<?php echo e($categories_status); ?>"
-        class="active"
+        class="active_btn"
 >
     <?php if($categories_status==1): ?>
 

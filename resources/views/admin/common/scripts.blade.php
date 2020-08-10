@@ -2731,11 +2731,11 @@
 
         e.preventDefault();
         // alert('d');
-        var count = $("#products_count").val();
+        var quantity = $("#products_count").val();
         var product_text = $("#select_product_id  option:selected").text();
         var product_id = $("#select_product_id").val();
 
-if(product_id>0 && count>0 )
+if(product_id>0 && quantity>0 )
         {
             var map = {};
             var temptext = "";
@@ -2748,18 +2748,18 @@ if(product_id>0 && count>0 )
                 var option_name = $('input[name^="values_' + id + '"]:checked').data('name');
                 var option_id = $('input[name^="values_' + id + '"]:checked').val();
                 temptext += name + " ( " + option_name + ") , ";
-                tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][attribute]\" value='" + id + "'>";
-                tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][value]\" value='" + option_id + "'>";
+                tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][option_id]\" value='" + id + "'>";
+                tempInputes += "<input type=\"hidden\" name=\"products[" + product_n + "][options][" + id + "][attribute_id]\" value='" + option_id + "'>";
             });
             console.log(map);
-            add_row_address(product_id, product_text, count, tempInputes, temptext);
+            add_row_address(products_id, product_text, quantity, tempInputes, temptext);
         }
     });
-    function add_row_address(product_id, product_text, count, product_options, options) {
+    function add_row_address(product_id, product_text, quantity, product_options, options) {
         var data = " <tr id=\"product_n_" + product_n + "\">\n" +
-            "            <td> <input type=\"hidden\" name=\"products[" + product_n + "][product_id]\" value='" + product_id + "'>" + product_text + "" +
+            "            <td> <input type=\"hidden\" name=\"products[" + product_n + "][products_id]\" value='" + products_id + "'>" + product_text + "" +
             " <div class=\"print-error-msg alert-danger\"id=\"modal_error_products." + product_n + ".zone\"></div></td>\n" +
-            "            <td width='10%'> <input type=\"number\" min=\"1\" name=\"products[" + product_n + "][count]\" value='" + count + "'>" +
+            "            <td width='10%'> <input type=\"number\" min=\"1\" name=\"products[" + product_n + "][quantity]\" value='" + quantity + "'>" +
             " <div class=\"print-error-msg alert-danger\"id=\"modal_error_products." + product_n + ".zone\"></div></td>\n" +
             "            <td width='50%'> " + options +product_options+ "</div>\n </td>\n" +
             "            <td>  <button onclick=\"deleteOneProduct(" + product_n + ")\"><i class=\"fa fa-trash\"></i></button></td>\n" +

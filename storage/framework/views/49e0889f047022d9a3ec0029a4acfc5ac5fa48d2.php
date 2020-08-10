@@ -220,8 +220,8 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             <?php endif; ?>
             <?php if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->payment_methods_view == 1): ?>
                 <li class="treeview <?php echo e(Request::is('admin/paymentmethods/index') ? 'active' : ''); ?> <?php echo e(Request::is('admin/paymentmethods/display/*') ? 'active' : ''); ?>">
-                    <a href="#">
-                        
+
+                                            <a href="<?php echo e(URL::to('admin/paymentmethods/index')); ?>">
                         <i class="fa fa-credit-card"
                            aria-hidden="true"></i> <span>
               <?php echo e(trans('labels.link_payment_methods')); ?></span>

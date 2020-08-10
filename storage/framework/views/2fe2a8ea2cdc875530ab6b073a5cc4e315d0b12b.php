@@ -177,8 +177,8 @@
                                                                                 <tr id="product_n_<?php echo e($k); ?>">
                                                                                     <td>
                                                                                         <input type="hidden"
-                                                                                               name="products[<?php echo e($k); ?>][product_id]"
-                                                                                               value="<?php echo e($product->product_id); ?>"> <?php echo e($product->product); ?>
+                                                                                               name="products[<?php echo e($k); ?>][products_id]"
+                                                                                               value="<?php echo e($product->products_id); ?>"> <?php echo e($product->product); ?>
 
                                                                                         <div
                                                                                             class="print-error-msg alert-danger"
@@ -186,8 +186,8 @@
                                                                                     </td>
                                                                                     <td width='10%'>
                                                                                         <input type="number" min="1"
-                                                                                               name="products[<?php echo e($k); ?>][count]"
-                                                                                               value="<?php echo e($product->count); ?>">
+                                                                                               name="products[<?php echo e($k); ?>][quantity]"
+                                                                                               value="<?php echo e($product->quantity); ?>">
                                                                                         <div
                                                                                             class="print-error-msg alert-danger"
                                                                                             id="modal_error_products."></div>
@@ -196,12 +196,12 @@
 
                                                                                         <?php $__currentLoopData = $product->options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                                             <input type="hidden"
-                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->attribute); ?>][attribute]"
-                                                                                                   value=<?php echo e($option->attribute); ?>>
+                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->option_id); ?>][option_id]"
+                                                                                                   value=<?php echo e($option->option_id); ?>>
                                                                                             <input type="hidden"
-                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->attribute); ?>][value]"
-                                                                                                   value=<?php echo e($option->value); ?>>
-                                                                                             <?php echo e($option->attribute_name); ?>( <?php echo e($option->option_name); ?>        ),
+                                                                                                   name="products[<?php echo e($k); ?>][options][<?php echo e($option->option_id); ?>][attribute_id]"
+                                                                                                   value=<?php echo e($option->attribute_id); ?>>
+                                                                                             <?php echo e($option->option_name); ?>( <?php echo e($option->attribute_name); ?>        ),
                                                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                                                     </td>
@@ -404,6 +404,7 @@
                                                                 <input type="text"
                                                                        <?php if(isset($bouquet)): ?> value="<?php echo e(($languages->languages_id==1)?$bouquet->bouquet_name_en:$bouquet->bouquet_name_ar); ?>"
                                                                        <?php endif; ?>
+                                                                       name="bouquet_name_<?php echo e($languages->languages_id); ?>"
                                                                        class="form-control field-validate">
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">

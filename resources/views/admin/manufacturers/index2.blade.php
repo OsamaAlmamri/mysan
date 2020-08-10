@@ -8,10 +8,10 @@
     </div>
 @endsection
 @section('header_h1')
-    <h1> {{ trans('labels.Manufacturer') }} <small>{{ trans('labels.ListingAllManufacturers') }}...</small> </h1>
+    <h1> {{ trans('labels.link_manufacturer') }} <small>{{ trans('labels.ListingAllManufacturers') }}...</small> </h1>
 @endsection
 @section('header')
-    <li class=" active">{{ trans('labels.Manufacturer') }}</li>
+    <li class=" active">{{ trans('labels.link_manufacturer') }}</li>
 @endsection
 @section('custom_scripts')
 @endsection

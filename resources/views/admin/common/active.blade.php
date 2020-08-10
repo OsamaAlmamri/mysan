@@ -1,6 +1,6 @@
 <script>
     function Active(route_url) {
-        $(document).on('click', '.active', function () {
+        $(document).on('click', '.active_btn', function () {
             var data = '_token=' + encodeURIComponent("{{csrf_token()}}") + '&status=' + encodeURIComponent($(this).attr('data-status')) + '&id=' + encodeURIComponent($(this).attr('data-id'));
             var url = route_url;
             var _this = $(this);

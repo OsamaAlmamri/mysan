@@ -7,10 +7,10 @@
     </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('header_h1'); ?>
-    <h1> <?php echo e(trans('labels.Manufacturer')); ?> <small><?php echo e(trans('labels.ListingAllManufacturers')); ?>...</small> </h1>
+    <h1> <?php echo e(trans('labels.link_manufacturer')); ?> <small><?php echo e(trans('labels.ListingAllManufacturers')); ?>...</small> </h1>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('header'); ?>
-    <li class=" active"><?php echo e(trans('labels.Manufacturer')); ?></li>
+    <li class=" active"><?php echo e(trans('labels.link_manufacturer')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('custom_scripts'); ?>
 <?php $__env->stopSection(); ?>

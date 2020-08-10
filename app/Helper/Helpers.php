@@ -164,7 +164,7 @@ function getProductName($products_id, $language_id = 2)
     return $data->products_name;
 }
 
-function getAttributeName($products_options_id, $language_id = 2)
+function getProductOptionName($products_options_id, $language_id = 2)
 {
     $data = DB::table('products_options_descriptions')
         ->where('products_options_id','=',$products_options_id)

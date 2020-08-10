@@ -850,7 +850,7 @@ class Products extends Model
     $setting = new Setting();
     $myVarsetting = new SiteSettingController($setting);
     $myVaralter = new AlertController($setting);
-    $language_id      =   '1';
+    $language_id      =   '2';
     $products_id      =   $id;
     $result = array();
     $message = array();
@@ -1080,11 +1080,10 @@ class Products extends Model
       return $result;
   }
 
-  public function addinventoryfromsidebar(){
+  public function addinventoryfromsidebar($language_id=2){
     $setting = new Setting();
     $myVarsetting = new SiteSettingController($setting);
     $myVaralter = new AlertController($setting);
-    $language_id      =   '1';
     $result = array();
     $message = array();
     $errorMessage = array();

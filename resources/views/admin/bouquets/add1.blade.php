@@ -170,16 +170,16 @@
                                                                                 <tr id="product_n_{{$k}}">
                                                                                     <td>
                                                                                         <input type="hidden"
-                                                                                               name="products[{{$k}}][product_id]"
-                                                                                               value="{{$product->product_id}}"> {{$product->product}}
+                                                                                               name="products[{{$k}}][products_id]"
+                                                                                               value="{{$product->products_id}}"> {{$product->product}}
                                                                                         <div
                                                                                             class="print-error-msg alert-danger"
                                                                                             id="modal_error_products."></div>
                                                                                     </td>
                                                                                     <td width='10%'>
                                                                                         <input type="number" min="1"
-                                                                                               name="products[{{$k}}][count]"
-                                                                                               value="{{$product->count}}">
+                                                                                               name="products[{{$k}}][quantity]"
+                                                                                               value="{{$product->quantity}}">
                                                                                         <div
                                                                                             class="print-error-msg alert-danger"
                                                                                             id="modal_error_products."></div>
@@ -188,12 +188,12 @@
 
                                                                                         @foreach($product->options as $k=>$option)
                                                                                             <input type="hidden"
-                                                                                                   name="products[{{$k}}][options][{{$option->attribute}}][attribute]"
-                                                                                                   value={{$option->attribute}}>
+                                                                                                   name="products[{{$k}}][options][{{$option->option_id}}][option_id]"
+                                                                                                   value={{$option->option_id}}>
                                                                                             <input type="hidden"
-                                                                                                   name="products[{{$k}}][options][{{$option->attribute}}][value]"
-                                                                                                   value={{$option->value}}>
-                                                                                             {{$option->attribute_name}}( {{$option->option_name}}        ),
+                                                                                                   name="products[{{$k}}][options][{{$option->option_id}}][attribute_id]"
+                                                                                                   value={{$option->attribute_id}}>
+                                                                                             {{$option->option_name}}( {{$option->attribute_name}}        ),
                                                                                         @endforeach
 
                                                                                     </td>
@@ -385,6 +385,7 @@
                                                                 <input type="text"
                                                                        @isset($bouquet) value="{{($languages->languages_id==1)?$bouquet->bouquet_name_en:$bouquet->bouquet_name_ar}}"
                                                                        @endisset
+                                                                       name="bouquet_name_{{$languages->languages_id}}"
                                                                        class="form-control field-validate">
                                                                 <span class="help-block"
                                                                       style="font-weight: normal;font-size: 11px;margin-bottom: 0;">

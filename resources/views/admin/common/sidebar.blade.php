@@ -219,8 +219,8 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
             @endif
             @if($result['commonContent']['roles'] != null and $result['commonContent']['roles']->payment_methods_view == 1)
                 <li class="treeview {{ Request::is('admin/paymentmethods/index') ? 'active' : '' }} {{ Request::is('admin/paymentmethods/display/*') ? 'active' : '' }}">
-                    <a href="#">
-                        {{--                    <a href="{{ URL::to('admin/paymentmethods/index')}}">--}}
+{{--                    <a href="#">--}}
+                                            <a href="{{ URL::to('admin/paymentmethods/index')}}">
                         <i class="fa fa-credit-card"
                            aria-hidden="true"></i> <span>
               {{ trans('labels.link_payment_methods') }}</span>

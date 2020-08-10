@@ -524,9 +524,11 @@ class Cart extends Model
             $attributeid = explode(',', $request->attributeid);
             $attribute_price = 0;
             if (!empty($request->attributeid) and count($attributeid) > 0) {
-
+                $options=json_decode($request->options);
+                return dd($options);
                 foreach ($attributeid as $attribute) {
-                    $attribute = DB::table('products_attributes')->where('products_attributes_id', $attribute)->first();
+                    $attribute = DB::table('products_attributes')
+                        ->where('products_attributes_id', $attribute)->first();
                     $symbol = $attribute->price_prefix;
                     $values_price = $attribute->options_values_price;
                     if ($symbol == '+') {
@@ -599,7 +601,6 @@ class Cart extends Model
 
             if (count($request->option_id) > 0) {
                 foreach ($request->option_id as $option_id) {
-
                     DB::table('customers_basket_attributes')->where([
                         ['customers_basket_id', '=', $basket_id],
                         ['products_id', '=', $products_id],
