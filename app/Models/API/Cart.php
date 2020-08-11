@@ -553,26 +553,9 @@ class Cart extends Model
 //                defaultStock == all remain quantity invontry
                 $default_stock = $result['detail']['product_data'][0]->defaultStock;
             }
-            if (!empty($exist) and count($exist) > 0) {
-                $count = $exist[0]->customers_basket_quantity + $request->quantity;
-                $remain = $result['detail']['product_data'][0]->defaultStock -
-                    $exist[0]->customers_basket_quantity;
-                if ($count > $default_stock) {
-                    return array('status' => 'exceed', 'defaultStock' => $result['detail']['product_data'][0]->defaultStock, 'already_added' => $exist[0]->customers_basket_quantity, 'remain_pieces' => $remain);
-                }
-                // if ($count >= $result['detail']['product_data'][0]->defaultStock || $count > $result['detail']['product_data'][0]->products_max_stock and $result['detail']['product_data'][0]->products_max_stock != null) {
-
-                //     return array('status' => 'exceed', 'defaultStock' => $result['detail']['product_data'][0]->defaultStock, 'already_added' => $exist[0]->customers_basket_quantity, 'remain_pieces' => $remain);
-                // }
-            } else {
-                //if ($request->quantity > $result['detail']['product_data'][0]->defaultStock || $request->quantity > $result['detail']['product_data'][0]->products_max_stock and $result['detail']['product_data'][0]->products_max_stock != null) {
-                if ($request->quantity > $default_stock) {
-                    $count = $request->quantity;
-                    $remain = $result['detail']['product_data'][0]->defaultStock - $count;
-                    return array('status' => 'exceed');
-                }
-            }
         }
+
+
         $products_options = [];
         //check quantity
         if ($result['detail']['product_data'][0]->products_type == 1) {
@@ -580,29 +563,33 @@ class Cart extends Model
             $qunatity['attributes'] = $products_options;
             $content = $products->productQuantity($qunatity);
             $stocks = $content['remainingStock'];
-        }
-        else {
+        } elseif ($result['detail']['product_data'][0]->products_type == 0) {
+            //check lower value to match with added stock
+            if ($result['detail']['product_data'][0]->products_max_stock != null and
+                $result['detail']['product_data'][0]->products_max_stock < $result['detail']['product_data'][0]->defaultStock) {
+                $stocks = $result['detail']['product_data'][0]->products_max_stock;
+            }
+        } else {
             $stocks = $result['detail']['product_data'][0]->defaultStock;
         }
         if ($stocks <= $result['detail']['product_data'][0]->products_max_stock) {
             $stocksToValid = $stocks;
-        }
-        else {
+        } else {
             $stocksToValid = $result['detail']['product_data'][0]->products_max_stock;
         }
         //check variable stock limit
         if (!empty($exist) and count($exist) > 0) {
             $count = $exist[0]->customers_basket_quantity + $request->quantity;
-            if ($count > $stocksToValid) {
-                return array('status' => 'exceed');
-            }
+            $remain = $result['detail']['product_data'][0]->defaultStock - $exist[0]->customers_basket_quantity;
+            $already_added = $exist[0]->customers_basket_quantity;
+        } else {
+            $count = $request->quantity;
+            $remain = $result['detail']['product_data'][0]->defaultStock - $count;
+            $already_added = 0;
         }
-
-
-
-
-
-
+        if ($count > $stocks) {
+            return array('status' => 'exceed', 'defaultStock' => $result['detail']['product_data'][0]->defaultStock, 'already_added' => $exist[0]->customers_basket_quantity, 'remain_pieces' => $remain);
+        }
 
 
         //$variables_prices = 0
@@ -653,22 +640,23 @@ class Cart extends Model
                     'final_price' => $final_price,
                     'customers_basket_date_added' => $customers_basket_date_added,
                 ]);
-            if (count($request->option_id) > 0) {
-                foreach ($request->option_id as $option_id) {
+            if (count($options) > 0) {
+                foreach ($options as $option) {
                     DB::table('customers_basket_attributes')->where([
                         ['customers_basket_id', '=', $basket_id],
                         ['products_id', '=', $products_id],
-                        ['products_options_id', '=', $option_id],
+                        ['products_options_id', '=', $option->option_id],
                     ])->update(
                         [
                             'customers_id' => $customers_id,
-                            'products_options_values_id' => $request->$option_id,
+                            'products_options_values_id' =>$option->attribute_id,
                             'session_id' => $session_id,
                         ]);
                 }
 
             }
-        } else {
+        }
+        else {
             //insert into cart
             if (count($exist) == 0) {
                 $customers_basket_id = DB::table('customers_basket')->insertGetId(
@@ -680,8 +668,6 @@ class Cart extends Model
                         'final_price' => $final_price,
                         'customers_basket_date_added' => $customers_basket_date_added,
                     ]);
-                $options = json_decode($request->options, false);
-
                 if (!empty($options) && count($options) > 0) {
                     foreach ($options as $option) {
                         DB::table('customers_basket_attributes')->insert(
@@ -693,11 +679,10 @@ class Cart extends Model
                                 'session_id' => $session_id,
                                 'customers_basket_id' => $customers_basket_id,
                             ]);
-
                     }
 
-                } else if (!empty($detail['product_data'][0]->attributes)) {
-
+                }
+                else if (!empty($detail['product_data'][0]->attributes)) {
                     foreach ($detail['product_data'][0]->attributes as $attribute) {
                         DB::table('customers_basket_attributes')->insert(
                             [
@@ -710,24 +695,22 @@ class Cart extends Model
                             ]);
                     }
                 }
-            } else {
+            }
+            else {
                 $existAttribute = '0';
                 $totalAttribute = '0';
                 $basket_id = '0';
-                $options = json_decode($request->options, false);
-                $option_ids = explode(',', $request->option_id);
-
                 if (!empty($request->options)) {
-                    if (count($option_ids) > 0) {
+                    if (count($options) > 0) {
                         foreach ($exist as $exists) {
                             $totalAttribute = '0';
-                            foreach ($option_ids as $option_id) {
+                            foreach ($options as $option) {
                                 $checkexistAttributes = DB::table('customers_basket_attributes')->where([
                                     ['customers_basket_id', '=', $exists->customers_basket_id],
                                     ['products_id', '=', $products_id],
-                                    ['products_options_id', '=', $option_id],
+                                    ['products_options_id', '=', $option->option_id],
                                     ['customers_id', '=', $customers_id],
-                                    ['products_options_values_id', '=', $request->$option_id],
+                                    ['products_options_values_id', '=', $option->attribute_id],
                                     ['session_id', '=', $session_id],
                                 ])->get();
                                 $totalAttribute++;
@@ -744,7 +727,8 @@ class Cart extends Model
                             }
                         }
 
-                    } else
+                    }
+                    else
                         if (!empty($detail['product_data'][0]->attributes)) {
                             foreach ($exist as $exists) {
                                 $totalAttribute = '0';
@@ -755,7 +739,6 @@ class Cart extends Model
                                         ['products_options_id', '=', $attribute['option']['id']],
                                         ['customers_id', '=', $customers_id],
                                         ['products_options_values_id', '=', $attribute['values'][0]['id']],
-                                        ['products_options_id', '=', $option_id],
                                     ])->get();
                                     $totalAttribute++;
                                     if (count($checkexistAttributes) > 0) {
@@ -784,15 +767,15 @@ class Cart extends Model
                                 'customers_basket_date_added' => $customers_basket_date_added,
                             ]);
 
-                        if (count($request->option_id) > 0) {
+                        if (count($options) > 0) {
                             foreach ($request->option_id as $option_id) {
 
                                 DB::table('customers_basket_attributes')->insert(
                                     [
                                         'customers_id' => $customers_id,
                                         'products_id' => $products_id,
-                                        'products_options_id' => $option_id,
-                                        'products_options_values_id' => $request->$option_id,
+                                        'products_options_id' => $option->option_id,
+                                        'products_options_values_id' => $option->attribute_id,
                                         'session_id' => $session_id,
                                         'customers_basket_id' => $customers_basket_id,
                                     ]);
@@ -811,7 +794,8 @@ class Cart extends Model
                             }
                         }
 
-                    } else {
+                    }
+                    else {
                         //update into cart
                         DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)
                             ->update([
@@ -823,17 +807,17 @@ class Cart extends Model
                                 'customers_basket_date_added' => $customers_basket_date_added,
                             ]);
 
-                        if (count($request->option_id) > 0) {
-                            foreach ($request->option_id as $option_id) {
+                        if (count($options) > 0) {
+                            foreach ($options as $option) {
 
                                 DB::table('customers_basket_attributes')->where([
                                     ['customers_basket_id', '=', $basket_id],
                                     ['products_id', '=', $products_id],
-                                    ['products_options_id', '=', $option_id],
+                                    ['products_options_id', '=', $option->option_id],
                                 ])->update(
                                     [
                                         'customers_id' => $customers_id,
-                                        'products_options_values_id' => $request->$option_id,
+                                        'products_options_values_id' => $option->attribute_id,
                                         'session_id' => $session_id,
                                     ]);
                             }
@@ -844,7 +828,8 @@ class Cart extends Model
                                 DB::table('customers_basket_attributes')->where([
                                     ['customers_basket_id', '=', $basket_id],
                                     ['products_id', '=', $products_id],
-                                    ['products_options_id', '=', $option_id],
+                                    ['products_options_id', '=', $attribute['option']['id']],
+
                                 ])->update(
                                     [
                                         'customers_id' => $customers_id,
@@ -852,7 +837,6 @@ class Cart extends Model
                                         'products_options_id' => $attribute['option']['id'],
                                         'products_options_values_id' => $attribute['values'][0]['id'],
                                         'session_id' => $session_id,
-                                        'customers_basket_id' => $customers_basket_id,
                                     ]);
                             }
                         }
