@@ -17,7 +17,7 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <?php $__currentLoopData = $attribute['values']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><label><input name="values_<?=$attribute['option']['id']?>" type="radio" class="currentstock required_one" value="<?php echo e($value['products_attributes_id']); ?>"
-                      data-name="<?php echo e($value['value']); ?>"    attributeid="<?php echo e($attribute['option']['id']); ?>" checked> <?php echo e($value['value']); ?></label> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></li>
+                      data-name="<?php echo e($value['value']); ?>"    attributeid="<?php echo e($attribute['option']['id']); ?>" > <?php echo e($value['value']); ?></label> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></li>
             </ul>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>

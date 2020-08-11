@@ -979,8 +979,10 @@ class Products extends Model
                 $stocks = 0;
                 $stockOut = 0;
                 if ($products_data->products_type == '0') {
-                    $stocks = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'in')->sum('stock');
-                    $stockOut = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'out')->sum('stock');
+                    $stocks = DB::table('inventory')->where('products_id', $products_data->products_id)
+                        ->where('stock_type', 'in')->sum('stock');
+                    $stockOut = DB::table('inventory')->where('products_id', $products_data->products_id)
+                        ->where('stock_type', 'out')->sum('stock');
                 }
 
                 $result[$index]->defaultStock = $stocks - $stockOut;
@@ -1386,43 +1388,47 @@ class Products extends Model
         if (!empty($data['attributes'])) {
             $inventory_ref_id = '';
             $products_id = $data['products_id'];
-            $attributes = explode(',', $data['attributes']);
-            $attributeid = $data['attributes'];
-            $postAttributes = count($attributes);
+//            $attributes = explode(',', $data['attributes']);
+//            $attributeid = $data['attributes'];
+//            $postAttributes = count($attributes);
 
+            $attributeid = implode(',', $data['attributes']);
+            $attributes = $data['attributes'];
+            $postAttributes = count($attributes);
             $inventories = DB::table('inventory')->where('products_id', $products_id)->get();
             $reference_ids = array();
             $stockIn = 0;
             $stockOut = 0;
             $inventory_ref_id = array();
             foreach ($inventories as $inventory) {
-
-                $totalAttribute = DB::table('inventory_detail')->where('inventory_detail.inventory_ref_id', '=', $inventory->inventory_ref_id)->get();
-                $totalAttributes = count($totalAttribute);
-
+                $totalAttributes = DB::table('inventory_detail')->where('inventory_detail.inventory_ref_id', '=', $inventory->inventory_ref_id)->count();
+                // مجموع عدد كل خيارات المنتجات الموجودة ضمن المخزون المضاف مسبقا
                 if ($postAttributes > $totalAttributes) {
+                    // اذا اضفنا خيارات جديدة بعد اضافة مخزون نعمل عدد الخيارات = الخيارات الجاييية
+                    // من الطلب لكي نضمن انة ليس هناك خيار جديد مضاف ولم يتم اضافتة للمخزون
                     $count = $postAttributes;
                 } elseif ($postAttributes < $totalAttributes or $postAttributes == $totalAttributes) {
+                    // اما اذا كان عدد الخيارات الجايية من الطلب اقل من او يساوي جميع الخيارات الموجودة في المخزون
                     $count = $totalAttributes;
                 }
-
-                $individualStock = DB::table('inventory')->leftjoin('inventory_detail', 'inventory_detail.inventory_ref_id', '=', 'inventory.inventory_ref_id')
+                //هذا الشروط والعمليات لكي يتم جلب كمية المخزون المتبقي بالنسبة للخيارات الجاييية من الطلب
+                $individualStock = DB::table('inventory')
+                    ->leftjoin('inventory_detail', 'inventory_detail.inventory_ref_id', '=', 'inventory.inventory_ref_id')
                     ->selectRaw('inventory.*')
+                    // لكي يجلب فقط المخزون الذي يحتوي على هذا الخيارات
                     ->whereIn('inventory_detail.attribute_id', [$attributeid])
+                       //لكي يجلب فقط المخزون الذي يحتوي عللا هذا الخيارات فقط وليس هناك خيارات زائدة لنفس المخزون
                     ->where(DB::raw('(select count(*) from `inventory_detail` where `inventory_detail`.`attribute_id` in (' . $attributeid . ') and `inventory_ref_id`= "' . $inventory->inventory_ref_id . '")'), '=', $count)
                     ->where('inventory.inventory_ref_id', '=', $inventory->inventory_ref_id)
                     ->groupBy('inventory_detail.inventory_ref_id')
                     ->get();
                 if (count($individualStock) > 0) {
-
                     if ($individualStock[0]->stock_type == 'in') {
                         $stockIn += $individualStock[0]->stock;
                     }
-
                     if ($individualStock[0]->stock_type == 'out') {
                         $stockOut += $individualStock[0]->stock;
                     }
-
                     $inventory_ref_id[] = $individualStock[0]->inventory_ref_id;
                 }
 
@@ -1437,37 +1443,32 @@ class Products extends Model
                     ->leftJoin('products_options_values', 'products_options_values.products_options_values_id', '=', 'products_attributes.options_values_id')
                     ->select('products_attributes.*', 'products_options.products_options_name as options_name', 'products_options_values.products_options_values_name as options_values')
                     ->where('products_attributes_id', $attribute)->get();
-
                 $options_names[] = $productsAttributes[0]->options_name;
                 $options_values[] = $productsAttributes[0]->options_values;
             }
-
             $options_names_count = count($options_names);
             $options_names = implode("','", $options_names);
             $options_names = "'" . $options_names . "'";
             $options_values = "'" . implode("','", $options_values) . "'";
-
             //orders products
             $orders_products = DB::table('orders_products')->where('products_id', $products_id)->get();
-
             $result = array();
             $result['remainingStock'] = $stockIn - $stockOut;
-
             if (!empty($inventory_ref_id) && isset($inventory_ref_id[0])) {
-                $minMax = DB::table('manage_min_max')->where([['inventory_ref_id', $inventory_ref_id[0]], ['products_id', $products_id]])->get();
+                $minMax = DB::table('manage_min_max')
+                    ->where([['inventory_ref_id', $inventory_ref_id[0]],
+                        ['products_id', $products_id]])->get();
             } else {
                 $minMax = '';
             }
             $result['inventory_ref_id'] = $inventory_ref_id;
             $result['minMax'] = $minMax;
             $result['minMaxLevel'] = $minMax;
-
         } else {
             $result['inventory_ref_id'] = 0;
             $result['minMax'] = 0;
             $result['remainingStock'] = 0;
         }
-
         return $result;
     }
 

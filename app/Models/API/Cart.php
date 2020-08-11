@@ -2,6 +2,7 @@
 
 namespace App\Models\API;
 
+use App\Bouquet;
 use App\Models\API\Index;
 use App\Models\API\Products;
 use App\Models\Core\Categories;
@@ -24,7 +25,7 @@ class Cart extends Model
 
     }
 
-    public function myCart($baskit_id,$lang=1)
+    public function myCart($baskit_id, $lang = 1)
     {
         $cart = DB::table('customers_basket')
             ->join('products', 'products.products_id', '=', 'customers_basket.products_id')
@@ -296,7 +297,7 @@ class Cart extends Model
             ['customers_basket_id', '=', $baskit_id],
         ])->delete();
         $check = DB::table('customers_basket')
-            ->where('customers_basket.customers_id', '=',auth()->user()->id)->get();
+            ->where('customers_basket.customers_id', '=', auth()->user()->id)->get();
         return $check;
 
     }
@@ -436,72 +437,134 @@ class Cart extends Model
     public function addToCart($request)
     {
         $products = new Products();
-
         $products_id = $request->products_id;
+        $orders_products_type = $request->orders_products_type;
         $lang = (!empty($request->lang)) ? $request->lang : 2;
-
         $customers_id = auth()->user()->id;
-
         $session_id = Session::getId();
         $customers_basket_date_added = date('Y-m-d H:i:s');
 
         if (empty($customers_id)) {
-
             $exist = DB::table('customers_basket')->where([
                 ['session_id', '=', $session_id],
                 ['products_id', '=', $products_id],
+                ['orders_products_type', '=', $orders_products_type],
                 ['is_order', '=', 0],
             ])->get();
-
         } else {
-
             $exist = DB::table('customers_basket')->where([
                 ['customers_id', '=', $customers_id],
                 ['products_id', '=', $products_id],
+                ['orders_products_type', '=', $orders_products_type],
                 ['is_order', '=', 0],
             ])->get();
 
         }
+
+        if ($orders_products_type == 'bouquet')
+            return $this->addBouquetToCart($request, $exist, $products, $products_id, $orders_products_type, $lang, $customers_id, $session_id, $customers_basket_date_added);
+        else
+            return $this->addProductToCart($request, $exist, $products, $products_id, $orders_products_type, $lang, $customers_id, $session_id, $customers_basket_date_added);
+    }
+
+    private function addBouquetToCart($request, $exist, $products, $products_id, $orders_products_type, $lang, $customers_id, $session_id, $customers_basket_date_added)
+    {
+        $detail = Bouquet::find($products_id);
+        $result['detail'] = $detail;
+        if ($detail == null) {
+            return array('status' => 'notFound');
+        }
+        if ($detail->expiry_date < $customers_basket_date_added) {
+            return array('status' => 'expiry_date_ended');
+        }
+        //quantity is not default
+        $customers_basket_quantity = (empty($request->quantity)) ? 1 : $request->quantity;
+        if ($request->customers_basket_id) {
+            $basket_id = $request->customers_basket_id;
+            DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)->update(
+                [
+                    'customers_id' => $customers_id,
+                    'products_id' => $products_id,
+                    'session_id' => $session_id,
+                    'orders_products_type' => $orders_products_type,
+                    'customers_basket_quantity' => $customers_basket_quantity,
+                    'final_price' => $detail->bouquet_price,
+                    'customers_basket_date_added' => $customers_basket_date_added,
+                ]);
+        } else {
+            //insert into cart
+            if (count($exist) == 0) {
+                $customers_basket_id = DB::table('customers_basket')->insertGetId(
+                    [
+                        'customers_id' => $customers_id,
+                        'products_id' => $products_id,
+                        'session_id' => $session_id,
+                        'orders_products_type' => $orders_products_type,
+                        'customers_basket_quantity' => $customers_basket_quantity,
+                        'final_price' => $detail->bouquet_price,
+                        'customers_basket_date_added' => $customers_basket_date_added,
+                    ]);
+            } else {
+                DB::table('customers_basket')->where('customers_basket_id', '=', $exist[0]->customers_basket_id)->update(
+                    [
+                        'customers_id' => $customers_id,
+                        'products_id' => $products_id,
+                        'session_id' => $session_id,
+                        'customers_basket_quantity' => DB::raw('customers_basket_quantity+' . $customers_basket_quantity),
+                        'final_price' => $detail->bouquet_price,
+                        'customers_basket_date_added' => $customers_basket_date_added,
+                    ]);
+            }
+        }
+        $result['status'] = 'added';
+        return $result;
+    }
+
+    private function addProductToCart($request, $exist, $products, $products_id, $orders_products_type, $lang, $customers_id, $session_id, $customers_basket_date_added)
+    {
+        //1- check if product is  flash_sale
+        //2- get products with its details
+        //3- check if remain products quantity  match  request quantity
+        //4- get product price ( 1) if product is flash sale  2) if product has discount 3)product_price
+
         $isFlash = DB::table('flash_sale')->where('products_id', $products_id)
             ->where('flash_expires_date', '>=', time())->where('flash_status', '=', 1)
             ->get();
+        //2- get products with its details
         //get products detail  is not default
-        if (!empty($isFlash) and count($isFlash) > 0) {
-            $type = "flashsale";
-        } else {
-            $type = "";
-        }
-
+        $type = (!empty($isFlash) and count($isFlash) > 0) ? "flashsale" : "";
         $data = array('page_number' => '0',
             'type' => $type, 'products_id' => $request->products_id,
             'limit' => '15', 'min_price' => '', 'lang' => $lang, 'max_price' => '');
-        $detail = $products->products($data);
+        $detail = $products->allProductsWithDatails($data);
+        if ($detail['total_record'] == 0) {
+            return array('status' => 'notFound');
+        }
         $result['detail'] = $detail;
+//        return $detail;
 
+        //4- get product price ( 1) if product is flash sale  2) if product has discount 3)product_price
         if ($result['detail']['product_data'][0]->products_type == 0) {
-
             //check lower value to match with added stock
-            if ($result['detail']['product_data'][0]->products_max_stock != null and $result['detail']['product_data'][0]->products_max_stock < $result['detail']['product_data'][0]->defaultStock) {
+            if ($result['detail']['product_data'][0]->products_max_stock != null and
+                $result['detail']['product_data'][0]->products_max_stock < $result['detail']['product_data'][0]->defaultStock) {
                 $default_stock = $result['detail']['product_data'][0]->products_max_stock;
             } else {
+//                defaultStock == all remain quantity invontry
                 $default_stock = $result['detail']['product_data'][0]->defaultStock;
             }
-
             if (!empty($exist) and count($exist) > 0) {
                 $count = $exist[0]->customers_basket_quantity + $request->quantity;
-                $remain = $result['detail']['product_data'][0]->defaultStock - $exist[0]->customers_basket_quantity;
-
+                $remain = $result['detail']['product_data'][0]->defaultStock -
+                    $exist[0]->customers_basket_quantity;
                 if ($count > $default_stock) {
-
                     return array('status' => 'exceed', 'defaultStock' => $result['detail']['product_data'][0]->defaultStock, 'already_added' => $exist[0]->customers_basket_quantity, 'remain_pieces' => $remain);
                 }
-
                 // if ($count >= $result['detail']['product_data'][0]->defaultStock || $count > $result['detail']['product_data'][0]->products_max_stock and $result['detail']['product_data'][0]->products_max_stock != null) {
 
                 //     return array('status' => 'exceed', 'defaultStock' => $result['detail']['product_data'][0]->defaultStock, 'already_added' => $exist[0]->customers_basket_quantity, 'remain_pieces' => $remain);
                 // }
             } else {
-
                 //if ($request->quantity > $result['detail']['product_data'][0]->defaultStock || $request->quantity > $result['detail']['product_data'][0]->products_max_stock and $result['detail']['product_data'][0]->products_max_stock != null) {
                 if ($request->quantity > $default_stock) {
                     $count = $request->quantity;
@@ -510,7 +573,39 @@ class Cart extends Model
                 }
             }
         }
+        $products_options = [];
+        //check quantity
+        if ($result['detail']['product_data'][0]->products_type == 1) {
+            $qunatity['products_id'] = $request->products_id;
+            $qunatity['attributes'] = $products_options;
+            $content = $products->productQuantity($qunatity);
+            $stocks = $content['remainingStock'];
+        }
+        else {
+            $stocks = $result['detail']['product_data'][0]->defaultStock;
+        }
+        if ($stocks <= $result['detail']['product_data'][0]->products_max_stock) {
+            $stocksToValid = $stocks;
+        }
+        else {
+            $stocksToValid = $result['detail']['product_data'][0]->products_max_stock;
+        }
+        //check variable stock limit
+        if (!empty($exist) and count($exist) > 0) {
+            $count = $exist[0]->customers_basket_quantity + $request->quantity;
+            if ($count > $stocksToValid) {
+                return array('status' => 'exceed');
+            }
+        }
 
+
+
+
+
+
+
+
+        //$variables_prices = 0
         if (!empty($result['detail']['product_data'][0]->flash_price)) {
             $final_price = $result['detail']['product_data'][0]->flash_price + 0;
         } elseif (!empty($result['detail']['product_data'][0]->discount_price)) {
@@ -518,17 +613,18 @@ class Cart extends Model
         } else {
             $final_price = $result['detail']['product_data'][0]->products_price + 0;
         }
+        $options = json_decode($request->options, false);
 
-        //$variables_prices = 0
         if ($result['detail']['product_data'][0]->products_type == 1) {
-            $attributeid = explode(',', $request->attributeid);
             $attribute_price = 0;
-            if (!empty($request->attributeid) and count($attributeid) > 0) {
-                $options=json_decode($request->options);
-                return dd($options);
-                foreach ($attributeid as $attribute) {
+            if (!empty($request->options) and count($options) > 0) {
+                foreach ($options as $option) {
+                    $products_options[] = $option->attribute_id;
                     $attribute = DB::table('products_attributes')
-                        ->where('products_attributes_id', $attribute)->first();
+                        ->where('products_attributes_id', $option->attribute_id)->first();
+                    if ($attribute == null) {
+                        return array('status' => 'wrongOption', 'data' => $option);
+                    }
                     $symbol = $attribute->price_prefix;
                     $values_price = $attribute->options_values_price;
                     if ($symbol == '+') {
@@ -539,54 +635,12 @@ class Cart extends Model
                     }
                 }
             }
-
         }
-
-        //check quantity
-        if ($result['detail']['product_data'][0]->products_type == 1) {
-            $qunatity['products_id'] = $request->products_id;
-            $qunatity['attributes'] = $request->attributeid;
-
-            $content = $products->productQuantity($qunatity);
-            //dd($content);
-            $stocks = $content['remainingStock'];
-
-        } else {
-            $stocks = $result['detail']['product_data'][0]->defaultStock;
-
-        }
-
-        if ($stocks <= $result['detail']['product_data'][0]->products_max_stock) {
-            $stocksToValid = $stocks;
-        } else {
-            $stocksToValid = $result['detail']['product_data'][0]->products_max_stock;
-        }
-
-        //check variable stock limit
-        if (!empty($exist) and count($exist) > 0) {
-            $count = $exist[0]->customers_basket_quantity + $request->quantity;
-            if ($count > $stocksToValid) {
-                return array('status' => 'exceed');
-            }
-        }
-
-        if (empty($request->quantity)) {
-            $customers_basket_quantity = 1;
-        } else {
-            $customers_basket_quantity = $request->quantity;
-        }
-
+        //quantity is not default
+        $customers_basket_quantity = (empty($request->quantity)) ? 1 : $request->quantity;
         if ($stocksToValid > $customers_basket_quantity) {
             $customers_basket_quantity = $result['detail']['product_data'][0]->products_min_order;
         }
-
-        //quantity is not default
-        if (empty($request->quantity)) {
-            $customers_basket_quantity = 1;
-        } else {
-            $customers_basket_quantity = $request->quantity;
-        }
-
         if ($request->customers_basket_id) {
             $basket_id = $request->customers_basket_id;
             DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)->update(
@@ -594,11 +648,11 @@ class Cart extends Model
                     'customers_id' => $customers_id,
                     'products_id' => $products_id,
                     'session_id' => $session_id,
+                    'orders_products_type' => $orders_products_type,
                     'customers_basket_quantity' => $customers_basket_quantity,
                     'final_price' => $final_price,
                     'customers_basket_date_added' => $customers_basket_date_added,
                 ]);
-
             if (count($request->option_id) > 0) {
                 foreach ($request->option_id as $option_id) {
                     DB::table('customers_basket_attributes')->where([
@@ -617,7 +671,6 @@ class Cart extends Model
         } else {
             //insert into cart
             if (count($exist) == 0) {
-
                 $customers_basket_id = DB::table('customers_basket')->insertGetId(
                     [
                         'customers_id' => $customers_id,
@@ -627,17 +680,16 @@ class Cart extends Model
                         'final_price' => $final_price,
                         'customers_basket_date_added' => $customers_basket_date_added,
                     ]);
-                $option_id = explode(',', $request->option_id);
+                $options = json_decode($request->options, false);
 
-                if (!empty($option_id) && count($option_id) > 0) {
-                    foreach ($option_id as $option_id) {
-
+                if (!empty($options) && count($options) > 0) {
+                    foreach ($options as $option) {
                         DB::table('customers_basket_attributes')->insert(
                             [
                                 'customers_id' => $customers_id,
                                 'products_id' => $products_id,
-                                'products_options_id' => $option_id,
-                                'products_options_values_id' => $request->$option_id,
+                                'products_options_id' => $option->option_id,
+                                'products_options_values_id' => $option->attribute_id,
                                 'session_id' => $session_id,
                                 'customers_basket_id' => $customers_basket_id,
                             ]);
@@ -647,7 +699,6 @@ class Cart extends Model
                 } else if (!empty($detail['product_data'][0]->attributes)) {
 
                     foreach ($detail['product_data'][0]->attributes as $attribute) {
-
                         DB::table('customers_basket_attributes')->insert(
                             [
                                 'customers_id' => $customers_id,
@@ -660,14 +711,14 @@ class Cart extends Model
                     }
                 }
             } else {
-
                 $existAttribute = '0';
                 $totalAttribute = '0';
                 $basket_id = '0';
+                $options = json_decode($request->options, false);
                 $option_ids = explode(',', $request->option_id);
-                if (!empty($request->option_id)) {
-                    if (count($option_ids) > 0) {
 
+                if (!empty($request->options)) {
+                    if (count($option_ids) > 0) {
                         foreach ($exist as $exists) {
                             $totalAttribute = '0';
                             foreach ($option_ids as $option_id) {
@@ -745,13 +796,9 @@ class Cart extends Model
                                         'session_id' => $session_id,
                                         'customers_basket_id' => $customers_basket_id,
                                     ]);
-
                             }
-
                         } else if (!empty($detail['product_data'][0]->attributes)) {
-
                             foreach ($detail['product_data'][0]->attributes as $attribute) {
-
                                 DB::table('customers_basket_attributes')->insert(
                                     [
                                         'customers_id' => $customers_id,
@@ -765,10 +812,9 @@ class Cart extends Model
                         }
 
                     } else {
-
                         //update into cart
-                        DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)->update(
-                            [
+                        DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)
+                            ->update([
                                 'customers_id' => $customers_id,
                                 'products_id' => $products_id,
                                 'session_id' => $session_id,
@@ -827,13 +873,16 @@ class Cart extends Model
 
                 }
                 //apply coupon
-                if (count(session('coupon')) > 0) {
-                    $session_coupon_data = session('coupon');
+                $coupon = $this->getOldCoupon();
+                if ($coupon > 0) {
+//                    $session_coupon_data = session('coupon');
+//                    session(['coupon' => array()]);
+                    $this->deleteOldCoupon();
                     session(['coupon' => array()]);
                     $response = array();
                     if (!empty($session_coupon_data)) {
-                        foreach ($session_coupon_data as $key => $session_coupon) {
-                            $response = $this->common_apply_coupon($session_coupon->code);
+                        foreach ($coupon as $key => $session_coupon) {
+                            $response = $this->common_apply_coupon($session_coupon->val);
                         }
                     }
                 }
@@ -855,6 +904,12 @@ class Cart extends Model
 //        }
 //        $data = Coupon::all()->whereIn('id', $ids);
         return $oldCobons;
+    }
+
+    public function deleteOldCoupon()
+    {
+        $oldCobons = tempStorage::all()->where('name', 'like', 'coupon')
+            ->where('user_id', auth()->user()->id)->delete();
     }
 
     public function common_apply_coupon($coupon_code)
@@ -1216,7 +1271,7 @@ class Cart extends Model
 
             if (empty($response)) {
                 if (!in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
-                    $this->tempStorage->createMultiTemp('coupon', $coupons[0]->coupans_id,$coupon_code);
+                    $this->tempStorage->createMultiTemp('coupon', $coupons[0]->coupans_id, $coupon_code);
                     $this->tempStorage->createNewSingleTemp('coupon_discount', $this->tempStorage->getSingleTemp('coupon_discount') + $coupon_discount);
                     $response = array('success' => '1', 'message' => Lang::get("website.Couponisappliedsuccessfully"));
 

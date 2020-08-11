@@ -16,7 +16,7 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     @foreach ($attribute['values'] as $value)<label><input name="values_<?=$attribute['option']['id']?>" type="radio" class="currentstock required_one" value="{{ $value['products_attributes_id'] }}"
-                      data-name="{{ $value['value'] }}"    attributeid="{{ $attribute['option']['id'] }}" checked> {{ $value['value'] }}</label> @endforeach</li>
+                      data-name="{{ $value['value'] }}"    attributeid="{{ $attribute['option']['id'] }}" > {{ $value['value'] }}</label> @endforeach</li>
             </ul>
             @endforeach
         </ul>

@@ -379,10 +379,17 @@ class ProductsController extends BaseAPIController
     //getquantity
     public function getquantity(Request $request)
     {
+
+        $options = json_decode($request->options, false);
+        $products_options=[];
+        if (!empty($request->options) and count($options) > 0) {
+            foreach ($options as $option) {
+                $products_options[] = $option->attribute_id;
+            }
+        }
         $data = array();
         $data['products_id'] = $request->products_id;
-        $data['attributes'] = $request->attributeid;
-
+        $data['attributes'] = $products_options;
         $result = $this->products->productQuantity($data);
         return $this->sendNotFormatResponse($result);
         print_r(json_encode($result));

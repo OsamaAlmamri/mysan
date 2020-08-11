@@ -40,4 +40,5 @@ class Bouquet extends Model
         return $this->hasMany(OrdersProduct::class, 'products_id', 'bouquet_id')->where('orders_products_type',  'bouquet');
     }
 
+
 }
