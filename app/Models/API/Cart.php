@@ -112,7 +112,6 @@ class Cart extends Model
                             $stocks += $currentStock->stock;
                         }
                     }
-
                     if (!empty($cart_data->max_order) and $cart_data->max_order != 0) {
                         if ($cart_data->max_order >= $stocks) {
                             $result[$index]->max_order = $stocks;

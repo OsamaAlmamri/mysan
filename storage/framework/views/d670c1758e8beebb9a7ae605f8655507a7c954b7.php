@@ -3,7 +3,7 @@
     <?php echo e(round($count_rating)); ?>
 
     <?php else: ?>
-
+        <a href="<?php echo e(route('reviews.display',$products_id)); ?>">
             <?php echo e(round($count_rating)); ?></a>
     <?php endif; ?>
 </p>

@@ -2,7 +2,7 @@
     @if($count_rating==0)
     {{round($count_rating)}}
     @else
-{{--        <a href="{{route('admin.rating.show',['type'=>'customer','id'=>$id])}}">--}}
+        <a href="{{route('reviews.display',$products_id)}}">
             {{round($count_rating)}}</a>
     @endif
 </p>

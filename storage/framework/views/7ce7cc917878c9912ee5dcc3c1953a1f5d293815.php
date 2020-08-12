@@ -13,7 +13,12 @@
         <!-- Main content -->
         <section class="content">
             <!-- Info boxes -->
-
+            <style>
+                .box-header > .box-tools {
+                    right: 10px;
+                    left: unset;
+                }
+            </style>
             <!-- /.row -->
             <!-- /.row -->
 
@@ -21,7 +26,7 @@
                 <div class="col-md-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title"><?php echo e(trans('labels.ListingAllImage')); ?> </h3>
+                            <h3 class="box-title"> </h3>
 
                             <div style="margin-right:88px;" class="box-tools pull-left">
                                 <button id="btn" type="button"

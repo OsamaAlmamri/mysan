@@ -32,7 +32,7 @@ class ReviewController extends Controller
         $this->Setting = $setting;
     }
 
-    public function reviews(Request $request)
+    public function reviews($product_id='all')
     {
 
 
@@ -42,7 +42,7 @@ class ReviewController extends Controller
         $data = $this->reviews->paginator();
         $result['reviews'] = $data;
         $result['commonContent'] = $this->Setting->commonContent();
-        return $reviews->render('admin.reviews.index', ['title' => $title, 'result' => $result]);
+        return $reviews->render('admin.reviews.index', ['product_id' => $product_id,'title' => $title, 'result' => $result]);
 
     }
 

@@ -5,6 +5,7 @@ namespace App\Models\Core;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Kyslik\ColumnSortable\Sortable;
 
 
@@ -174,14 +175,29 @@ class Images extends Model
 
     public function imagedelete($id)
     {
+//        if()
+        $categories = DB::table('categories')->where('categories_image', $id)->orWhere('categories_icon', $id)->count();
+        $bouquets = DB::table('bouquets')->where('default_image', $id)->count();
+        $languages = DB::table('languages')->where('image', $id)->count();
+        $manufacturers = DB::table('manufacturers')->where('manufacturer_image', $id)->count();
+        $products_images = DB::table('products_images')->where('image', $id)->count();
+        $products = DB::table('products')->where('products_image', $id)->count();
+        $view_categories = DB::table('view_categories')->where('image', $id)->count();
+        $all = $bouquets + $categories + $languages + $manufacturers + $products + $products_images + $view_categories;
+        if ($all > 0)
+            return 0;
         $imagesdetail = DB::table('images')
             ->where('images.id', $id)
             ->delete();
-
         $imagesdetailcategories = DB::table('image_categories')
             ->where('image_categories.image_id', $id)
-            ->delete();
-        return $imagesdetailcategories;
+            ->get();
+        foreach ($imagesdetailcategories as $imagesdetailcategory)
+        {
+            File::delete(public_path($imagesdetailcategory->path));
+            $imagesdetailcategory->delete();
+        }
+        return 1;
     }
 
 
@@ -196,6 +212,7 @@ class Images extends Model
         return $this->hasOne(ImageCategory::class, 'image_id', 'id')
             ->where("image_type", '=', "THUMBNAIL");
     }
+
     public function imagesACTUAL()
     {
         //

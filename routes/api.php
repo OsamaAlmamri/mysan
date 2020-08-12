@@ -69,9 +69,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('addMyAddress', 'API\ShippingAddressController@addMyAddress');
     Route::post('myDefaultAddress', 'API\ShippingAddressController@myDefaultAddress');
     Route::post('update_address', 'API\ShippingAddressController@updateAddress');
-    Route::post('delete_address', 'API\ShippingAddressController@deleteAddress');
-
     Route::post('wishlist', 'API\ProductsController@shop');
+    Route::post('delete_address', 'API\ShippingAddressController@deleteAddress');
 
 
     Route::post('getProduct', 'API\IndexController@getProduct');

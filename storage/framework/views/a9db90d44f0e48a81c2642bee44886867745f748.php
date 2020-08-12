@@ -112,7 +112,7 @@
                 firstTime = 1;
                 load_data(product, main, sub, from_date, to_date);
             }
-            load_data('all', 'all', 'all', null, null);
+            load_data('<?php echo e($product_id); ?>', 'all', 'all', null, null);
         });
     </script>
 <?php $__env->stopSection(); ?>

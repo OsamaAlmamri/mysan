@@ -28,6 +28,9 @@
                 '&sub_id=' + sub_id + '&main_id=' + main_id,
             success: function (data) {
                 list_view.html(data.data);
+                @isset($product_id)
+                $('#products_list').val('{{$product_id}}');
+                @endisset
                 $('#products_list').change();
             },
             error: function (xhr, status, error) {

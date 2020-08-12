@@ -200,9 +200,7 @@ class MediaController extends Controller
         $destinationFile = public_path($Path);
         $size = getimagesize($destinationFile);
         list($width, $height, $type, $attr) = $size;
-
         $storeLargeImage = $Images->Largerecord($input, $Path, $width, $height);
-
         return $namelarge;
     }
 

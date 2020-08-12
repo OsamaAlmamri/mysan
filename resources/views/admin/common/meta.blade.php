@@ -84,6 +84,10 @@
     .ratingDiv .checked {
         color: orange;
     }
+    .box-header > .box-tools {
+        right: unset;
+        left: 10px;
+    }
 
 
 </style>
