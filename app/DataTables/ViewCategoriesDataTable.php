@@ -72,10 +72,10 @@ class ViewCategoriesDataTable extends DataTable
             ->parameters(
                 [
                     'paging' => true,
-//                    'responsive' => true,
+                    'responsive' => true,
                     'scrollX' => true,
                     'searching' => true,
-                    'autoWidth' => true,
+                    'autoWidth' => false,
                     'info' => false,
                     'searchDelay' => 350,
 //                    'language' => ['url' => url('js/dataTables/language.json')],
