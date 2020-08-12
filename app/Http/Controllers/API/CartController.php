@@ -46,7 +46,7 @@ class CartController extends BaseAPIController
         $data = array();
 
 
-        $result['cart'] = $this->cart->myCart($data, $request->lang);
+        $result['cart'] = $this->cart->myCart($data,  getApiLanguage($request));
 //        //apply coupon
 //        $coupon = $this->tempStorage->getMultiTemp('coupon');
 //        if ($coupon->count() > 0) {
@@ -231,19 +231,14 @@ class CartController extends BaseAPIController
     //updateCart
     public function updateCart(Request $request)
     {
-
-
-        $customers_id = auth()->user()->id;
+        $customers_id = auth()->id();
         $session_id = Session::getId();
-        $carts = explode(',', $request->cart);
-        $quantity = explode(',', $request->quantity);
-        foreach ($carts as $key => $customers_basket_id) {
-            $this->cart->updateRecord($customers_basket_id, $customers_id, $session_id, $quantity[$key]);
+        $carts=json_decode($request->data,false);
+        foreach ($carts as $carts ) {
+            $this->cart->updateRecord($carts->customers_basket_id, $customers_id, $session_id, $carts->quantity);
         }
-
         $message = Lang::get("website.Cart has been updated successfully");
         return $this->sendResponse('', $message);
-
     }
 
     //apply_coupon
@@ -252,7 +247,6 @@ class CartController extends BaseAPIController
 
         $result = array();
         $coupon_code = $request->coupon_code;
-
         $carts = $this->cart->myCart(array());
 //        return $carts;
         if (count($carts) > 0) {
@@ -267,9 +261,8 @@ class CartController extends BaseAPIController
     public function removeCoupon(Request $request)
     {
         $coupons_id = $request->id;
-
         $session_coupon_data = $this->tempStorage->getMultiTemp('coupon');
-        $this->tempStorage::where('user_id', auth()->user()->id)->delete();
+        $this->tempStorage::where('user_id', auth()->id())->delete();
 
         $response = array();
         if (!empty($session_coupon_data)) {
@@ -280,8 +273,6 @@ class CartController extends BaseAPIController
             }
         }
         return $this->sendNotFormatResponse(($response));
-
-
     }
 
 }

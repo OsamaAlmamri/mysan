@@ -51,17 +51,17 @@ return [
 
 	'All Categories'=>'جميع الفئات',
 
-	'Search entire store here'=>'بحث مخزن كامل هنا',
+	'Search entire store here'=>'بحث في كافة المخزن هنا ...',
 
 	'Profile'=>'الملف الشخصي',
 
-	'Logout'=>'الخروج',
+	'Logout'=>'تسجيل الخروج ',
 
 	'Login/Register'=>'دخولتسجيل',
 
 	'item(s)'=>'العناصر',
 
-	'Quantity'=>'كمية',
+	'Quantity'=>'الكمية',
 
 	'Total Items'=>'مجموع العناصر',
 
@@ -71,7 +71,7 @@ return [
 
 	'Checkout'=>'الدفع',
 
-	'Menu'=>'قائمة طعام',
+	'Menu'=>'القائمة ',
 
 	'My Cart'=>'عربتي',
 
@@ -83,27 +83,27 @@ return [
 
 	'Privacy'=>'الإجمالية',
 
-	'Discount'=>'خصم',
+	'Discount'=>'الخصم',
 
-	'About Us'=>'معلومات عنا',
+	'About Us'=>' عنا',
 
 	'Contact Us'=>'اتصل بنا',
 
-	'Terms & Condtions'=>'البنود و الظروف',
+	'Terms & Condtions'=>'البنود و الشروط',
 
-	'Wishlist'=>'الأماني',
+	'Wishlist'=>'المفضلة',
 
 	'Shopping Cart'=>'عربة التسوق',
 
 	'Privacy Policy'=>'سياسة الخصوصية',
 
-	'Phone'=>'هاتف',
+	'Phone'=>'رقم الهاتف ',
 
 	'Email'=>'البريد الإلكتروني',
 
-	'Copy Rights'=>'2017 شركة ، وشركة',
+	'Copy Rights'=>'ميسان بوتيك 2020',
 
-	'From our News'=>'من أخبارنا',
+	'From our News'=>' أخبارنا',
 
 	'View All News'=>'عرض جميع الأخبار',
 
@@ -115,7 +115,7 @@ return [
 
 	'Shop now'=>'تسوق الآن',
 
-	'Sale'=>'تخفيض السعر',
+	'Sale'=>' سعر التخفيض',
 
 	'Top Selling of the Week'=>'أعلى بيع لهذا الأسبوع',
 
@@ -132,23 +132,24 @@ return [
 
 	'SubTotal'=>'المجموع الفرعي',
 
-	'Couponisappliedsuccessfully'=>'يتم تطبيق القسيمة بنجاح!',
+	'Couponisappliedsuccessfully'=>'تم تطبيق الكوبون بنجاح!',
 
-	'You are not allowed to use this coupon'=>'لا يُسمح لك باستخدام هذه القسيمة.',
+	'You are not allowed to use this coupon'=>'غير مسموح  لك باستخدام هذه الكوبون.',
 
-	'This coupon has been reached to its maximum usage limit'=>'تم الوصول إلى هذه القسيمة إلى الحد الأقصى لاستخدامها.',
+	'This coupon has been reached to its maximum usage limit'=>'لقد انتهى الحد الأقصى للاستخدام  هذا .',
 
-	'coupon is used limit'=>'يتم استخدام القسيمة الحد',
+	'coupon is used limit'=>'لقد تجاوزت الحد المسموح لك لاستخدام هذا  الكوبون',
+	'The coupon cannot be used in conjunction with other coupons'=>'   لا يمكن استخدام هذا الكوبون معا الكوبونات المستخدمة من قبل',
 
-	'Coupon amount limit is low than minimum price'=>'حد مبلغ الكوبون منخفض عن السعر الأدنى.',
+	'Coupon amount limit is low than minimum price'=>' الحد الادنى من مبلغ الشراء اقل من الحد الادنى المسموح لاستخدام.',
 
-	'Coupon amount limit is exceeded than maximum price'=>'يتم تجاوز حد مبلغ الكوبون عن الحد الأقصى للسعر.',
+	'Coupon amount limit is exceeded than maximum price'=>' الحد الاقصى من مبلغ الشراء اكبر  من الحد الاقصى المسموح لاستخدام.',
 
 	'Coupon cannot be applied this product is in sale'=>'لا يمكن تطبيق الكوبون هذا المنتج معروض للبيع.',
 
-	'Coupon amount is greater than total price'=>'كمية الكوبون أكبر من السعر الإجمالي.',
+	'Coupon amount is greater than total price'=>'مبلغ الكوبون أكبر من السعر الإجمالي.',
 
-	'Coupon amount is greater than product price'=>'كمية الكوبون أكبر من سعر المنتج.',
+	'Coupon amount is greater than product price'=>'مبلغ الكوبون أكبر من سعر المنتج.',
 
 	'Coupon does not exist'=>'الكوبون غير موجود أو منتهي الصلاحية .',
 
@@ -156,13 +157,13 @@ return [
 
 	'Coupon is already applied'=>'الكوبون مطبق بالفعل',
 
-	'Cart item has been deleted successfully'=>'تم حذف المنتج السلة بنجاح ',
+	'Cart item has been deleted successfully'=>'تم حذف المنتج من السلة بنجاح ',
 
 	'Coupon has been removed successfully'=>'تمت إزالة الكوبون بنجاح!',
 
-	'Cart has been updated successfully'=>'تم تحديث سلة التسوق بنجاح!',
+	'Cart has been updated successfully'=>'تم تحديث سلة التسوق بنجاح !',
 
-	'Coupon can not be apllied to empty cart'=>'لا يمكن تطبيق القسيمة على عربة فارغة.',
+	'Coupon can not be apllied to empty cart'=>'لا يمكن تطبيق الكوبون وعربة التسوق فارغة.',
 
 	'cartEmptyText'=>'لا يوجد لديك عناصر في سلة التسوق الخاصة بك.<br>انقر <a href="shop">هنا</a> لمواصلة التسوق.',
 
@@ -182,7 +183,7 @@ return [
 
 	'Special'=>'الخاصة',
 
-	'Coupon Code'=>'رمز القسيمة',
+	'Coupon Code'=>'رمز الكزبون',
 
 	'Checkout'=>'الخروج',
 
@@ -192,7 +193,7 @@ return [
 
 	'Total'=>'عدد',
 
-	'Discount(Coupon)'=>'خصم (قسيمة)',
+	'Discount(Coupon)'=>'خصم (الكوبون)',
 
 	'Order Summary'=>'ملخص الطلب',
 

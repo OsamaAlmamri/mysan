@@ -84,7 +84,7 @@ class IndexController extends BaseAPIController
         $max_price = (!empty($request->max_price)) ? $request->max_price : '';
         $min_price = (!empty($request->min_price)) ? $request->min_price : '';
         $search = (!empty($request->search)) ? $request->search : '';
-        $lang = (!empty($request->lang)) ? $request->lang : 2;
+        $lang =  getApiLanguage($request);
         $page_number = (!empty($request->page)) ? $request->page : 0;
 
         //getViewCategories
@@ -164,14 +164,14 @@ class IndexController extends BaseAPIController
 
     public function recursivecategories(Request $request)
     {
-        $lang = (isset($request->lang) and $request->lang < 3) ? $request->lang : 2;
+        $lang =  getApiLanguage($request);
         $result = $this->categories->recursivecategories2($lang);
         return $this->sendResponse($result, '');
     }
 
     public function allCategories(Request $request)
     {
-        $lang = (isset($request->lang) and $request->lang < 3) ? $request->lang : 2;
+        $lang =  getApiLanguage($request);
         $parent = (isset($request->parent)) ? $request->parent : 0;
         $result = $this->categories->allCategories2($lang, $parent);
         return $this->sendResponse($result, '');
@@ -179,7 +179,7 @@ class IndexController extends BaseAPIController
 
     public function getProduct(Request $request)
     {
-        $lang = (isset($request->lang) and $request->lang < 3) ? $request->lang : 2;
+        $lang =  getApiLanguage($request);
         $parent = (isset($request->parent)) ? $request->parent : 0;
         $result = $this->products->getProduct($request);
         return $this->sendResponse($result, '');

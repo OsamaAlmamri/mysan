@@ -25,7 +25,7 @@ class Cart extends Model
 
     }
 
-    public function myCart($baskit_id, $lang = 1)
+    public function myCart($baskit_id, $lang = 2)
     {
         $cart = DB::table('customers_basket')
             ->join('products', 'products.products_id', '=', 'customers_basket.products_id')
@@ -49,7 +49,7 @@ class Cart extends Model
             ]);
 
 
-        $cart->where('customers_basket.customers_id', '=', auth()->user()->id);
+        $cart->where('customers_basket.customers_id', '=', auth()->id());
 
         if (!empty($baskit_id)) {
             $cart->where('customers_basket.customers_basket_id', '=', $baskit_id);
@@ -139,7 +139,7 @@ class Cart extends Model
                         ->where('products_options_values_descriptions.language_id', '=', $lang);
 
 
-                    $attributes->where('customers_basket_attributes.customers_id', '=', auth()->user()->id);
+                    $attributes->where('customers_basket_attributes.customers_id', '=', auth()->id());
 
 
                     $attributes_data = $attributes->get();
@@ -158,8 +158,7 @@ class Cart extends Model
                     $myVar = new Products();
 
                     $qunatity['products_id'] = $cart_data->products_id;
-                    $qunatity['attributes'] = implode(',', $products_attributes_id);;
-
+                    $qunatity['attributes'] = $products_attributes_id;
                     $content = $myVar->productQuantity($qunatity);
                     $stocks = $content['remainingStock'];
                     if (!empty($cart_data->max_order) and $cart_data->max_order != 0) {
@@ -649,14 +648,13 @@ class Cart extends Model
                     ])->update(
                         [
                             'customers_id' => $customers_id,
-                            'products_options_values_id' =>$option->attribute_id,
+                            'products_options_values_id' => $option->attribute_id,
                             'session_id' => $session_id,
                         ]);
                 }
 
             }
-        }
-        else {
+        } else {
             //insert into cart
             if (count($exist) == 0) {
                 $customers_basket_id = DB::table('customers_basket')->insertGetId(
@@ -681,8 +679,7 @@ class Cart extends Model
                             ]);
                     }
 
-                }
-                else if (!empty($detail['product_data'][0]->attributes)) {
+                } else if (!empty($detail['product_data'][0]->attributes)) {
                     foreach ($detail['product_data'][0]->attributes as $attribute) {
                         DB::table('customers_basket_attributes')->insert(
                             [
@@ -695,8 +692,7 @@ class Cart extends Model
                             ]);
                     }
                 }
-            }
-            else {
+            } else {
                 $existAttribute = '0';
                 $totalAttribute = '0';
                 $basket_id = '0';
@@ -727,8 +723,7 @@ class Cart extends Model
                             }
                         }
 
-                    }
-                    else
+                    } else
                         if (!empty($detail['product_data'][0]->attributes)) {
                             foreach ($exist as $exists) {
                                 $totalAttribute = '0';
@@ -794,8 +789,7 @@ class Cart extends Model
                             }
                         }
 
-                    }
-                    else {
+                    } else {
                         //update into cart
                         DB::table('customers_basket')->where('customers_basket_id', '=', $basket_id)
                             ->update([
@@ -880,13 +874,6 @@ class Cart extends Model
     {
         $oldCobons = tempStorage::all()->where('name', 'like', 'coupon')
             ->where('user_id', auth()->user()->id);
-
-//        $ids = [];
-//        foreach ($oldCobons as $o) {
-//            $ids[] = $o->val;
-//
-//        }
-//        $data = Coupon::all()->whereIn('id', $ids);
         return $oldCobons;
     }
 
@@ -898,388 +885,293 @@ class Cart extends Model
 
     public function common_apply_coupon($coupon_code)
     {
-        $result = array();
-
         //current date
         $currentDate = date('Y-m-d 00:00:00', time());
-
-        $data = DB::table('coupons')->where([
-            ['code', '=', $coupon_code],
-            ['expiry_date', '>', $currentDate],
-        ]);
+        $coupons = DB::table('coupons')->where('code', $coupon_code)->where('expiry_date', '>', $currentDate)->get();
         $oldCobons = $this->getOldCoupon();
         $session_coupon_ids = array();
         if ($oldCobons->count() > 0) {
             foreach ($oldCobons as $session_coupon) {
                 $session_coupon_ids[] = $session_coupon->val;
-
             }
         }
-        $coupons = $data->get();
-
         if (count($coupons) > 0) {
-
-            if (!empty(auth()->guard('customer')->user()->email)
-                and in_array(auth()->guard('customer')->user()->email,
-                    explode(',', $coupons[0]->email_restrictions))) {
-                $response = array('success' => '2',
-                    'message' => Lang::get("website.You are not allowed to use this coupon"));
-            } else {
-                if ($coupons[0]->usage_limit > 0 and $coupons[0]->usage_limit == $coupons[0]->usage_count) {
-                    $response = array('success' => '2', 'message' => Lang::get("website.This coupon has been reached to its maximum usage limit"));
-                } else {
-
-                    $carts = $this->myCart(array());
-
-                    $total_cart_items = count($carts);
-                    $price = 0;
-                    $discount_price = 0;
-                    $used_by_user = 0;
-                    $individual_use = 0;
-                    $price_of_sales_product = 0;
-                    $exclude_sale_items = array();
-                    $currentDate = time();
-                    foreach ($carts as $cart) {
-
-                        //check if amy coupons applied
-                        if (!empty($session_coupon_ids)) {
-                            $individual_use++;
-                        }
-
-                        //user limit
-                        if (in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
-                            $used_by_user++;
-                        }
-
-                        //cart price
-                        $price += $cart->final_price * $cart->customers_basket_quantity;
-
-                        //if cart items are special product
-                        if ($coupons[0]->exclude_sale_items == 1) {
-                            $products_id = $cart->products_id;
-                            $sales_item = DB::table('specials')->where([
-                                ['status', '=', '1'],
-                                ['expires_date', '>', $currentDate],
-                                ['products_id', '=', $products_id]])->select('products_id', 'specials_new_products_price as specials_price')->get();
-
-                            if (count($sales_item) > 0) {
-                                $exclude_sale_items[] = $sales_item[0]->products_id;
-
-                                //price check is remaining if already an other coupon is applied and stored in session
-                                $price_of_sales_product += $sales_item[0]->specials_price;
-                            }
-                        }
+            if (!empty(auth()->guard('api')->user()->email)
+                and in_array(auth()->guard('api')->user()->email,
+                    explode(',', $coupons[0]->email_restrictions)))
+                return array('success' => '2', 'message' => Lang::get("website.You are not allowed to use this coupon"));
+            $carts = $this->myCart(array());
+            $total_cart_items = count($carts);
+            $price = 0;
+            $discount_price = 0;
+            $used_by_user = 0;
+            $individual_use = 0;
+            $price_of_sales_product = 0;
+            $exclude_sale_items = array();
+            $currentDate = time();
+            foreach ($carts as $cart) {
+                //check if amy coupons applied
+                if (!empty($session_coupon_ids))
+                    $individual_use++;
+                //user limit
+                if (in_array($coupons[0]->coupans_id, $session_coupon_ids))
+                    $used_by_user++;
+                //cart price
+                $price += $cart->final_price * $cart->customers_basket_quantity;
+                //if cart items are special product
+                if ($coupons[0]->exclude_sale_items == 1) {
+                    $products_id = $cart->products_id;
+                    $sales_item = DB::table('specials')->where([
+                        ['status', '=', '1'],
+                        ['expires_date', '>', $currentDate],
+                        ['products_id', '=', $products_id]])
+                        ->select('products_id', 'specials_new_products_price as specials_price')->get();
+                    if (count($sales_item) > 0) {
+                        $exclude_sale_items[] = $sales_item[0]->products_id;
+                        //price check is remaining if already an other coupon is applied and stored in session
+                        $price_of_sales_product += $sales_item[0]->specials_price;
                     }
-
-                    $total_special_items = count($exclude_sale_items);
-
-                    if ($coupons[0]->individual_use == '1' and $individual_use > 0) {
-                        $response = array('success' => '2', 'message' => Lang::get("website.The coupon cannot be used in conjunction with other coupons"));
-
-                    } else {
-
-                        //check limit
-                        if ($coupons[0]->usage_limit_per_user > 0 and $coupons[0]->usage_limit_per_user <= $used_by_user) {
-                            $response = array('success' => '2', 'message' => Lang::get("website.coupon is used limit"));
-                        } else {
-
-                            $cart_price = $price + 0 - $discount_price;
-
-                            if ($coupons[0]->minimum_amount > 0 and $coupons[0]->minimum_amount >= $cart_price) {
-                                $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount limit is low than minimum price"));
-                            } elseif ($coupons[0]->maximum_amount > 0 and $coupons[0]->maximum_amount <= $cart_price) {
-                                $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount limit is exceeded than maximum price"));
-                            } else {
-
-                                //exclude sales item
-                                //print 'price before applying sales cart price: '.$cart_price;
-                                $cart_price = $cart_price - $price_of_sales_product;
-                                //print 'current cart price: '.$cart_price;
-
-                                if ($coupons[0]->exclude_sale_items == 1 and $total_special_items == $total_cart_items) {
-                                    $response = array('success' => '2', 'message' => Lang::get("website.Coupon cannot be applied this product is in sale"));
-                                } else {
-
-                                    if ($coupons[0]->discount_type == 'fixed_cart') {
-
-                                        if ($coupons[0]->amount < $cart_price) {
-
-                                            $coupon_discount = $coupons[0]->amount;
-                                            $coupon[] = $coupons[0];
-
-                                        } else {
-                                            $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than total price"));
-                                        }
-
-                                    } elseif ($coupons[0]->discount_type == 'percent') {
-                                        $current_discount = $coupons[0]->amount / 100 * $cart_price;
-                                        $cart_price = $cart_price - $current_discount;
-                                        if ($cart_price > 0) {
-
-                                            $coupon_discount = $current_discount;
-                                            $coupon[] = $coupons[0];
-                                        } else {
-                                            $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than total price"));
-                                        }
-
-                                    } elseif ($coupons[0]->discount_type == 'fixed_product') {
-
-                                        $product_discount_price = 0;
-                                        //no of items have greater discount price than original price
-                                        $items_greater_price = 0;
-
-                                        foreach ($carts as $cart) {
-
-                                            if (!empty($coupon[0]->product_categories)) {
-
-                                                //get category ids
-                                                $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
-
-                                                if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
-
-                                                    //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                        $product_price = $cart->final_price;
-                                                        if ($product_price > $coupons[0]->amount) {
-
-                                                            $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-
-                                                        //if coupon cannot be apply for speciafic product
-                                                    } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                    } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                        $product_price = $cart->final_price;
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-                                                    }
-
-                                                }
-
-                                            } else if (!empty($coupon[0]->excluded_product_categories)) {
-
-                                                //get category ids
-                                                $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
-
-                                                if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
-
-                                                    //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                        $product_price = $cart->final_price;
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-
-                                                        //if coupon cannot be apply for speciafic product
-                                                    } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                    } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                        $product_price = $cart->final_price;
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-                                                    }
-                                                }
-
-                                            } else {
-                                                //if coupon is apply for specific product
-
-
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                    $product_price = $cart->final_price;
-                                                    if ($product_price > $coupons[0]->amount) {
-                                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                    } else {
-                                                        $items_greater_price++;
-                                                    }
-
-                                                    //if coupon cannot be apply for speciafic product
-                                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                    $product_price = $cart->final_price;
-                                                    if ($product_price > $coupons[0]->amount) {
-                                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
-                                                    } else {
-                                                        $items_greater_price++;
-                                                    }
-                                                }
-                                            }
-
-                                        }
-
-                                        //check if all cart products are equal to that product which have greater discount amount
-                                        if ($total_cart_items == $items_greater_price) {
-                                            $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than product price"));
-                                        } else {
-                                            $coupon_discount = $product_discount_price;
-                                            $coupon[] = $coupons[0];
-
-                                        }
-
-                                    } elseif ($coupons[0]->discount_type == 'percent_product') {
-
-                                        $product_discount_price = 0;
-                                        //no of items have greater discount price than original price
-                                        $items_greater_price = 0;
-
-                                        foreach ($carts as $cart) {
-
-                                            if (!empty($coupon[0]->product_categories)) {
-
-                                                //get category ids
-                                                $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
-
-                                                if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
-
-                                                    //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                        $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-
-                                                        //if coupon cannot be apply for speciafic product
-                                                    } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                    } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                        $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-                                                    }
-
-                                                }
-
-                                            } else if (!empty($coupon[0]->excluded_product_categories)) {
-
-                                                //get category ids
-                                                $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
-
-                                                if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
-
-                                                    //if coupon is apply for specific product
-                                                    if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                        $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-
-                                                        //if coupon cannot be apply for speciafic product
-                                                    } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                    } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                        $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                        if ($product_price > $coupons[0]->amount) {
-                                                            $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                        } else {
-                                                            $items_greater_price++;
-                                                        }
-                                                    }
-
-                                                }
-
-                                            } else {
-
-
-                                                //if coupon is apply for specific product
-                                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
-
-                                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                    if ($product_price > $coupons[0]->amount) {
-                                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                    } else {
-                                                        $items_greater_price++;
-                                                    }
-
-                                                    //if coupon cannot be apply for speciafic product
-                                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
-
-                                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
-
-                                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
-                                                    if ($product_price > $coupons[0]->amount) {
-                                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
-                                                    } else {
-                                                        $items_greater_price++;
-                                                    }
-                                                }
-                                            }
-
-                                        }
-
-                                        //check if all cart products are equal to that product which have greater discount amount
-                                        if ($total_cart_items == $items_greater_price) {
-                                            $response = array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than product price"));
-                                        } else {
-                                            $coupon_discount = $product_discount_price;
-                                            $coupon[] = $coupons[0];
-                                        }
-
+                }
+            }
+            $total_special_items = count($exclude_sale_items);
+            $cart_price = $price + 0 - $discount_price;
+            if ($coupons[0]->individual_use == '1' and $individual_use > 0)
+                return array('success' => '2', 'message' => Lang::get("website.The coupon cannot be used in conjunction with other coupons"));
+            //check limit
+            elseif ($coupons[0]->usage_limit_per_user > 0 and $coupons[0]->usage_limit_per_user <= $used_by_user)
+                return array('success' => '2', 'message' => Lang::get("website.coupon is used limit"));
+            elseif ($coupons[0]->minimum_amount > 0 and $coupons[0]->minimum_amount >= $cart_price)
+                return array('success' => '2', 'message' => Lang::get("website.Coupon amount limit is low than minimum price"));
+            elseif ($coupons[0]->maximum_amount > 0 and $coupons[0]->maximum_amount <= $cart_price) {
+                return array('success' => '2', 'message' => Lang::get("website.Coupon amount limit is exceeded than maximum price"));
+            } else {
+                //exclude sales item
+                //print 'price before applying sales cart price: '.$cart_price;
+                $cart_price = $cart_price - $price_of_sales_product;
+                //print 'current cart price: '.$cart_price;
+                if ($coupons[0]->exclude_sale_items == 1 and $total_special_items == $total_cart_items)
+                    return array('success' => '2', 'message' => Lang::get("website.Coupon cannot be applied this product is in sale"));
+                if ($coupons[0]->discount_type == 'fixed_cart') {
+                    if ($coupons[0]->amount < $cart_price) {
+                        $coupon_discount = $coupons[0]->amount;
+                        $coupon[] = $coupons[0];
+                    } else
+                        return array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than total price"));
+                } elseif ($coupons[0]->discount_type == 'percent') {
+                    $current_discount = $coupons[0]->amount / 100 * $cart_price;
+                    $cart_price = $cart_price - $current_discount;
+                    if ($cart_price > 0) {
+                        $coupon_discount = $current_discount;
+                        $coupon[] = $coupons[0];
+                    } else
+                        return array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than total price"));
+                } elseif ($coupons[0]->discount_type == 'fixed_product') {
+                    $product_discount_price = 0;
+                    //no of items have greater discount price than original price
+                    $items_greater_price = 0;
+                    foreach ($carts as $cart) {
+                        if (!empty($coupon[0]->product_categories)) {
+                            //get category ids
+                            $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
+                            if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
+                                //if coupon is apply for specific product
+                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+                                    $product_price = $cart->final_price;
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+                                    //if coupon cannot be apply for speciafic product
+                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+
+                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+
+                                    $product_price = $cart->final_price;
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                    } else {
+                                        $items_greater_price++;
                                     }
                                 }
 
                             }
 
+                        } else if (!empty($coupon[0]->excluded_product_categories)) {
+                            //get category ids
+                            $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
+                            if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
+
+                                //if coupon is apply for specific product
+                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+
+                                    $product_price = $cart->final_price;
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+
+                                    //if coupon cannot be apply for speciafic product
+                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+
+                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+
+                                    $product_price = $cart->final_price;
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+                                }
+                            }
+
+                        } else {
+                            //if coupon is apply for specific product
+                            if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+
+                                $product_price = $cart->final_price;
+                                if ($product_price > $coupons[0]->amount) {
+                                    $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                } else {
+                                    $items_greater_price++;
+                                }
+                                //if coupon cannot be apply for speciafic product
+                            } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+                            } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+                                $product_price = $cart->final_price;
+                                if ($product_price > $coupons[0]->amount) {
+                                    $product_discount_price += $coupons[0]->amount * $cart->customers_basket_quantity;
+                                } else {
+                                    $items_greater_price++;
+                                }
+                            }
                         }
 
                     }
 
+                    //check if all cart products are equal to that product which have greater discount amount
+                    if ($total_cart_items == $items_greater_price) {
+                        return array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than product price"));
+                    } else {
+                        $coupon_discount = $product_discount_price;
+                        $coupon[] = $coupons[0];
+                    }
+                } elseif ($coupons[0]->discount_type == 'percent_product') {
+
+                    $product_discount_price = 0;
+                    //no of items have greater discount price than original price
+                    $items_greater_price = 0;
+
+                    foreach ($carts as $cart) {
+                        if (!empty($coupon[0]->product_categories)) {
+                            //get category ids
+                            $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
+
+                            if (in_array($categories[0]->categories_id, $coupon[0]->product_categories)) {
+
+                                //if coupon is apply for specific product
+                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+
+                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+
+                                    //if coupon cannot be apply for speciafic product
+                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+
+                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+
+                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+                                }
+
+                            }
+
+                        } else if (!empty($coupon[0]->excluded_product_categories)) {
+
+                            //get category ids
+                            $categories = BD::table('products_to_categories')->where('products_id', '=', $cart->products_id)->get();
+
+                            if (in_array($categories[0]->categories_id, $coupon[0]->excluded_product_categories)) {
+
+                                //if coupon is apply for specific product
+                                if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+
+                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+
+                                    //if coupon cannot be apply for speciafic product
+                                } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+
+                                } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+
+                                    $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                    if ($product_price > $coupons[0]->amount) {
+                                        $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                    } else {
+                                        $items_greater_price++;
+                                    }
+                                }
+                            }
+                        } else {
+                            //if coupon is apply for specific product
+                            if (!empty($coupons[0]->product_ids) and in_array($cart->products_id, explode(',', $coupons[0]->product_ids))) {
+                                $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                if ($product_price > $coupons[0]->amount) {
+                                    $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                } else {
+                                    $items_greater_price++;
+                                }
+
+                                //if coupon cannot be apply for speciafic product
+                            } elseif (!empty($coupons[0]->exclude_product_ids) and in_array($cart->products_id, $coupons[0]->exclude_product_ids)) {
+
+                            } elseif (empty($coupons[0]->exclude_product_ids) and empty($coupons[0]->product_ids)) {
+
+                                $product_price = $cart->final_price - ($coupons[0]->amount / 100 * $cart->final_price);
+                                if ($product_price > $coupons[0]->amount) {
+                                    $product_discount_price += $coupons[0]->amount / 100 * ($cart->final_price * $cart->customers_basket_quantity);
+                                } else {
+                                    $items_greater_price++;
+                                }
+                            }
+                        }
+
+                    }
+                    //check if all cart products are equal to that product which have greater discount amount
+                    if ($total_cart_items == $items_greater_price) {
+                        return array('success' => '2', 'message' => Lang::get("website.Coupon amount is greater than product price"));
+                    } else {
+                        $coupon_discount = $product_discount_price;
+                        $coupon[] = $coupons[0];
+                    }
                 }
             }
-
-            if (empty($response)) {
-                if (!in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
-                    $this->tempStorage->createMultiTemp('coupon', $coupons[0]->coupans_id, $coupon_code);
-                    $this->tempStorage->createNewSingleTemp('coupon_discount', $this->tempStorage->getSingleTemp('coupon_discount') + $coupon_discount);
-                    $response = array('success' => '1', 'message' => Lang::get("website.Couponisappliedsuccessfully"));
-
-                } else {
-                    $response = array('success' => '0', 'message' => Lang::get("website.Coupon is already applied"));
-                }
-
-            }
-
-
-        } else {
-
-            $response = array('success' => '0', 'message' => Lang::get("website.Coupon does not exist"));
-        }
-
-        return $response;
-
+            if (!in_array($coupons[0]->coupans_id, $session_coupon_ids)) {
+                $this->tempStorage->createMultiTemp('coupon', $coupons[0]->coupans_id, $coupon_code);
+                $this->tempStorage->createNewSingleTemp('coupon_discount', $this->tempStorage->getSingleTemp('coupon_discount') + $coupon_discount);
+                return array('success' => '1', 'message' => Lang::get("website.Couponisappliedsuccessfully"));
+            } else
+                return array('success' => '0', 'message' => Lang::get("website.Coupon is already applied"));
+        } else
+            return array('success' => '0', 'message' => Lang::get("website.Coupon does not exist"));
     }
-
     public function updateRecord($customers_basket_id, $customers_id, $session_id, $quantity)
     {
-        DB::table('customers_basket')->where('customers_basket_id', '=', $customers_basket_id)->update(
-            [
-                'customers_id' => $customers_id,
+        DB::table('customers_basket')->where('customers_basket_id', $customers_basket_id)->update(
+            ['customers_id' => $customers_id,
                 'session_id' => $session_id,
                 'customers_basket_quantity' => $quantity,
             ]);

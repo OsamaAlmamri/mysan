@@ -301,7 +301,7 @@ class ProductsController extends BaseAPIController
         $max_price = (!empty($request->max_price)) ? $request->max_price : '';
         $min_price = (!empty($request->min_price)) ? $request->min_price : '';
         $search = (!empty($request->search)) ? $request->search : '';
-        $lang = (!empty($request->lang)) ? $request->lang : 2;
+        $lang =  getApiLanguage($request);
 
         //category
         if ($request->is('api/categoryProducts') == true and empty($request->category)) {
@@ -330,7 +330,7 @@ class ProductsController extends BaseAPIController
                     $index2 = 0;
                     $values = array();
                     foreach ($request->$option_name as $value) {
-                        $value = $this->products->getOptionsValues($value, (!empty($request->lang)) ? $request->lang : 2);
+                        $value = $this->products->getOptionsValues($value,  getApiLanguage($request));
                         $option_values[] = $value[0]->products_options_values_id;
                     }
                     $options[] = $options_data->products_options_id;
@@ -363,7 +363,7 @@ class ProductsController extends BaseAPIController
     public function productDetail(Request $request)
     {
         $data = array('page_number' => '0', 'type' => '', 'products_id' => $request->products_id, 'limit' => '', 'min_price' => '',
-            'max_price' => '', 'lang' => (!empty($request->lang)) ? $request->lang : 2);
+            'max_price' => '', 'lang' =>  getApiLanguage($request));
         $detail = $this->products->singleproducts2($data);
         return $this->sendResponse($detail['product_data'], '');
 

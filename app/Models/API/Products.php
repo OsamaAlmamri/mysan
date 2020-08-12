@@ -782,7 +782,6 @@ class Products extends Model
             $categories->where('products_to_categories.categories_id', '=', $data['categories_id']);
             $categories->where('categories_description.language_id', '=', $data['lang']);
         }
-
         $categories->orderBy($sortby, $order)->groupBy('products.products_id');
 
         //count

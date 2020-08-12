@@ -182,6 +182,10 @@ function getAttributeOptionName($products_options_id, $language_id = 2)
     return $data->options_values_name;
 }
 
+function getApiLanguage($request)
+{
+    return (!empty($request->lang)) ? $request->lang : 2;
+}
 
 function getCategoriesToSelect()
 {
