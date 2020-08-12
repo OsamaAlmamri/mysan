@@ -50,6 +50,7 @@
                         paging: true,
                         scrollX: true,
                         responsive: true,
+                        autoWidth: false,
                         searching: true,
                         language: language,
                         "createdRow": function (row, data, dataIndex) {

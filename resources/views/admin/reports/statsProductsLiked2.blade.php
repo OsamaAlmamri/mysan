@@ -19,6 +19,7 @@
                         // serverSide: true,
                         paging: true,
                         scrollX: true,
+                        autoWidth: false,
                         responsive: true,
                         searching: true,
                         language: language,

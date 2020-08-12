@@ -49,7 +49,7 @@
                                         {!! $dataTable->table(['class'=>'dataTable table table-striped table-hover table table-bordered' ],true)  !!}
                                     @else
                                         <table id="orderdata"
-                                               class="dataTable table table-striped table-hover table table-bordered">
+                                               class="dataTable table table-striped table-hover table table-bordered table-dark">
                                         </table>
                                     @endif
 

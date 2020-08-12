@@ -26,6 +26,7 @@
     <script>
         $(document).ready(function () {
             var firstTime = 1;
+
             function load_data(main, sub, from_date, to_date) {
                 $('#orderdata').DataTable({
                         processing: true,
@@ -33,6 +34,7 @@
                         paging: true,
                         scrollX: true,
                         responsive: true,
+                        autoWidth: false,
                         searching: true,
                         language: language,
                         pageLength: 10,
@@ -54,7 +56,7 @@
                                 to_date: to_date,
                             }
                         }
-                        ,   columns: [
+                        , columns: [
                             {
                                 title: '#',
                                 data: 'DT_RowIndex',
@@ -92,7 +94,7 @@
                                 title: '{{trans('labels.Additional info')}}',
                                 data: 'info',
                                 name: 'info',
-                            },  {
+                            }, {
                                 title: '{{trans('labels.rating')}}',
                                 data: 'rating',
                                 name: 'rating',

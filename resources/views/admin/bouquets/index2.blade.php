@@ -25,7 +25,7 @@
                         serverSide: true,
                         paging: true,
                         scrollX: true,
-                        width: "100%",
+                        autoWidth: false,
                         responsive: true,
                         searching: true,
                         language: language,

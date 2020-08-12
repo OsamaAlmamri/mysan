@@ -50,7 +50,7 @@
 
                                     <?php else: ?>
                                         <table id="orderdata"
-                                               class="dataTable table table-striped table-hover table table-bordered">
+                                               class="dataTable table table-striped table-hover table table-bordered table-dark">
                                         </table>
                                     <?php endif; ?>
 
