@@ -30,7 +30,8 @@
         <section class="content-header">
             <?php echo $__env->yieldContent('header_h1'); ?>
             <ol class="breadcrumb">
-                <li><a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>"><i
+                <li>
+                    <a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>"><i
                             class="fa fa-dashboard"></i> <?php echo e(trans('labels.breadcrumb_dashboard')); ?></a></li>
                 <?php echo $__env->yieldContent('header'); ?>
             </ol>

@@ -30,7 +30,8 @@
         <section class="content-header">
             @yield('header_h1')
             <ol class="breadcrumb">
-                <li><a href="{{ URL::to('admin/dashboard/this_month')}}"><i
+                <li>
+                    <a href="{{ URL::to('admin/dashboard/this_month')}}"><i
                             class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</a></li>
                 @yield('header')
             </ol>

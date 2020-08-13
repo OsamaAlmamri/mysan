@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App;
+use App\DataTables\CouponsDataTable;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Setting;
@@ -53,6 +54,19 @@ class ReportsController extends Controller
         return view("admin.reports.$view", $title)
             ->with('reportType', $reportType)
             ->with('result', $result);
+    }
+    public function customers_basketDetail($customers_id )
+    {
+
+        $basket = new App\DataTables\BasketDetailDataTable($customers_id);
+        $myVar = new SiteSettingController();
+
+//        $customers = $this->Customers->paginator();
+        $title = array('pageTitle' => \Illuminate\Support\Facades\Lang::get("labels.Manufacturers"));
+        $result['currency'] = $myVar->getSetting();
+        $result['commonContent'] = $myVar->Setting->commonContent();
+        return $basket->render('admin.reports.basketDetail', ['title' => $title, 'result' => $result,
+            'dataTableType' => 'php']);
     }
 
     public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09', $reportType = 'inventory')
@@ -120,7 +134,9 @@ class ReportsController extends Controller
                 DB::raw("(SELECT (id) FROM devices  WHERE devices.user_id=customers_basket.customers_id ORDER BY id DESC LIMIT 1  ) as device_id"),
                 DB::raw("(SELECT count(customers_basket_quantity) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_productsType"),
                 DB::raw("(CONCAT( COALESCE(users.first_name,' ') , ' ' ,COALESCE(users.last_name,' ') )) as customer"))
+
             ->whereBetween('customers_basket_date_added', [$from_date, $to_date])
+            ->where('is_order',0)
             ->groupBy(['customers_id'])
             ->orderByDesc('customers_basket_date_added')
             ->get();
