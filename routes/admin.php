@@ -276,6 +276,12 @@ Route::group(['middleware' => ['installer']], function () {
         Route::get('/filter2', 'ReviewController@filter2')->name('reviews.filter2');
 
     });
+
+    Route::group(['prefix' => 'admin/info', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::post('/getCategories', 'ReviewController@getCategories')->name('info.getCategories');
+        Route::post('/getProducts', 'ReviewController@getProducts')->name('info.getProducts');
+
+    });
     Route::group(['prefix' => 'admin/info', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::post('/getCategories', 'ReviewController@getCategories')->name('info.getCategories');
         Route::post('/getProducts', 'ReviewController@getProducts')->name('info.getProducts');
@@ -441,7 +447,8 @@ Route::group(['middleware' => ['installer']], function () {
         Route::get('/statscustomers', 'ReportsController@statsCustomers')->middleware('report');
         Route::get('/report/{type?}', 'ReportsController@showProductsReoprts')->middleware('report')->name('report.show');
         Route::get('/statsproductspurchased', 'ReportsController@statsProductsPurchased')->middleware('report');
-        Route::get('/statsproductspurchased2', 'ReportsController@filter2')->middleware('report')->name('statsProductsPurchased.filter2');
+        Route::get('/statsproductspurchased2', 'ReportsController@filter2')->middleware('report')->name('reports.filter2');
+        Route::get('/customers_basketFilter', 'ReportsController@customers_basketFilter')->middleware('report')->name('reports.customers_basketFilter');
         Route::get('/statsproductsliked', 'ReportsController@statsProductsLiked')->middleware('report');
         Route::get('/outofstock', 'ReportsController@outofstock')->middleware('report');
         Route::get('/lowinstock', 'ReportsController@lowinstock')->middleware('report');

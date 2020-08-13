@@ -6,13 +6,9 @@ use App;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Setting;
-
-//for password encryption or hash protected
-use DB;
 use Hash;
-
-//for authenitcate login data
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lang;
 
 //for requesting a value
@@ -22,9 +18,7 @@ class ReportsController extends Controller
     //statsCustomers
     public function statsCustomers(Request $request)
     {
-
         $title = array('pageTitle' => Lang::get("labels.CustomerOrdersTotal"));
-
         $cusomters = DB::table('users')
             ->join('orders', 'orders.customers_id', '=', 'users.id')
             ->select('users.*', 'order_price', DB::raw('SUM(order_price) as price'), DB::raw('count(orders_id) as total_orders'))
@@ -51,10 +45,14 @@ class ReportsController extends Controller
         $myVar = new SiteSettingController();
         $result['currency'] = $myVar->getSetting();
         $result['commonContent'] = $myVar->Setting->commonContent();
-        return view("admin.reports.showProductsReoprts", $title)
+        if ($reportType == "customers_basket")
+            $view = "customers_basket";
+        else {
+            $view = "showProductsReoprts";
+        }
+        return view("admin.reports.$view", $title)
             ->with('reportType', $reportType)
             ->with('result', $result);
-
     }
 
     public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09', $reportType = 'inventory')
@@ -77,7 +75,7 @@ class ReportsController extends Controller
         }
 
 
-        $data = \Illuminate\Support\Facades\DB::table('products')
+        $data = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id');
         if ($reportType == 'inventory')
             $data = $data->join('inventory', 'inventory.products_id', '=', 'products.products_id');
@@ -109,15 +107,47 @@ class ReportsController extends Controller
             ->get();
     }
 
+    public function getCustomers_basketFilter($from_date = '1970-01-01', $to_date = '9999-09-09')
+    {
+        $data = DB::table('customers_basket')
+            ->leftJoin('users', 'customers_basket.customers_id', '=', 'users.id')
+            ->select('customers_basket.*',
+                DB::raw( "(SELECT sum(final_price) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_price"),
+                DB::raw("(SELECT sum(customers_basket_quantity) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_quantity"),
+                DB::raw("(SELECT (Reports.customers_basket_date_added) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id ORDER BY  Reports.customers_basket_date_added DESC LIMIT 1  ) as last_date_added"),
+                DB::raw("(SELECT (Reports.customers_basket_date_added) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id ORDER BY  Reports.customers_basket_date_added  LIMIT 1  ) as first_date_added"),
+                DB::raw("(SELECT (last_basket_notification_date) FROM devices  WHERE devices.user_id=customers_basket.customers_id ORDER BY last_basket_notification_date DESC LIMIT 1  ) as last_basket_notification_date"),
+                DB::raw("(SELECT (id) FROM devices  WHERE devices.user_id=customers_basket.customers_id ORDER BY id DESC LIMIT 1  ) as device_id"),
+                DB::raw("(SELECT count(customers_basket_quantity) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_productsType"),
+                DB::raw("(CONCAT( COALESCE(users.first_name,' ') , ' ' ,COALESCE(users.last_name,' ') )) as customer"))
+            ->whereBetween('customers_basket_date_added', [$from_date, $to_date])
+            ->groupBy(['customers_id'])
+            ->orderByDesc('customers_basket_date_added')
+            ->get();
+        return $data;
+    }
+
     public function filter2(Request $request)
     {
         $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
         $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
-        $data = $this->getData($request->main, $request->sub, $from, $to,$request->reportType);
+        $data = $this->getData($request->main, $request->sub, $from, $to, $request->reportType);
         return datatables()->of($data)
             ->addIndexColumn()
             ->addColumn('btn_image', 'admin.products.btn.image')
             ->rawColumns(['btn_image'])
+            ->make(true);
+    }
+
+    public function customers_basketFilter(Request $request)
+    {
+        $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
+        $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
+        $data = $this->getCustomers_basketFilter($from, $to);
+        return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('manage', 'admin.reports.btns.manageCustomers_basket')
+            ->rawColumns(['manage'])
             ->make(true);
     }
 

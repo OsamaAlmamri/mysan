@@ -159,9 +159,14 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                 href="{{ URL::to('admin/statscustomers')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_customer_orders_total') }}</a>
                         </li>
+                        <li class=" {{ Request::is('admin/report/inventory') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','customers_basket')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.customers_basket') }}</a></li>
+
                         <li class="{{ Request::is('admin/report/inventory') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','inventory')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_total_purchased') }}</a></li>
+
                         <li class="{{ Request::is('admin/report/like') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','like')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_products_liked') }}</a></li>

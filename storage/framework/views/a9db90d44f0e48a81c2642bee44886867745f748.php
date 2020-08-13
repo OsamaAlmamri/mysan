@@ -18,7 +18,8 @@
                         // serverSide: true,
                         paging: true,
                         scrollX: true,
-                        // responsive: true,
+                        responsive: true,
+                        autoWidth: false,
                         searching: true,
                         search: [
                             regex => true,

@@ -19,6 +19,7 @@ class CreateDevicesTable extends Migration {
 			$table->integer('user_id')->default(0);
 			$table->integer('device_type')->default(1);
 			$table->boolean('status')->default(0);
+			$table->date('last_basket_notification_date')->nullable();
 			$table->string('ram', 250)->nullable();
 			$table->string('processor', 250)->nullable();
 			$table->string('device_os', 250)->nullable();

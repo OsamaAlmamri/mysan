@@ -27,11 +27,12 @@
             function load_data(main, sub, from_date, to_date) {
                 $('#orderdata').DataTable({
                         processing: true,
-                        // serverSide: true,
+                        serverSide: true,
                         paging: true,
-                        // scrollX: true,
+                        scrollX: true,
                         responsive: true,
                         searching: true,
+                        autoWidth: false,
                         language: language,
                         pageLength: 10,
                         search: [
@@ -43,7 +44,7 @@
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons: [],
                         ajax: {
-                            url: '{{ route("statsProductsPurchased.filter2") }}',
+                            url: '{{ route("reports.filter2") }}',
                             data: {
                                 _token: "{{csrf_token()}}",
                                 main: main,
