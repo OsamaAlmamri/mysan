@@ -7,6 +7,7 @@ use App\DataTables\CouponsDataTable;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Setting;
+use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +47,7 @@ class ReportsController extends Controller
         $myVar = new SiteSettingController();
         $result['currency'] = $myVar->getSetting();
         $result['commonContent'] = $myVar->Setting->commonContent();
+
         if ($reportType == "customers_basket")
             $view = "customers_basket";
         else {
@@ -55,7 +57,8 @@ class ReportsController extends Controller
             ->with('reportType', $reportType)
             ->with('result', $result);
     }
-    public function customers_basketDetail($customers_id )
+
+    public function customers_basketDetail($customers_id)
     {
 
         $basket = new App\DataTables\BasketDetailDataTable($customers_id);
@@ -126,7 +129,7 @@ class ReportsController extends Controller
         $data = DB::table('customers_basket')
             ->leftJoin('users', 'customers_basket.customers_id', '=', 'users.id')
             ->select('customers_basket.*',
-                DB::raw( "(SELECT sum(final_price) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_price"),
+                DB::raw("(SELECT sum(final_price) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_price"),
                 DB::raw("(SELECT sum(customers_basket_quantity) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_quantity"),
                 DB::raw("(SELECT (Reports.customers_basket_date_added) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id ORDER BY  Reports.customers_basket_date_added DESC LIMIT 1  ) as last_date_added"),
                 DB::raw("(SELECT (Reports.customers_basket_date_added) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id ORDER BY  Reports.customers_basket_date_added  LIMIT 1  ) as first_date_added"),
@@ -134,9 +137,8 @@ class ReportsController extends Controller
                 DB::raw("(SELECT (id) FROM devices  WHERE devices.user_id=customers_basket.customers_id ORDER BY id DESC LIMIT 1  ) as device_id"),
                 DB::raw("(SELECT count(customers_basket_quantity) FROM customers_basket as Reports WHERE Reports.customers_id=customers_basket.customers_id  ) as all_productsType"),
                 DB::raw("(CONCAT( COALESCE(users.first_name,' ') , ' ' ,COALESCE(users.last_name,' ') )) as customer"))
-
             ->whereBetween('customers_basket_date_added', [$from_date, $to_date])
-            ->where('is_order',0)
+            ->where('is_order', 0)
             ->groupBy(['customers_id'])
             ->orderByDesc('customers_basket_date_added')
             ->get();

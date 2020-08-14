@@ -12,7 +12,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use mysql_xdevapi\Table;
 
-
+if (!function_exists('HostUrl')) {
+    function HostUrl($url = null)
+    {
+        if (url('') == 'http:/xxxxxx.com')
+            return url('xxxxx/public/' . $url);
+        else
+            return url($url);
+    }
+}
 function formatDateToTimeLine($date)
 {
 //       return Carbon::parse($date)->diffForHumans();

@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\tempStorage;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\CustomerBaskets::class,
     ];
 
     /**
@@ -26,6 +29,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->command('basketNotification:send')
+            ->dailyAt("16:00")->timezone('Asia/Riyadh');
     }
 
     /**

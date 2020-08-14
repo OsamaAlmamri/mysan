@@ -13,8 +13,8 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
@@ -98,8 +98,8 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
         '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
         '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
-        '27592325262b385204a263c2ab632d6e' => __DIR__ . '/..' . '/kreait/clock/src/Clock.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        '27592325262b385204a263c2ab632d6e' => __DIR__ . '/..' . '/kreait/clock/src/Clock.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
@@ -107,6 +107,7 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        '9475354b4ef53b0ad02aebf6d3246661' => __DIR__ . '/..' . '/anlutro/l4-settings/src/helpers.php',
         '0d8253363903f0ac7b0978dcde4e28a0' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/helpers.php',
         '17d016dc52a631c1e74d2eb8fdd57342' => __DIR__ . '/..' . '/laravel/helpers/src/helpers.php',
         '26780a83c716f8c0312cffe56b68991e' => __DIR__ . '/..' . '/rehan/laravel-installer/src/Helpers/functions.php',
@@ -122,6 +123,10 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'l' => 
         array (
             'libphonenumber\\' => 15,
+        ),
+        'a' => 
+        array (
+            'anlutro\\LaravelSettings\\' => 24,
         ),
         'Z' => 
         array (
@@ -325,6 +330,10 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'libphonenumber\\' => 
         array (
             0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
+        ),
+        'anlutro\\LaravelSettings\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/anlutro/l4-settings/src',
         ),
         'ZipStream\\' => 
         array (
@@ -860,11 +869,12 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'Anand\\LaravelPaytmWallet\\Traits\\HasTransactionStatus' => __DIR__ . '/..' . '/anandsiddharth/laravel-paytm-wallet/src/Traits/HasTransactionStatus.php',
         'App\\Admin' => __DIR__ . '/../..' . '/app/Admin.php',
         'App\\Bouquet' => __DIR__ . '/../..' . '/app/Bouquet.php',
-        'App\\BouquetProduct' => __DIR__ . '/../..' . '/app/BouquetProduct.php',
         'App\\Console\\Commands\\BackupDatabase' => __DIR__ . '/../..' . '/app/Console/Commands/BackupDatabase.php',
+        'App\\Console\\Commands\\CustomerBaskets' => __DIR__ . '/../..' . '/app/Console/Commands/CustomerBaskets.php',
         'App\\Console\\Commands\\application' => __DIR__ . '/../..' . '/app/Console/Commands/application.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Customer' => __DIR__ . '/../..' . '/app/Customer.php',
+        'App\\DataTables\\BasketDetailDataTable' => __DIR__ . '/../..' . '/app/DataTables/BasketDetailDataTable.php',
         'App\\DataTables\\CompaniesDataTable' => __DIR__ . '/../..' . '/app/DataTables/CompaniesDataTable.php',
         'App\\DataTables\\CouponsDataTable' => __DIR__ . '/../..' . '/app/DataTables/CouponsDataTable.php',
         'App\\DataTables\\CurrenciesDataTable' => __DIR__ . '/../..' . '/app/DataTables/CurrenciesDataTable.php',
@@ -1053,6 +1063,7 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'App\\Models\\Core\\NewsCategory' => __DIR__ . '/../..' . '/app/Models/Core/NewsCategory.php',
         'App\\Models\\Core\\NewsToNewsCategory' => __DIR__ . '/../..' . '/app/Models/Core/NewsToNewsCategory.php',
         'App\\Models\\Core\\Order' => __DIR__ . '/../..' . '/app/Models/Core/Order.php',
+        'App\\Models\\Core\\OrdersProduct' => __DIR__ . '/../..' . '/app/Models/Core/OrdersProduct.php',
         'App\\Models\\Core\\Pages' => __DIR__ . '/../..' . '/app/Models/Core/Pages.php',
         'App\\Models\\Core\\Payments_setting' => __DIR__ . '/../..' . '/app/Models/Core/Payments_setting.php',
         'App\\Models\\Core\\ProductQuestion' => __DIR__ . '/../..' . '/app/Models/Core/ProductQuestion.php',
@@ -6719,6 +6730,16 @@ class ComposerStaticInit7b1635d160970f5b69aa89c308c0c941
         'ZipStream\\Stream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
         'ZonesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ZonesTableSeeder.php',
+        'anlutro\\LaravelSettings\\ArrayUtil' => __DIR__ . '/..' . '/anlutro/l4-settings/src/ArrayUtil.php',
+        'anlutro\\LaravelSettings\\DatabaseSettingStore' => __DIR__ . '/..' . '/anlutro/l4-settings/src/DatabaseSettingStore.php',
+        'anlutro\\LaravelSettings\\Facade' => __DIR__ . '/..' . '/anlutro/l4-settings/src/Facade.php',
+        'anlutro\\LaravelSettings\\JsonSettingStore' => __DIR__ . '/..' . '/anlutro/l4-settings/src/JsonSettingStore.php',
+        'anlutro\\LaravelSettings\\LaravelIsStupidMiddleware' => __DIR__ . '/..' . '/anlutro/l4-settings/src/SaveMiddleware.php',
+        'anlutro\\LaravelSettings\\MemorySettingStore' => __DIR__ . '/..' . '/anlutro/l4-settings/src/MemorySettingStore.php',
+        'anlutro\\LaravelSettings\\SaveMiddleware' => __DIR__ . '/..' . '/anlutro/l4-settings/src/SaveMiddleware.php',
+        'anlutro\\LaravelSettings\\ServiceProvider' => __DIR__ . '/..' . '/anlutro/l4-settings/src/ServiceProvider.php',
+        'anlutro\\LaravelSettings\\SettingStore' => __DIR__ . '/..' . '/anlutro/l4-settings/src/SettingStore.php',
+        'anlutro\\LaravelSettings\\SettingsManager' => __DIR__ . '/..' . '/anlutro/l4-settings/src/SettingsManager.php',
         'libphonenumber\\AlternateFormatsCountryCodeSet' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/AlternateFormatsCountryCodeSet.php',
         'libphonenumber\\AsYouTypeFormatter' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/AsYouTypeFormatter.php',
         'libphonenumber\\CountryCodeSource' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/CountryCodeSource.php',

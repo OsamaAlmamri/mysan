@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Core\Device;
+use App\Device;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
+use Kreait\Laravel\Firebase\Facades\FirebaseAuth;
 
 
 class FireBaseController extends Controller
 {
-
     public function __construct()
     {
+        $this->factory = (new Factory)->withServiceAccount(__DIR__ . '/halaalmadi-e8464-firebase-adminsdk-pbdkt-04d363344c.json');
 
     }
 
     public function index()
     {
-
-        $factory = (new Factory)->withServiceAccount(__DIR__ . '/aldarobi-3a625-firebase-adminsdk-v49yq-e9f27e8aa3.json');
-        $messaging = $factory->createMessaging();
+        $messaging = $this->factory->createMessaging();
 //        $messaging = app('firebase.messaging');
 
 
@@ -66,48 +65,27 @@ class FireBaseController extends Controller
     }
 
 
-    public function oneDevice()
+    public function oneDevice($deviceToken,$dataToNotification)
     {
-        $deviceToken = 'cZSwh1vyZ_VcUJHNYCaE9U:APA91bHPzsOKesAw5coYfZaAhEDS9v3bLTP4lCA1qu2PWVuathmOvKoxo_BN-Hjt66H2Z8MjamHAQaoUTGc8U1piLmU8m8nEPeuWVzCCF3V_y4F-uJWT3Mk6zRrofeY15de7L4HTUfwk';
-        $factory = (new Factory)->withServiceAccount(__DIR__ . '/aldarobi-3a625-firebase-adminsdk-v49yq-e9f27e8aa3.json');
-        $messaging = $factory->createMessaging();
-        $title = 'My Notification Title';
-        $body = 'My Notification Body';
-        $imageUrl = 'http://lorempixel.com/400/200/';
-        $notification = Notification::fromArray([
-            'title' => $title,
-            'body' => $body,
-            'image' => $imageUrl,
-            'image3' => $imageUrl,
-            'image7' => $imageUrl,
+
+        $messaging = $this->factory->createMessaging();
+        $data =$dataToNotification;
+          $notification = Notification::fromArray([
+            'title' => $dataToNotification['sender_name'],
+            'body' => $dataToNotification['message'],
+            'image' => $dataToNotification['sender_image'],
         ]);
-
-        $data = [
-            'first_key' => 'First Value',
-            'second_key' => 'Second Value',
-        ];
-
-        $notification = Notification::create($title, $body);
-
-        $changedNotification = $notification
-            ->withTitle('Changed title')
-            ->withBody('Changed body')
-            ->withImageUrl('http://lorempixel.com/200/400/');
         $message = CloudMessage::withTarget('token', $deviceToken)
             ->withNotification($notification) // optional
             ->withData($data) // optional
         ;
+//        return dd($dataToNotification);
+        $sendReport = $messaging->sendMulticast($message, [$deviceToken]);
 
-//        $message = CloudMessage::fromArray([
-//            'token' => $deviceToken,
-//            'notification' => [/* Notification data as array */], // optional
-//            'data' => [/* data array */], // optional
-//        ]);
-
-        $messaging->send($message);
+//       $r= $messaging->send($message);
     }
 
-    public function getNotifiableUsers($user = 0, $customer = 0, $admins = [])
+    public function getNotifiableUsers($user = 0,  $admins = [])
     {
         $tokens = [];
         $devices = DB::table('devices')
@@ -115,10 +93,7 @@ class FireBaseController extends Controller
                 $query->where('user_type', 'like', 'user')
                     ->where('user_id', $user);
             })
-            ->orWhere(function ($query) use ($customer) {
-                $query->where('user_type', 'like', 'customer')
-                    ->where('user_id', $customer);
-            })->orWhere(function ($query) use ($admins) {
+            ->orWhere(function ($query) use ($admins) {
                 $query->where('user_type', 'like', 'admin')
                     ->whereIn('user_id', $admins);
             })->get();
@@ -131,25 +106,32 @@ class FireBaseController extends Controller
 
     public function multi($deviceTokens, $dataToNotification)
     {
-        $factory = (new Factory)->withServiceAccount(__DIR__ . '/aldarobi-3a625-firebase-adminsdk-v49yq-e9f27e8aa3.json');
-        $messaging = $factory->createMessaging();
+        $messaging = $this->factory->createMessaging();
         $title = 'My Notification Title';
         $body = 'My Notification Body';
         $imageUrl = 'http://lorempixel.com/400/200/';
         $notification = Notification::fromArray([
             'title' => $dataToNotification['sender_name'],
             'body' => $dataToNotification['message'],
-            'image' => HostUrl('images\s_logo.png'),
+            'image' => $dataToNotification['sender_image'],
         ]);
-//        $notification = Notification::create($dataToNotification['sender_name'], $body);
-        $changedNotification = $notification
-            ->withTitle('Changed title')
-            ->withBody('Changed body')
-            ->withImageUrl(HostUrl('images\s_logo.png'));
         $message = CloudMessage::new()->withNotification($notification) // optional
         ->withData($dataToNotification);
-        $sendReport = $messaging->sendMulticast($message, $deviceTokens);
+        if (count($deviceTokens) > 0)
+            $sendReport = $messaging->sendMulticast($message, $deviceTokens);
     }
 
+//
+//    public function getToken()
+//    {
+////        $factory = (new Factory)->withServiceAccount(__DIR__ . '/aldarobi-3a625-firebase-adminsdk-v49yq-e9f27e8aa3.json');
+//
+//        /** @var \Kreait\Firebase\Auth $auth */
+//        $auth = app('firebase.auth');
+////        $uid = $authz;
+//        return $auth->createCustomToken("ali2");
+//        $customToken = $auth->createCustomToken($uid);
+//        return response()->json($customToken);
+//    }
 }
 
