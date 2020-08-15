@@ -57,9 +57,10 @@ class CustomerBaskets extends Command
             })
             ->whereDate('last_basket_notification_date', '>=', Carbon::today()->addDays(-3)->toDateString())
             //repate notification all week
-            ->get();
+            ;
+       $devices= $data->get();
         $fireBase = new FireBaseController();
-        foreach ($data as $device) {
+        foreach ($devices as $device) {
             $message = '  مرحبا ' . $device->customer . ' يوجد لديك  ' . $device->all_quantity . ' منتجات متواجدة بالسلة منذ  ' . $device->last_date_added;
             $dataToNotification = array(
                 'sender_name' => setting('app_name', trans('labels.get_site_name')),
@@ -70,6 +71,7 @@ class CustomerBaskets extends Command
             );
             $fireBase->oneDevice($device->device_id, $dataToNotification);
         }
+        $data->update(['last_basket_notification_date'=>Carbon::today()->toDateString()]);
 
         $this->info('send notification sucessfuly');
     }
