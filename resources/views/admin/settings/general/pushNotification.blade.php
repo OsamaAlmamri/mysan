@@ -118,7 +118,24 @@
                                                 </div>
                                             </div>
 
+                                                <hr>
+                                                <h5>{{ trans('labels.customers_basket') }} </h5>
+                                                <hr>
+                                                <div class="form-group">
+                                                    <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.customers_basketDaiesForNotification') }}
+                                                    </label>
+                                                    <div class="col-sm-10 col-md-4">
+                                                        {!! Form::text($result['settings'][125]->name,  $result['settings'][125]->value, array('class'=>'form-control', 'id'=>$result['settings'][12]->name)) !!}
+                                                    </div>
+                                                </div>
 
+                                                <div class="form-group">
+                                                    <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.repeat_customers_basketDaiesForNotification') }}
+                                                    </label>
+                                                    <div class="col-sm-10 col-md-4">
+                                                        {!! Form::text($result['settings'][126]->name,  $result['settings'][126]->value, array('class'=>'form-control', 'id'=>$result['settings'][12]->name)) !!}
+                                                    </div>
+                                                </div>
 
                                             <!-- /.box-body -->
                                             <div class="box-footer text-center">

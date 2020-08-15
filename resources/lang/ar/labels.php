@@ -25,6 +25,8 @@ return [
     'You are sure to delete It!' => 'هل انت متاكدك من الحذف!',
     'Confirmation' => 'تاكيد!!',
     'customers_basket' => 'السلات المتروكة',
+    'customers_basketDaiesForNotification' => ' عدد الايام قبل ارسال الاشعار ',
+    'repeat_customers_basketDaiesForNotification' => ' عدد الايام قبل ارسال الاشعار مرة اخرى  ',
     'SendNotification' => ' ارسال اشعار',
     "ViewBasketDetails" => "عرض التفاصيل  ",
     "DeleteBasket" => " حذف السلة",

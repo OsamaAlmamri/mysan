@@ -52,12 +52,11 @@ class CustomerBaskets extends Command
             ->whereIn('user_id', function ($query) {
                 $query->select('customers_id')
                     ->from('customers_basket')
-                    ->whereDate('customers_basket_date_added', '<=', Carbon::today()->addDays(-4)->toDateString());
+                    ->whereDate('customers_basket_date_added', '<=', Carbon::today()->addDays(-setting('customers_basketDaiesForNotification',7))->toDateString());
                 // if product in basket more than ... day
             })
-            ->whereDate('last_basket_notification_date', '>=', Carbon::today()->addDays(-3)->toDateString())
+            ->whereDate('last_basket_notification_date', '>=', Carbon::today()->addDays(-setting('repeat_customers_basketDaiesForNotification',7))->toDateString());
             //repate notification all week
-            ;
        $devices= $data->get();
         $fireBase = new FireBaseController();
         foreach ($devices as $device) {
@@ -73,6 +72,6 @@ class CustomerBaskets extends Command
         }
         $data->update(['last_basket_notification_date'=>Carbon::today()->toDateString()]);
 
-        $this->info('send notification sucessfuly');
+        $this->info('send notification successfully');
     }
 }

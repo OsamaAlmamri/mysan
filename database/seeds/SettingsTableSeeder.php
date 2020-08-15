@@ -1018,6 +1018,23 @@ class SettingsTableSeeder extends Seeder
                 'updated_at' => '2019-11-01 06:58:36',
             ),
 
+   125 =>
+            array (
+                'id' => 126,
+                'name' => 'customers_basketDaiesForNotification',
+                'value' => '7',
+                'created_at' => NULL,
+                'updated_at' => '2019-11-01 06:58:36',
+            ),
+            126 =>
+            array (
+                'id' => 126,
+                'name' => 'repeat_customers_basketDaiesForNotification',
+                'value' => '7',
+                'created_at' => NULL,
+                'updated_at' => '2019-11-01 06:58:36',
+            ),
+
 
         ));
 
