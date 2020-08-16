@@ -155,10 +155,15 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_out_of_stock_products') }}</a>
                         </li>
                     <!-- <li class="{{ Request::is('admin/productsstock') ? 'active' : '' }} "><a href="{{ URL::to('admin/stockin')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.stockin') }}</a></li>-->
-                        <li class="{{ Request::is('admin/statscustomers') ? 'active' : '' }} "><a
-                                href="{{ URL::to('admin/statscustomers')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_customer_orders_total') }}</a>
-                        </li>
+
+                        <li class=" {{ Request::is('admin/report/statsCustomers') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','statsCustomers')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.link_customer_orders_total') }}</a></li>
+
+                        <li class=" {{ Request::is('admin/report/public_reports') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','public_reports')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.public_reports') }}</a></li>
+
                         <li class=" {{ Request::is('admin/report/inventory') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','customers_basket')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.customers_basket') }}</a></li>

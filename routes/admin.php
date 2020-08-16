@@ -448,6 +448,7 @@ Route::group(['middleware' => ['installer']], function () {
         Route::get('/report/{type?}', 'ReportsController@showProductsReoprts')->middleware('report')->name('report.show');
         Route::get('/statsproductspurchased', 'ReportsController@statsProductsPurchased')->middleware('report');
         Route::get('/statsproductspurchased2', 'ReportsController@filter2')->middleware('report')->name('reports.filter2');
+        Route::get('/statsCustomers2', 'ReportsController@statsCustomers2')->middleware('report')->name('reports.statsCustomers2');
         Route::get('/customers_basketFilter', 'ReportsController@customers_basketFilter')->middleware('report')->name('reports.customers_basketFilter');
         Route::get('/customers_basketDetail/{id}', 'ReportsController@customers_basketDetail')->middleware('report')->name('reports.customers_basketDetail');
         Route::get('/statsproductsliked', 'ReportsController@statsProductsLiked')->middleware('report');

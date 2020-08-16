@@ -156,10 +156,15 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_out_of_stock_products')); ?></a>
                         </li>
                     <!-- <li class="<?php echo e(Request::is('admin/productsstock') ? 'active' : ''); ?> "><a href="<?php echo e(URL::to('admin/stockin')); ?>"><i class="fa fa-circle-o"></i> <?php echo e(trans('labels.stockin')); ?></a></li>-->
-                        <li class="<?php echo e(Request::is('admin/statscustomers') ? 'active' : ''); ?> "><a
-                                href="<?php echo e(URL::to('admin/statscustomers')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_customer_orders_total')); ?></a>
-                        </li>
+
+                        <li class=" <?php echo e(Request::is('admin/report/statsCustomers') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','statsCustomers')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_customer_orders_total')); ?></a></li>
+
+                        <li class=" <?php echo e(Request::is('admin/report/public_reports') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','public_reports')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.public_reports')); ?></a></li>
+
                         <li class=" <?php echo e(Request::is('admin/report/inventory') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(route('report.show','customers_basket')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.customers_basket')); ?></a></li>

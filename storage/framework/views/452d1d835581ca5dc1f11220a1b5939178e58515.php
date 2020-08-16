@@ -43,7 +43,7 @@
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons: [],
                         ajax: {
-                            url: '<?php echo e(route("statsProductsPurchased.filter2")); ?>',
+                            url: '<?php echo e(route("reports.filter2")); ?>',
                             data: {
                                 _token: "<?php echo e(csrf_token()); ?>",
                                 main: main,
@@ -90,7 +90,8 @@
                                 data: 'products_liked',
                                 name: 'products_liked',
                             }
-                                <?php else: ?>
+                                <?php elseif("$reportType"=='inventory'): ?>
+
                             {
                                 title: '<?php echo e(trans('labels.PurchasedDate')); ?>',
                                 data: 'created_at',
@@ -107,6 +108,48 @@
                                 title: '<?php echo e(trans('labels.Price')); ?>',
                                 data: 'purchase_price',
                                 name: 'purchase_price',
+                            }
+                            <?php else: ?>
+                            {
+                                title: '<?php echo e(trans('labels.final_product_orders')); ?>',
+                                data: 'final_product_orders',
+                                name: 'final_product_orders',
+                            }, {
+                                title: '<?php echo e(trans('labels.sum_products_quantity')); ?>',
+                                data: 'sum_products_quantity',
+                                name: 'sum_products_quantity',
+                            }, {
+                                title: '<?php echo e(trans('labels.count_products_quantity')); ?>',
+                                data: 'count_products_quantity',
+                                name: 'count_products_quantity',
+                            },{
+                                title: '<?php echo e(trans('labels.inventory_in_products_quantity')); ?>',
+                                data: 'inventory_in_products_quantity',
+                                name: 'inventory_in_products_quantity',
+                            },{
+                                title: '<?php echo e(trans('labels.inventory_in_purchase_price')); ?>',
+                                data: 'inventory_in_purchase_price',
+                                name: 'inventory_in_purchase_price',
+                            },{
+                                title: '<?php echo e(trans('labels.inventory_out_products_quantity')); ?>',
+                                data: 'inventory_out_products_quantity',
+                                name: 'inventory_out_products_quantity',
+                            },{
+                                title: '<?php echo e(trans('labels.inventory_out_purchase_price')); ?>',
+                                data: 'inventory_out_purchase_price',
+                                name: 'inventory_out_purchase_price',
+                            },{
+                                title: '<?php echo e(trans('labels.rating')); ?>',
+                                data: 'rating',
+                                name: 'rating',
+                            },{
+                                title: '<?php echo e(trans('labels.product_questions')); ?>',
+                                data: 'product_questions',
+                                name: 'product_questions',
+                            },{
+                                title: '<?php echo e(trans('labels.question_replays')); ?>',
+                                data: 'question_replays',
+                                name: 'question_replays',
                             }
                             <?php endif; ?>
 

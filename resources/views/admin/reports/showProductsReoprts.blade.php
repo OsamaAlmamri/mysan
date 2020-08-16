@@ -91,7 +91,8 @@
                                 data: 'products_liked',
                                 name: 'products_liked',
                             }
-                                @else
+                                @elseif ("$reportType"=='inventory')
+
                             {
                                 title: '{{trans('labels.PurchasedDate')}}',
                                 data: 'created_at',
@@ -108,6 +109,48 @@
                                 title: '{{trans('labels.Price')}}',
                                 data: 'purchase_price',
                                 name: 'purchase_price',
+                            }
+                            @else
+                            {
+                                title: '{{trans('labels.final_product_orders')}}',
+                                data: 'final_product_orders',
+                                name: 'final_product_orders',
+                            }, {
+                                title: '{{trans('labels.sum_products_quantity')}}',
+                                data: 'sum_products_quantity',
+                                name: 'sum_products_quantity',
+                            }, {
+                                title: '{{trans('labels.count_products_quantity')}}',
+                                data: 'count_products_quantity',
+                                name: 'count_products_quantity',
+                            },{
+                                title: '{{trans('labels.inventory_in_products_quantity')}}',
+                                data: 'inventory_in_products_quantity',
+                                name: 'inventory_in_products_quantity',
+                            },{
+                                title: '{{trans('labels.inventory_in_purchase_price')}}',
+                                data: 'inventory_in_purchase_price',
+                                name: 'inventory_in_purchase_price',
+                            },{
+                                title: '{{trans('labels.inventory_out_products_quantity')}}',
+                                data: 'inventory_out_products_quantity',
+                                name: 'inventory_out_products_quantity',
+                            },{
+                                title: '{{trans('labels.inventory_out_purchase_price')}}',
+                                data: 'inventory_out_purchase_price',
+                                name: 'inventory_out_purchase_price',
+                            },{
+                                title: '{{trans('labels.rating')}}',
+                                data: 'rating',
+                                name: 'rating',
+                            },{
+                                title: '{{trans('labels.product_questions')}}',
+                                data: 'product_questions',
+                                name: 'product_questions',
+                            },{
+                                title: '{{trans('labels.question_replays')}}',
+                                data: 'question_replays',
+                                name: 'question_replays',
                             }
                             @endif
 

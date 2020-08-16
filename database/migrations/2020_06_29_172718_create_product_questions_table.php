@@ -18,6 +18,8 @@ class CreateProductQuestionsTable extends Migration
             $table->bigIncrements('product_question_id');
             $table->integer('question_products_id')->index('products_images_questions_id');
             $table->integer('question_customers_id')->index('idx_questions_customers_id');
+            $table->enum('products_type', ['bouquet','product'])->default('product');
+
             $table->string('question_image')->nullable();
             $table->text('text', 65535)->nullable();
             $table->smallInteger('question_read')->default(0);
