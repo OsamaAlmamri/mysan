@@ -7,7 +7,12 @@
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('filters'); ?>
-    <?php echo $__env->make('admin.common.filters.categories_date', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if($reportType=='inventory'): ?>
+        <?php echo $__env->make('admin.common.filters.catetegories_products_date', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php else: ?>
+        <?php echo $__env->make('admin.common.filters.categories_date', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('header'); ?>
     <?php if($reportType=='inventory'): ?>
@@ -108,6 +113,10 @@
                                 title: '<?php echo e(trans('labels.Price')); ?>',
                                 data: 'purchase_price',
                                 name: 'purchase_price',
+                            }, {
+                                title: '<?php echo e(trans('labels.Reference / Purchase Code')); ?>',
+                                data: 'reference_code',
+                                name: 'reference_code',
                             }
                             <?php else: ?>
                             {

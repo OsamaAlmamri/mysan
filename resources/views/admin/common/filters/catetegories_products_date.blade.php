@@ -17,6 +17,7 @@
             {!!Form ::select('products_list',  [],'',['class' => 'select2 form-control', 'id' => 'products_list'])!!}
         </div>
     </div>
+
 </div>
 <br>
 <div class="row">

@@ -248,10 +248,9 @@ class ProductController extends Controller
             }
 
             $option .= '<li href="#" class="list-group-item">
-        <label style="width:100%">
-          <input id="categories_' . $parents->categories_id . '" ' . $checked . ' type="checkbox" class=" required_one categories sub_categories" name="categories[]" value="' . $parents->categories_id . '">
-        ' . $parents->categories_name . '
-        </label></li>';
+          <label style="width:100%">
+          ' . $parents->categories_name . '
+          </label></li>';
 
             if (isset($parents->childs)) {
                 $option .= '<ul class="list-group">

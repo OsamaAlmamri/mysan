@@ -11,6 +11,13 @@
             {!!Form ::select('subCategories',[],'',['class' => 'select2 form-control', 'id' => 'subCategories'])!!}
         </div>
     </div>
+
+{{--<div class="col-md-4 col-xs-6">--}}
+    {{--    <div class="input-group">--}}
+    {{--        <span class="input-group-addon">{{trans('labels.Product Type')}}</span>--}}
+    {{--        {!!Form ::select('products_list',  ['all'=>trans('labels.all'),'0'=>trans('labels.Simple'),'1'=>trans('labels.Variable')],'',['class' => 'select2 form-control', 'id' => 'productType'])!!}--}}
+    {{--    </div>--}}
+    {{--</div>--}}
 </div>
 <br>
 <div class="row">

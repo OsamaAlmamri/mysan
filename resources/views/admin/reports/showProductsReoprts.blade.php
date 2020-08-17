@@ -8,7 +8,12 @@
     @endif
 @endsection
 @section('filters')
-    @include('admin.common.filters.categories_date')
+    @if($reportType=='inventory')
+        @include('admin.common.filters.catetegories_products_date')
+    @else
+        @include('admin.common.filters.categories_date')
+
+    @endif
 @endsection
 @section('header')
     @if($reportType=='inventory')
@@ -109,6 +114,10 @@
                                 title: '{{trans('labels.Price')}}',
                                 data: 'purchase_price',
                                 name: 'purchase_price',
+                            }, {
+                                title: '{{trans('labels.Reference / Purchase Code')}}',
+                                data: 'reference_code',
+                                name: 'reference_code',
                             }
                             @else
                             {
