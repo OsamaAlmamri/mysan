@@ -44,3 +44,8 @@
     </div>
 
 @endsection
+
+@section('custom_scripts')
+<?php $controler = 'view_categories.changeOrder' ?>
+@include('admin.sortFiles.scripts')
+@endsection

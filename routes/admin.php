@@ -190,6 +190,8 @@ Route::group(['middleware' => ['installer']], function () {
 
     Route::group(['prefix' => 'admin/products', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::get('/display', 'ProductController@display')->middleware('view_product');
+        Route::post('/changeOrder', 'ProductController@changeOrder')->name('products.changeOrder');
+
         Route::get('/add', 'ProductController@add')->middleware('add_product');
         Route::post('/add', 'ProductController@insert')->middleware('add_product');
         Route::get('/edit/{id}', 'ProductController@edit')->middleware('edit_product');
@@ -289,6 +291,7 @@ Route::group(['middleware' => ['installer']], function () {
     });
 
     Route::group(['prefix' => 'admin/product_questions', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
+        Route::post('/changeOrder', 'ProductQuestionController@changeOrder')->name('product_questions.changeOrder');
         Route::get('/display', 'ProductQuestionController@product_questions')->middleware('view_reviews');
         Route::get('/edit/{id}/{status}', 'ProductQuestionController@edit_product_questions')->middleware('edit_reviews');
         Route::get('/show/{id}', 'ProductQuestionController@show_product_questions')->middleware('view_reviews');
@@ -392,6 +395,7 @@ Route::group(['middleware' => ['installer']], function () {
     });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::post('/view_categories/delete', 'ViewCategoriesController@delete');
+        Route::post('/changeOrder', 'ViewCategoriesController@changeOrder')->name('view_categories.changeOrder');
         Route::resource('view_categories', 'ViewCategoriesController');
     });
     Route::group(['prefix' => 'admin/devices', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {

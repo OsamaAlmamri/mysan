@@ -28,9 +28,15 @@
                             regex => true,
                         ],
                         info: false,
+
                         searchDelay: 350,
                         language: language,
 //                         dom: 'Blftip',
+                        "createdRow": function (row, data, dataIndex) {
+                            $(row).addClass('row1');
+                            $(row).attr('data-id', data.product_question_id);
+                            $(row).attr('width', "100%");
+                        },
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons:
                             [],
@@ -49,6 +55,11 @@
                             },
 
                         columns: [
+                            {
+                                name: 'btn_sort',
+                                data: 'btn_sort',
+                                title: '<?php echo e(trans('labels.btn_sort')); ?>'
+                            },
                             {
                                 title: '#',
                                 data: 'DT_RowIndex',
@@ -83,10 +94,6 @@
                                 title: '<?php echo e(trans('labels.replyes')); ?>',
                                 data: 'replyes',
                                 name: 'replyes',
-                            }, {
-                                title: '<?php echo e(trans('labels.sort')); ?>',
-                                data: 'sort',
-                                name: 'sort',
                             },
                             {
                                 title: '<?php echo e(trans('labels.Date')); ?>',
@@ -126,6 +133,8 @@
             load_data('all', 'all', 'all', null, null);
         });
     </script>
+    <?php $controler = 'product_questions.changeOrder' ?>
+    <?php echo $__env->make('admin.sortFiles.scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('modals'); ?>
 <?php $__env->stopSection(); ?>

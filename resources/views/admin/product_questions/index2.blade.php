@@ -29,9 +29,15 @@
                             regex => true,
                         ],
                         info: false,
+
                         searchDelay: 350,
                         language: language,
 //                         dom: 'Blftip',
+                        "createdRow": function (row, data, dataIndex) {
+                            $(row).addClass('row1');
+                            $(row).attr('data-id', data.product_question_id);
+                            $(row).attr('width', "100%");
+                        },
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons:
                             [],
@@ -50,6 +56,11 @@
                             },
 
                         columns: [
+                            {
+                                name: 'btn_sort',
+                                data: 'btn_sort',
+                                title: '{{trans('labels.btn_sort')}}'
+                            },
                             {
                                 title: '#',
                                 data: 'DT_RowIndex',
@@ -84,10 +95,6 @@
                                 title: '{{trans('labels.replyes')}}',
                                 data: 'replyes',
                                 name: 'replyes',
-                            }, {
-                                title: '{{trans('labels.sort')}}',
-                                data: 'sort',
-                                name: 'sort',
                             },
                             {
                                 title: '{{trans('labels.Date')}}',
@@ -127,6 +134,8 @@
             load_data('all', 'all', 'all', null, null);
         });
     </script>
+    <?php $controler = 'product_questions.changeOrder' ?>
+    @include('admin.sortFiles.scripts')
 @endsection
 @section('modals')
 @endsection

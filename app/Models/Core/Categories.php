@@ -11,6 +11,7 @@ class Categories extends Model
 {
     //
     use Sortable;
+    protected $fillable=['sort_order'];
 
     public function images()
     {

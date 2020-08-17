@@ -26,10 +26,12 @@ class ViewCategoriesDataTable extends DataTable
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('manage', 'admin.view_categories.btn.manage')
+            ->addColumn('btn_sort', 'admin.sortFiles.btn_sort')
             ->editColumn('imagePath', function ($category) {
                 return '<td><img src="' . asset($category->imagePath->imagesTHUMBNAIL->path) . '"  width="100px"></td>';
             })
             ->rawColumns([
+                'btn_sort',
                 'imagePath',
                 'manage',
             ]);
@@ -41,7 +43,7 @@ class ViewCategoriesDataTable extends DataTable
         $data = ViewCategory::with(['imagePath' => function ($query) {
             $query->with(['imagesTHUMBNAIL']);
         }])
-            ->orderBy('sort', 'DESC')->get();
+            ->orderBy('sort')->get();
         return $data;
     }
 
@@ -76,6 +78,11 @@ class ViewCategoriesDataTable extends DataTable
                     'scrollX' => true,
                     'searching' => true,
                     'autoWidth' => false,
+                    "createdRow" => "function (row, data, dataIndex) {
+                                     $(row).addClass('row1');
+                                     $(row).attr('data-id', data.id);
+
+                                      }",
                     'info' => false,
                     'searchDelay' => 350,
 //                    'language' => ['url' => url('js/dataTables/language.json')],
@@ -83,12 +90,12 @@ class ViewCategoriesDataTable extends DataTable
 //                    'dom' => 'Blfrtip',
                     'lengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, trans('dataTable.all')]],
                     'buttons' => [
-                        $btnAdd,
+        $btnAdd,
 //                        ['extend' => 'copyHtml5', 'text' => '<i class="fa fa-copy" ></i>' . trans('dataTable.btn.copy'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => [0, 1, 2, 5]]],
-                        ['extend' => 'excelHtml5', 'text' => '<i class="fa fa-file-excel-o" ></i> ' . trans('dataTable.btn.excel'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => ':visible']],
-                        ['extend' => 'print', 'text' => '<i class="feather icon-printer close-card" ></i> ' . trans('dataTable.btn.print'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => ':visible']],
+        ['extend' => 'excelHtml5', 'text' => '<i class="fa fa-file-excel-o" ></i> ' . trans('dataTable.btn.excel'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => ':visible']],
+        ['extend' => 'print', 'text' => '<i class="feather icon-printer close-card" ></i> ' . trans('dataTable.btn.print'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => ':visible']],
 //                        ['extend' => 'pdfHtml5', 'text' => '<i class="fa fa-file-pdf-o" ></i> ' . trans('dataTable.btn.pdf'), 'className' => 'btn btn-info ', 'exportOptions' => ['columns' => [0, 1, 2, 5]]],
-                    ],
+    ],
                 ]
             );
     }
@@ -97,9 +104,16 @@ class ViewCategoriesDataTable extends DataTable
     {
 
         return [
-            ['name' => 'id',
+            [
+                'name' => 'btn_sort',
+                'data' => 'btn_sort',
+                'title' => trans('labels.btn_sort')
+            ],
+            [
+                'name' => 'id',
                 'data' => 'id',
-                'title' => trans('labels.ID')],
+                'title' => trans('labels.ID')
+            ],
 //            ['name' => 'DT_RowIndex',
 //                'data' => 'DT_RowIndex',
 //                'title' => '#'],
@@ -117,11 +131,8 @@ class ViewCategoriesDataTable extends DataTable
                 'name' => 'name_en',
                 'data' => 'name_en',
                 'title' => trans('labels.name_en'),
-            ], [
-                'name' => 'sort',
-                'data' => 'sort',
-                'title' => trans('labels.sort'),
             ],
+
 
             ['name' => 'parent',
                 'data' => 'parent',

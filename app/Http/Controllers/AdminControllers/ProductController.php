@@ -124,6 +124,7 @@ class ProductController extends Controller
             $data = $data->whereIn('products.products_id', $ids);
         $data = $data
             ->whereBetween('products.created_at', [$from_date, $to_date])
+            ->orderBy('sort')
             ->get()->unique('products_id')->keyBy('products_id');
         return $data;
     }
@@ -140,8 +141,10 @@ class ProductController extends Controller
             ->addColumn('info', 'admin.products.btn.info')
             ->addColumn('status', 'admin.products.btn.status')
             ->addColumn('rating', 'admin.products.btn.rating')
+            ->addColumn('btn_sort', 'admin.sortFiles.btn_sort')
 
-            ->rawColumns(['manage','rating','status', 'btn_image', 'info'])
+
+            ->rawColumns(['manage','btn_sort','rating','status', 'btn_image', 'info'])
             ->make(true);
     }
 
@@ -191,6 +194,14 @@ class ProductController extends Controller
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.products.add", $title)->with('result', $result)->with('allimage', $allimage);
 
+    }
+
+    public
+    function changeOrder(Request $request)
+    {
+        $sortData = Products::all();
+        changeOrder($request, $sortData, 'products_id','sort');
+        return response('Update Successfully.', 200);
     }
 
     public function childcat($childs, $parent_id)

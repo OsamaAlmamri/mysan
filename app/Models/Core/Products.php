@@ -27,6 +27,7 @@ class Products extends Model
     public $sortable = ['products_id', 'updated_at'];
     public $sortableAs = ['categories_name', 'products_name'];
     protected $primaryKey = 'products_id';
+    protected $fillable=['sort'];
 
     public function paginator($request)
     {

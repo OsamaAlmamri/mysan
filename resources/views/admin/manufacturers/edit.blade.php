@@ -6,7 +6,7 @@
             <h1> {{ trans('labels.Manufacturer') }}  <small>{{ trans('labels.EditCurrentManufacturer') }}...</small> </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('admin/dashboard/this_month') }}"><i class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</a></li>
-                <li><a href="{{ URL::to('admin/listingManufacturer')}}"><i class="fa fa-industry"></i> {{ trans('labels.Manufacturer') }}</a></li>
+                <li><a href="{{ URL::to('admin/manufacturers/display')}}"><i class="fa fa-industry"></i> {{ trans('labels.link_manufacturer') }}</a></li>
                 <li class="active">{{ trans('labels.EditManufacturer') }}</li>
             </ol>
         </section>

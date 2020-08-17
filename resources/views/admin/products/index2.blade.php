@@ -43,6 +43,11 @@
                         ],
                         info: false,
                         searchDelay: 350,
+                        "createdRow": function (row, data, dataIndex) {
+                            $(row).addClass('row1');
+                            $(row).attr('data-id', data.products_id);
+                            $(row).attr('width', "100%");
+                        },
 //                         dom: 'Blftip',
                         lengthMenu: [[10, 50, 100, -1], [10, 50, 100, 'all']],
                         buttons: [],
@@ -57,6 +62,11 @@
                             }
                         }
                         , columns: [
+                            {
+                                title: '{{trans('labels.btn_sort')}}',
+                                data: 'btn_sort',
+                                name: 'btn_sort',
+                            },
                             {
                                 title: '#',
                                 data: 'DT_RowIndex',
@@ -73,11 +83,12 @@
                                 printable: false,
                                 exportable: false
                             },
-                            {
+                          {
                                 title: '{{trans('labels.Image')}}',
                                 data: 'btn_image',
                                 name: 'btn_image',
-                            }, {
+                            },
+                            {
                                 title: '{{trans('labels.Category')}}',
                                 data: 'categories_name',
                                 name: 'categories_name',
@@ -142,6 +153,8 @@
             load_data('all', 'all', null, null);
         });
     </script>
+    <?php $controler = 'products.changeOrder' ?>
+    @include('admin.sortFiles.scripts')
 @endsection
 @section('modals')
     <div class="modal fade" id="deleteproductmodal" tabindex="-1" role="dialog"

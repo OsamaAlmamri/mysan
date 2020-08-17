@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration {
 		Schema::create('products', function(Blueprint $table)
 		{
 			$table->integer('products_id', true);
+			$table->integer('sort')->default(1);
 			$table->integer('products_quantity');
 			$table->string('products_model', 191)->nullable()->index('idx_products_model');
 			$table->text('products_image', 65535)->nullable();

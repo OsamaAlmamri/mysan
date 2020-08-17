@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#orderdata > tbody').sortable({
+        $('.dataTable > tbody').sortable({
             items: "tr",
             cursor: 'move',
             opacity: 0.6,

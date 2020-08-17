@@ -96,6 +96,15 @@ class ProductQuestionController extends Controller
 
     }
 
+    public
+    function changeOrder(Request $request)
+    {
+        $sortData = ProductQuestion::all();
+        changeOrder($request, $sortData, 'product_question_id','sort');
+        return response('Update Successfully.', 200);
+    }
+
+
     public function show_product_questions($id)
     {
         $title = array('pageTitle' => Lang::get("labels.product_question_replies"));
@@ -140,7 +149,6 @@ class ProductQuestionController extends Controller
             ->where('products_description.language_id', '=', 2)
             ->groupBy('product_questions.product_question_id')
             ->orderBy('sort')
-            ->orderByDesc('updated_at')
             ->get();
         return $data;
     }
@@ -154,7 +162,9 @@ class ProductQuestionController extends Controller
             ->addIndexColumn()
             ->addColumn('manage', 'admin.product_questions.btn.manage')
             ->addColumn('btn_id', 'admin.product_questions.btn.id')
-            ->rawColumns(['manage', 'btn_id'])
+            ->addColumn('btn_sort', 'admin.sortFiles.btn_sort')
+
+            ->rawColumns(['manage','btn_sort', 'btn_id'])
             ->make(true);
     }
 

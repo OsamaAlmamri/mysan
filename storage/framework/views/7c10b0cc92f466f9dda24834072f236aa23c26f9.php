@@ -49,4 +49,9 @@
 
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('custom_scripts'); ?>
+<?php $controler = 'view_categories.changeOrder' ?>
+<?php echo $__env->make('admin.sortFiles.scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.dataTable_layaout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH F:\sites\mysan\resources\views/admin/view_categories/index2.blade.php ENDPATH**/ ?>

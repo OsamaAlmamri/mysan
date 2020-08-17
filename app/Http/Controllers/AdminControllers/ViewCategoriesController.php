@@ -50,6 +50,14 @@ class ViewCategoriesController extends Controller
         return $reviews->render('admin.view_categories.index2', ['title' => $title, 'result' => $result,
             'dataTableType' => 'php']);
     }
+    public
+    function changeOrder(Request $request)
+    {
+        $sortData = ViewCategory::all();
+        changeOrder($request, $sortData, 'id','sort');
+        return response('Update Successfully.', 200);
+    }
+
 
     public function create(Request $request)
     {
