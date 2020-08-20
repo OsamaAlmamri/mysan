@@ -392,6 +392,7 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/update', 'CouponsController@update')->middleware('edit_coupon');
         Route::post('/delete', 'CouponsController@delete')->middleware('delete_coupon');
         Route::get('/filter', 'CouponsController@filter')->middleware('view_coupon');
+        Route::get('/showOrders/{id}', 'CouponsController@show')->middleware('view_coupon');
     });
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
         Route::post('/view_categories/delete', 'ViewCategoriesController@delete');

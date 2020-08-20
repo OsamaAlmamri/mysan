@@ -49,7 +49,6 @@
             var all_images = JSON.parse(images);
             jQuery.each(all_images, function () {
                 jQuery('.test_image').addClass("hover");
-
             });
             var id = [];
             $(".hover").each(function () {
@@ -59,7 +58,6 @@
             jQuery('#images').val(id);
 
         });
-
         jQuery("#btn12").click(function () {
             var images = '<?php echo $images; ?>';
             var all_images = JSON.parse(images);
@@ -479,7 +477,6 @@
             var options_id = $(this).attr('attributeid');
             var attributeid = $(this).val();
             $('.attributeid_' + options_id).val(attributeid);
-            //alert('.attributeid_'+options_id);
             var formData = $('#addewinventoryfrom').serialize();
             $.ajax({
                 url: '{{ URL::to("admin/products/attach/attribute/default/options/currentstock")}}',
@@ -2415,6 +2412,26 @@
         $('.thumbnail.selected').removeClass('selected');
     });
 
+    // $(document).on('click', '.testSelected', function () {
+    //     $('.thumbnail.selected').removeClass('selected');
+    //     $("#select_img option:selected").each(function () {
+    //         var $this = $(this);
+    //         if ($this.length) {
+    //             var image_src = $this.data('img-src');;
+    //             console.log(image_src);
+    //             $('#selectedthumbnail').html( $('#selectedthumbnail').html( )+'<img src="' + image_src + '" class = "thumbnail" style="max-height: 100px; margin-top: 20px;">');
+    //             $('#selectedthumbnail').show();
+    //             $('#image-close').show();
+    //             $('#imageselected').removeClass('has-error');
+    //             $('#newImage').removeClass('field-validate');
+    //
+    //         }
+    //     });
+    //     //
+    //
+    //
+    // });
+
     $(document).on('click', '#image-close', function () {
         $("select.show-html:not(#countertop_countertype_id)").val('').imagepicker({
             // show_label:   true,
@@ -2733,9 +2750,9 @@
         // alert('d');
         var quantity = $("#products_count").val();
         var product_text = $("#select_product_id  option:selected").text();
-        var product_id = $("#select_product_id").val();
+        var products_id = $("#select_product_id").val();
 
-if(product_id>0 && quantity>0 )
+if(products_id>0 && quantity>0 )
         {
             var map = {};
             var temptext = "";
@@ -2755,7 +2772,7 @@ if(product_id>0 && quantity>0 )
             add_row_address(products_id, product_text, quantity, tempInputes, temptext);
         }
     });
-    function add_row_address(product_id, product_text, quantity, product_options, options) {
+    function add_row_address(products_id, product_text, quantity, product_options, options) {
         var data = " <tr id=\"product_n_" + product_n + "\">\n" +
             "            <td> <input type=\"hidden\" name=\"products[" + product_n + "][products_id]\" value='" + products_id + "'>" + product_text + "" +
             " <div class=\"print-error-msg alert-danger\"id=\"modal_error_products." + product_n + ".zone\"></div></td>\n" +

@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\DB;
 class Order extends Model
 {
     //
+    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    protected $casts = [
+        'coupon_code' => 'json',
+    ];
+
+
+
+protected $primaryKey='orders_id';
+
+
+
+    public function coupans()
+    {
+        return $this->belongsToJson(Coupon::class, 'coupon_code[]->coupans_id');
+    }
+
     public function fetchorder($request)
     {
         $reportBase = $request->reportBase;

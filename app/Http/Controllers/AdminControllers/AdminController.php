@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Models\Core\Coupon;
 use App\Models\Core\Device;
 use App\Models\Core\Languages;
 use App\Models\Core\Setting;
@@ -41,8 +42,6 @@ class AdminController extends Controller
         $result = array();
 
         $reportBase = $request->reportBase;
-
-//		return dd($reportBase);
 
         //recently order placed
         $orders = DB::table('orders')
@@ -125,7 +124,7 @@ class AdminController extends Controller
         $result['pending_orders'] = $pending_orders;
         $result['compeleted_orders'] = $compeleted_orders;
         $result['total_orders'] = count($orders);
-        $result['total_App_visited'] = $ios+$android;
+        $result['total_App_visited'] = $ios + $android;
         $result['total_App_visited_ios'] = $ios;
         $result['total_App_visited_android'] = $android;
 
@@ -220,7 +219,7 @@ class AdminController extends Controller
 
     public function admininfo()
     {
-        $title='adminInfo';
+        $title = 'adminInfo';
         $administor = administrators::all();
         return view("admin.login", $title);
     }
@@ -310,14 +309,14 @@ class AdminController extends Controller
         $uploadImage = $request->oldImage;
         $orders_status = DB::table('users')->where('id', '=', Auth()->user()->id)
             ->update([
-            'user_name' => $request->user_name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'country' => $request->country,
-            'phone' => $request->phone,
-            'avatar' => $uploadImage,
-            'updated_at' => $updated_at
-        ]);
+                'user_name' => $request->user_name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'country' => $request->country,
+                'phone' => $request->phone,
+                'avatar' => $uploadImage,
+                'updated_at' => $updated_at
+            ]);
 
         $message = Lang::get("labels.ProfileUpdateMessage");
         return redirect()->back()->withErrors([$message]);
@@ -597,6 +596,7 @@ class AdminController extends Controller
         return view("admin.admins.roles.manageroles", $title)->with('result', $result);
 
     }
+
     //add admins type
     public function addadmintype(Request $request)
     {
@@ -1048,95 +1048,95 @@ class AdminController extends Controller
 
         $roles = DB::table('manage_role')
             ->where('user_types_id', $request->user_types_id)->insert([
-            'user_types_id' => $request->user_types_id,
-            'dashboard_view' => $request->dashboard_view,
+                'user_types_id' => $request->user_types_id,
+                'dashboard_view' => $request->dashboard_view,
 
-            'manufacturer_view' => $request->manufacturer_view,
-            'manufacturer_create' => $request->manufacturer_create,
-            'manufacturer_update' => $request->manufacturer_update,
-            'manufacturer_delete' => $request->manufacturer_delete,
+                'manufacturer_view' => $request->manufacturer_view,
+                'manufacturer_create' => $request->manufacturer_create,
+                'manufacturer_update' => $request->manufacturer_update,
+                'manufacturer_delete' => $request->manufacturer_delete,
 
-            'view_media' => $request->media_view,//
-            'add_media' => $request->media_create,//
-            'edit_media' => $request->media_update,//
-            'delete_media' => $request->media_delete,//
+                'view_media' => $request->media_view,//
+                'add_media' => $request->media_create,//
+                'edit_media' => $request->media_update,//
+                'delete_media' => $request->media_delete,//
 
-            'categories_view' => $request->categories_view,
-            'categories_create' => $request->categories_create,
-            'categories_update' => $request->categories_update,
-            'categories_delete' => $request->categories_delete,
+                'categories_view' => $request->categories_view,
+                'categories_create' => $request->categories_create,
+                'categories_update' => $request->categories_update,
+                'categories_delete' => $request->categories_delete,
 
-            'products_view' => $request->products_view,
-            'products_create' => $request->products_create,
-            'products_update' => $request->products_update,
-            'products_delete' => $request->products_delete,
+                'products_view' => $request->products_view,
+                'products_create' => $request->products_create,
+                'products_update' => $request->products_update,
+                'products_delete' => $request->products_delete,
 
-            'news_view' => $request->news_view,
-            'news_create' => $request->news_create,
-            'news_update' => $request->news_update,
-            'news_delete' => $request->news_delete,
+                'news_view' => $request->news_view,
+                'news_create' => $request->news_create,
+                'news_update' => $request->news_update,
+                'news_delete' => $request->news_delete,
 
-            'customers_view' => $request->customers_view,
-            'customers_create' => $request->customers_create,
-            'customers_update' => $request->customers_update,
-            'customers_delete' => $request->customers_delete,
+                'customers_view' => $request->customers_view,
+                'customers_create' => $request->customers_create,
+                'customers_update' => $request->customers_update,
+                'customers_delete' => $request->customers_delete,
 
-            'tax_location_view' => $request->tax_location_view,
-            'tax_location_create' => $request->tax_location_create,
-            'tax_location_update' => $request->tax_location_update,
-            'tax_location_delete' => $request->tax_location_delete,
+                'tax_location_view' => $request->tax_location_view,
+                'tax_location_create' => $request->tax_location_create,
+                'tax_location_update' => $request->tax_location_update,
+                'tax_location_delete' => $request->tax_location_delete,
 
-            'coupons_view' => $request->coupons_view,
-            'coupons_create' => $request->coupons_create,
-            'coupons_update' => $request->coupons_update,
-            'coupons_delete' => $request->coupons_delete,
+                'coupons_view' => $request->coupons_view,
+                'coupons_create' => $request->coupons_create,
+                'coupons_update' => $request->coupons_update,
+                'coupons_delete' => $request->coupons_delete,
 
-            'notifications_view' => $request->notifications_view,
-            'notifications_send' => $request->notifications_send,
+                'notifications_view' => $request->notifications_view,
+                'notifications_send' => $request->notifications_send,
 
-            'orders_view' => $request->orders_view,
-            'orders_confirm' => $request->orders_confirm,
+                'orders_view' => $request->orders_view,
+                'orders_confirm' => $request->orders_confirm,
 
-            'shipping_methods_view' => $request->shipping_methods_view,
-            'shipping_methods_update' => $request->shipping_methods_update,
+                'shipping_methods_view' => $request->shipping_methods_view,
+                'shipping_methods_update' => $request->shipping_methods_update,
 
-            'payment_methods_view' => $request->payment_methods_view,
-            'payment_methods_update' => $request->payment_methods_update,
+                'payment_methods_view' => $request->payment_methods_view,
+                'payment_methods_update' => $request->payment_methods_update,
 
-            'reports_view' => $request->reports_view,
+                'reports_view' => $request->reports_view,
 
-            'website_setting_view' => $request->website_setting_view,
-            'website_setting_update' => $request->website_setting_update,
+                'website_setting_view' => $request->website_setting_view,
+                'website_setting_update' => $request->website_setting_update,
 
-            'application_setting_view' => $request->application_setting_view,
-            'application_setting_update' => $request->application_setting_update,
+                'application_setting_view' => $request->application_setting_view,
+                'application_setting_update' => $request->application_setting_update,
 
-            'general_setting_view' => $request->general_setting_view,
-            'general_setting_update' => $request->general_setting_update,
+                'general_setting_view' => $request->general_setting_view,
+                'general_setting_update' => $request->general_setting_update,
 
-            'manage_admins_view' => $request->manage_admins_view,
-            'manage_admins_create' => $request->manage_admins_create,
-            'manage_admins_update' => $request->manage_admins_update,
-            'manage_admins_delete' => $request->manage_admins_delete,
+                'manage_admins_view' => $request->manage_admins_view,
+                'manage_admins_create' => $request->manage_admins_create,
+                'manage_admins_update' => $request->manage_admins_update,
+                'manage_admins_delete' => $request->manage_admins_delete,
 
-            'language_view' => $request->language_view,
-            'language_create' => $request->language_create,
-            'language_update' => $request->language_update,
-            'language_delete' => $request->language_delete,
+                'language_view' => $request->language_view,
+                'language_create' => $request->language_create,
+                'language_update' => $request->language_update,
+                'language_delete' => $request->language_delete,
 
-            'profile_view' => $request->profile_view,
-            'profile_update' => $request->profile_update,
+                'profile_view' => $request->profile_view,
+                'profile_update' => $request->profile_update,
 
-            'admintype_view' => $request->admintype_view,
-            'admintype_create' => $request->admintype_create,
-            'admintype_update' => $request->admintype_update,
-            'admintype_delete' => $request->admintype_delete,
-            'manage_admins_role' => $request->manage_admins_role,
+                'admintype_view' => $request->admintype_view,
+                'admintype_create' => $request->admintype_create,
+                'admintype_update' => $request->admintype_update,
+                'admintype_delete' => $request->admintype_delete,
+                'manage_admins_role' => $request->manage_admins_role,
 
-            'reviews_view' => $request->reviews_view,
-            'reviews_update' => $request->reviews_update,
+                'reviews_view' => $request->reviews_view,
+                'reviews_update' => $request->reviews_update,
 
-        ]);
+            ]);
 
         $message = Lang::get("labels.Roles has been added successfully");
         return redirect()->back()->with('message', $message);

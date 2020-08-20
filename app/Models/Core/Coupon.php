@@ -11,6 +11,14 @@ class Coupon extends Model
 {
     //
     use Sortable;
+    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+
+    protected $primaryKey='coupans_id';
+    public function orders()
+    {
+        return $this->hasManyJson(Order::class, 'coupon_code[]->coupans_id');
+
+    }
 
     public $sortable =['coupans_id','code','description','discount_type','amount',
         'expiry_date','usage_count','individual_use','individual_use','exclude_product_ids',
@@ -96,6 +104,7 @@ class Coupon extends Model
 
         return $coupon;
    }
+
 
    public function getemail(){
 

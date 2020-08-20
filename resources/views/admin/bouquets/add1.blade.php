@@ -27,11 +27,11 @@
                         <div class="box-body">
                             @include('admin.common.messages')
                             @if(isset($bouquet))
-                                {!! Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]) !!}
+                                {!! Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','id' => 'addewinventoryfrom','class' => 'form-horizontal form-validate', 'files' => true]) !!}
 
                                 {!! Form::hidden('oldImage', $bouquet->default_image , array('id'=>'oldImage')) !!}
                             @else
-                                {!! Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)) !!}
+                                {!! Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'id' => 'addewinventoryfrom',  'class' => 'form-horizontal form-validate', 'files' => true)) !!}
                             @endif
                             <div class="row">
                                 <div class="col-xs-12">
@@ -193,7 +193,9 @@
                                                                                             <input type="hidden"
                                                                                                    name="products[{{$k}}][options][{{$option->option_id}}][attribute_id]"
                                                                                                    value={{$option->attribute_id}}>
-                                                                                             {{$option->option_name}}( {{$option->attribute_name}}        ),
+                                                                                            {{$option->option_name}}
+                                                                                            ( {{$option->attribute_name}}
+                                                                                            ),
                                                                                         @endforeach
 
                                                                                     </td>
@@ -302,7 +304,7 @@
                                                         id="myModalLabel">{{ trans('labels.Choose Image') }} </h3>
                                                 </div>
                                                 <div class="modal-body manufacturer-image-embed">
-                                                    <select class="image-picker show-html " name="image_id"
+                                                    <select class="image-picker show-html" name="image_id" multiple
                                                             id="select_img">
                                                         <option value=""></option>
                                                         @foreach(getAllImages() as $key=>$image)

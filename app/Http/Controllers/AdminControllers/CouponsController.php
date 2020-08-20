@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\DataTables\CouponOrdersDataTable;
 use App\DataTables\CouponsDataTable;
 use App\Http\Controllers\AdminControllers\SiteSettingController;
 use App\Http\Controllers\Controller;
@@ -47,6 +48,16 @@ class CouponsController extends Controller
         $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
         $result['commonContent'] = $this->Setting->commonContent();
         return $reviews->render('admin.coupons.index2', ['title' => $title, 'result' => $result,
+            'dataTableType' => 'php']);
+    }
+
+    public function show($id)
+    {
+        $reviews = new CouponOrdersDataTable($id);
+//        $customers = $this->Customers->paginator();
+        $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
+        $result['commonContent'] = $this->Setting->commonContent();
+        return $reviews->render('admin.Orders.coubons_usage', ['title' => $title, 'result' => $result,
             'dataTableType' => 'php']);
     }
 

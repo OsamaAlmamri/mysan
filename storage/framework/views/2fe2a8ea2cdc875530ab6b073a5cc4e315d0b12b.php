@@ -26,13 +26,13 @@
                         <div class="box-body">
                             <?php echo $__env->make('admin.common.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             <?php if(isset($bouquet)): ?>
-                                <?php echo Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','class' => 'form-horizontal form-validate', 'files' => true]); ?>
+                                <?php echo Form::model($bouquet, ['route' => ['bouquets.update', $bouquet->bouquet_id], 'method' => 'put','id' => 'addewinventoryfrom','class' => 'form-horizontal form-validate', 'files' => true]); ?>
 
 
                                 <?php echo Form::hidden('oldImage', $bouquet->default_image , array('id'=>'oldImage')); ?>
 
                             <?php else: ?>
-                                <?php echo Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'class' => 'form-horizontal form-validate', 'files' => true)); ?>
+                                <?php echo Form::open(array('route' =>'bouquets.store', 'method'=>'post', 'id' => 'addewinventoryfrom',  'class' => 'form-horizontal form-validate', 'files' => true)); ?>
 
                             <?php endif; ?>
                             <div class="row">
@@ -318,7 +318,7 @@
                                                         id="myModalLabel"><?php echo e(trans('labels.Choose Image')); ?> </h3>
                                                 </div>
                                                 <div class="modal-body manufacturer-image-embed">
-                                                    <select class="image-picker show-html " name="image_id"
+                                                    <select class="image-picker show-html"  name="image_id" multiple
                                                             id="select_img">
                                                         <option value=""></option>
                                                         <?php $__currentLoopData = getAllImages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

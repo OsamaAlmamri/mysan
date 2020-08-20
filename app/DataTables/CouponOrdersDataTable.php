@@ -8,7 +8,7 @@ use App\Models\Core\User;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
-class CouponsDataTable extends DataTable
+class CouponOrdersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -16,22 +16,28 @@ class CouponsDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
+   private $coboun_id;
+
+
+   public function __construct($id)
+   {
+       $this->coboun_id=$id;
+   }
 
     public function dataTable($query)
     {
         return datatables($query)
             ->addIndexColumn()
-            ->addColumn('manage', 'admin.coupons.btn.manage')
-            ->addColumn('btn_orders_count', 'admin.coupons.btn.btn_orders_count')
-            ->rawColumns(['manage','btn_orders_count']);
+            ->addColumn('manage', 'admin.Orders.btns.manage')
+            ->rawColumns(['manage']);
     }
 
 
     public function query()
     {
 
-        $coupons = Coupon::withCount('orders')->orderByDesc('created_at')->get();
-        return $coupons;
+        $c=Coupon::find($this->coboun_id);
+        return  $c->orders;
 
     }
 
@@ -73,47 +79,28 @@ class CouponsDataTable extends DataTable
                 'data' => 'DT_RowIndex',
                 'title' => '#'],
             [
-                'name' => 'code',
-                'data' => 'code',
-                'title' => trans('labels.Code'),
-            ], [
-                'name' => 'discount_type',
-                'data' => 'discount_type',
-                'title' => trans('labels.CouponType'),
-            ], [
-                'name' => 'amount',
-                'data' => 'amount',
-                'title' => trans('labels.CouponAmount'),
-            ], [
-                'name' => 'description',
-                'data' => 'description',
-                'title' => trans('labels.Description'),
+                'name' => 'orders_id',
+                'data' => 'orders_id',
+                'title' => trans('labels.ID'),
             ],
             [
-                'name' => 'expiry_date',
-                'data' => 'expiry_date',
-                'title' => trans('labels.ExpiryDate'),
+                'name' => 'customers_name',
+                'data' => 'customers_name',
+                'title' => trans('labels.CustomerName'),
+            ],
+//            date('d/m/Y', strtotime($orderData->date_purchased))
+            [
+                'name' => 'order_price',
+                'data' => 'order_price',
+                'title' => trans('labels.OrderTotal'),
             ],
             [
-                'name' => 'free_shipping',
-                'data' => 'free_shipping',
-                'title' => trans('labels.free_shipping'),
+                'name' => 'date_purchased',
+                'data' => 'date_purchased',
+                'title' => trans('labels.DatePurchased'),
             ],
-            [
-                'name' => 'usage_limit',
-                'data' => 'usage_limit',
-                'title' => trans('labels.UsageLimitPerCoupon'),
-            ],
-            [
-                'name' => 'usage_limit_per_user',
-                'data' => 'usage_limit_per_user',
-                'title' => trans('labels.UsageLimitPerUser'),
-            ],
-            [
-                'name' => 'btn_orders_count',
-                'data' => 'btn_orders_count',
-                'title' => trans('labels.orders_count'),
-            ],
+
+
             ['name' => 'manage',
                 'data' => 'manage',
                 'title' => trans('labels.Action'),
