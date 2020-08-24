@@ -169,6 +169,10 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                 href="<?php echo e(route('report.show','customers_basket')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.customers_basket')); ?></a></li>
 
+                        <li class=" <?php echo e(Request::is('admin/report/mostPurshese') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','mostPurshese')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.mostPurshese')); ?></a></li>
+
                         <li class="<?php echo e(Request::is('admin/report/inventory') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(route('report.show','inventory')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_total_purchased')); ?></a></li>

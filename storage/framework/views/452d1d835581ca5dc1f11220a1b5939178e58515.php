@@ -1,9 +1,12 @@
 <?php $__env->startSection('header_h1'); ?>
     <?php if($reportType=='inventory'): ?>
-        <h1> <?php echo e(trans('labels.StatsProductsPurchased')); ?> <small><?php echo e(trans('labels.StatsProductsPurchased')); ?>...</small>
+        <h1> <?php echo e(trans('labels.link_reports')); ?> <small><?php echo e(trans('labels.StatsProductsPurchased')); ?>...</small>
+        </h1>
+    <?php elseif($reportType=='mostPurshese'): ?>
+        <h1> <?php echo e(trans('labels.link_reports')); ?> <small><?php echo e(trans('labels.mostPurshese')); ?>...</small>
         </h1>
     <?php else: ?>
-        <h1> <?php echo e(trans('labels.StatsProductsLiked')); ?> <small><?php echo e(trans('labels.StatsProductsLiked')); ?>...</small></h1>
+        <h1> <?php echo e(trans('labels.link_reports')); ?> <small><?php echo e(trans('labels.StatsProductsLiked')); ?>...</small></h1>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('filters'); ?>
@@ -17,6 +20,8 @@
 <?php $__env->startSection('header'); ?>
     <?php if($reportType=='inventory'): ?>
         <li class="active"><?php echo e(trans('labels.StatsProductsPurchased')); ?></li>
+    <?php elseif($reportType=='mostPurshese'): ?>
+        <li class="active"><?php echo e(trans('labels.mostPurshese')); ?></li>
     <?php else: ?>
         <li class="active"><?php echo e(trans('labels.StatsProductsLiked')); ?></li>
     <?php endif; ?>
@@ -95,6 +100,7 @@
                                 data: 'products_liked',
                                 name: 'products_liked',
                             }
+
                                 <?php elseif("$reportType"=='inventory'): ?>
 
                             {
@@ -118,7 +124,22 @@
                                 data: 'reference_code',
                                 name: 'reference_code',
                             }
+                            <?php elseif("$reportType"=='mostPurshese'): ?>
+                            {
+                                title: '<?php echo e(trans('labels.final_product_orders')); ?>',
+                                data: 'final_product_orders',
+                                name: 'final_product_orders',
+                            }, {
+                                title: '<?php echo e(trans('labels.sum_products_quantity')); ?>',
+                                data: 'sum_products_quantity',
+                                name: 'sum_products_quantity',
+                            }, {
+                                title: '<?php echo e(trans('labels.count_products_quantity')); ?>',
+                                data: 'count_products_quantity',
+                                name: 'count_products_quantity',
+                            },
                             <?php else: ?>
+
                             {
                                 title: '<?php echo e(trans('labels.final_product_orders')); ?>',
                                 data: 'final_product_orders',

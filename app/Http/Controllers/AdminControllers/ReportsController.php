@@ -22,7 +22,7 @@ class ReportsController extends Controller
     {
         $title = array('pageTitle' => Lang::get("labels.CustomerOrdersTotal"));
         $cusomters = DB::table('users')
-            ->join('orders', 'orders.customers_id',  'users.id')
+            ->join('orders', 'orders.customers_id', 'users.id')
             ->select('users.*', 'order_price',
                 DB::raw('SUM(order_price) as price'),
                 DB::raw('count(orders_id) as total_orders'))
@@ -53,7 +53,7 @@ class ReportsController extends Controller
 
         if ($reportType == "customers_basket")
             $view = "customers_basket";
-       else if ($reportType == "statsCustomers")
+        else if ($reportType == "statsCustomers")
             $view = "statsCustomers2";
         else {
             $view = "showProductsReoprts";
@@ -101,12 +101,13 @@ class ReportsController extends Controller
             $whereDate = 'products.created_at';
         }
         $buttoms = [];
-        if ($reportType == 'public_reports') {
+        $col_mostPrice=   DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date' )");
+        if ($reportType == 'public_reports' or $reportType=='mostPurshese') {
             $buttoms = [
                 DB::raw("(SELECT COALESCE(AVG(reviews_rating),0) FROM reviews WHERE reviews.products_id=products.products_id and reviews.created_at between  '$from_date'  and '$to_date'  ) as avg_rating"),
                 DB::raw("(SELECT count(reviews_rating) FROM reviews WHERE reviews.products_id=products.products_id and reviews.created_at between  '$from_date'  and '$to_date'   ) as count_rating"),
                 DB::raw("(SELECT COALESCE(sum(final_price * products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'  and orders.created_at between  '$from_date'  and '$to_date'   ) as final_product_orders"),
-                DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as sum_products_quantity"),
+                 DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as sum_products_quantity"),
                 DB::raw("(SELECT count(products_quantity) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as count_products_quantity"),
                 DB::raw("(SELECT COALESCE(sum(stock),0) FROM inventory WHERE inventory.products_id=products.products_id  and  inventory.stock_type like 'in' and inventory.created_at between  '$from_date'  and '$to_date'  ) as inventory_in_products_quantity"),
                 DB::raw("(SELECT COALESCE(sum(purchase_price),0) FROM inventory WHERE inventory.products_id=products.products_id  and inventory.stock_type like 'in' and inventory.created_at between  '$from_date' and '$to_date'   ) as inventory_in_purchase_price"),
@@ -145,6 +146,8 @@ class ReportsController extends Controller
                 ->orderBy('products_ordered', 'DESC');
         elseif ($reportType == 'like')
             $data = $data->where('products.products_liked', '>', '0');
+        elseif ($reportType == 'mostPurshese')
+            $data = $data ->orderBy($col_mostPrice, 'DESC');
 
         return $data->whereBetween($whereDate, [$from_date, $to_date])
             ->get();
@@ -175,7 +178,7 @@ class ReportsController extends Controller
     public function get_statsCustomers2($from_date = '1970-01-01', $to_date = '9999-09-09')
     {
         $data = DB::table('users')
-            ->join('orders', 'orders.customers_id',  'users.id')
+            ->join('orders', 'orders.customers_id', 'users.id')
             ->select('users.*', 'order_price',
                 DB::raw("(select SUM(order_price) from orders where  orders.customers_id=users.id and  orders.created_at between  '$from_date'  and '$to_date' )as price"),
                 DB::raw("(CONCAT( COALESCE(users.first_name,' ') , ' ' ,COALESCE(users.last_name,' ') )) as customer"),
@@ -192,19 +195,19 @@ class ReportsController extends Controller
         $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
         $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
         $data = $this->getData($request->main, $request->sub, $from, $to, $request->reportType);
-        if( $request->reportType=='public_reports')
+        if ($request->reportType == 'public_reports')
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('btn_image', 'admin.products.btn.image')
                 ->addColumn('rating', 'admin.products.btn.rating')
-                ->rawColumns(['btn_image','rating'])
+                ->rawColumns(['btn_image', 'rating'])
                 ->make(true);
         else
-        return datatables()->of($data)
-            ->addIndexColumn()
-            ->addColumn('btn_image', 'admin.products.btn.image')
-            ->rawColumns(['btn_image'])
-            ->make(true);
+            return datatables()->of($data)
+                ->addIndexColumn()
+                ->addColumn('btn_image', 'admin.products.btn.image')
+                ->rawColumns(['btn_image'])
+                ->make(true);
 
     }
 
@@ -272,7 +275,6 @@ class ReportsController extends Controller
         $data = array();
         foreach ($products as $products_data) {
             $currentStocks = DB::table('inventory')->where('products_id', $products_data->products_id)->get();
-
             if (count($currentStocks) > 0) {
                 if ($products_data->products_type != 1) {
                     $c_stock_in = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'in')->sum('stock');
@@ -309,7 +311,7 @@ class ReportsController extends Controller
     {
         $title = array('pageTitle' => Lang::get("labels.Low Stock Products"));
 
-        $language_id = 1;
+        $language_id = 2;
 
         $products = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')

@@ -690,8 +690,6 @@ class AdminController extends Controller
     //managerole
     public function addrole(Request $request)
     {
-
-
         $title = array('pageTitle' => Lang::get("labels.EditAdminType"));
         $result = array();
         $user_types_id = $request->id;
@@ -699,9 +697,7 @@ class AdminController extends Controller
 
         $adminType = DB::table('user_types')->where('user_types_id', $user_types_id)->get();
         $result['adminType'] = $adminType;
-
         $roles = DB::table('manage_role')->where('user_types_id', '=', $user_types_id)->get();
-
         if (count($roles) > 0) {
             $dashboard_view = $roles[0]->dashboard_view;
 

@@ -168,6 +168,10 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                                 href="{{ route('report.show','customers_basket')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.customers_basket') }}</a></li>
 
+                        <li class=" {{ Request::is('admin/report/mostPurshese') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','mostPurshese')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.mostPurshese') }}</a></li>
+
                         <li class="{{ Request::is('admin/report/inventory') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','inventory')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_total_purchased') }}</a></li>

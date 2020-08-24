@@ -1,10 +1,13 @@
 @extends('admin.dataTable_layaout')
 @section('header_h1')
     @if($reportType=='inventory')
-        <h1> {{ trans('labels.StatsProductsPurchased') }} <small>{{ trans('labels.StatsProductsPurchased') }}...</small>
+        <h1> {{ trans('labels.link_reports') }} <small>{{ trans('labels.StatsProductsPurchased') }}...</small>
+        </h1>
+    @elseif($reportType=='mostPurshese')
+        <h1> {{ trans('labels.link_reports') }} <small>{{ trans('labels.mostPurshese') }}...</small>
         </h1>
     @else
-        <h1> {{ trans('labels.StatsProductsLiked') }} <small>{{ trans('labels.StatsProductsLiked') }}...</small></h1>
+        <h1> {{ trans('labels.link_reports') }} <small>{{ trans('labels.StatsProductsLiked') }}...</small></h1>
     @endif
 @endsection
 @section('filters')
@@ -18,6 +21,8 @@
 @section('header')
     @if($reportType=='inventory')
         <li class="active">{{ trans('labels.StatsProductsPurchased') }}</li>
+    @elseif($reportType=='mostPurshese')
+        <li class="active">{{ trans('labels.mostPurshese') }}</li>
     @else
         <li class="active">{{ trans('labels.StatsProductsLiked') }}</li>
     @endif
@@ -96,6 +101,7 @@
                                 data: 'products_liked',
                                 name: 'products_liked',
                             }
+
                                 @elseif ("$reportType"=='inventory')
 
                             {
@@ -119,7 +125,22 @@
                                 data: 'reference_code',
                                 name: 'reference_code',
                             }
+                            @elseif("$reportType"=='mostPurshese')
+                            {
+                                title: '{{trans('labels.final_product_orders')}}',
+                                data: 'final_product_orders',
+                                name: 'final_product_orders',
+                            }, {
+                                title: '{{trans('labels.sum_products_quantity')}}',
+                                data: 'sum_products_quantity',
+                                name: 'sum_products_quantity',
+                            }, {
+                                title: '{{trans('labels.count_products_quantity')}}',
+                                data: 'count_products_quantity',
+                                name: 'count_products_quantity',
+                            },
                             @else
+
                             {
                                 title: '{{trans('labels.final_product_orders')}}',
                                 data: 'final_product_orders',

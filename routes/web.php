@@ -19,6 +19,7 @@
 //Route::get('/logout', 'CustomersController@logout')->middleware('Customer');
 //});
 Route::get('/','AdminControllers\AdminController@login');
+
 //Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 //	Route::get('general_error/{msg}', function($msg) {
 //		 return view('errors.general_error',['msg' => $msg]);

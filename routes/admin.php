@@ -32,11 +32,13 @@ Route::group(['middleware' => ['installer']], function () {
     Route::get('/home', function () {
         return redirect('/admin/languages/display');
     });
+
     Route::group(['namespace' => 'AdminControllers', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::post('webPagesSettings/changestatus', 'ThemeController@changestatus');
         Route::post('webPagesSettings/setting/set', 'ThemeController@set');
         Route::post('webPagesSettings/reorder', 'ThemeController@reorder');
-        Route::get('/home', function () {
+
+        Route::get('/', function () {
             return redirect('/dashboard/{reportBase}');
         });
         Route::get('/generateKey', 'SiteSettingController@generateKey');
