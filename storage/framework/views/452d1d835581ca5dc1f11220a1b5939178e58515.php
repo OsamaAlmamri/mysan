@@ -5,6 +5,12 @@
     <?php elseif($reportType=='mostPurshese'): ?>
         <h1> <?php echo e(trans('labels.link_reports')); ?> <small><?php echo e(trans('labels.mostPurshese')); ?>...</small>
         </h1>
+    <?php elseif($reportType=='outofstock'): ?>
+        <h1> <?php echo e(trans('labels.Productsoutofstock')); ?> <small><?php echo e(trans('labels.Productsoutofstock')); ?>...</small></h1>
+
+    <?php elseif($reportType=='lowinstock'): ?>
+        <h1> <?php echo e(trans('labels.Low Stock Products')); ?> <small><?php echo e(trans('labels.Low Stock Products')); ?>...</small> </h1>
+
     <?php else: ?>
         <h1> <?php echo e(trans('labels.link_reports')); ?> <small><?php echo e(trans('labels.StatsProductsLiked')); ?>...</small></h1>
     <?php endif; ?>
@@ -22,6 +28,12 @@
         <li class="active"><?php echo e(trans('labels.StatsProductsPurchased')); ?></li>
     <?php elseif($reportType=='mostPurshese'): ?>
         <li class="active"><?php echo e(trans('labels.mostPurshese')); ?></li>
+    <?php elseif($reportType=='lowinstock'): ?>
+        <li class="active"><?php echo e(trans('labels.Productsoutofstock')); ?></li>
+
+    <?php elseif($reportType=='outofstock'): ?>
+        <li class="active"><?php echo e(trans('labels.Low Stock Products')); ?></li>
+
     <?php else: ?>
         <li class="active"><?php echo e(trans('labels.StatsProductsLiked')); ?></li>
     <?php endif; ?>
@@ -33,7 +45,7 @@
         $(document).ready(function () {
             var firstTime = 1;
 
-            function load_data(main, sub, from_date, to_date) {
+            function load_data(main, sub, product, from_date, to_date) {
                 $('#orderdata').DataTable({
                         processing: true,
                         serverSide: true,
@@ -58,6 +70,7 @@
                                 _token: "<?php echo e(csrf_token()); ?>",
                                 main: main,
                                 sub: sub,
+                                product: product,
                                 from_date: from_date,
                                 reportType: '<?php echo e($reportType); ?>',
                                 to_date: to_date,
@@ -101,6 +114,13 @@
                                 name: 'products_liked',
                             }
 
+                                <?php elseif("$reportType"=='outofstock' or "$reportType"=='lowinstock'): ?>
+                            {
+                                title: '<?php echo e(trans('labels.ViewStock')); ?>',
+                                data: 'btn_show_outofstock',
+                                name: 'btn_show_outofstock',
+                            }
+
                                 <?php elseif("$reportType"=='inventory'): ?>
 
                             {
@@ -124,7 +144,7 @@
                                 data: 'reference_code',
                                 name: 'reference_code',
                             }
-                            <?php elseif("$reportType"=='mostPurshese'): ?>
+                                <?php elseif("$reportType"=='mostPurshese'): ?>
                             {
                                 title: '<?php echo e(trans('labels.final_product_orders')); ?>',
                                 data: 'final_product_orders',
@@ -138,7 +158,7 @@
                                 data: 'count_products_quantity',
                                 name: 'count_products_quantity',
                             },
-                            <?php else: ?>
+                                <?php else: ?>
 
                             {
                                 title: '<?php echo e(trans('labels.final_product_orders')); ?>',
@@ -152,31 +172,31 @@
                                 title: '<?php echo e(trans('labels.count_products_quantity')); ?>',
                                 data: 'count_products_quantity',
                                 name: 'count_products_quantity',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.inventory_in_products_quantity')); ?>',
                                 data: 'inventory_in_products_quantity',
                                 name: 'inventory_in_products_quantity',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.inventory_in_purchase_price')); ?>',
                                 data: 'inventory_in_purchase_price',
                                 name: 'inventory_in_purchase_price',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.inventory_out_products_quantity')); ?>',
                                 data: 'inventory_out_products_quantity',
                                 name: 'inventory_out_products_quantity',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.inventory_out_purchase_price')); ?>',
                                 data: 'inventory_out_purchase_price',
                                 name: 'inventory_out_purchase_price',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.rating')); ?>',
                                 data: 'rating',
                                 name: 'rating',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.product_questions')); ?>',
                                 data: 'product_questions',
                                 name: 'product_questions',
-                            },{
+                            }, {
                                 title: '<?php echo e(trans('labels.question_replays')); ?>',
                                 data: 'question_replays',
                                 name: 'question_replays',
@@ -197,14 +217,15 @@
                 var main = $('#main_categories').val();
                 var sub = $('#subCategories').val();
                 var from_date = $('#from_date').val();
+                var product = $('#products_list').val();
                 var to_date = $('#to_date').val();
                 if (firstTime != 0)
                     $('#orderdata').DataTable().destroy();
                 firstTime = 1;
-                load_data(main, sub, from_date, to_date);
+                load_data(main, sub, product, from_date, to_date);
             }
 
-            load_data('all', 'all', null, null);
+            load_data('all', 'all', '<?php echo e($product_id); ?>', null, null);
         });
     </script>
 <?php $__env->stopSection(); ?>

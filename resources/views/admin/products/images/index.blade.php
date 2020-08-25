@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="box-footer text-center">
-                                <a href="{{ URL::to("admin/products/display")}}"
+                                <a href="{{ (isset($products_type) and $products_type=='bouquet')?  route('bouquets.index'): URL::to('admin/products/display')}}"
                                    class="btn btn-default">{{ trans('labels.Save_And_complete') }}</a>
                             </div>
                         </div>

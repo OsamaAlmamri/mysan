@@ -148,24 +148,32 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <span><?php echo e(trans('labels.link_reports')); ?></span> <i class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="<?php echo e(Request::is('admin/lowinstock') ? 'active' : ''); ?> "><a
-                                href="<?php echo e(URL::to('admin/lowinstock')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_products_low_stock')); ?></a></li>
-                        <li class="<?php echo e(Request::is('admin/outofstock') ? 'active' : ''); ?> "><a
-                                href="<?php echo e(URL::to('admin/outofstock')); ?>"><i
-                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_out_of_stock_products')); ?></a>
-                        </li>
+
+
+
+
+
+
+
                     <!-- <li class="<?php echo e(Request::is('admin/productsstock') ? 'active' : ''); ?> "><a href="<?php echo e(URL::to('admin/stockin')); ?>"><i class="fa fa-circle-o"></i> <?php echo e(trans('labels.stockin')); ?></a></li>-->
 
                         <li class=" <?php echo e(Request::is('admin/report/statsCustomers') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(route('report.show','statsCustomers')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_customer_orders_total')); ?></a></li>
 
+                        <li class=" <?php echo e(Request::is('admin/report/lowinstock') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','lowinstock')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_products_low_stock')); ?></a></li>
+
+                        <li class=" <?php echo e(Request::is('admin/report/outofstock') ? 'active' : ''); ?>"><a
+                                href="<?php echo e(route('report.show','outofstock')); ?>"><i
+                                    class="fa fa-circle-o"></i> <?php echo e(trans('labels.link_out_of_stock_products')); ?></a></li>
+
                         <li class=" <?php echo e(Request::is('admin/report/public_reports') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(route('report.show','public_reports')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.public_reports')); ?></a></li>
 
-                        <li class=" <?php echo e(Request::is('admin/report/inventory') ? 'active' : ''); ?>"><a
+                        <li class=" <?php echo e(Request::is('admin/report/customers_basket') ? 'active' : ''); ?>"><a
                                 href="<?php echo e(route('report.show','customers_basket')); ?>"><i
                                     class="fa fa-circle-o"></i> <?php echo e(trans('labels.customers_basket')); ?></a></li>
 

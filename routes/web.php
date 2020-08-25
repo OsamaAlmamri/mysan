@@ -124,4 +124,4 @@ Route::get('/','AdminControllers\AdminController@login');
 //
 //	});
 
-	Route::get('/test', 'Web\IndexController@test1');
+//	Route::get('/test', 'Web\IndexController@test1');

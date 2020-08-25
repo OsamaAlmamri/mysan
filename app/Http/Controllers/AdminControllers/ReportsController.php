@@ -44,7 +44,7 @@ class ReportsController extends Controller
 
     //statsProductsPurchased
 
-    public function showProductsReoprts($reportType = 'inventory')
+    public function showProductsReoprts($reportType = 'inventory', $id = 'all')
     {
         $title = array('pageTitle' => Lang::get("labels.StatsProductsPurchased"));
         $myVar = new SiteSettingController();
@@ -60,6 +60,7 @@ class ReportsController extends Controller
         }
         return view("admin.reports.$view", $title)
             ->with('reportType', $reportType)
+            ->with('product_id', $id)
             ->with('result', $result);
     }
 
@@ -77,9 +78,11 @@ class ReportsController extends Controller
             'dataTableType' => 'php']);
     }
 
-    public function getData($main, $sub, $from_date = '1970-01-01', $to_date = '9999-09-09', $reportType = 'inventory')
+    public function getData($main, $sub, $product, $from_date = '1970-01-01', $to_date = '9999-09-09', $reportType = 'inventory')
     {
-        if ($main == 'all' and $sub == 'all')
+        if ($product != 'all')
+            $ids = [$product];
+        elseif ($main == 'all' and $sub == 'all')
             $ids = 'all';
         elseif ($main > 0 and $sub == 'all')
             $ids = getProductsIdsAccordingForMainCategory($main);
@@ -101,13 +104,13 @@ class ReportsController extends Controller
             $whereDate = 'products.created_at';
         }
         $buttoms = [];
-        $col_mostPrice=   DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date' )");
-        if ($reportType == 'public_reports' or $reportType=='mostPurshese') {
+        $col_mostPrice = DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date' )");
+        if ($reportType == 'public_reports' or $reportType == 'mostPurshese') {
             $buttoms = [
                 DB::raw("(SELECT COALESCE(AVG(reviews_rating),0) FROM reviews WHERE reviews.products_id=products.products_id and reviews.created_at between  '$from_date'  and '$to_date'  ) as avg_rating"),
                 DB::raw("(SELECT count(reviews_rating) FROM reviews WHERE reviews.products_id=products.products_id and reviews.created_at between  '$from_date'  and '$to_date'   ) as count_rating"),
                 DB::raw("(SELECT COALESCE(sum(final_price * products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'  and orders.created_at between  '$from_date'  and '$to_date'   ) as final_product_orders"),
-                 DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as sum_products_quantity"),
+                DB::raw("(SELECT COALESCE(sum(products_quantity),0) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as sum_products_quantity"),
                 DB::raw("(SELECT count(products_quantity) FROM orders_products left join orders on orders.orders_id=orders_products.orders_id WHERE orders_products.products_id=products.products_id and orders_products_type like '%product%'   and orders.created_at between  '$from_date'  and '$to_date'   ) as count_products_quantity"),
                 DB::raw("(SELECT COALESCE(sum(stock),0) FROM inventory WHERE inventory.products_id=products.products_id  and  inventory.stock_type like 'in' and inventory.created_at between  '$from_date'  and '$to_date'  ) as inventory_in_products_quantity"),
                 DB::raw("(SELECT COALESCE(sum(purchase_price),0) FROM inventory WHERE inventory.products_id=products.products_id  and inventory.stock_type like 'in' and inventory.created_at between  '$from_date' and '$to_date'   ) as inventory_in_purchase_price"),
@@ -141,16 +144,23 @@ class ReportsController extends Controller
             ->where('categories_description.language_id', '=', 2);
         if (!($main == 'all' and $sub == 'all'))
             $data = $data->whereIn('products.products_id', $ids);
+        if ($product != 'all')
+            $data = $data->where('products.products_id', $product);
         if ($reportType == 'inventory')
             $data = $data->where('stock_type', 'in')
                 ->orderBy('products_ordered', 'DESC');
         elseif ($reportType == 'like')
             $data = $data->where('products.products_liked', '>', '0');
         elseif ($reportType == 'mostPurshese')
-            $data = $data ->orderBy($col_mostPrice, 'DESC');
+            $data = $data->orderBy($col_mostPrice, 'DESC');
 
-        return $data->whereBetween($whereDate, [$from_date, $to_date])
+        $data = $data->whereBetween($whereDate, [$from_date, $to_date])
             ->get();
+        if ($reportType == 'outofstock')
+            $data = $this->filter_outofstock($data);
+        elseif ($reportType == 'lowinstock')
+            $data = $this->filter_lowinstock($data);
+        return $data;
     }
 
     public function getCustomers_basketFilter($from_date = '1970-01-01', $to_date = '9999-09-09')
@@ -194,7 +204,8 @@ class ReportsController extends Controller
     {
         $from = ($request->from_date == null) ? date('1974-01-01') : date($request->from_date);
         $to = ($request->to_date == null) ? date('9999-01-01') : date($request->to_date);
-        $data = $this->getData($request->main, $request->sub, $from, $to, $request->reportType);
+        $product = ($request->product == null or $request->product == 'all') ? 'all' : $request->product;
+        $data = $this->getData($request->main, $request->sub, $product, $from, $to, $request->reportType);
         if ($request->reportType == 'public_reports')
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -202,6 +213,14 @@ class ReportsController extends Controller
                 ->addColumn('rating', 'admin.products.btn.rating')
                 ->rawColumns(['btn_image', 'rating'])
                 ->make(true);
+        elseif ($request->reportType == 'outofstock' or $request->reportType == 'lowinstock')
+            return datatables()->of($data)
+                ->addIndexColumn()
+                ->addColumn('btn_image', 'admin.products.btn.image')
+                ->addColumn('btn_show_outofstock', 'admin.products.btn.btn_show_outofstock')
+                ->rawColumns(['btn_image', 'btn_show_outofstock'])
+                ->make(true);
+
         else
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -232,7 +251,6 @@ class ReportsController extends Controller
             ->addIndexColumn()
             ->make(true);
     }
-
 
     //statsProductsLiked
     public function statsProductsLiked(Request $request)
@@ -279,7 +297,7 @@ class ReportsController extends Controller
                 if ($products_data->products_type != 1) {
                     $c_stock_in = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'in')->sum('stock');
                     $c_stock_out = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'out')->sum('stock');
-                    if (($c_stock_in - $c_stock_out) == 0) {
+                    if (($c_stock_in - $c_stock_out) < 1) {
                         if (!in_array($products_data->products_id, $products_ids)) {
                             $products_ids[] = $products_data->products_id;
                             array_push($data, $products_data);
@@ -303,6 +321,38 @@ class ReportsController extends Controller
         $result['commonContent'] = $myVar->Setting->commonContent();
 
         return view("admin.reports.outofstock", $title)->with('result', $result);
+
+
+    }
+
+    public function filter_outofstock($products)
+    {
+        $outOfStock = 0;
+        $products_ids = array();
+        $data = array();
+        foreach ($products as $products_data) {
+            $currentStocks = DB::table('inventory')->where('products_id', $products_data->products_id)->get();
+            if (count($currentStocks) > 0) {
+                if ($products_data->products_type != 1) {
+                    $c_stock_in = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'in')->sum('stock');
+                    $c_stock_out = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'out')->sum('stock');
+                    if (($c_stock_in - $c_stock_out) < 1) {
+                        if (!in_array($products_data->products_id, $products_ids)) {
+                            $products_ids[] = $products_data->products_id;
+                            array_push($data, $products_data);
+                            $outOfStock++;
+                        }
+                    }
+                }
+            } else {
+                if (!in_array($products_data->products_id, $products_ids)) {
+                    $products_ids[] = $products_data->products_id;
+                    array_push($data, $products_data);
+                    $outOfStock++;
+                }
+            }
+        }
+        return $data;
 
     }
 
@@ -374,6 +424,38 @@ class ReportsController extends Controller
         $result['commonContent'] = $myVar->Setting->commonContent();
 
         return view("admin.reports.lowinstock", $title)->with('result', $result);
+    }
+
+//lowinstock
+    public function filter_lowinstock($products)
+    {
+        $products_array = array();
+        foreach ($products as $product) {
+            if ($product->products_type == 1) {
+            } elseif ($product->products_type == 0 or $product->products_type == 2) {
+                $inventories = DB::table('inventory')->where('products_id', $product->products_id)->get();
+                $stockIn = 0;
+                foreach ($inventories as $inventory) {
+                    $stockIn += $inventory->stock;
+                }
+                $orders_products = DB::table('orders_products')
+                    ->select(DB::raw('count(orders_products.products_quantity) as stockout'))
+                    ->where('products_id', $product->products_id)->get();
+                $stocks = $stockIn - $orders_products[0]->stockout;
+                $manageLevel = DB::table('manage_min_max')->where('products_id', $product->products_id)->get();
+                $min_level = 0;
+                $max_level = 0;
+                if (count($manageLevel) > 0) {
+                    $min_level = $manageLevel[0]->min_level;
+                    $max_level = $manageLevel[0]->max_level;
+                }
+                if ($stocks <= $min_level) {
+                    array_push($products_array, $product);
+                }
+
+            }
+        }
+        return $products_array;
     }
 
     //productsStock

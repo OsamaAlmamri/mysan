@@ -19,6 +19,13 @@ Route::get('/dump-autoload', function () {
 Route::get('/phpinfo', function () {
     phpinfo();
 });
+Route::get('/', function () {
+    return redirect('/admin/dashboard/{reportBase}');
+});
+
+Route::get('/admin', function () {
+    return redirect('/admin/dashboard/{reportBase}');
+});
 
 Route::group(['middleware' => ['installer']], function () {
     Route::get('/not_allowed', function () {
@@ -29,8 +36,11 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/checkLogin', 'AdminController@checkLogin');
     });
 
+    Route::get('/', function () {
+        return redirect('/admin/dashboard/{reportBase}');
+    });
     Route::get('/home', function () {
-        return redirect('/admin/languages/display');
+        return redirect('/admin/dashboard/{reportBase}');
     });
 
     Route::group(['namespace' => 'AdminControllers', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
@@ -452,7 +462,7 @@ Route::group(['middleware' => ['installer']], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {
 
         Route::get('/statscustomers', 'ReportsController@statsCustomers')->middleware('report');
-        Route::get('/report/{type?}', 'ReportsController@showProductsReoprts')->middleware('report')->name('report.show');
+        Route::get('/report/{type?}/{id?}', 'ReportsController@showProductsReoprts')->middleware('report')->name('report.show');
         Route::get('/statsproductspurchased', 'ReportsController@statsProductsPurchased')->middleware('report');
         Route::get('/statsproductspurchased2', 'ReportsController@filter2')->middleware('report')->name('reports.filter2');
         Route::get('/statsCustomers2', 'ReportsController@statsCustomers2')->middleware('report')->name('reports.statsCustomers2');

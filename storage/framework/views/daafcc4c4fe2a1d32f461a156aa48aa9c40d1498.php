@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="box-footer text-center">
-                                <a href="<?php echo e(URL::to("admin/products/display")); ?>"
+                                <a href="<?php echo e((isset($products_type) and $products_type=='bouquet')?  route('bouquets.index'): URL::to('admin/products/display')); ?>"
                                    class="btn btn-default"><?php echo e(trans('labels.Save_And_complete')); ?></a>
                             </div>
                         </div>

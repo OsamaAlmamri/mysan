@@ -6,6 +6,12 @@
     @elseif($reportType=='mostPurshese')
         <h1> {{ trans('labels.link_reports') }} <small>{{ trans('labels.mostPurshese') }}...</small>
         </h1>
+    @elseif($reportType=='outofstock')
+        <h1> {{ trans('labels.Productsoutofstock') }} <small>{{ trans('labels.Productsoutofstock') }}...</small></h1>
+
+    @elseif($reportType=='lowinstock')
+        <h1> {{ trans('labels.Low Stock Products') }} <small>{{ trans('labels.Low Stock Products') }}...</small> </h1>
+
     @else
         <h1> {{ trans('labels.link_reports') }} <small>{{ trans('labels.StatsProductsLiked') }}...</small></h1>
     @endif
@@ -23,6 +29,12 @@
         <li class="active">{{ trans('labels.StatsProductsPurchased') }}</li>
     @elseif($reportType=='mostPurshese')
         <li class="active">{{ trans('labels.mostPurshese') }}</li>
+    @elseif($reportType=='lowinstock')
+        <li class="active">{{ trans('labels.Productsoutofstock') }}</li>
+
+    @elseif($reportType=='outofstock')
+        <li class="active">{{ trans('labels.Low Stock Products') }}</li>
+
     @else
         <li class="active">{{ trans('labels.StatsProductsLiked') }}</li>
     @endif
@@ -34,7 +46,7 @@
         $(document).ready(function () {
             var firstTime = 1;
 
-            function load_data(main, sub, from_date, to_date) {
+            function load_data(main, sub, product, from_date, to_date) {
                 $('#orderdata').DataTable({
                         processing: true,
                         serverSide: true,
@@ -59,6 +71,7 @@
                                 _token: "{{csrf_token()}}",
                                 main: main,
                                 sub: sub,
+                                product: product,
                                 from_date: from_date,
                                 reportType: '{{$reportType}}',
                                 to_date: to_date,
@@ -102,6 +115,13 @@
                                 name: 'products_liked',
                             }
 
+                                @elseif("$reportType"=='outofstock' or "$reportType"=='lowinstock')
+                            {
+                                title: '{{trans('labels.ViewStock')}}',
+                                data: 'btn_show_outofstock',
+                                name: 'btn_show_outofstock',
+                            }
+
                                 @elseif ("$reportType"=='inventory')
 
                             {
@@ -125,7 +145,7 @@
                                 data: 'reference_code',
                                 name: 'reference_code',
                             }
-                            @elseif("$reportType"=='mostPurshese')
+                                @elseif("$reportType"=='mostPurshese')
                             {
                                 title: '{{trans('labels.final_product_orders')}}',
                                 data: 'final_product_orders',
@@ -139,7 +159,7 @@
                                 data: 'count_products_quantity',
                                 name: 'count_products_quantity',
                             },
-                            @else
+                                @else
 
                             {
                                 title: '{{trans('labels.final_product_orders')}}',
@@ -153,31 +173,31 @@
                                 title: '{{trans('labels.count_products_quantity')}}',
                                 data: 'count_products_quantity',
                                 name: 'count_products_quantity',
-                            },{
+                            }, {
                                 title: '{{trans('labels.inventory_in_products_quantity')}}',
                                 data: 'inventory_in_products_quantity',
                                 name: 'inventory_in_products_quantity',
-                            },{
+                            }, {
                                 title: '{{trans('labels.inventory_in_purchase_price')}}',
                                 data: 'inventory_in_purchase_price',
                                 name: 'inventory_in_purchase_price',
-                            },{
+                            }, {
                                 title: '{{trans('labels.inventory_out_products_quantity')}}',
                                 data: 'inventory_out_products_quantity',
                                 name: 'inventory_out_products_quantity',
-                            },{
+                            }, {
                                 title: '{{trans('labels.inventory_out_purchase_price')}}',
                                 data: 'inventory_out_purchase_price',
                                 name: 'inventory_out_purchase_price',
-                            },{
+                            }, {
                                 title: '{{trans('labels.rating')}}',
                                 data: 'rating',
                                 name: 'rating',
-                            },{
+                            }, {
                                 title: '{{trans('labels.product_questions')}}',
                                 data: 'product_questions',
                                 name: 'product_questions',
-                            },{
+                            }, {
                                 title: '{{trans('labels.question_replays')}}',
                                 data: 'question_replays',
                                 name: 'question_replays',
@@ -198,14 +218,15 @@
                 var main = $('#main_categories').val();
                 var sub = $('#subCategories').val();
                 var from_date = $('#from_date').val();
+                var product = $('#products_list').val();
                 var to_date = $('#to_date').val();
                 if (firstTime != 0)
                     $('#orderdata').DataTable().destroy();
                 firstTime = 1;
-                load_data(main, sub, from_date, to_date);
+                load_data(main, sub, product, from_date, to_date);
             }
 
-            load_data('all', 'all', null, null);
+            load_data('all', 'all', '{{$product_id}}', null, null);
         });
     </script>
 @endsection

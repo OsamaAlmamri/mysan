@@ -147,24 +147,32 @@ or $result['commonContent']['roles'] != null and $result['commonContent']['roles
                         <span>{{ trans('labels.link_reports') }}</span> <i class="fa fa-angle-left pull-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="{{ Request::is('admin/lowinstock') ? 'active' : '' }} "><a
-                                href="{{ URL::to('admin/lowinstock')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_products_low_stock') }}</a></li>
-                        <li class="{{ Request::is('admin/outofstock') ? 'active' : '' }} "><a
-                                href="{{ URL::to('admin/outofstock')}}"><i
-                                    class="fa fa-circle-o"></i> {{ trans('labels.link_out_of_stock_products') }}</a>
-                        </li>
+{{--                        <li class="{{ Request::is('admin/lowinstock') ? 'active' : '' }} "><a--}}
+{{--                                href="{{ URL::to('admin/lowinstock')}}"><i--}}
+{{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_products_low_stock') }}</a></li>--}}
+{{--                        <li class="{{ Request::is('admin/outofstock') ? 'active' : '' }} "><a--}}
+{{--                                href="{{ URL::to('admin/outofstock')}}"><i--}}
+{{--                                    class="fa fa-circle-o"></i> {{ trans('labels.link_out_of_stock_products') }}</a>--}}
+{{--                        </li>--}}
                     <!-- <li class="{{ Request::is('admin/productsstock') ? 'active' : '' }} "><a href="{{ URL::to('admin/stockin')}}"><i class="fa fa-circle-o"></i> {{ trans('labels.stockin') }}</a></li>-->
 
                         <li class=" {{ Request::is('admin/report/statsCustomers') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','statsCustomers')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.link_customer_orders_total') }}</a></li>
 
+                        <li class=" {{ Request::is('admin/report/lowinstock') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','lowinstock')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.link_products_low_stock') }}</a></li>
+
+                        <li class=" {{ Request::is('admin/report/outofstock') ? 'active' : '' }}"><a
+                                href="{{ route('report.show','outofstock')}}"><i
+                                    class="fa fa-circle-o"></i> {{ trans('labels.link_out_of_stock_products') }}</a></li>
+
                         <li class=" {{ Request::is('admin/report/public_reports') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','public_reports')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.public_reports') }}</a></li>
 
-                        <li class=" {{ Request::is('admin/report/inventory') ? 'active' : '' }}"><a
+                        <li class=" {{ Request::is('admin/report/customers_basket') ? 'active' : '' }}"><a
                                 href="{{ route('report.show','customers_basket')}}"><i
                                     class="fa fa-circle-o"></i> {{ trans('labels.customers_basket') }}</a></li>
 
