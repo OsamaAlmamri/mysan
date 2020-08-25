@@ -1260,9 +1260,8 @@ class Products extends Model
 
     }
 
-    public function displayProductImages($request)
+    public function displayProductImages($products_id,$type)
     {
-        $products_id = $request->id;
         $result['data'] = array('products_id' => $products_id);
         $products_images = DB::table('products_images')
             ->LeftJoin('image_categories', function ($join) {
@@ -1275,6 +1274,7 @@ class Products extends Model
 
             })
             ->where('products_id', '=', $products_id)
+            ->where('products_type',  $type)
             ->select('products_images.*', 'image_categories.path')
             ->orderBy('sort_order', 'asc')
             ->get();
@@ -1296,6 +1296,7 @@ class Products extends Model
     public function insertProductImages($request)
     {
         $product_id = $request->products_id;
+        $product_type = (isset($request->products_type) and ($request->products_type=='bouquet'))?'bouquet':'product' ;
         if ($request->image_id !== null) {
             $image = $request->image_id;
         } else {
@@ -1315,6 +1316,7 @@ class Products extends Model
         DB::table('products_images')->insert([
             'products_id' => $product_id,
             'image' => $image,
+            'products_type' => $product_type,
             'htmlcontent' => $request->htmlcontent,
             'sort_order' => $sort_order,
         ]);

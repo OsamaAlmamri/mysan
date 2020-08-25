@@ -5,6 +5,8 @@
 
 
 
+    <a class="btn btn-warning" style="width: 100%;  margin-bottom: 5px;" href="<?php echo e(route('products.images.display',['id'=>$bouquet_id,'type'=>'bouquet'])); ?>"><?php echo e(trans('labels.ProductImages')); ?></a>
+    </br>
     <a class="btn btn-danger" style="width: 100%;  margin-bottom: 5px;"
        href="<?php echo e(route('bouquets.delete',encrypt( $bouquet_id))); ?>"
        onclick="return confirm('هل أنت متأكد من الحذف');"

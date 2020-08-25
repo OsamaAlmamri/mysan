@@ -214,10 +214,10 @@ Route::group(['middleware' => ['installer']], function () {
             Route::get('/addproductimages/{id}/', 'ProductController@addproductimages')->middleware('add_product');
         });
         Route::group(['prefix' => 'images'], function () {
-            Route::get('/display/{id}/', 'ProductController@displayProductImages')->middleware('view_product');
-            Route::get('/add/{id}/', 'ProductController@addProductImages')->middleware('add_product');
+            Route::get('/display/{id}/{type?}', 'ProductController@displayProductImages')->name('products.images.display')->middleware('view_product');
+            Route::get('/add/{id}/{type?}', 'ProductController@addProductImages')->name('products.images.add')->middleware('add_product');
             Route::post('/insertproductimage', 'ProductController@insertProductImages')->middleware('add_product');
-            Route::get('/editproductimage/{id}', 'ProductController@editProductImages')->middleware('edit_product');
+            Route::get('/editproductimage/{id}/{type?}', 'ProductController@editProductImages')->middleware('edit_product');
             Route::post('/updateproductimage', 'ProductController@updateproductimage')->middleware('edit_product');
             Route::post('/deleteproductimagemodal', 'ProductController@deleteproductimagemodal')->middleware('edit_product');
             Route::post('/deleteproductimage', 'ProductController@deleteproductimage')->middleware('edit_product');

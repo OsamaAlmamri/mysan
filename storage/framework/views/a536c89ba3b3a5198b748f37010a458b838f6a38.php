@@ -6,7 +6,7 @@
 
         </br>
     <?php endif; ?>
-    <a class="btn btn-warning" style="width: 100%;  margin-bottom: 5px;" href="<?php echo e(url('admin/products/images/display/'. $products_id)); ?>"><?php echo e(trans('labels.ProductImages')); ?></a>
+    <a class="btn btn-warning" style="width: 100%;  margin-bottom: 5px;" href="<?php echo e(route('products.images.add',$products_id)); ?>"><?php echo e(trans('labels.ProductImages')); ?></a>
     </br>
     <a class="btn btn-danger" style="width: 100%;  margin-bottom: 5px;" id="deleteProductId" products_id="<?php echo e($products_id); ?>"><?php echo e(trans('labels.DeleteProduct')); ?></a>
 </td>

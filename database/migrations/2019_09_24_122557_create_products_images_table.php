@@ -17,7 +17,8 @@ class CreateProductsImagesTable extends Migration {
 			$table->integer('id', true);
 			$table->integer('products_id')->index('products_images_prodid');
 			$table->text('image', 65535)->nullable();
-			$table->text('htmlcontent', 65535)->nullable();
+            $table->enum('products_type', ['bouquet','product'])->default('product');
+            $table->text('htmlcontent', 65535)->nullable();
 			$table->integer('sort_order');
 		});
 	}

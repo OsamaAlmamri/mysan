@@ -6,7 +6,7 @@
 
         </br>
     @endif
-    <a class="btn btn-warning" style="width: 100%;  margin-bottom: 5px;" href="{{url('admin/products/images/display/'. $products_id) }}">{{ trans('labels.ProductImages') }}</a>
+    <a class="btn btn-warning" style="width: 100%;  margin-bottom: 5px;" href="{{route('products.images.display',$products_id) }}">{{ trans('labels.ProductImages') }}</a>
     </br>
     <a class="btn btn-danger" style="width: 100%;  margin-bottom: 5px;" id="deleteProductId" products_id="{{ $products_id }}">{{ trans('labels.DeleteProduct') }}</a>
 </td>

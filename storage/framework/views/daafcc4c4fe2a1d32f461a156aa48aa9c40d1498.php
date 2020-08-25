@@ -6,14 +6,20 @@
             <ol class="breadcrumb">
                 <li><a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>"><i
                             class="fa fa-dashboard"></i> <?php echo e(trans('labels.breadcrumb_dashboard')); ?></a></li>
-                <li><a href="<?php echo e(URL::to('admin/products/display')); ?>">
-                        <i class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProductsImages')); ?></a></li>
+                <?php if(isset($products_type) and $products_type=='bouquet'): ?>
+                    <li><a href="<?php echo e(route('bouquets.index')); ?>"><i
+                                class="fa fa-database"></i> <?php echo e(trans('labels.Bouquets')); ?></a></li>
+                <?php else: ?>
+                    <li><a href="<?php echo e(URL::to('admin/products/images/display')."/$products_id"); ?>">
+                            <i class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProductsImages')); ?></a></li>
+                <?php endif; ?>
                 <li class="active"><?php echo e(trans('labels.AddImages')); ?></li>
+
+
             </ol>
         </section>
         <!-- Main content -->
         <section class="content">
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
@@ -21,7 +27,7 @@
                             <h3 class="box-title"><?php echo e(trans('labels.ListingAllProductsImages')); ?> </h3>
                             <div class="box-tools pull-right">
                                 <a type="button" class="btn btn-block btn-primary"
-                                   href="<?php echo e(url('/admin/products/images/add/')); ?>/<?php echo e($products_id); ?>">
+                                   href="<?php echo e(route('products.images.add',['id'=>$products_id,'type'=>$products_type])); ?>">
                                     <?php echo e(trans('labels.AddNew')); ?></a>
                             </div>
                         </div>
@@ -36,7 +42,7 @@
                                             <div class="thumbnail">
                                                 <div class="caption">
                                                     <a class="badge bg-light-blue editProductImagesModal"
-                                                       href="<?php echo e(url('admin/products/images/editproductimage/')); ?>/<?php echo e($products_image->id); ?>"><i
+                                                       href="<?php echo e(url('admin/products/images/editproductimage/')); ?>/<?php echo e($products_image->id); ?>}"><i
                                                             class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     <a products_id='<?php echo e($products_image->products_id); ?>'
                                                        id="<?php echo e($products_image->id); ?>"
@@ -49,16 +55,10 @@
 
                                             </div>
                                         </div>
-
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
                                 <?php endif; ?>
-
-
                                 <div class="col-xs-12 text-right">
-
                                 </div>
-
                             </div>
                             <div class="box-footer text-center">
                                 <a href="<?php echo e(URL::to("admin/products/display")); ?>"
@@ -72,7 +72,6 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-
             <!-- deleteProductImageModal -->
             <div class="modal fade" id="deleteProductImageModal" tabindex="-1" role="dialog"
                  aria-labelledby="deleteProductImageModalLabel">
@@ -80,11 +79,7 @@
                     <div class="modal-content deleteImageEmbed">
                     </div>
                 </div>
-
-
             </div>
-
-
             <!-- /.row -->
         </section>
         <!-- /.content -->

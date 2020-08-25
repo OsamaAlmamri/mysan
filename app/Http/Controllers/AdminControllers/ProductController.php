@@ -142,9 +142,7 @@ class ProductController extends Controller
             ->addColumn('status', 'admin.products.btn.status')
             ->addColumn('rating', 'admin.products.btn.rating')
             ->addColumn('btn_sort', 'admin.sortFiles.btn_sort')
-
-
-            ->rawColumns(['manage','btn_sort','rating','status', 'btn_image', 'info'])
+            ->rawColumns(['manage', 'btn_sort', 'rating', 'status', 'btn_image', 'info'])
             ->make(true);
     }
 
@@ -200,7 +198,7 @@ class ProductController extends Controller
     function changeOrder(Request $request)
     {
         $sortData = Products::all();
-        changeOrder($request, $sortData, 'products_id','sort');
+        changeOrder($request, $sortData, 'products_id', 'sort');
         return response('Update Successfully.', 200);
     }
 
@@ -355,25 +353,28 @@ class ProductController extends Controller
 
     }
 
-    public function displayProductImages(Request $request)
+    public function displayProductImages($id, $type = 'product')
     {
-
         $title = array('pageTitle' => Lang::get("labels.AddImages"));
-        $products_id = $request->id;
-        $result = $this->products->displayProductImages($request);
+        $result = $this->products->displayProductImages($id, $type);
         $result['commonContent'] = $this->Setting->commonContent();
-        return view("admin.products/images/index", $title)->with('result', $result)->with('products_id', $products_id);
+        return view("admin.products/images/index", $title)
+            ->with('result', $result)
+            ->with('products_id', $id)
+            ->with('products_type', $type);
 
     }
 
-    public function addProductImages($products_id)
+    public function addProductImages($products_id, $type='product')
     {
         $title = array('pageTitle' => Lang::get("labels.AddImages"));
         $allimage = $this->images->getimages();
         $result = $this->products->addProductImages($products_id);
         $result['commonContent'] = $this->Setting->commonContent();
         return view('admin.products.images.edit', $title)
-            ->with('result', $result)->with('products_id', $products_id)
+            ->with('result', $result)
+            ->with('products_id', $products_id)
+            ->with('products_type', $type)
             ->with('allimage', $allimage);
 
     }
@@ -384,7 +385,7 @@ class ProductController extends Controller
         return redirect()->back()->with('product_id', $product_id);
     }
 
-    public function editProductImages($id)
+    public function editProductImages($id,$type='product')
     {
 
         $allimage = $this->images->getimages();
@@ -397,6 +398,7 @@ class ProductController extends Controller
             ->with('allimage', $allimage)
             ->with('old_image', $products_images[0]->path)
             ->with('products_id', $products_images[0]->products_id)
+            ->with('products_type', $type)
             ->with('result', $result);
 
     }

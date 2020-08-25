@@ -1,19 +1,23 @@
 <?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1> <?php echo e(trans('labels.AddImages')); ?> <small><?php echo e(trans('labels.AddImages')); ?>...</small></h1>
             <ol class="breadcrumb">
                 <li><a href="<?php echo e(URL::to('admin/dashboard/this_month')); ?>"><i
                             class="fa fa-dashboard"></i> <?php echo e(trans('labels.breadcrumb_dashboard')); ?></a></li>
-                <li><a href="<?php echo e(URL::to('admin/products/display')); ?>"><i
-                            class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProducts')); ?></a></li>
-                <li><a href="<?php echo e(URL::to('admin/products/images/display')."/$products_id"); ?>"><i
-                            class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProductsImages')); ?></a></li>
+
+                <?php if(isset($products_type) and $products_type=='bouquet'): ?>
+                    <li><a href="<?php echo e(route('bouquets.index')); ?>"><i
+                            class="fa fa-database"></i> <?php echo e(trans('labels.Bouquets')); ?></a></li>
+                <?php else: ?>
+                    <li><a href="<?php echo e(URL::to('admin/products/display')); ?>"><i
+                                class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProducts')); ?></a></li>
+                <?php endif; ?>
+                <li><a href="<?php echo e(URL::to('admin/products/images/display')."/$products_id" ."/$products_type"); ?>">
+                        <i class="fa fa-database"></i><?php echo e(trans('labels.ListingAllProductsImages')); ?></a></li>
                 <li class="active"><?php echo e(trans('labels.AddImages')); ?></li>
             </ol>
         </section>
-
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -45,6 +49,7 @@
                                             <?php endif; ?>
                                             <?php echo Form::hidden('products_id',  $products_id, array('class'=>'form-control', 'id'=>'products_id')); ?>
 
+                                            <?php echo Form::hidden('products_type',  $products_type, array('class'=>'form-control', 'id'=>'products_type')); ?>
 
                                             <div class="modal-body">
                                                 <?php echo $__env->make("admin.common.image_to_select", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -64,14 +69,11 @@
                                                     <label for="name"
                                                            class="col-sm-2 col-md-4 control-label"><?php echo e(trans('labels.Description')); ?></label>
                                                     <div class="col-sm-10 col-md-8">
-
                                                         <div class="col-md-6 col-sm-6">
-
                                                             <?php echo Form::textarea('htmlcontent',  (isset($products_images) and  $products_images !=null)?  $products_images[0]->htmlcontent:null, array('class'=>'form-control', 'id'=>'htmlcontent', 'colspan'=>'3' )); ?>
 
                                                             <span class="help-block"
                                                                   style="font-weight: normal;font-size: 11px;margin-bottom: 0;"><?php echo e(trans('labels.ImageDescription')); ?></span>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,36 +91,23 @@
                                             <div class="form-group">
                                                 <label for="name" class="col-sm-2 col-md-4 control-label"> </label>
                                                 <div class="col-sm-10 col-md-8 float-right">
-                                                    
                                                     <a type="button" class="btn btn-default"
                                                        href="<?php echo e(url('admin/products/images/display')); ?>/<?php echo e($products_id); ?>"><?php echo e(trans('labels.Close')); ?></a>
                                                     <button type="submit"
                                                             class="btn btn-primary"><?php echo e(trans('labels.Submit')); ?></button>
-
                                                 </div>
                                                 <br><br><br><br><br>
                                                 <?php echo Form::close(); ?>
 
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
-
-
                             </div>
-                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box -->
                     </div>
-                    <!-- /.col -->
-                    <!-- /.row -->
-                    <!-- Main row -->
                 </div>
-                <!-- /.row -->
         </section>
-        <!-- /.content -->
     </div>
 <?php $__env->stopSection(); ?>
 
