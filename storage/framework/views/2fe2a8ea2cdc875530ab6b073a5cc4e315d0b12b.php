@@ -201,7 +201,11 @@
                                                                                             <input type="hidden"
                                                                                                    name="products[<?php echo e($k); ?>][options][<?php echo e($option->option_id); ?>][attribute_id]"
                                                                                                    value=<?php echo e($option->attribute_id); ?>>
-                                                                                             <?php echo e($option->option_name); ?>( <?php echo e($option->attribute_name); ?>        ),
+                                                                                            <?php echo e($option->option_name); ?>
+
+                                                                                            ( <?php echo e($option->attribute_name); ?>
+
+                                                                                            ),
                                                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                                                                     </td>
@@ -297,86 +301,7 @@
                                 </div>
 
                             </div>
-                            <div class="form-group" id="imageselected">
-                                <label for="name"
-                                       class="col-sm-2 col-md-3 control-label"><?php echo e(trans('labels.Image')); ?>
-
-                                    <span style="color:red;">*</span></label>
-                                <div class="col-sm-10 col-md-4">
-                                
-                                <!-- Modal -->
-                                    <div class="modal fade" id="Modalmanufactured" tabindex="-1"
-                                         role="dialog" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close"
-                                                            data-dismiss="modal" id="closemodal"
-                                                            aria-label="Close"><span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h3 class="modal-title text-primary"
-                                                        id="myModalLabel"><?php echo e(trans('labels.Choose Image')); ?> </h3>
-                                                </div>
-                                                <div class="modal-body manufacturer-image-embed">
-                                                    <select class="image-picker show-html"  name="image_id" multiple
-                                                            id="select_img">
-                                                        <option value=""></option>
-                                                        <?php $__currentLoopData = getAllImages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option data-img-src="<?php echo e(asset($image->path)); ?>"
-                                                                    class="imagedetail" data-img-alt="<?php echo e($key); ?>"
-                                                                    value="<?php echo e($image->id); ?>"> <?php echo e($image->id); ?> </option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </select>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a href="<?php echo e(url('admin/media/add')); ?>" target="_blank"
-                                                       class="btn btn-primary pull-left"><?php echo e(trans('labels.Add Image')); ?></a>
-                                                    <button type="button"
-                                                            class="btn btn-default refresh-image">
-                                                        <i class="fa fa-refresh"></i></button>
-                                                    <button type="button" class="btn btn-primary" id="selected"
-                                                            data-dismiss="modal"><?php echo e(trans('labels.Done')); ?></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="imageselected">
-                                        <?php if(isset($bouquet)): ?>
-                                            <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
-
-                                        <?php else: ?>
-                                            <?php echo Form::button(trans('labels.Add Image'), array('id'=>'newImage','class'=>"btn btn-primary field-validate", 'data-toggle'=>"modal", 'data-target'=>"#Modalmanufactured" )); ?>
-
-                                        <?php endif; ?>
-                                        <br>
-                                        <div id="selectedthumbnail"
-                                             class="selectedthumbnail col-md-5"></div>
-                                        <div class="closimage">
-                                            <button type="button" class="close pull-left image-close "
-                                                    id="image-close"
-                                                    style="display: none; position: absolute;left: 105px; top: 54px; background-color: black; color: white; opacity: 2.2; "
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <span class="help-block"
-                                          style="font-weight: normal;font-size: 11px;margin-bottom: 0;"><?php echo e(trans('labels.CategoryImageText')); ?></span>
-                                </div>
-                            </div>
-                            <?php if((isset($old_image)) and  $old_image !=null): ?>
-                                <div class="form-group">
-                                    <label for="name" class="col-sm-2 col-md-3 control-label"></label>
-                                    <div class="col-sm-10 col-md-4">
-                                                    <span class="help-block "
-                                                          style="font-weight: normal;font-size: 11px;margin-bottom: 0;"><?php echo e(trans('labels.OldImage')); ?></span>
-                                        <br>
-                                        <img src="<?php echo e(asset($old_image)); ?>"
-                                             alt=""
-                                             width=" 100px">
-                                    </div>
-                                </div>
-                            <?php endif; ?>
+                           <?php echo $__env->make("admin.common.image_to_select", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="tabbable tabs-left">

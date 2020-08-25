@@ -372,7 +372,9 @@ class ProductController extends Controller
         $allimage = $this->images->getimages();
         $result = $this->products->addProductImages($products_id);
         $result['commonContent'] = $this->Setting->commonContent();
-        return view('admin.products.images.add', $title)->with('result', $result)->with('products_id', $products_id)->with('allimage', $allimage);
+        return view('admin.products.images.edit', $title)
+            ->with('result', $result)->with('products_id', $products_id)
+            ->with('allimage', $allimage);
 
     }
 
@@ -393,6 +395,8 @@ class ProductController extends Controller
         return view("admin/products/images/edit")
             ->with('products_images', $products_images)
             ->with('allimage', $allimage)
+            ->with('old_image', $products_images[0]->path)
+            ->with('products_id', $products_images[0]->products_id)
             ->with('result', $result);
 
     }
